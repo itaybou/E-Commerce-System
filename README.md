@@ -5,5 +5,5 @@
 Itay Bouganim,
 Sahar Vaya,
 Tomer Bitran,
-Shir Markovits,
+Shir Markovits,\n
 Shahar Hazan
