@@ -3,7 +3,11 @@
   
 **Team:**
 Itay Bouganim,
+
 Sahar Vaya,
+
 Tomer Bitran,
-Shir Markovits,\n
+
+Shir Markovits,
+
 Shahar Hazan
