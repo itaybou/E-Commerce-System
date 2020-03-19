@@ -7,3 +7,5 @@ Sahar Vaya,
 Tomer Bitran,
 Shir Markovits,
 Shahar Hazan
+
+This is an example change to a file.
