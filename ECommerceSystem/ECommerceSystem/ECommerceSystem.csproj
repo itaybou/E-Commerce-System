@@ -75,15 +75,15 @@
     <Compile Include="DomainLayer\UserManagement\User.cs" />
     <Compile Include="DomainLayer\UserManagement\UserShoppingCart.cs" />
     <Compile Include="DomainLayer\UserManagement\UserState.cs" />
-    <Compile Include="ServiceLayer\StoreServices.cs" />
-    <Compile Include="ServiceLayer\UserServices.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ServiceLayer\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
