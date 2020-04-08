@@ -8,8 +8,24 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     class User
     {
-        private IUserState _state;
-        private UserShoppingCart _cart;
-        private string name {get; set;}
+        public IUserState _state { get; set; }
+        private UserShoppingCart _cart { get; set; }
+
+        public User()
+        {
+            _state = new Guest();
+            _cart = new UserShoppingCart();
+        }
+
+        public User(IUserState state)
+        {
+            _state = state;
+            _cart = new UserShoppingCart();
+        }
+
+        public bool isSubscribed()
+        {
+            return this._state.isSubscribed();
+        }
     }
 }

@@ -65,6 +65,8 @@
     <Compile Include="DomainLayer\StoresManagement\ProductInventory.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoresManagemet.cs" />
+    <Compile Include="DomainLayer\UserManagement\security\Encryption.cs" />
+    <Compile Include="DomainLayer\UserManagement\security\Validation.cs" />
     <Compile Include="DomainLayer\UserManagement\UserManagement.cs" />
     <Compile Include="DomainLayer\UserManagement\Guest.cs" />
     <Compile Include="DomainLayer\UserManagement\Permissions.cs" />
@@ -74,16 +76,17 @@
     <Compile Include="DomainLayer\UserManagement\SystemAdmin.cs" />
     <Compile Include="DomainLayer\UserManagement\User.cs" />
     <Compile Include="DomainLayer\UserManagement\UserShoppingCart.cs" />
-    <Compile Include="DomainLayer\UserManagement\UserState.cs" />
+    <Compile Include="DomainLayer\UserManagement\IUserState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLayer\IDataManager.cs" />
+    <Compile Include="ServiceLayer\PersistenceDummy\DBDummy.cs" />
+    <Compile Include="ServiceLayer\UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ServiceLayer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
