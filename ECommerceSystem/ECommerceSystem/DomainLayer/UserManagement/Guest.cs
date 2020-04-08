@@ -8,5 +8,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     class Guest : IUserState
     {
+        public bool isSubscribed()
+        {
+            return false;
+        }
     }
 }

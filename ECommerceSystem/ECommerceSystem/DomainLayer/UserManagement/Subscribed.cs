@@ -3,12 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
     class Subscribed : IUserState
     {
+        public string _uname;
+        public string _pswd;
+        public UserDetails _details { get; set; }
         private List<Store> _storesOwned;
         private List<Store> _storesManaged;
+
+        public Subscribed(string uname, string pswd, string fname, string lname, string email)
+        {
+            _uname = uname;
+            _pswd = pswd;
+            _details = new UserDetails(fname, lname, email);
+        }
+
+        public bool isSubscribed()
+        {
+            return true;
+        }
+
+        internal class UserDetails
+        {
+            private string _fname { get; set; }
+            private string _lname { get; set; }
+            private string _email { get; set; }
+
+            public UserDetails(string fname, string lname, string email)
+            {
+                _fname = fname;
+                _lname = lname;
+                _email = email;
+            }
+        }
     }
 }
