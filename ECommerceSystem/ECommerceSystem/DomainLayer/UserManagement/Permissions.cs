@@ -12,6 +12,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private Dictionary<string, bool> _permissions;
         private bool _isOwner;
 
+        internal User AssignedBy { get => _assignedBy; set => _assignedBy = value; }
+
         private Permissions(User assignedBy, bool isOwner)
         {
             this._assignedBy = assignedBy;
