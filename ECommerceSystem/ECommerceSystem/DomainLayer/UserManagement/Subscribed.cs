@@ -18,5 +18,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _storesOwned.Add(store);
         }
 
+        internal void addManagerStore(Store store)
+        {
+            _storesManaged.Add(store);
+        }
     }
 }
