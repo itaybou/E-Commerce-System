@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -11,12 +10,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         private List<Store> _storesOwned;
         private List<Store> _storesManaged;
-        
-
-        public void addOwnStore(Store store)
-        {
-            _storesOwned.Add(store);
-        }
-
     }
 }
