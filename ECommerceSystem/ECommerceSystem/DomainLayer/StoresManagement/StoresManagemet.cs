@@ -55,5 +55,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             Store store = getStoreByName(storeName);
             return store.addProduct(productName, discount, purchaseType, price, quantity);
         }
+
+        public bool deleteProduct(string storeName, string productName)
+        {
+            Store store = getStoreByName(storeName);
+            return store.deleteProduct(productName);
+        }
     }
 }
