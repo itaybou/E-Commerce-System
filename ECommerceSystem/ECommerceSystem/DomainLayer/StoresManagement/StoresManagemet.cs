@@ -18,11 +18,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._stores = new List<Store>();
         }
 
-        public bool isNameExist(string name)
+
+        // Return null if the name isn`t exist
+        public Store getStoreByName(string name)
         {
-            return _stores.Select(store => store.Name).Contains(name);
+            foreach(Store store in _stores)
+            {
+                if (store.Name.Equals(name))
+                {
+                    return store;
+                }
+            }
+            return null; 
         }
-        
+
         public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
         {
             User loggedInUser = _userManagement.getLoggedInUser(); //sync
@@ -31,7 +40,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!isNameExist(name))
+            if (getStoreByName(name) != null) //name already exist
             {
                 return false;
             }
@@ -41,6 +50,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-
+        public bool addProduct(string storeName, string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        {
+            Store store = getStoreByName(storeName);
+            return store.addProduct(productName, discount, purchaseType, price, quantity);
+        }
     }
 }
