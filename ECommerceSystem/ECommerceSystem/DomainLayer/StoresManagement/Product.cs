@@ -8,17 +8,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     class Product
     {
-        private double _price;
+        private long _id;
         private int _quantity;
         private Discount _discount;
         private PurchaseType _purchaseType;
 
-        public Product(Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public Product(Discount discount, PurchaseType purchaseType, int quantity, long id)
         {
-            this._price = price;
             this._quantity = quantity;
             this._discount = discount;
             this._purchaseType = purchaseType;
+            this._id = id;
         }
     }
 }

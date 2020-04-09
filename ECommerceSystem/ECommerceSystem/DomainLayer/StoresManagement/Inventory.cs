@@ -9,6 +9,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     class Inventory
     {
         private List<ProductInventory> _products;
+        private long _productIDCounter;
+        public Inventory()
+        {
+            _products = new List<ProductInventory>();
+            _productIDCounter = 0;
+        }
+        
+        //Return null if there isn`t product with name
+        private ProductInventory getProductByName(string name)
+        {
+            foreach (ProductInventory p in _products)
+            {
+                if (p.Name.Equals(name))
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
 
         public bool add(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
         {
@@ -17,7 +36,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity);
+            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity, ++_productIDCounter);
             return true;
         }
 
@@ -35,17 +54,33 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        //Return null if there isn`t product with name
-        private ProductInventory getProductByName(string name)
+        public bool modifyProductName(string newProductName, string oldProductName)
         {
             foreach(ProductInventory p in _products)
             {
-                if (p.Name.Equals(name))
+                if (p.Name.Equals(oldProductName))
                 {
-                    return p;
+                    p.Name = newProductName;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
+
+        public bool modifyProductPrice(string productName, int newPrice)
+        {
+            foreach (ProductInventory p in _products)
+            {
+                if (p.Name.Equals(productName))
+                {
+                    p.Price = newPrice;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
     }
 }

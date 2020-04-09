@@ -9,27 +9,35 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class Permissions
     {
         private Subscribed _assignedBy;
-        private bool _isOwner;
         private Dictionary<string, bool> _permissions;
 
         public Permissions(Subscribed assignedBy, bool isOwner)
         {
             this._assignedBy = assignedBy;
-            this._isOwner = isOwner;
-            initPermmisionsDict(); // init all permissions false
+            initPermmisionsDict(isOwner);
         }
 
-        private void initPermmisionsDict()
+        private void initPermmisionsDict(bool isOwner)
         {
             this._permissions = new Dictionary<string, bool>();
-            _permissions["addProduct"] = false;
-            _permissions["deleteProduct"] = false;
-            _permissions["modifyProduct"] = false;
+            _permissions["addProduct"] = isOwner;
+            _permissions["deleteProduct"] = isOwner;
+            _permissions["modifyProduct"] = isOwner;
         }
 
         public bool canAddProduct()
         {
-            return _permissions["addProduct"] || _isOwner;
+            return _permissions["addProduct"];
+        }
+
+        public bool canDeleteProduct()
+        {
+            return _permissions["deleteProduct"];
+        }
+
+        public bool canModifyProduct()
+        {
+            return _permissions["modifyProduct"];
         }
     }
 }

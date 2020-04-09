@@ -29,10 +29,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public string Name { get => _name; set => _name = value; }
 
+        //@pre - logged in user have permission to add product
         public bool addProduct(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
         {
-            User loggedInUser = _userManagement.getLoggedInUser(); //sync
-            if (!loggedInUser.isSubscribed()) // sync
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
@@ -45,10 +46,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return _inventory.add(productName, discount, purchaseType, price, quantity);
         }
 
+        //@pre - logged in user have permission to delete product
         public bool deleteProduct(string productName)
         {
-            User loggedInUser = _userManagement.getLoggedInUser(); //sync
-            if (!loggedInUser.isSubscribed()) // sync
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
@@ -59,6 +61,53 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             return _inventory.delete(productName);
+        }
+
+        private bool isLoggedInUserCanMoidfy()
+        {
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!(_premmisions[loggedInUser.name].canModifyProduct()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool modifyProductPrice(string productName, int newPrice)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.modifyProductPrice(productName, newPrice);
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool modifyProductName(string newProductName, string oldProductName)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.modifyProductName(newProductName, oldProductName);
+        }
+
+
+
+        private User isLoggedInUserSubscribed()
+        {
+            User loggedInUser = _userManagement.getLoggedInUser(); //sync
+            if (!loggedInUser.isSubscribed()) // sync
+            {
+                return null;
+            }
+            return loggedInUser;
         }
     }
 }
