@@ -9,22 +9,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     class ProductInventory
     {
         private string _name;
+        private string _description;
         private List<Product> _productInventory;
-
-        public string Name { get => _name; set => _name = value; }
-
-        private ProductInventory(string name)
-        {
-            this._name = name;
-            _productInventory = new List<Product>();
-        }
-
-        public static ProductInventory Create(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
-        {
-            ProductInventory productInventory = new ProductInventory(productName);
-            Product newProduct = new Product(discount, purchaseType, price, quantity);
-            productInventory._productInventory.Add(newProduct);
-            return productInventory;
-        }
     }
 }
