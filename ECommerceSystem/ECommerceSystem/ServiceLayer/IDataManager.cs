@@ -11,6 +11,6 @@ namespace ECommerceSystem.ServiceLayer
     {
         List<T> getAll();
         void insert(T t);
-        void remove(T t);
+        bool remove(T t);
     }
 }
