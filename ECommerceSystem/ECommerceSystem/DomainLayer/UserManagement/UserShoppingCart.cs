@@ -9,5 +9,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class UserShoppingCart
     {
         private List<StoreShoppingCart> _storeCarts;
+
+        public UserShoppingCart()
+        {
+            _storeCarts = new List<StoreShoppingCart>();
+        }
     }
 }

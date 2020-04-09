@@ -30,6 +30,12 @@ namespace ECommerceSystem.ServiceLayer
             return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
         }
 
+        /// <summary>
+        /// Change current active user to a user matching input details if exists.
+        /// </summary>
+        /// <param name="uname">username</param>
+        /// <param name="pswd">password</param>
+        /// <returns></returns>
         public bool login(string uname, string pswd)
         {
             return _management.login(uname, pswd);

@@ -11,6 +11,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     sealed class UserManagement : IDataManager<User>
     {
         private List<User> _users;
+        private Dictionary<User, UserShoppingCart> _carts;
+
         public User _activeUser { get; set; }
 
         private static readonly Lazy<UserManagement> lazy = new Lazy<UserManagement> (() => new UserManagement());
@@ -42,8 +44,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var encrypted_pswd = Encryption.encrypt(pswd);
             var user = _users.Find(u => ((Subscribed) u._state)._uname.Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
             if (user != null)
+            {
                 _activeUser = user;
+                _activeUser._cart = getUserCart(user);
+            }
             return user != null;
+        }
+
+        private UserShoppingCart getUserCart(User user)
+        {
+            return _carts.ContainsKey(user) ? _carts[user] : new UserShoppingCart();
         }
 
         public List<User> getAll()
