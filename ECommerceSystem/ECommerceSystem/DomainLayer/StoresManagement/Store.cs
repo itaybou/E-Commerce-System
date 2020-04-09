@@ -13,22 +13,37 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private DiscountPolicy _discountPolicy;
         private PurchasePolicy _purchasePolicy;
 
-        private Dictionary<string, Permissions> _managers;
-        private Dictionary<string, Permissions> _owners;
+        private Dictionary<string, Permissions> _premmisions;
+
         private Inventory _inventory;
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
         {
             this._discountPolicy = discountPolicy;
             this._purchasePolicy = purchasePolicy;
-            this._managers = new Dictionary<string, Permissions>();
-            this._owners = new Dictionary<string, Permissions>();
+            this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
-            this._owners.Add(ownerUserName, new Permissions()); //TODO - permission
+            this._premmisions.Add(ownerUserName, new Permissions(null, true)); 
             this.Name = name;
         }
 
         public string Name { get => _name; set => _name = value; }
 
+        public bool addProduct(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        {
+            User loggedInUser = _userManagement.getLoggedInUser(); //sync
+            if (!loggedInUser.isSubscribed()) // sync
+            {
+                return false;
+            }
+
+            if (!(_premmisions[loggedInUser.name].canAddProduct()))
+            {
+                return false;
+            }
+
+            return _inventory.add(productName, discount, purchaseType, price, quantity);
+
+        }
     }
 }
