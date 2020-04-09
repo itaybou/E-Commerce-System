@@ -51,6 +51,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return user != null;
         }
 
+        public bool logout()
+        {
+            if (!_activeUser._state.isSubscribed())
+                return false;
+            _activeUser._state = new Guest();
+            _activeUser._cart = new UserShoppingCart();;
+            return true;
+        }
+
         private UserShoppingCart getUserCart(User user)
         {
             return _carts.ContainsKey(user) ? _carts[user] : new UserShoppingCart();
