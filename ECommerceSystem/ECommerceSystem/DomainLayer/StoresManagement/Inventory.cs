@@ -9,19 +9,39 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     class Inventory
     {
         private List<ProductInventory> _products;
+        private long _productIDCounter;
+        public Inventory()
+        {
+            _products = new List<ProductInventory>();
+            _productIDCounter = 0;
+        }
+        
+        //Return null if there isn`t product with name
+        private ProductInventory getProductByName(string name)
+        {
+            foreach (ProductInventory p in _products)
+            {
+                if (p.Name.Equals(name))
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
 
-        public bool add(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
         {
             if(getProductByName(productName) != null) // check if the name already exist
             {
                 return false;
             }
 
-            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity);
+            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity, ++_productIDCounter);
+            _products.Add(productInventory);
             return true;
         }
 
-        public bool delete(string productName)
+        public bool deleteProductInventory(string productName)
         {
             ProductInventory product = getProductByName(productName);
             if (product == null) // check if the name already exist
@@ -35,17 +55,102 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        //Return null if there isn`t product with name
-        private ProductInventory getProductByName(string name)
+        public bool modifyProductName(string newProductName, string oldProductName)
         {
-            foreach(ProductInventory p in _products)
+            ProductInventory productInventory = getProductByName(oldProductName);
+            if (productInventory == null) // check if the product exist
             {
-                if (p.Name.Equals(name))
-                {
-                    return p;
-                }
+                return false;
             }
-            return null;
+            else
+            {
+                productInventory.Name = newProductName;
+                return true;
+            }
+        }
+
+        public bool modifyProductPrice(string productName, int newPrice)
+        {
+            if(newPrice <= 0)
+            {
+                return false;
+            }
+
+            ProductInventory productInventory = getProductByName(productName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                productInventory.Price = newPrice;
+                return true;
+            }
+        }
+
+        public bool modifyProductQuantity(string productName, int productID, int newQuantity)
+        {
+            ProductInventory productInventory = getProductByName(productName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                return productInventory.modifyProductQuantity(productID, newQuantity);
+            }
+        }
+
+        public bool addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        {
+            ProductInventory productInventory = getProductByName(productInvName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                return productInventory.addProduct(discount, purchaseType, quantity, ++_productIDCounter);
+            }
+        }
+
+        public bool deleteProduct(string productInvName, int productID)
+        {
+            ProductInventory productInventory = getProductByName(productInvName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                return productInventory.deleteProduct(productID);
+            }
+        }
+
+        public bool modifyProductDiscountType(string productInvName, int productID, Discount newDiscount)
+        {
+            ProductInventory productInventory = getProductByName(productInvName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                return productInventory.modifyProductDiscountType(productID, newDiscount);
+            }
+        }
+
+        public bool modifyProductPurchaseType(string productInvName, int productID, PurchaseType purchaseType)
+        {
+            ProductInventory productInventory = getProductByName(productInvName);
+            if (productInventory == null) // check if the product exist
+            {
+                return false;
+            }
+            else
+            {
+                return productInventory.modifyProductPurchaseType(productID, purchaseType);
+            }
         }
     }
 }
