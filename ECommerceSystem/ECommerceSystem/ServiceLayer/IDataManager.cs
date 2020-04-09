@@ -7,8 +7,10 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
 {
-    interface IDataManager
+    interface IDataManager<T>
     {
-        List<User> getUsers();
+        List<T> getAll();
+        void insert(T t);
+        void remove(T t);
     }
 }

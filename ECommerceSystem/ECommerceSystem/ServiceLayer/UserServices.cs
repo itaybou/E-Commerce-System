@@ -27,7 +27,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <returns></returns>
         public bool register(string uname, string pswd, string fname, string lname, string email)
         {
-            return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email) == null;
+            return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
         }
 
         public bool login(string uname, string pswd)
