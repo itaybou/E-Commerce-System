@@ -8,13 +8,25 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {   
     class Permissions
     {
-        private Subscribed _assignedBy;
+        private User _assignedBy;
         private Dictionary<string, bool> _permissions;
 
-        public Permissions(Subscribed assignedBy, bool isOwner)
+        private Permissions(User assignedBy, bool isOwner)
         {
             this._assignedBy = assignedBy;
             initPermmisionsDict(isOwner);
+        }
+
+        public static Permissions Create(User assignedBy, bool isOwner)
+        {
+            if(assignedBy.isSubscribed())
+            {
+                return new Permissions(assignedBy, isOwner);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void initPermmisionsDict(bool isOwner)
@@ -23,6 +35,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions["addProduct"] = isOwner;
             _permissions["deleteProductInv"] = isOwner;
             _permissions["modifyProduct"] = isOwner;
+            _permissions["assignOwner"] = isOwner;
+        }
+
+        public void makeOwner()
+        {
+            foreach (KeyValuePair<string, bool> per in _permissions)
+            {
+                _permissions[per.Key] = true;
+            }
         }
 
         public bool canAddProduct()
@@ -38,6 +59,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool canModifyProduct()
         {
             return _permissions["modifyProduct"];
+        }
+
+        public bool canAssignOwner()
+        {
+            return _permissions["assignOwner"];
         }
     }
 }

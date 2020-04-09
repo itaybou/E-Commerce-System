@@ -23,11 +23,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._purchasePolicy = purchasePolicy;
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
-            this._premmisions.Add(ownerUserName, new Permissions(null, true)); 
+            this._premmisions.Add(ownerUserName, Permissions.Create(null, true)); 
             this.Name = name;
         }
 
         public string Name { get => _name; set => _name = value; }
+
+        //*********Add, Delete, Modify Products*********
+
 
         //@pre - logged in user have permission to add product
         public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
@@ -45,6 +48,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return _inventory.addProductInv(productName, discount, purchaseType, price, quantity);
         }
+
+        //@pre - logged in user have permission to modify product
+        public bool addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.addProduct(productInvName, discount, purchaseType, quantity);
+        }
+
 
         //@pre - logged in user have permission to delete product
         public bool deleteProductInventory(string productInvName)
@@ -73,15 +87,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else return _inventory.deleteProduct(productInvName, productID);
         }
 
-        //@pre - logged in user have permission to modify product
-        public bool addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
-        {
-            if (!isLoggedInUserCanMoidfy())
-            {
-                return false;
-            }
-            else return _inventory.addProduct(productInvName, discount, purchaseType, quantity);
-        }
 
         private bool isLoggedInUserCanMoidfy()
         {
@@ -157,6 +162,37 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return null;
             }
             return loggedInUser;
+        }
+
+
+        //*********Assign*********
+
+        public bool assignOwner(string userName)
+        {
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!(_premmisions[loggedInUser.name].canAssignOwner())) // check permission
+            {
+                return false;
+            }
+
+
+            if (_premmisions.ContainsKey(userName))
+            {
+                _premmisions[userName].makeOwner();
+            }
+            else
+            {
+                Permissions per = Permissions.Create(loggedInUser, true);
+                if (per == null) return false;
+                _premmisions.Add(userName, per);
+            }
+            return true;
+
         }
     }
 }
