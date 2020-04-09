@@ -175,11 +175,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!(_premmisions[loggedInUser.name].canAssignOwner())) // check permission
+            if (!_premmisions[loggedInUser.name].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
 
+            if(_premmisions.ContainsKey(userName) && _premmisions[userName].isOwner() ) // The user of userName is already owner of this store
+            {
+                return false;
+            }
 
             if (_premmisions.ContainsKey(userName))
             {

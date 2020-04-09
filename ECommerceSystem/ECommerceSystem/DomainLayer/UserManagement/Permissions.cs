@@ -10,10 +10,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         private User _assignedBy;
         private Dictionary<string, bool> _permissions;
+        private bool _isOwner;
 
         private Permissions(User assignedBy, bool isOwner)
         {
             this._assignedBy = assignedBy;
+            this._isOwner = isOwner;
             initPermmisionsDict(isOwner);
         }
 
@@ -35,7 +37,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions["addProduct"] = isOwner;
             _permissions["deleteProductInv"] = isOwner;
             _permissions["modifyProduct"] = isOwner;
-            _permissions["assignOwner"] = isOwner;
         }
 
         public void makeOwner()
@@ -44,6 +45,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 _permissions[per.Key] = true;
             }
+            this._isOwner = true;
+        }
+
+        public bool isOwner()
+        {
+            return _isOwner;
         }
 
         public bool canAddProduct()
@@ -61,9 +68,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions["modifyProduct"];
         }
 
-        public bool canAssignOwner()
-        {
-            return _permissions["assignOwner"];
-        }
     }
 }
