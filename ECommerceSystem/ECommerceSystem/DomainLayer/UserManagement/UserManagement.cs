@@ -21,5 +21,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             assignedUser.addManagerStore(store);
         }
+
+        public void removeManagerStore(Store store, User assignedUser)
+        {
+            assignedUser.removeManagerStore(store);
+        }
     }
 }

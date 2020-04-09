@@ -137,5 +137,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
+        public bool removeManager(string userName, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            bool isSuccess = store == null ? false : store.removeManager(userName);
+            if (isSuccess)
+            {
+                User assignedUser = _userManagement.getUserByName(userName);
+                _userManagement.removeManagerStore(store, assignedUser);
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 }
