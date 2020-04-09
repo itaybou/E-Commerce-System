@@ -20,5 +20,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             ((Subscribed)_state).addOwnStore(store); 
         }
 
+        //Assume _state is subsbcribed
+        public void addManagerStore(Store store)
+        {
+            ((Subscribed)_state).addManagerStore(store);
+        }
     }
 }

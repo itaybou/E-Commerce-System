@@ -15,15 +15,29 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private Permissions(User assignedBy, bool isOwner)
         {
             this._assignedBy = assignedBy;
-            this._isOwner = isOwner;
             initPermmisionsDict(isOwner);
+            this._isOwner = isOwner;
         }
 
-        public static Permissions Create(User assignedBy, bool isOwner)
+        public static Permissions CreateOwner(User assignedBy)
         {
             if(assignedBy.isSubscribed())
             {
-                return new Permissions(assignedBy, isOwner);
+                Permissions permissions = new Permissions(assignedBy, true);
+                return permissions;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Permissions CreateManager(User assignedBy)
+        {
+            if (assignedBy.isSubscribed())
+            {
+                Permissions permissions = new Permissions(assignedBy, false);
+                return permissions;
             }
             else
             {
@@ -37,6 +51,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions["addProduct"] = isOwner;
             _permissions["deleteProductInv"] = isOwner;
             _permissions["modifyProduct"] = isOwner;
+            _permissions["WatchAndomment"] = true;
+            _permissions["PurchaseHistory"] = true;
         }
 
         public void makeOwner()

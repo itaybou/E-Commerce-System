@@ -17,5 +17,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             user.addOwnStore(store);
         }
 
+        public void addManagerStore(Store store, User assignedUser)
+        {
+            assignedUser.addManagerStore(store);
+        }
     }
 }

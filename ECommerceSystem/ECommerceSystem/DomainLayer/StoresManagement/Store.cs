@@ -23,7 +23,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._purchasePolicy = purchasePolicy;
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
-            this._premmisions.Add(ownerUserName, Permissions.Create(null, true)); 
+            this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
             this.Name = name;
         }
 
@@ -191,12 +191,36 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                Permissions per = Permissions.Create(loggedInUser, true);
+                Permissions per = Permissions.CreateOwner(loggedInUser);
                 if (per == null) return false;
                 _premmisions.Add(userName, per);
             }
             return true;
+        }
 
+        public bool assignManager(string userName)
+        {
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!_premmisions[loggedInUser.name].isOwner()) //Check that the assign is owner
+            {
+                return false;
+            }
+
+            if (_premmisions.ContainsKey(userName)) // The user of userName is already owner/manager of this store
+            {
+                return false;
+            }
+
+            Permissions per = Permissions.CreateManager(loggedInUser);
+            if (per == null) return false;
+            _premmisions.Add(userName, per);
+            
+            return true;
         }
     }
 }
