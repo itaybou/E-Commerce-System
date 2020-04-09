@@ -123,5 +123,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
+        public bool assignManager(string userName, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            bool isSuccess = store == null ? false : store.assignManager(userName);
+            if (isSuccess)
+            {
+                User assignedUser = _userManagement.getUserByName(userName);
+                _userManagement.addManagerStore(store, assignedUser);
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 }
