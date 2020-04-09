@@ -30,7 +30,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string Name { get => _name; set => _name = value; }
 
         //@pre - logged in user have permission to add product
-        public bool addProduct(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -43,11 +43,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return _inventory.add(productName, discount, purchaseType, price, quantity);
+            return _inventory.addProductInv(productName, discount, purchaseType, price, quantity);
         }
 
         //@pre - logged in user have permission to delete product
-        public bool deleteProduct(string productName)
+        public bool deleteProductInventory(string productInvName)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -60,7 +60,27 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return _inventory.delete(productName);
+            return _inventory.deleteProductInventory(productInvName);
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool deleteProduct(string productInvName, int productID)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.deleteProduct(productInvName, productID);
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.addProduct(productInvName, discount, purchaseType, quantity);
         }
 
         private bool isLoggedInUserCanMoidfy()
@@ -89,6 +109,36 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
+        public bool modifyProductDiscountType(string productInvName, int productID, Discount newDiscount)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.modifyProductDiscountType(productInvName, productID, newDiscount);
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool modifyProductPurchaseType(string productInvName, int productID, PurchaseType purchaseType)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.modifyProductPurchaseType(productInvName, productID, purchaseType);
+        }
+
+        //@pre - logged in user have permission to modify product
+        public bool modifyProductQuantity(string productName, int productID, int newQuantity)
+        {
+            if (!isLoggedInUserCanMoidfy())
+            {
+                return false;
+            }
+            else return _inventory.modifyProductQuantity(productName, productID, newQuantity);
+        }
+
+        //@pre - logged in user have permission to modify product
         public bool modifyProductName(string newProductName, string oldProductName)
         {
             if (!isLoggedInUserCanMoidfy())
@@ -97,7 +147,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else return _inventory.modifyProductName(newProductName, oldProductName);
         }
-
 
 
         private User isLoggedInUserSubscribed()

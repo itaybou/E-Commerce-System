@@ -21,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             this._permissions = new Dictionary<string, bool>();
             _permissions["addProduct"] = isOwner;
-            _permissions["deleteProduct"] = isOwner;
+            _permissions["deleteProductInv"] = isOwner;
             _permissions["modifyProduct"] = isOwner;
         }
 
@@ -32,7 +32,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool canDeleteProduct()
         {
-            return _permissions["deleteProduct"];
+            return _permissions["deleteProductInv"];
         }
 
         public bool canModifyProduct()

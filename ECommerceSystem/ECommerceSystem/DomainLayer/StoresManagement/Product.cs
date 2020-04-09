@@ -20,5 +20,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._purchaseType = purchaseType;
             this._id = id;
         }
+
+        public long Id { get => _id; set => _id = value; }
+        public int Quantity { get => _quantity; set => _quantity = value; }
+        internal Discount Discount { get => _discount; set => _discount = value; }
+        internal PurchaseType PurchaseType { get => _purchaseType; set => _purchaseType = value; }
     }
 }
