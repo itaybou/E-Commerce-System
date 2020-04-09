@@ -43,7 +43,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             return _inventory.add(productName, discount, purchaseType, price, quantity);
+        }
 
+        public bool deleteProduct(string productName)
+        {
+            User loggedInUser = _userManagement.getLoggedInUser(); //sync
+            if (!loggedInUser.isSubscribed()) // sync
+            {
+                return false;
+            }
+
+            if (!(_premmisions[loggedInUser.name].canDeleteProduct()))
+            {
+                return false;
+            }
+
+            return _inventory.delete(productName);
         }
     }
 }
