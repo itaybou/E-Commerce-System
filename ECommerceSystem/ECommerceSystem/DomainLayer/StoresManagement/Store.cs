@@ -41,7 +41,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!(_premmisions[loggedInUser.name].canAddProduct()))
+            if (!(_premmisions[loggedInUser.Name].canAddProduct()))
             {
                 return false;
             }
@@ -69,7 +69,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!(_premmisions[loggedInUser.name].canDeleteProduct()))
+            if (!(_premmisions[loggedInUser.Name].canDeleteProduct()))
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!(_premmisions[loggedInUser.name].canModifyProduct()))
+            if (!(_premmisions[loggedInUser.Name].canModifyProduct()))
             {
                 return false;
             }
@@ -165,6 +165,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
 
+
         //*********Assign*********
 
         public bool assignOwner(string userName)
@@ -206,7 +207,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!_premmisions[loggedInUser.name].isOwner()) //Check that the assign is owner
+            if (!_premmisions[loggedInUser.Name].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
@@ -220,6 +221,28 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (per == null) return false;
             _premmisions.Add(userName, per);
             
+            return true;
+        }
+
+        public bool removeManager(string userName)
+        {
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!_premmisions.ContainsKey(userName) || _premmisions[userName].isOwner()) // The user of userName isn`t manager of this store or he is owner of this store
+            {
+                return false;
+            }
+
+            if (!_premmisions[userName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
+            {
+                return false;
+            }
+
+            _premmisions.Remove(userName);
             return true;
         }
     }

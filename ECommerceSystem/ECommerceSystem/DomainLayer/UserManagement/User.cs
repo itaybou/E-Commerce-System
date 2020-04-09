@@ -12,8 +12,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         private IUserState _state;
         private UserShoppingCart _cart;
-        private string name {get; set;}
-        
+        private string name;
+
+        public string Name { get => name; set => name = value; }
+
         //Assume _state is subsbcribed
         public void addOwnStore(Store store)
         {
@@ -24,6 +26,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void addManagerStore(Store store)
         {
             ((Subscribed)_state).addManagerStore(store);
+        }
+
+        //Assume _state is subsbcribed
+        public void removeManagerStore(Store store)
+        {
+            ((Subscribed)_state).removeManagerStore(store);
         }
     }
 }
