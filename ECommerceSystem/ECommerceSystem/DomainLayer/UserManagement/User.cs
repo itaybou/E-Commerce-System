@@ -9,7 +9,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class User
     {
         public IUserState _state { get; set; }
-        public UserShoppingCart _cart { private get; set; }
+        public UserShoppingCart _cart { get; set; }
 
         public User()
         {

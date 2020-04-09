@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.ServiceLayer;
 
@@ -64,6 +65,68 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return _carts.ContainsKey(user) ? _carts[user] : new UserShoppingCart();
         }
+
+        public Dictionary<Store,List<Product>> ShoppingCartDetails()
+        {
+            UserShoppingCart cart = getUserCart(_activeUser);
+            Dictionary<Store, List<Product>> cartDetails = new Dictionary<Store, List<Product>>();
+            foreach(StoreShoppingCart storeCart in cart._storeCarts)
+            {
+                cartDetails.Add(storeCart.store, storeCart.products);
+            }
+
+            return cartDetails;
+        }
+
+        public void addProductToCart(Product p, Store s)
+        {
+            UserShoppingCart cart = getUserCart(_activeUser);
+            var exist = cart._storeCarts.Exists(storecart => storecart.store.Name == s.Name );
+            if (!exist)
+            {
+                if(s.checkProductExistence(p))
+                {
+                    s.IncreaseProductQuantity(p);
+                    List<Product> product = new List<Product>();
+                    product.Add(p);
+                    cart._storeCarts.Add(new StoreShoppingCart(s, product));
+                }
+
+            }
+            else
+            {
+                var storeCart = cart._storeCarts.Find(scart => scart.store.Name == s.Name);
+                if(s.checkProductExistence(p))
+                {
+                    storeCart.products.Add(p);
+                    s.IncreaseProductQuantity(p);
+                }
+                    
+            }
+                
+        }
+
+        public void removeProductFromCart(Product p, Store s)
+        {
+            UserShoppingCart cart = getUserCart(_activeUser);
+            var exist = cart._storeCarts.Exists(storecart => storecart.store.Name == s.Name);
+            if (exist)
+            {
+                var storeCart = cart._storeCarts.Find(scart => scart.store.Name == s.Name);
+                var product = storeCart.products.Find(pr => pr.Id == p.Id);
+                if (product.Quantity == p.Quantity)
+                    storeCart.products.Remove(product);
+                else if (product.Quantity > p.Quantity)
+                {
+                    product.Quantity = product.Quantity - p.Quantity;
+                    storeCart.store.DecreaseProductQuantity(p);
+                }
+                else
+                    Console.WriteLine("Cant remove Quantity");
+
+            }
+        }
+
 
         public List<User> getAll()
         {
