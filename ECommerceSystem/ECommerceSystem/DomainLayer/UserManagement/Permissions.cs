@@ -16,10 +16,20 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             this._assignedBy = assignedBy;
             this._isOwner = isOwner;
-            initPermmisionsDict();
+            initPermmisionsDict(); // init all permissions false
         }
 
-        
+        private void initPermmisionsDict()
+        {
+            this._permissions = new Dictionary<string, bool>();
+            _permissions["addProduct"] = false;
+            _permissions["deleteProduct"] = false;
+            _permissions["modifyProduct"] = false;
+        }
 
+        public bool canAddProduct()
+        {
+            return _permissions["addProduct"] || _isOwner;
+        }
     }
 }
