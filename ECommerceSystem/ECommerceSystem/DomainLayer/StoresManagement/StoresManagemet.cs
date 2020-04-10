@@ -14,7 +14,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private UserManagement.UserManagement _userManagement;
         private long _productInvID;
 
-        public StoresManagement(UserManagement.UserManagement userManagement)
+        public StoresManagement()
         {
             this._userManagement = new UserManagement.UserManagement(); //TODO sync
             this._stores = new List<Store>();
