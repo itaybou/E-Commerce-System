@@ -24,7 +24,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="fname">first name</param>
         /// <param name="lname">last name</param>
         /// <param name="email">email address</param>
-        /// <returns></returns>
+        /// <returns>true if registration successful</returns>
         public bool register(string uname, string pswd, string fname, string lname, string email)
         {
             return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
@@ -35,10 +35,19 @@ namespace ECommerceSystem.ServiceLayer
         /// </summary>
         /// <param name="uname">username</param>
         /// <param name="pswd">password</param>
-        /// <returns></returns>
+        /// <returns>true if successful</returns>
         public bool login(string uname, string pswd)
         {
             return _management.login(uname, pswd);
+        }
+
+        /// <summary>
+        /// Change current active user to guest state.
+        /// </summary>
+        /// <returns>true if successful</returns>
+        public bool logout()
+        {
+            return _management.logout();
         }
     }
 }
