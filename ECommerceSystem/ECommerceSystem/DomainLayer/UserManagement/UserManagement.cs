@@ -60,7 +60,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return true;
         }
 
-        private UserShoppingCart getUserCart(User user)
+        public UserShoppingCart getUserCart(User user)
         {
             return _users.ContainsKey(user) ? _users[user] : new UserShoppingCart();
         }
@@ -87,6 +87,31 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return false;
         }
 
+        public UserShoppingCart ShoppingCartDetails() => _activeUser._cart;
+
+        public bool changeProductQuantity(Product p, int quantity)
+        {
+            if (quantity < 0 || ShoppingCartDetails().All(prod => prod != p))
+                return false;
+            if (p.Quantity >= quantity)
+            {
+                var storeCart = ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p));
+                if (quantity.Equals(0))
+                    storeCart.RemoveFromCart(p);
+                else storeCart.ChangeProductQuantity(p, quantity);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool removeProdcutFromCart(Product p)
+        {
+            if (ShoppingCartDetails().All(prod => prod != p))
+                return false;
+            ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
+            return true;
+        }
 
         public List<User> getAll()
         {
@@ -102,5 +127,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return _users.Remove(user);
         }
+
+
     }
 }

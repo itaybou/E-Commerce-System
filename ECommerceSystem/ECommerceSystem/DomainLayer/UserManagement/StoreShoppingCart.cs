@@ -25,7 +25,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void AddToCart(Product p, int quantity)
         {
+            _productQuantities.Add(p, quantity);
             _totalPrice += p.Price * quantity;
+        }
+
+        public void ChangeProductQuantity(Product p, int quantity)
+        {
+            _totalPrice -= p.Price * _productQuantities[p];
+            _productQuantities[p] = quantity;
+            _totalPrice += p.Price * quantity;
+        }
+
+        public void RemoveFromCart(Product p)
+        {
+            _totalPrice -= p.Price * _productQuantities[p];
+            _productQuantities.Remove(p);
         }
 
     }

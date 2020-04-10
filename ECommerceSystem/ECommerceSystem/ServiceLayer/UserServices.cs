@@ -18,14 +18,14 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         /// <summary>
-        /// Check whether the user is already in subscribed state and register user to system
+        /// Check whether the user is already in subscribed state and register user to system.
         /// </summary>
         /// <param name="uname">username</param>
         /// <param name="pswd">password</param>
         /// <param name="fname">first name</param>
         /// <param name="lname">last name</param>
         /// <param name="email">email address</param>
-        /// <returns></returns>
+        /// <returns>true if registered successfully</returns>
         public bool register(string uname, string pswd, string fname, string lname, string email)
         {
             return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
@@ -36,7 +36,7 @@ namespace ECommerceSystem.ServiceLayer
         /// </summary>
         /// <param name="uname">username</param>
         /// <param name="pswd">password</param>
-        /// <returns></returns>
+        /// <returns>true if logged in successfully</returns>
         public bool login(string uname, string pswd)
         {
             return _management.login(uname, pswd);
@@ -52,6 +52,37 @@ namespace ECommerceSystem.ServiceLayer
         public bool addProductToCart(Product p, Store s, int quantity)
         {
             return _management.addProductToCart(p, s, quantity);
+        }
+
+        /// <summary>
+        /// Retrieves user shopping cart details.
+        /// </summary>
+        /// <returns>the users shopping cart</returns>
+        public UserShoppingCart ShoppingCartDetails()
+        {
+            return _management.ShoppingCartDetails();
+        }
+
+        /// <summary>
+        /// Remove input product from user cart.
+        /// </summary>
+        /// <param name="p">product to remove</param>
+        /// <returns>true if product was removed</returns>
+        public bool RemoveFromCart(Product p)
+        {
+            return _management.removeProdcutFromCart(p);
+        }
+
+
+        /// <summary>
+        /// Changes specific product quantity in user cart.
+        /// </summary>
+        /// <param name="p">product to change quantity for</param>
+        /// <param name="quantity">the new quantity</param>
+        /// <returns>true if change was successful</returns>
+        public bool ChangeProductQunatity(Product p, int quantity)
+        {
+            return _management.changeProductQuantity(p, quantity);
         }
     }
 }
