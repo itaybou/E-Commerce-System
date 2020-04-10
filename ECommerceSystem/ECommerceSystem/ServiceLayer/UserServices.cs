@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
@@ -40,18 +39,6 @@ namespace ECommerceSystem.ServiceLayer
         public bool login(string uname, string pswd)
         {
             return _management.login(uname, pswd);
-        }
-
-        /// <summary>
-        /// Add selected product times quantity from store to user shopping cart.
-        /// </summary>
-        /// <param name="p">product to add</param>
-        /// <param name="s">store to add product from</param>
-        /// <param name="quantity">the quantity to add</param>
-        /// <returns>true if addition was successful</returns>
-        public bool addProductToCart(Product p, Store s, int quantity)
-        {
-            return _management.addProductToCart(p, s, quantity);
         }
     }
 }

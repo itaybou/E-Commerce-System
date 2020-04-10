@@ -22,9 +22,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool checkProductExistence(Product p)
         {
-            foreach (ProductInventory pInv in _inventory.ProductInventory)
+            foreach (ProductInventory pInv in _inventory.productinv)
             {
-                var exist = pInv.Products.Exists(product => product.Id == p.Id && product.Quantity - p.Quantity >= 0);
+                var exist = pInv.products.Exists(product =>product.Id == p.Id && product.Quantity - p.Quantity > 0);
                 if (exist)
                     return true;
             }
@@ -33,9 +33,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void DecreaseProductQuantity(Product p)
         {
-            foreach (ProductInventory pInv in _inventory.ProductInventory)
+            foreach (ProductInventory pInv in _inventory.productinv)
             {
-                var product = pInv.Products.Find(pr => pr.Id == p.Id && pr.Quantity - p.Quantity >0);
+                var product = pInv.products.Find(pr => pr.Id == p.Id && pr.Quantity - p.Quantity >0);
                 product.Quantity = product.Quantity - p.Quantity;
 
             }
@@ -44,9 +44,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void IncreaseProductQuantity(Product p)
         {
-            foreach (ProductInventory pInv in _inventory.ProductInventory)
+            foreach (ProductInventory pInv in _inventory.productinv)
             {
-                var product = pInv.Products.Find(pr => pr.Id == p.Id);
+                var product = pInv.products.Find(pr => pr.Id == p.Id);
                 product.Quantity = product.Quantity + p.Quantity;
 
             }

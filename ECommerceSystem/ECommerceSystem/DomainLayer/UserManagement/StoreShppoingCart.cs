@@ -10,22 +10,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class StoreShoppingCart
     {
         private Store _store { get; set; }
-        private Dictionary<Product, int> _productQuantities;
-        private float _totalPrice;
+        private List<Product> _products { get; set; }
 
         public Store store { get => _store; set => _store = value; }
-        public Dictionary<Product, int> Products { get => _productQuantities;}
+        public List<Product> products { get => _products; set => _products = value; }
 
-        public StoreShoppingCart (Store s, Dictionary<Product, int> products)
+        public StoreShoppingCart (Store s, List<Product> products)
         {
             _store = s;
-            _productQuantities = products;
-            _totalPrice = 0;
-        }
-
-        public void AddToCart(Product p, int quantity)
-        {
-            _totalPrice += p.Price * quantity;
+            _products = products;
         }
 
     }

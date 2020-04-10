@@ -11,7 +11,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     sealed class UserManagement : IDataManager<User>
     {
-        private Dictionary<User, UserShoppingCart> _users;
+        private List<User> _users;
+        private Dictionary<User, UserShoppingCart> _carts;
 
         public User _activeUser { get; set; }
 
@@ -42,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool login(string uname, string pswd)
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
-            var user = _users.Keys.ToList().Find(u => ((Subscribed) u._state)._uname.Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
+            var user = _users.Find(u => ((Subscribed) u._state)._uname.Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
             if (user != null)
             {
                 _activeUser = user;
@@ -62,40 +63,79 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         private UserShoppingCart getUserCart(User user)
         {
-            return _users.ContainsKey(user) ? _users[user] : new UserShoppingCart();
+            return _carts.ContainsKey(user) ? _carts[user] : new UserShoppingCart();
         }
 
-
-        public bool addProductToCart(Product p, Store s, int quantity)
+        public Dictionary<Store,List<Product>> ShoppingCartDetails()
         {
-            if (quantity <= 0)
-                return false;
-            UserShoppingCart userCart = getUserCart(_activeUser);
-            var storeCart = userCart._storeCarts.Find(cart => cart.store.Name.Equals(s.Name));
-            if (s.checkQuantity(p, quantity))
+            UserShoppingCart cart = getUserCart(_activeUser);
+            Dictionary<Store, List<Product>> cartDetails = new Dictionary<Store, List<Product>>();
+            foreach(StoreShoppingCart storeCart in cart._storeCarts)
             {
-                if (storeCart == null)
-                {
-                    Dictionary<Product, int> products = new Dictionary<Product, int>();
-                    storeCart = new StoreShoppingCart(s, products);
-                }
-
-                storeCart.AddToCart(p, quantity);
-                return true;
+                cartDetails.Add(storeCart.store, storeCart.products);
             }
 
-            return false;
+            return cartDetails;
+        }
+
+        public void addProductToCart(Product p, Store s)
+        {
+            UserShoppingCart cart = getUserCart(_activeUser);
+            var exist = cart._storeCarts.Exists(storecart => storecart.store.Name == s.Name );
+            if (!exist)
+            {
+                if(s.checkProductExistence(p))
+                {
+                    s.IncreaseProductQuantity(p);
+                    List<Product> product = new List<Product>();
+                    product.Add(p);
+                    cart._storeCarts.Add(new StoreShoppingCart(s, product));
+                }
+
+            }
+            else
+            {
+                var storeCart = cart._storeCarts.Find(scart => scart.store.Name == s.Name);
+                if(s.checkProductExistence(p))
+                {
+                    storeCart.products.Add(p);
+                    s.IncreaseProductQuantity(p);
+                }
+                    
+            }
+                
+        }
+
+        public void removeProductFromCart(Product p, Store s)
+        {
+            UserShoppingCart cart = getUserCart(_activeUser);
+            var exist = cart._storeCarts.Exists(storecart => storecart.store.Name == s.Name);
+            if (exist)
+            {
+                var storeCart = cart._storeCarts.Find(scart => scart.store.Name == s.Name);
+                var product = storeCart.products.Find(pr => pr.Id == p.Id);
+                if (product.Quantity == p.Quantity)
+                    storeCart.products.Remove(product);
+                else if (product.Quantity > p.Quantity)
+                {
+                    product.Quantity = product.Quantity - p.Quantity;
+                    storeCart.store.DecreaseProductQuantity(p);
+                }
+                else
+                    Console.WriteLine("Cant remove Quantity");
+
+            }
         }
 
 
         public List<User> getAll()
         {
-            return _users.Keys.ToList();
+            return _users;
         }
 
         public void insert(User user)
         {
-            _users.Add(user, null);
+            _users.Add(user);
         }
 
         public bool remove(User user)
