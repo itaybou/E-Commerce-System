@@ -7,6 +7,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
+
     class StoresManagement
     {
         private List<Store> _stores;
@@ -258,5 +259,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
+
+        //*********Edit permmiossions*********
+
+        public bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions)
+        {
+            User loggedInUser = isLoggedInUserSubscribed();
+            if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            Store store = getStoreByName(storeName);
+            if(store == null)
+            {
+                return false;
+            }
+
+            return store.editPermissions(managerUserName, permissions, loggedInUser.Name);
+
+        }
     }
 }
