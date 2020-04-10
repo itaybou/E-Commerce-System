@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {   
+
+    public enum permissionType
+    {
+        AddProduct,
+        DeleteProductInv,
+        ModifyProduct,
+        WatchAndomment,
+        PurchaseHistory
+    }
+
     class Permissions
     {
         private User _assignedBy;
-        private Dictionary<string, bool> _permissions;
+        private Dictionary<permissionType, bool> _permissions;
         private bool _isOwner;
 
         internal User AssignedBy { get => _assignedBy; set => _assignedBy = value; }
@@ -49,17 +59,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         private void initPermmisionsDict(bool isOwner)
         {
-            this._permissions = new Dictionary<string, bool>();
-            _permissions["addProduct"] = isOwner;
-            _permissions["deleteProductInv"] = isOwner;
-            _permissions["modifyProduct"] = isOwner;
-            _permissions["WatchAndomment"] = true;
-            _permissions["PurchaseHistory"] = true;
+            _permissions = new Dictionary<permissionType, bool>();
+            _permissions[permissionType.AddProduct] = isOwner;
+            _permissions[permissionType.DeleteProductInv] = isOwner;
+            _permissions[permissionType.ModifyProduct] = isOwner;
+            _permissions[permissionType.WatchAndomment] = true;
+            _permissions[permissionType.PurchaseHistory] = true;
         }
 
         public void makeOwner()
         {
-            foreach (KeyValuePair<string, bool> per in _permissions)
+            foreach (KeyValuePair<permissionType, bool> per in _permissions)
             {
                 _permissions[per.Key] = true;
             }
@@ -73,18 +83,25 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool canAddProduct()
         {
-            return _permissions["addProduct"];
+            return _permissions[permissionType.AddProduct];
         }
 
         public bool canDeleteProduct()
         {
-            return _permissions["deleteProductInv"];
+            return _permissions[permissionType.DeleteProductInv];
         }
 
         public bool canModifyProduct()
         {
-            return _permissions["modifyProduct"];
+            return _permissions[permissionType.ModifyProduct];
         }
 
+        public void edit(List <permissionType> permissions)
+        {
+            foreach (KeyValuePair<permissionType, bool> per in _permissions)
+            {
+                _permissions[per.Key] = permissions.Contains(per.Key);
+            }
+        }
     }
 }
