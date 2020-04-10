@@ -10,11 +10,11 @@ namespace ECommerceSystem.ServiceLayer
 {
     class UserServices
     {
-        private UserManagement _management;
+        private UsersManagement _management;
 
         public UserServices()
         {
-            _management = UserManagement.Instance;
+            _management = UsersManagement.Instance;
         }
 
         /// <summary>

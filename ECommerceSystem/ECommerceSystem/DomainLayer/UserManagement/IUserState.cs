@@ -9,5 +9,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     interface IUserState
     {
         bool isSubscribed();
+        string Name();
     } 
 }

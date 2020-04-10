@@ -27,6 +27,26 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return true;
         }
 
+        public void addOwnStore(Store store)
+        {
+            _storesOwned.Add(store);
+        }
+
+        public void addManagerStore(Store store)
+        {
+            _storesManaged.Add(store);
+        }
+
+        public void removeManagerStore(Store store)
+        {
+            _storesManaged.Remove(store);
+        }
+
+        public string Name()
+        {
+            return _uname;
+        }
+
         internal class UserDetails
         {
             private string _fname { get; set; }
@@ -42,19 +62,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         }
         
 
-        public void addOwnStore(Store store)
-        {
-            _storesOwned.Add(store);
-        }
-
-        public void addManagerStore(Store store)
-        {
-            _storesManaged.Add(store);
-        }
-
-        public void removeManagerStore(Store store)
-        {
-            _storesManaged.Remove(store);
-        }
     }
 }

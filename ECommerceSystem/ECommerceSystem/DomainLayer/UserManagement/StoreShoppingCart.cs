@@ -10,8 +10,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class StoreShoppingCart
     {
         private Store _store { get; set; }
-        private Dictionary<Product, int> _productQuantities;
-        private float _totalPrice;
+        private Dictionary<Product, int> _productQuantities; // Product => Quantity
 
         public Store store { get => _store; set => _store = value; }
         public Dictionary<Product, int> Products { get => _productQuantities;}
@@ -20,27 +19,26 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             _store = s;
             _productQuantities = products;
-            _totalPrice = 0;
         }
 
         public void AddToCart(Product p, int quantity)
         {
             _productQuantities.Add(p, quantity);
-            _totalPrice += p.Price * quantity;
         }
 
         public void ChangeProductQuantity(Product p, int quantity)
         {
-            _totalPrice -= p.Price * _productQuantities[p];
             _productQuantities[p] = quantity;
-            _totalPrice += p.Price * quantity;
         }
 
         public void RemoveFromCart(Product p)
         {
-            _totalPrice -= p.Price * _productQuantities[p];
             _productQuantities.Remove(p);
         }
 
+        public double getTotalCartPrice()
+        {
+            return _productQuantities.Aggregate(0.0, (total, product) => total + (product.Key.CalculateDiscount() * product.Value));
+        }
     }
 }

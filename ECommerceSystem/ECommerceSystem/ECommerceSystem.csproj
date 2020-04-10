@@ -68,7 +68,7 @@
     <Compile Include="DomainLayer\UserManagement\security\Encryption.cs" />
     <Compile Include="DomainLayer\UserManagement\security\Validation.cs" />
     <Compile Include="DomainLayer\TransactionManagement\TransactionManagement.cs" />
-    <Compile Include="DomainLayer\UserManagement\UserManagement.cs" />
+    <Compile Include="DomainLayer\UserManagement\UsersManagement.cs" />
     <Compile Include="DomainLayer\UserManagement\Guest.cs" />
     <Compile Include="DomainLayer\UserManagement\Permissions.cs" />
     <Compile Include="DomainLayer\StoresManagement\Store.cs" />

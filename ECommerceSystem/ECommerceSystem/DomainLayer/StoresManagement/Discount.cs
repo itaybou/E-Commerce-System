@@ -10,5 +10,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private float _percentage;
         private DiscountPolicy _policy;
+
+        public abstract double CalculateDiscount(double price); // returns discount percentage
     }
 }

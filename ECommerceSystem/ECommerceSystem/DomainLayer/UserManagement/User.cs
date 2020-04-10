@@ -29,6 +29,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return this._state.isSubscribed();
         }
+
+        public string Name()
+        {
+            return _state.Name();
+        }
+
         //Assume _state is subsbcribed
         public void addOwnStore(Store store)
         {

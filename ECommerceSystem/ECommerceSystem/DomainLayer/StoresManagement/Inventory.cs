@@ -11,6 +11,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<ProductInventory> _products;
         private long _productIDCounter;
+        public List<ProductInventory> Products { get => _products; set => _products = value; }
+
         public Inventory()
         {
             _products = new List<ProductInventory>();
@@ -111,7 +113,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                return productInventory.addProduct(discount, purchaseType, quantity, ++_productIDCounter);
+                return productInventory.addProduct(discount, purchaseType, quantity, productInventory.Price, ++_productIDCounter);
             }
         }
 
@@ -153,7 +155,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return productInventory.modifyProductPurchaseType(productID, purchaseType);
             }
         }
-
-        public List<ProductInventory> ProductInventory { get => _products; set => _products = value; }
     }
 }

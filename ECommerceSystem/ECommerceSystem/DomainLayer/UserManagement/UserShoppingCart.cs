@@ -17,6 +17,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _storeCarts = new List<StoreShoppingCart>();
         }
 
+        public double getTotalACartPrice()
+        {
+            return _storeCarts.Aggregate(0.0, (total, cart) => total + cart.getTotalCartPrice());
+        }
+
         public IEnumerator<Product> GetEnumerator()
         {
             foreach (var storeCart in _storeCarts)

@@ -9,32 +9,41 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     class ProductInventory
     {
-        private string _name;
-        private double _price;
         private long _ID;
+        private string _name;
+        private string _description;
+        private double _price;
+        private List<Product> _productInventory;
 
         public string Name { get => _name; set => _name = value; }
-        public double Price { get => _price; set => _price = value; }
+        public double Price {
+            get => _price;
+            set
+            {
+                _price = value;
+                _productInventory.ForEach(p => p.BasePrice = _price);
+            }
+        }
 
         private ProductInventory(string name, double price, long ID)
         {
             this._name = name;
             this._price = price;
-            this._products = new List<Product>();
+            this._productInventory = new List<Product>();
             this._ID = ID;
         }
 
         public static ProductInventory Create(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productIDCounter, long productInvID)
         {
             ProductInventory productInventory = new ProductInventory(productName, price, productInvID);
-            Product newProduct = new Product(discount, purchaseType, quantity, productIDCounter);
-            productInventory._products.Add(newProduct);
+            Product newProduct = new Product(discount, purchaseType, quantity, price, productIDCounter);
+            productInventory._productInventory.Add(newProduct);
             return productInventory;
         }
 
         private Product getProducByID(long id)
         {
-            foreach(Product p in _products)
+            foreach(Product p in _productInventory)
             {
                 if(p.Id == id)
                 {
@@ -67,17 +76,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            _products.Remove(product);
+            _productInventory.Remove(product);
             return true;
         }
 
-        public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, long id)
+        public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, long id)
         {
             if(quantity <= 0)
             {
                 return false;
             }
-            Product p = new Product(discount, purchaseType, quantity, id);
+            _productInventory.Add(new Product(discount, purchaseType, quantity, price, id));
             return true;
         }
 
@@ -112,8 +121,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             product.PurchaseType = purchaseType;
             return true;
         }
-        private string _description;
-        private List<Product> _productInventory;
-        public List<Product> Products { get => _productInventory; set => _productInventory = value; }
     }
 }

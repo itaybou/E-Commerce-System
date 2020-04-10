@@ -11,12 +11,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     class StoresManagement
     {
         private List<Store> _stores;
-        private UserManagement.UserManagement _userManagement;
+        private UsersManagement _userManagement;
         private long _productInvID;
 
         public StoresManagement()
         {
-            this._userManagement = new UserManagement.UserManagement(); //TODO sync
+            this._userManagement = UsersManagement.Instance;
             this._stores = new List<Store>();
             this._productInvID = 0;
         }
@@ -63,7 +63,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name, name); //sync - make user.name property
+            Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name(), name); //sync - make user.name property
             _userManagement.addOwnStore(newStore, loggedInUser);
             return true;
         }
@@ -80,7 +80,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProductInv(loggedInUser.Name, productInvName, discount, purchaseType, price, quantity, ++_productInvID);
+            return store == null ? false : store.addProductInv(loggedInUser.Name(), productInvName, discount, purchaseType, price, quantity, ++_productInvID);
         }
 
         //@pre - logged in user is subscribed
@@ -93,7 +93,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProduct(loggedInUser.Name, productInvName, discount, purchaseType, quantity);
+            return store == null ? false : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
         }
 
         //@pre - logged in user is subscribed
@@ -106,7 +106,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.deleteProductInventory(loggedInUser.Name, productInvName);
+            return store == null ? false : store.deleteProductInventory(loggedInUser.Name(), productInvName);
         }
 
         //@pre - logged in user is subscribed
@@ -119,7 +119,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.deleteProduct(loggedInUser.Name, productInvName, productID);
+            return store == null ? false : store.deleteProduct(loggedInUser.Name(), productInvName, productID);
         }
 
         //@pre - logged in user is subscribed
@@ -132,7 +132,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductName(loggedInUser.Name, newProductName, oldProductName);
+            return store == null ? false : store.modifyProductName(loggedInUser.Name(), newProductName, oldProductName);
         }
 
         //@pre - logged in user is subscribed
@@ -144,7 +144,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductPrice(loggedInUser.Name, productInvName, newPrice);
+            return store == null ? false : store.modifyProductPrice(loggedInUser.Name(), productInvName, newPrice);
         }
 
         //@pre - logged in user is subscribed
@@ -156,7 +156,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductQuantity(loggedInUser.Name, productInvName, productID, newQuantity);
+            return store == null ? false : store.modifyProductQuantity(loggedInUser.Name(), productInvName, productID, newQuantity);
         }
 
         //@pre - logged in user is subscribed
@@ -168,7 +168,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductDiscountType(loggedInUser.Name, productInvName, productID, newDiscount);
+            return store == null ? false : store.modifyProductDiscountType(loggedInUser.Name(), productInvName, productID, newDiscount);
         }
 
         //@pre - logged in user is subscribed
@@ -180,7 +180,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductPurchaseType(loggedInUser.Name, productInvName, productID, purchaseType);
+            return store == null ? false : store.modifyProductPurchaseType(loggedInUser.Name(), productInvName, productID, purchaseType);
         }
 
 
@@ -278,7 +278,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return store.editPermissions(managerUserName, permissions, loggedInUser.Name);
+            return store.editPermissions(managerUserName, permissions, loggedInUser.Name());
 
         }
     }

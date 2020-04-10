@@ -16,8 +16,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private Inventory _inventory;
         private bool _isOpen;
 
-        private Dictionary<Subscribed, Permissions> managers;
+        // TODO: maybe delete
+        private Dictionary<Subscribed, Permissions> managers;   
         private Dictionary<Subscribed, Permissions> owners;
+        //
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
         {
@@ -157,7 +159,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool assignOwner(User loggedInUser, string newOwneruserName)
         {
 
-            if (!_premmisions[loggedInUser.Name].isOwner()) //Check that the assign is owner
+            if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
@@ -183,7 +185,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool assignManager(User loggedInUser, string newManageruserName)
         {
 
-            if (!_premmisions[loggedInUser.Name].isOwner()) //Check that the assign is owner
+            if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
@@ -208,7 +210,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
+            if (!_premmisions[managerUserName].AssignedBy.Name().Equals(loggedInUser.Name())) //check that the logged in the user who assigned userName
             {
                 return false;
             }
@@ -227,7 +229,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
+            if (!_premmisions[managerUserName].AssignedBy.Name().Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
             {
                 return false;
             }

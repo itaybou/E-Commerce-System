@@ -12,5 +12,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return false;
         }
+
+        public string Name()
+        {
+            return null;
+        }
     }
 }
