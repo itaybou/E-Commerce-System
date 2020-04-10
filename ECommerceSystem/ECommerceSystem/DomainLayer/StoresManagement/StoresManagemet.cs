@@ -12,11 +12,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<Store> _stores;
         private UserManagement.UserManagement _userManagement;
+        private long _productInvID;
 
         public StoresManagement(UserManagement.UserManagement userManagement)
         {
             this._userManagement = new UserManagement.UserManagement(); //TODO sync
             this._stores = new List<Store>();
+            this._productInvID = 0;
         }
         
 
@@ -78,7 +80,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProductInv(loggedInUser.Name, productInvName, discount, purchaseType, price, quantity);
+            return store == null ? false : store.addProductInv(loggedInUser.Name, productInvName, discount, purchaseType, price, quantity, ++_productInvID);
         }
 
         //@pre - logged in user is subscribed

@@ -65,6 +65,7 @@
     <Compile Include="DomainLayer\StoresManagement\ProductInventory.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoresManagemet.cs" />
+    <Compile Include="DomainLayer\TransactionManagement\TransactionManagement.cs" />
     <Compile Include="DomainLayer\UserManagement\UserManagement.cs" />
     <Compile Include="DomainLayer\UserManagement\Guest.cs" />
     <Compile Include="DomainLayer\UserManagement\Permissions.cs" />
