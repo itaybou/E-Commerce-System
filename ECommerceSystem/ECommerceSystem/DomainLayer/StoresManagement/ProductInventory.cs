@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private string _name;
         private double _price;
-        private List<Product> _products;
         private long _ID;
 
         public string Name { get => _name; set => _name = value; }
@@ -112,5 +112,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             product.PurchaseType = purchaseType;
             return true;
         }
+        private string _description;
+        private List<Product> _productInventory;
+        public List<Product> Products { get => _productInventory; set => _productInventory = value; }
     }
 }

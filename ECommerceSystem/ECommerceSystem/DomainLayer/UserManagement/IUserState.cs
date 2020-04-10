@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    interface IUserState 
+    interface IUserState
     {
-        
+        bool isSubscribed();
     } 
 }

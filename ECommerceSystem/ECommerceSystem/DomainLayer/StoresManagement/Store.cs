@@ -16,6 +16,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private Inventory _inventory;
         private bool _isOpen;
 
+        private Dictionary<Subscribed, Permissions> managers;
+        private Dictionary<Subscribed, Permissions> owners;
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
         {
