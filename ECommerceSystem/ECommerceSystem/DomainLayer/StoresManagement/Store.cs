@@ -9,12 +9,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     class Store
     {
+        private string _name;
         private DiscountPolicy _discountPolicy;
         private PurchasePolicy _purchasePolicy;
 
-        private Dictionary<Subscribed, Permissions> managers;
-        private Dictionary<Subscribed, Permissions> owners;
+        private Dictionary<string, Permissions> _premmisions;
 
         private Inventory _inventory;
+
+
+        public string Name { get => _name; set => _name = value; }
+
     }
 }

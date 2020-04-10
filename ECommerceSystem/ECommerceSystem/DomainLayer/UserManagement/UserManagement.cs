@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.ServiceLayer;
 
@@ -10,8 +11,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     sealed class UserManagement : IDataManager<User>
     {
-        private List<User> _users;
-        private Dictionary<User, UserShoppingCart> _carts;
+        private Dictionary<User, UserShoppingCart> _users;
 
         public User _activeUser { get; set; }
 
@@ -42,7 +42,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool login(string uname, string pswd)
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
-            var user = _users.Find(u => ((Subscribed) u._state)._uname.Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
+            var user = _users.Keys.ToList().Find(u => ((Subscribed) u._state)._uname.Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
             if (user != null)
             {
                 _activeUser = user;
@@ -51,19 +51,51 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return user != null;
         }
 
+        public bool logout()
+        {
+            if (!_activeUser._state.isSubscribed())
+                return false;
+            _activeUser._state = new Guest();
+            _activeUser._cart = new UserShoppingCart();;
+            return true;
+        }
+
         private UserShoppingCart getUserCart(User user)
         {
-            return _carts.ContainsKey(user) ? _carts[user] : new UserShoppingCart();
+            return _users.ContainsKey(user) ? _users[user] : new UserShoppingCart();
         }
+
+
+        public bool addProductToCart(Product p, Store s, int quantity)
+        {
+            if (quantity <= 0)
+                return false;
+            UserShoppingCart userCart = getUserCart(_activeUser);
+            var storeCart = userCart._storeCarts.Find(cart => cart.store.Name.Equals(s.Name));
+            if (p.Quantity >= quantity)
+            {
+                if (storeCart == null)
+                {
+                    Dictionary<Product, int> products = new Dictionary<Product, int>();
+                    storeCart = new StoreShoppingCart(s, products);
+                }
+
+                storeCart.AddToCart(p, quantity);
+                return true;
+            }
+
+            return false;
+        }
+
 
         public List<User> getAll()
         {
-            return _users;
+            return _users.Keys.ToList();
         }
 
         public void insert(User user)
         {
-            _users.Add(user);
+            _users.Add(user, null);
         }
 
         public bool remove(User user)
