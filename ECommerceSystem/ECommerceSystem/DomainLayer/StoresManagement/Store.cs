@@ -215,5 +215,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
+
+        // @Pre - loggedInUserName is the user who assign managerUserName
+        //        managerUserName is manager in this store
+        public bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName)
+        {
+            if(!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) //The managerUserName isn`t manager
+            {
+                return false;
+            }
+
+            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
+            {
+                return false;
+            }
+
+            _premmisions[managerUserName].edit(permissions);
+            return true;
+        }
     }
 }
