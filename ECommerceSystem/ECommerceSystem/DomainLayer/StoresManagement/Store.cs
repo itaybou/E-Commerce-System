@@ -12,10 +12,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private string _name;
         private DiscountPolicy _discountPolicy;
         private PurchasePolicy _purchasePolicy;
-
         private Dictionary<string, Permissions> _premmisions;
-
         private Inventory _inventory;
+        private bool _isOpen;
+
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
         {
@@ -25,10 +25,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._inventory = new Inventory();
             this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
             this.Name = name;
+            this._isOpen = true;
         }
 
         public string Name { get => _name; set => _name = value; }
 
+        public bool isOpen()
+        {
+            return _isOpen;
+
+        }
         //*********Add, Delete, Modify Products*********
 
 
@@ -208,5 +214,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _premmisions.Remove(managerUserName);
             return true;
         }
+
     }
 }

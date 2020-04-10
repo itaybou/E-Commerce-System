@@ -192,6 +192,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
+            if (!_userManagement.isSubscribed(newOwneruserName)) //newOwneruserName isn`t subscribed
+            {
+                return false;
+            }
+
             Store store = getStoreByName(storeName);
             bool isSuccess = store == null? false : store.assignOwner(loggedInUser, newOwneruserName);
             if (isSuccess)
@@ -209,6 +214,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!_userManagement.isSubscribed(newManageruserName)) //newManageruserName isn`t subscribed
             {
                 return false;
             }
