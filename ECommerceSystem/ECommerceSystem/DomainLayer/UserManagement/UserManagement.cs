@@ -72,7 +72,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return false;
             UserShoppingCart userCart = getUserCart(_activeUser);
             var storeCart = userCart._storeCarts.Find(cart => cart.store.Name.Equals(s.Name));
-            if (s.checkQuantity(p, quantity))
+            if (p.Quantity >= quantity)
             {
                 if (storeCart == null)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<ProductInventory> _products;
 
-        public List<ProductInventory> productinv { get => _products; set => _products = value; }
+        public List<ProductInventory> ProductInventory { get => _products; set => _products = value; }
     }
 }
