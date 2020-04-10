@@ -84,5 +84,14 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _management.changeProductQuantity(p, quantity);
         }
+
+        /// <summary>
+        /// Change current active user to guest state.
+        /// </summary>
+        /// <returns>true if successful</returns>
+        public bool logout()
+        {
+            return _management.logout();
+        }
     }
 }
