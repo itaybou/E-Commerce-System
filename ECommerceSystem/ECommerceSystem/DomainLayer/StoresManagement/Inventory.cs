@@ -29,14 +29,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productInvID)
         {
             if(getProductByName(productName) != null) // check if the name already exist
             {
                 return false;
             }
 
-            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity, ++_productIDCounter);
+            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity, ++_productIDCounter, productInvID);
             _products.Add(productInventory);
             return true;
         }

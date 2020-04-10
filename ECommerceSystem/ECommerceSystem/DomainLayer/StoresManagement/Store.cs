@@ -39,14 +39,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
 
         //@pre - logged in user have permission to add product
-        public bool addProductInv(string activeUserName, string productName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public bool addProductInv(string activeUserName, string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productInvID)
         {
             if (!(_premmisions[activeUserName].canAddProduct()))
             {
                 return false;
             }
 
-            return _inventory.addProductInv(productName, discount, purchaseType, price, quantity);
+            return _inventory.addProductInv(productName, discount, purchaseType, price, quantity, productInvID);
         }
 
         //@pre - logged in user have permission to modify product
