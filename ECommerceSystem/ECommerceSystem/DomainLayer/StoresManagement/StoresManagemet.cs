@@ -281,5 +281,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return store.editPermissions(managerUserName, permissions, loggedInUser.Name());
 
         }
+
+        public Dictionary<Store, List<Product>> getAllStoresProducts()
+        {
+            var storeProdcuts = new Dictionary<Store, List<Product>>();
+            _stores.ForEach(s => 
+                {
+                var storeInfo = s.getStoreInfo();
+                storeProdcuts.Add(storeInfo.Item1, storeInfo.Item2);
+                }
+            );
+            return storeProdcuts;
+        }
     }
 }

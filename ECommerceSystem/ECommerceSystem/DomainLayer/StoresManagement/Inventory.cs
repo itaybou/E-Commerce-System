@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class Inventory
+    class Inventory : IEnumerable<ProductInventory>
     {
         private List<ProductInventory> _products;
         private long _productIDCounter;
@@ -154,6 +154,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return productInventory.modifyProductPurchaseType(productID, purchaseType);
             }
+        }
+
+        public IEnumerator<ProductInventory> GetEnumerator()
+        {
+            foreach(var product in _products)
+            {
+                yield return product;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

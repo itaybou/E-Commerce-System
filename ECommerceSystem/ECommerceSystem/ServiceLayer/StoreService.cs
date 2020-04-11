@@ -18,6 +18,12 @@ namespace ECommerceSystem.ServiceLayer
             _storeManagement = new StoresManagement();
         }
 
+        //Usecase - 2.4
+        public Dictionary<Store, List<Product>>  getAllStoresInfo()
+        {
+            return _storeManagement.getAllStoresProducts();
+        }
+
         //Usecase - 3.2
         public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
         {
