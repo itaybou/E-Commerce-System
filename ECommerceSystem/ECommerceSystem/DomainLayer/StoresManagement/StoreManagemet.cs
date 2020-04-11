@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -76,7 +77,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Add, Delete, Modify Products*********
 
         //@pre - logged in user is subscribed
-        public bool addProductInv(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity)
+        public bool addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -85,7 +86,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProductInv(loggedInUser.Name(), productInvName, discount, purchaseType, price, quantity, ++_productInvID);
+            return store == null ? false : store.addProductInv(loggedInUser.Name(), description, productInvName, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
         }
 
         //@pre - logged in user is subscribed
@@ -308,6 +309,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             var allProdcuts = new List<ProductInventory>();
             foreach(Store store in _stores)
+            {
+                allProdcuts.Concat(store.Inventory.Products);
+            }
+            return allProdcuts;
+        }
+
+        internal List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
+        {
+            var allProdcuts = new List<ProductInventory>();
+            foreach(Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
             {
                 allProdcuts.Concat(store.Inventory.Products);
             }

@@ -14,12 +14,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private string _description;
         private Category _category;
         private double _price;
+        private double _rating;
+        private long _raterCount;
         private HashSet<string> _keywords;
         private List<Product> _productInventory;
 
         public string Name { get => _name; set => _name = value; }
         public Category Category { get => _category; set => _category = value; }
         public List<string> Keywords { get => _keywords.ToList(); }
+        public double Rating { get => _rating }
 
         public double Price {
             get => _price;
@@ -130,6 +133,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             product.PurchaseType = purchaseType;
             return true;
+        }
+
+        public void rateProduct(int rating)
+        {
+            ++_raterCount;
+            _rating = ((_rating * _raterCount) + rating) / _raterCount;
         }
 
         public IEnumerator<Product> GetEnumerator()
