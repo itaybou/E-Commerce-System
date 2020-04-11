@@ -11,11 +11,11 @@ namespace ECommerceSystem.ServiceLayer
 {
     class StoreService
     {
-        private StoresManagement _storeManagement;
+        private StoreManagement _storeManagement;
 
         public StoreService()
         {
-            _storeManagement = new StoresManagement();
+            _storeManagement = new StoreManagement();
         }
 
         //Usecase - 2.4
