@@ -10,6 +10,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     class Store
     {
         private string _name;
+        private double _rating;
+        private long _raterCount;
         private DiscountPolicy _discountPolicy;
         private PurchasePolicy _purchasePolicy;
         private Dictionary<string, Permissions> _premmisions;
@@ -33,6 +35,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         public string Name { get => _name; set => _name = value; }
+        public string Rating { get => _rating;}
+        public Inventory Inventory { get => _inventory; private set => _inventory = value; }
 
         public bool isOpen()
         {
@@ -43,14 +47,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
 
         //@pre - logged in user have permission to add product
-        public bool addProductInv(string activeUserName, string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productInvID)
+        public bool addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
+            int quantity, Category category, List<string> keywords, long productInvID)
         {
             if (!(_premmisions[activeUserName].canAddProduct()))
             {
                 return false;
             }
 
-            return _inventory.addProductInv(productName, discount, purchaseType, price, quantity, productInvID);
+            return _inventory.addProductInv(productName, description, discount, purchaseType, price, quantity, category, keywords, productInvID);
         }
 
         //@pre - logged in user have permission to modify product
@@ -241,6 +246,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Tuple<Store, List<Product>> getStoreInfo()
         {
             return new Tuple<Store, List<Product>>(this, _inventory.SelectMany(p => p).ToList());
+        }
+
+        public void rateStore(int rating)
+        {
+            ++_raterCount;
+            _rating = ((_rating * _raterCount) + rating) / _raterCount;
         }
     }
 }
