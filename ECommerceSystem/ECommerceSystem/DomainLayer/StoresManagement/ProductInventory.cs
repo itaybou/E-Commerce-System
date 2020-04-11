@@ -22,7 +22,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string Name { get => _name; set => _name = value; }
         public Category Category { get => _category; set => _category = value; }
         public List<string> Keywords { get => _keywords.ToList(); }
-        public double Rating { get => _rating }
+        public double Rating { get => _rating; }
 
         public double Price {
             get => _price;

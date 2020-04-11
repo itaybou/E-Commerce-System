@@ -35,7 +35,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         public string Name { get => _name; set => _name = value; }
-        public string Rating { get => _rating;}
+        public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
 
         public bool isOpen()
