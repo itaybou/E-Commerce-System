@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,7 +77,8 @@
     <Compile Include="DomainLayer\SystemManagement\SystemManager.cs" />
     <Compile Include="DomainLayer\UserManagement\security\Encryption.cs" />
     <Compile Include="DomainLayer\UserManagement\security\Validation.cs" />
-    <Compile Include="DomainLayer\TransactionManagement\TransactionManagement.cs" />
+    <Compile Include="DomainLayer\TransactionManagement\TransactionManager.cs" />
+    <Compile Include="DomainLayer\UserManagement\UserPurchase.cs" />
     <Compile Include="DomainLayer\UserManagement\UsersManagement.cs" />
     <Compile Include="DomainLayer\UserManagement\Guest.cs" />
     <Compile Include="DomainLayer\UserManagement\Permissions.cs" />
