@@ -91,7 +91,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool changeProductQuantity(Product p, int quantity)
         {
-            if (quantity < 0 || ShoppingCartDetails().All(prod => prod != p))
+            if (quantity < 0 || ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
                 return false;
             if (p.Quantity >= quantity)
             {
@@ -107,7 +107,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool removeProdcutFromCart(Product p)
         {
-            if (ShoppingCartDetails().All(prod => prod != p))
+            if (ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
                 return false;
             ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
             return true;
