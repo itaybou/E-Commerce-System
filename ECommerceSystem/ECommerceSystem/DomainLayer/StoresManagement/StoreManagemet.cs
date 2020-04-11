@@ -303,5 +303,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             );
             return storeProdcuts;
         }
+
+        public List<ProductInventory> getAllStoresProdcutInventories()
+        {
+            var allProdcuts = new List<ProductInventory>();
+            foreach(Store store in _stores)
+            {
+                allProdcuts.Concat(store.Inventory.Products);
+            }
+            return allProdcuts;
+        }
     }
 }

@@ -22,5 +22,25 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
         }
+
+        public List<ProductInventory> getAllProdcuts()
+        {
+            return _storeManagement.getAllStoresProdcutInventories();
+        }
+
+        public List<ProductInventory> searchProductsByCategory(Category category)
+        {
+            return getAllProdcuts().FindAll(p => p.Category.Equals(category));
+        }
+
+        public List<ProductInventory> searchProductsByName(string prodName)
+        {
+            return getAllProdcuts().FindAll(p => p.Name.Equals(prodName));
+        }
+
+        public List<ProductInventory> searchProductsByKeyword(List<string> keywords)
+        {
+            return getAllProdcuts().FindAll(p => p.Keywords.Intersect(keywords).Any());
+        }
     }
 }

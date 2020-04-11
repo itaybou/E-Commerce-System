@@ -18,6 +18,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private List<Product> _productInventory;
 
         public string Name { get => _name; set => _name = value; }
+        public Category Category { get => _category; set => _category = value; }
+        public List<string> Keywords { get => _keywords.ToList(); }
+
         public double Price {
             get => _price;
             set
