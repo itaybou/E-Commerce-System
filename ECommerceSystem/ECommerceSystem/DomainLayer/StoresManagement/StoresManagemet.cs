@@ -282,6 +282,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         }
 
+        public Tuple<Store, List<Product>> getStoreProducts(string storeName)
+        {
+            return _stores.Find(s => s.Name.Equals(storeName)).getStoreInfo();
+        }
+
         public Dictionary<Store, List<Product>> getAllStoresProducts()
         {
             var storeProdcuts = new Dictionary<Store, List<Product>>();

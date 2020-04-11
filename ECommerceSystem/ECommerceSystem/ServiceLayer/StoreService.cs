@@ -19,6 +19,11 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         //Usecase - 2.4
+        public Tuple<Store, List<Product>> getStoreInfo(string storeName)
+        {
+            return _storeManagement.getStoreProducts(storeName);
+        }
+
         public Dictionary<Store, List<Product>>  getAllStoresInfo()
         {
             return _storeManagement.getAllStoresProducts();
