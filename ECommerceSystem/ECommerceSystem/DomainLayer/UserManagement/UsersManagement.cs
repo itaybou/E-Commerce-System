@@ -71,7 +71,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (quantity <= 0)
                 return false;
             UserShoppingCart userCart = getUserCart(_activeUser);
-            var storeCart = userCart._storeCarts.Find(cart => cart.store.Name.Equals(s.Name));
+            var storeCart = userCart.StoreCarts.Find(cart => cart.store.Name.Equals(s.Name));
             if (p.Quantity >= quantity)
             {
                 if (storeCart == null)
@@ -95,7 +95,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return false;
             if (p.Quantity >= quantity)
             {
-                var storeCart = ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p));
+                var storeCart = ShoppingCartDetails().StoreCarts.Find(cart => cart.Products.ContainsKey(p));
                 if (quantity.Equals(0))
                     storeCart.RemoveFromCart(p);
                 else storeCart.ChangeProductQuantity(p, quantity);
@@ -109,7 +109,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
                 return false;
-            ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
+            ShoppingCartDetails().StoreCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
             return true;
         }
 

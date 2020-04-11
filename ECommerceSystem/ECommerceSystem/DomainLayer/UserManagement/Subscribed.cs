@@ -49,6 +49,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _uname;
         }
 
+        public void logPurchase(UserPurchase purchase)
+        {
+            _purchaseHistory.Add(purchase);
+        }
+
         internal class UserDetails
         {
             private string _fname { get; set; }

@@ -52,5 +52,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             ((Subscribed)_state).removeManagerStore(store);
         }
+
+        internal void logPurchase(UserPurchase userPurchase)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
