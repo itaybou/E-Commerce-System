@@ -10,15 +10,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     class UserPurchase
     {
         private DateTime _purchaseDate;
-        private (Store, Dictionary<Product, int>) _productStoreQuantities;
+        private Dictionary<Product, int> _productQuantities;
         private double _totalPrice;
         private PaymentShipmentDetails _paymentShippingMethod;
 
-        public UserPurchase(double totalPrice, (Store, Dictionary<Product, int>) productStoreQuantities, 
+        public UserPurchase(double totalPrice, Dictionary<Product, int> productQuantities, 
             string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             _totalPrice = totalPrice;
-            _productStoreQuantities = productStoreQuantities;
+            _productQuantities = productQuantities;
             _paymentShippingMethod = new PaymentShipmentDetails(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             _purchaseDate = DateTime.Now;
         }

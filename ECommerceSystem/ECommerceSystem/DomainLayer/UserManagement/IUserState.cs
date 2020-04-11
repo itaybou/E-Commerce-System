@@ -10,5 +10,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         bool isSubscribed();
         string Name();
+        void logPurchase(UserPurchase userPurchase);
     } 
 }

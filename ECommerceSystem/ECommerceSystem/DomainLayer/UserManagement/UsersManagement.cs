@@ -118,6 +118,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return getUserCart(getLoggedInUser());
         }
 
+        public void logUserPurchase(double totalPrice, Dictionary<Product, int> allProducts,
+                string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        {
+            if(getLoggedInUser().isSubscribed())
+            {
+                getLoggedInUser().logPurchase(new UserPurchase(totalPrice, allProducts,
+                    firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+            }
+        }
+
         public List<User> getAll()
         {
             return _users.Keys.ToList();
