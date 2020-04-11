@@ -60,31 +60,35 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             return products.Where(p => noFilters() || priceRangeFilter(p) || productRangeFilter(p) || categoryFilter(p)).ToList();
         }
 
-        private void applyPriceRangeFilter(double from, double to)
+        public List<ProductInventory> applyPriceRangeFilter(double from, double to)
         {
             _priceRangeFilter = new Range<double>(from, to);
             _visibleProducts = filterProducts(_visibleProducts);
+            return _visibleProducts;
         }
 
-        private void applyStoreRatingFilter(double from, double to)
+        public List<ProductInventory> applyStoreRatingFilter(double from, double to)
         {
             _storeRatingFilter = new Range<double>(from, to);
             _visibleProducts = filterProducts(_visibleProducts);
+            return _visibleProducts;
         }
 
-        private void applyProductRatingFilter(double from, double to)
+        public List<ProductInventory> applyProductRatingFilter(double from, double to)
         {
             _productRatingFilter = new Range<double>(from, to);
             _visibleProducts = filterProducts(_visibleProducts);
+            return _visibleProducts;
         }
 
-        private void applyCategoryFilter(double from, double to)
+        public List<ProductInventory> applyCategoryFilter(Category category)
         {
-            _productRatingFilter = new Range<double>(from, to);
+            _categoryFilter = category;
             _visibleProducts = filterProducts(_visibleProducts);
+            return _visibleProducts;
         }
 
-        private void cancelFilter(Filters filter)
+        public List<ProductInventory> cancelFilter(Filters filter)
         {
             switch(filter)
             {
@@ -102,13 +106,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     break;
             }
             _visibleProducts = filterProducts(_visibleProducts);
-        }
-
-        public enum Filters {
-            PRICE_RANGE,
-            PRODUCT_RATING,
-            STORE_RATING,
-            CATEGORY
+            return _visibleProducts;
         }
     }
 }
