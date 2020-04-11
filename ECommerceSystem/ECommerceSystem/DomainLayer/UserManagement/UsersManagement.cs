@@ -113,6 +113,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return true;
         }
 
+        public UserShoppingCart getActiveUserShoppingCart()
+        {
+            return getUserCart(getLoggedInUser());
+        }
+
         public List<User> getAll()
         {
             return _users.Keys.ToList();

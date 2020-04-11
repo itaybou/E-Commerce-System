@@ -10,7 +10,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     class UserShoppingCart : IEnumerable<Product>
     {
-        public List<StoreShoppingCart> _storeCarts { get; set; }
+        private List<StoreShoppingCart> _storeCarts;
+
+        public List<StoreShoppingCart> StoreCarts { get => _storeCarts; }
 
         public UserShoppingCart()
         {

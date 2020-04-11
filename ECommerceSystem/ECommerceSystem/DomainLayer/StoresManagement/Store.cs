@@ -253,5 +253,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ++_raterCount;
             _rating = ((_rating * _raterCount) + rating) / _raterCount;
         }
+
+        public List<Tuple<Product, Store, bool>> verifyStock(Dictionary<Product, int> prodQuantities)
+        {
+            var availability = new List<Tuple<Product, Store, bool>>();
+            _inventory.ToList().Find(p => p.ToList().)
+        }
     }
 }
