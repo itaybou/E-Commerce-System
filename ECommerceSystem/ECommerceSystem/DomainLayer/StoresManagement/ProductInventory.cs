@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class ProductInventory
+    class ProductInventory : IEnumerable<Product>
     {
         private long _ID;
         private string _name;
@@ -120,6 +120,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             product.PurchaseType = purchaseType;
             return true;
+        }
+
+        public IEnumerator<Product> GetEnumerator()
+        {
+            foreach(var product in _productInventory)
+            {
+                yield return product;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

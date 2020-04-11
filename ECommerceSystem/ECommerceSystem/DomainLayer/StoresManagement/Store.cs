@@ -237,5 +237,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _premmisions[managerUserName].edit(permissions);
             return true;
         }
+
+        public Tuple<Store, List<Product>> getStoreInfo()
+        {
+            return new Tuple<Store, List<Product>>(this, _inventory.SelectMany(p => p).ToList());
+        }
     }
 }
