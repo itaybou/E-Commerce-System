@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class User
+    public class User
     {
         public IUserState _state { get; set; }
         public UserShoppingCart _cart { get; set; }

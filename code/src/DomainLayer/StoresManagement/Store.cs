@@ -7,7 +7,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class Store
+    public class Store
     {
         private string _name;
         private double _rating;
@@ -17,6 +17,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private Dictionary<string, Permissions> _premmisions;
         private Inventory _inventory;
         private bool _isOpen;
+
+        private List<StorePurchase> _purchaseHistory;
 
         // TODO: maybe delete
         private Dictionary<Subscribed, Permissions> managers;   
@@ -37,6 +39,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string Name { get => _name; set => _name = value; }
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
+        internal List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
 
         public bool isOpen()
         {
@@ -252,6 +255,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             ++_raterCount;
             _rating = ((_rating * _raterCount) + rating) / _raterCount;
+        }
+
+        public void logPurchase(StorePurchase purchase)
+        {
+            _purchaseHistory.Add(purchase);
         }
     }
 }

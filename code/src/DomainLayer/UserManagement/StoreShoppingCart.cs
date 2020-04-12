@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class StoreShoppingCart
+    public class StoreShoppingCart
     {
         private Store _store { get; set; }
         private Dictionary<Product, int> _productQuantities; // Product => Quantity

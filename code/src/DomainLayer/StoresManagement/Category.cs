@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    enum Category
+    public enum Category
     {
         SPORTS,
         AUTOMOTIVE,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class PurchasePolicy
+    public class PurchasePolicy
     {
     }
 }

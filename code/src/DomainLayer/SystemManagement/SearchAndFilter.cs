@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
-    class SearchAndFilter
+    public class SearchAndFilter
     {
         private StoreManagement _storeManagement;
 
@@ -21,9 +21,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public Range<double> StoreRatingFilter { get => _storeRatingFilter;  }
 
-        public SearchAndFilter(StoreManagement storeManagement)
+        public SearchAndFilter()
         {
-            _storeManagement = storeManagement;
+            _storeManagement = StoreManagement.Instance;
             _visibleProducts = getAllProdcuts();
         }
 

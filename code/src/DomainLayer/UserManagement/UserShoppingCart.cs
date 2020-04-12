@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class UserShoppingCart : IEnumerable<Product>
+    public class UserShoppingCart : IEnumerable<Product>
     {
         private List<StoreShoppingCart> _storeCarts;
 

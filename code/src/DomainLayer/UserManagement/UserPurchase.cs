@@ -7,24 +7,24 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class UserPurchase
+    public class UserPurchase
     {
         private DateTime _purchaseDate;
-        private Dictionary<Product, int> _productQuantities;
+        private List<Product> _productsPurchased;
         private double _totalPrice;
         private PaymentShipmentDetails _paymentShippingMethod;
 
-        public UserPurchase(double totalPrice, Dictionary<Product, int> productQuantities, 
+        public UserPurchase(double totalPrice, List<Product> productsPurchased, 
             string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             _totalPrice = totalPrice;
-            _productQuantities = productQuantities;
+            _productsPurchased = productsPurchased;
             _paymentShippingMethod = new PaymentShipmentDetails(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             _purchaseDate = DateTime.Now;
         }
     }
 
-    internal class PaymentShipmentDetails
+    public class PaymentShipmentDetails
     {
         private string _firstName;
         private string _lastName;

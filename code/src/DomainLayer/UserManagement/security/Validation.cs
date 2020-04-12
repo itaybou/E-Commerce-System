@@ -9,7 +9,7 @@ using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.security
 {
-    internal static class Validation
+    public static class Validation
     {
         public static Range<int> PSWD_RANGE = new Range<int>(6, 15);
 

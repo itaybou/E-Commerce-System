@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.SystemManagement;
 
 namespace ECommerceSystem.ServiceLayer
 {
-    class SystemServices
+    public class SystemServices
     {
         private SystemManager _systemManager;
 

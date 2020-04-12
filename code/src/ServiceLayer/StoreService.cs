@@ -9,7 +9,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
 {
-    class StoreService
+    public class StoreService
     {
         private StoreManagement _storeManagement;
 
