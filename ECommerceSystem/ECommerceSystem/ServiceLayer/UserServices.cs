@@ -43,6 +43,15 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         /// <summary>
+        /// Change current active user to guest state.
+        /// </summary>
+        /// <returns>true if successful</returns>
+        public bool logout()
+        {
+            return _management.logout();
+        }
+
+        /// <summary>
         /// Add selected product times quantity from store to user shopping cart.
         /// </summary>
         /// <param name="p">product to add</param>
@@ -83,15 +92,6 @@ namespace ECommerceSystem.ServiceLayer
         public bool ChangeProductQunatity(Product p, int quantity)
         {
             return _management.changeProductQuantity(p, quantity);
-        }
-
-        /// <summary>
-        /// Change current active user to guest state.
-        /// </summary>
-        /// <returns>true if successful</returns>
-        public bool logout()
-        {
-            return _management.logout();
         }
     }
 }

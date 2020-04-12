@@ -71,7 +71,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (quantity <= 0)
                 return false;
             UserShoppingCart userCart = getUserCart(_activeUser);
-            var storeCart = userCart._storeCarts.Find(cart => cart.store.Name.Equals(s.Name));
+            var storeCart = userCart.StoreCarts.Find(cart => cart.store.Name.Equals(s.Name));
             if (p.Quantity >= quantity)
             {
                 if (storeCart == null)
@@ -91,11 +91,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool changeProductQuantity(Product p, int quantity)
         {
-            if (quantity < 0 || ShoppingCartDetails().All(prod => prod != p))
+            if (quantity < 0 || ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
                 return false;
             if (p.Quantity >= quantity)
             {
-                var storeCart = ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p));
+                var storeCart = ShoppingCartDetails().StoreCarts.Find(cart => cart.Products.ContainsKey(p));
                 if (quantity.Equals(0))
                     storeCart.RemoveFromCart(p);
                 else storeCart.ChangeProductQuantity(p, quantity);
@@ -107,10 +107,25 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool removeProdcutFromCart(Product p)
         {
-            if (ShoppingCartDetails().All(prod => prod != p))
+            if (ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
                 return false;
-            ShoppingCartDetails()._storeCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
+            ShoppingCartDetails().StoreCarts.Find(cart => cart.Products.ContainsKey(p)).RemoveFromCart(p);
             return true;
+        }
+
+        public UserShoppingCart getActiveUserShoppingCart()
+        {
+            return getUserCart(getLoggedInUser());
+        }
+
+        public void logUserPurchase(double totalPrice, Dictionary<Product, int> allProducts,
+                string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        {
+            if(getLoggedInUser().isSubscribed())
+            {
+                getLoggedInUser().logPurchase(new UserPurchase(totalPrice, allProducts,
+                    firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+            }
         }
 
         public List<User> getAll()

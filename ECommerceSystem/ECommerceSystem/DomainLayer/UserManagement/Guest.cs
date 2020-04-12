@@ -17,5 +17,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return null;
         }
+
+        public void logPurchase(UserPurchase purchase)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

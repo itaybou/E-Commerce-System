@@ -7,15 +7,23 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class ProductInventory
+    class ProductInventory : IEnumerable<Product>
     {
         private long _ID;
         private string _name;
         private string _description;
+        private Category _category;
         private double _price;
+        private double _rating;
+        private long _raterCount;
+        private HashSet<string> _keywords;
         private List<Product> _productInventory;
 
         public string Name { get => _name; set => _name = value; }
+        public Category Category { get => _category; set => _category = value; }
+        public List<string> Keywords { get => _keywords.ToList(); }
+        public double Rating { get => _rating; }
+
         public double Price {
             get => _price;
             set
@@ -25,17 +33,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        private ProductInventory(string name, double price, long ID)
+        private ProductInventory(string name, string description, double price, Category category, long ID, List<string> keywords)
         {
             this._name = name;
+            this._category = category;
             this._price = price;
+            this._description = description;
             this._productInventory = new List<Product>();
             this._ID = ID;
+            this._keywords = new HashSet<string>();
+            keywords.ForEach(k => _keywords.Add(k));
         }
 
-        public static ProductInventory Create(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productIDCounter, long productInvID)
+        public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 
+            double price, int quantity, Category category, List<string> keywords, long productIDCounter, long productInvID)
         {
-            ProductInventory productInventory = new ProductInventory(productName, price, productInvID);
+            ProductInventory productInventory = new ProductInventory(productName, description, price, category, productInvID, keywords);
             Product newProduct = new Product(discount, purchaseType, quantity, price, productIDCounter);
             productInventory._productInventory.Add(newProduct);
             return productInventory;
@@ -120,6 +133,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             product.PurchaseType = purchaseType;
             return true;
+        }
+
+        public void rateProduct(int rating)
+        {
+            ++_raterCount;
+            _rating = ((_rating * _raterCount) + rating) / _raterCount;
+        }
+
+        public IEnumerator<Product> GetEnumerator()
+        {
+            foreach(var product in _productInventory)
+            {
+                yield return product;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

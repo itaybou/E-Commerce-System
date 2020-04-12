@@ -11,6 +11,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         public string _uname;
         public string _pswd;
+        private List<UserPurchase> _purchaseHistory;
+
         public UserDetails _details { get; set; }
         private List<Store> _storesOwned;
         private List<Store> _storesManaged;
@@ -45,6 +47,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string Name()
         {
             return _uname;
+        }
+
+        public void logPurchase(UserPurchase purchase)
+        {
+            _purchaseHistory.Add(purchase);
         }
 
         internal class UserDetails

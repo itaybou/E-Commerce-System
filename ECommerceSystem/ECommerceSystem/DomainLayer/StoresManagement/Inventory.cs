@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class Inventory
+    class Inventory : IEnumerable<ProductInventory>
     {
         private List<ProductInventory> _products;
         private long _productIDCounter;
@@ -32,14 +32,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        public bool addProductInv(string productName, Discount discount, PurchaseType purchaseType, double price, int quantity, long productInvID)
+        public bool addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
         {
             if(getProductByName(productName) != null) // check if the name already exist
             {
                 return false;
             }
 
-            ProductInventory productInventory = ProductInventory.Create(productName, discount, purchaseType, price, quantity, ++_productIDCounter, productInvID);
+            ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords, ++_productIDCounter, productInvID);
             _products.Add(productInventory);
             return true;
         }
@@ -154,6 +154,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return productInventory.modifyProductPurchaseType(productID, purchaseType);
             }
+        }
+
+        public IEnumerator<ProductInventory> GetEnumerator()
+        {
+            foreach(var product in _products)
+            {
+                yield return product;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
