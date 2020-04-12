@@ -10,6 +10,14 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
     class TransactionManager
     {
+        private static readonly Lazy<TransactionManager> lazy = new Lazy<TransactionManager>(() => new TransactionManager());
+
+        public static TransactionManager Instance => lazy.Value;
+
+        private TransactionManager()
+        {
+        }
+
         public bool paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
             return _paymentSystem.pay(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);

@@ -14,8 +14,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private List<UserPurchase> _purchaseHistory;
 
         public UserDetails _details { get; set; }
+        public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
+
         private List<Store> _storesOwned;
         private List<Store> _storesManaged;
+
 
         public Subscribed(string uname, string pswd, string fname, string lname, string email)
         {

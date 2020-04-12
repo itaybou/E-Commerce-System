@@ -123,6 +123,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if(getLoggedInUser().isSubscribed())
             {
+                // Copy list of products (change quantity to bough quantity)
                 getLoggedInUser().logPurchase(new UserPurchase(totalPrice, allProducts,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }

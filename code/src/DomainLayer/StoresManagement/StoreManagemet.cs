@@ -26,7 +26,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._stores = new List<Store>();
             this._productInvID = 0;
         }
-        
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
@@ -72,6 +71,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name(), name); //sync - make user.name property
             _userManagement.addOwnStore(newStore, loggedInUser);
             return true;
+        }
+
+        internal void logStorePurchase(Store item1, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
+        {
+            throw new NotImplementedException();
         }
 
         //*********Add, Delete, Modify Products*********

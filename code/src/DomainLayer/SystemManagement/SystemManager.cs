@@ -25,12 +25,12 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         {
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
-            _transactionManager = new TransactionManager();
+            _transactionManager = TransactionManager.Instance;
             _searchAndFilter = new SearchAndFilter(_storeManagement);
         }
 
 
-        public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, IEnumerable<(Store, double)> storePayments,
+        public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, IEnumerable<(Store, double)> storePayments,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
@@ -40,6 +40,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     foreach ((Store, double) storePayment in storePayments)                                                             // send payment to all stores bought from
                     {       
                         _transactionManager.sendPayment(storePayment.Item1, storePayment.Item2);
+                        var storeBoughtProducts = storeProducts[storePayment.Item1];
+                        _storeManagement.logStorePurchase(storePayment.Item1, _userManagement.getLoggedInUser(), storePayment.Item2, storeBoughtProducts);
                     }
                 }
                 else _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);   // if supply failed, refund user
@@ -57,10 +59,11 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             if (!unavailableProducts.Any())
             {
                 var totalPrice = shoppingCart.getTotalACartPrice();                                                         // total user cart price
+                var storeProdcuts = shoppingCart.StoreCarts.Select(storeCart => (storeCart.store, storeCart.Products)).ToDictionary(pair => pair.store, pair => pair.Products);
                 var allProdcuts = shoppingCart.StoreCarts.Select(storeCart => storeCart.Products)                           // Get dictionary from Product => Quantity for each store cart
                  .SelectMany(dict => dict).ToDictionary(pair => pair.Key, pair => pair.Value);
                 var storePayments = availableProducts.Select(s => (s.store, s.Item2));
-                makePurchase(totalPrice, allProdcuts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                makePurchase(totalPrice, allProdcuts, storeProdcuts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                 return null;
             }
             else return unavailableProducts.Select(prod => prod.Products.Select(p => p.Key)).SelectMany(i => i).ToList();   // return all unavailable products from cart
