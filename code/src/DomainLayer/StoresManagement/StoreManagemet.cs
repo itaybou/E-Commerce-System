@@ -9,7 +9,7 @@ using ECommerceSystem.DomainLayer.Utilities;
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
 
-    class StoreManagement
+    public class StoreManagement
     {
         private List<Store> _stores;
         private List<string> _productCategories;
@@ -73,9 +73,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        internal void logStorePurchase(Store item1, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
+        internal void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
         {
-            throw new NotImplementedException();
+            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+            store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
         }
 
         //*********Add, Delete, Modify Products*********

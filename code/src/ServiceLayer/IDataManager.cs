@@ -7,7 +7,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
 {
-    interface IDataManager<T>
+    public interface IDataManager<T>
     {
         List<T> getAll();
         void insert(T t);

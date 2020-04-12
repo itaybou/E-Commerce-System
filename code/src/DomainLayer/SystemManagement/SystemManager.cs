@@ -9,7 +9,7 @@ using ECommerceSystem.DomainLayer.TransactionManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
-    class SystemManager
+    public class SystemManager
     {
         private static readonly Lazy<SystemManager> lazy = new Lazy<SystemManager>(() => new SystemManager());
         public static SystemManager Instance => lazy.Value;
@@ -26,7 +26,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
             _transactionManager = TransactionManager.Instance;
-            _searchAndFilter = new SearchAndFilter(_storeManagement);
+            _searchAndFilter = new SearchAndFilter();
         }
 
 
@@ -78,9 +78,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             {
                 var productQuantities = products.Select(tuple => tuple.Item2);
                 var totalPrice = productQuantities.Aggregate(0.0, (total, current) => total += (current.Item1.CalculateDiscount() * current.Item2));
+                var storeProducts = products.ToDictionary(pair => pair.Item1, pair => new Dictionary<Product, int>() { { pair.Item2.Item1, pair.Item2.Item2 } });
                 var allProducts = productQuantities.ToDictionary(pair => pair.Item1, pair => pair.Item2);
                 var storePayments = products.Select(p => (p.Item1, p.Item2.Item1.CalculateDiscount() * p.Item2.Item2));
-                makePurchase(totalPrice, allProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                 return null;
             }
             return unavailableProducts.Select(prod => prod.Item2.Item1).ToList();
@@ -97,11 +98,15 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 {
                     {product.Item2.Item1,  product.Item2.Item2}
                 };
+                var storeProducts = new Dictionary<Store, Dictionary<Product, int>>()
+                {
+                    {product.Item1,  allProducts}
+                };
                 var storePayments = new List<(Store, double)>()
                 {
                     (product.Item1, totalPrice)
                 };
-                makePurchase(totalPrice, allProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                 return true;
             }
             return false;

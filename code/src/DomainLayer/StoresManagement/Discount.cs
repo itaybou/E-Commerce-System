@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    abstract class Discount
+    public abstract class Discount
     {
         private float _percentage;
         private DiscountPolicy _policy;

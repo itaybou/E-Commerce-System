@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    abstract class PurchaseType
+    public abstract class PurchaseType
     {
         private PurchasePolicy _policy;
     }

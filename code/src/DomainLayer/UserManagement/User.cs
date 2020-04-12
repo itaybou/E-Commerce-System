@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class User
+    public class User
     {
         public IUserState _state { get; set; }
         public UserShoppingCart _cart { get; set; }
@@ -51,11 +51,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void removeManagerStore(Store store)
         {
             ((Subscribed)_state).removeManagerStore(store);
-        }
-
-        internal void logPurchase(UserPurchase userPurchase)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class Product
+    public class Product
     {
         private long _id;
         private int _quantity;

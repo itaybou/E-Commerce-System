@@ -9,7 +9,7 @@ using ECommerceSystem.ServiceLayer;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    sealed class UsersManagement : IDataManager<User>
+    public sealed class UsersManagement : IDataManager<User>
     {
         private Dictionary<User, UserShoppingCart> _users;
 
@@ -123,8 +123,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if(getLoggedInUser().isSubscribed())
             {
-                // Copy list of products (change quantity to bough quantity)
-                getLoggedInUser().logPurchase(new UserPurchase(totalPrice, allProducts,
+                var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+                getLoggedInUser()._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }
         }

@@ -8,14 +8,19 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
-    class TransactionManager
+    public class TransactionManager
     {
+        private PaymentSystemAdapter _paymentSystem;
+        private SupplySystemAdapter _supplySystem;
+
         private static readonly Lazy<TransactionManager> lazy = new Lazy<TransactionManager>(() => new TransactionManager());
 
         public static TransactionManager Instance => lazy.Value;
 
         private TransactionManager()
         {
+            _paymentSystem = new PaymentSystemAdapter();
+            _supplySystem = new SupplySystemAdapter();
         }
 
         public bool paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
@@ -33,7 +38,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             return _paymentSystem.pay(store, amount);
         }
 
-        // Params - producs is product id to quantity
+        // Params - products is product id to quantity
         public bool supplyTransaction(Dictionary<Product, int> products, string address)
         {
             return _supplySystem.supply(products, address);

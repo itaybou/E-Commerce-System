@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class Guest : IUserState
+    public class Guest : IUserState
     {
         public bool isSubscribed()
         {

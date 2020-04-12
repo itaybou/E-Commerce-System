@@ -16,7 +16,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         PurchaseHistory
     }
 
-    class Permissions
+    public class Permissions
     {
         private User _assignedBy;
         private Dictionary<permissionType, bool> _permissions;

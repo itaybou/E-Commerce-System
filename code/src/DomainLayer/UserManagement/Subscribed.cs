@@ -7,7 +7,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    class Subscribed : IUserState
+    public class Subscribed : IUserState
     {
         public string _uname;
         public string _pswd;
@@ -57,7 +57,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _purchaseHistory.Add(purchase);
         }
 
-        internal class UserDetails
+        public class UserDetails
         {
             private string _fname { get; set; }
             private string _lname { get; set; }

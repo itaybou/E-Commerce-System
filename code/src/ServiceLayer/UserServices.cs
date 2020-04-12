@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
 {
-    class UserServices
+    public class UserServices
     {
         private UsersManagement _management;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    class ProductInventory : IEnumerable<Product>
+    public class ProductInventory : IEnumerable<Product>
     {
         private long _ID;
         private string _name;
