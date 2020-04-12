@@ -45,7 +45,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool login(string uname, string pswd)
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
-            var user = _users.Keys.ToList().Find(u => u.Name().Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
+            var user = _users.Keys.ToList().Find(u => u.Name().Equals(uname) && u._state.Password().Equals(encrypted_pswd));
             if (user != null)
             {
                 _activeUser = user;
@@ -56,9 +56,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool logout()
         {
-            if (!_activeUser._state.isSubscribed())
+            if (_activeUser != null && !_activeUser._state.isSubscribed())
                 return false;
-            _activeUser._state = new Guest();
+            _activeUser = new User(new Guest());
             _activeUser._cart = new UserShoppingCart();;
             return true;
         }
@@ -78,7 +78,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (p.Quantity >= quantity)
             {
                 if (storeCart == null)
+                {
                     storeCart = new StoreShoppingCart(s);
+                    userCart.StoreCarts.Add(storeCart);
+                }
 
                 storeCart.AddToCart(p, quantity);
                 return true;
@@ -121,7 +124,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void logUserPurchase(double totalPrice, Dictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            if(getLoggedInUser().isSubscribed())
+            if(getLoggedInUser() != null && getLoggedInUser().isSubscribed())
             {
                 var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
                 getLoggedInUser()._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
@@ -160,12 +163,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             assignedUser.removeManagerStore(store);
         }
 
-        internal User getUserByName(string managerUserName)
+        public User getUserByName(string managerUserName)
         {
             return _users.Keys.ToList().Find(u => u.Name().Equals(managerUserName));
         }
 
-        internal bool isSubscribed(string newManageruserName)
+        public bool isSubscribed(string newManageruserName)
         {
             return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
         }

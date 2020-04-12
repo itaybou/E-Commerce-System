@@ -25,6 +25,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _uname = uname;
             _pswd = pswd;
             _details = new UserDetails(fname, lname, email);
+            _purchaseHistory = new List<UserPurchase>();
         }
 
         public bool isSubscribed()

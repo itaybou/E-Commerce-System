@@ -23,6 +23,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Category Category { get => _category; set => _category = value; }
         public List<string> Keywords { get => _keywords.ToList(); }
         public double Rating { get => _rating; }
+        public List<Product> ProductList{ get => _productInventory; set => _productInventory = value; }
 
         public double Price {
             get => _price;
@@ -32,6 +33,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 _productInventory.ForEach(p => p.BasePrice = _price);
             }
         }
+
 
         private ProductInventory(string name, string description, double price, Category category, long ID, List<string> keywords)
         {

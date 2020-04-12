@@ -14,6 +14,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private double _totalPrice;
         private PaymentShipmentDetails _paymentShippingMethod;
 
+        public List<Product> ProductsPurchased { get => _productsPurchased; }
+
         public UserPurchase(double totalPrice, List<Product> productsPurchased, 
             string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {

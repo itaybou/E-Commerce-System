@@ -23,7 +23,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void AddToCart(Product p, int quantity)
         {
-            _productQuantities.Add(p, quantity);
+            if (_productQuantities.ContainsKey(p))
+                _productQuantities[p] += quantity;
+            else _productQuantities.Add(p, quantity);
         }
 
         public void ChangeProductQuantity(Product p, int quantity)
