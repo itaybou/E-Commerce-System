@@ -85,11 +85,12 @@
     <Compile Include="DomainLayer\StoresManagement\ProductInventory.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagemet.cs" />
+    <Compile Include="DomainLayer\StoresManagement\StorePurchase.cs" />
     <Compile Include="DomainLayer\SystemManagement\Filters.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilter.cs" />
     <Compile Include="DomainLayer\SystemManagement\SystemManager.cs" />
-    <Compile Include="DomainLayer\TransactionManagement\PaymentSystemProxy.cs" />
-    <Compile Include="DomainLayer\TransactionManagement\SupplySystemProxy.cs" />
+    <Compile Include="DomainLayer\TransactionManagement\PaymentSystemAdapter.cs" />
+    <Compile Include="DomainLayer\TransactionManagement\SupplySystemAdapter.cs" />
     <Compile Include="DomainLayer\UserManagement\security\Encryption.cs" />
     <Compile Include="DomainLayer\UserManagement\security\Validation.cs" />
     <Compile Include="DomainLayer\TransactionManagement\TransactionManager.cs" />
