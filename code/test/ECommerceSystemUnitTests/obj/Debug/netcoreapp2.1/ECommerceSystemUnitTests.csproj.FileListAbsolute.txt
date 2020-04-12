@@ -1,0 +1,14 @@
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\NUnit3.TestAdapter.pdb
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\nunit.engine.netstandard.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\ECommerceSystemUnitTests.deps.json
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\ECommerceSystemUnitTests.runtimeconfig.json
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\ECommerceSystemUnitTests.runtimeconfig.dev.json
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\ECommerceSystemUnitTests.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netcoreapp2.1\ECommerceSystemUnitTests.pdb
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.csprojAssemblyReference.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.AssemblyInfoInputs.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.AssemblyInfo.cs
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\netcoreapp2.1\ECommerceSystemUnitTests.pdb
