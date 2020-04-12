@@ -57,6 +57,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _purchaseHistory.Add(purchase);
         }
 
+        public string Password()
+        {
+            return _pswd;
+        }
+
         public class UserDetails
         {
             private string _fname { get; set; }

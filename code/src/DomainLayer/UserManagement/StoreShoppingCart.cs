@@ -15,10 +15,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public Store store { get => _store; set => _store = value; }
         public Dictionary<Product, int> Products { get => _productQuantities;}
 
-        public StoreShoppingCart (Store s, Dictionary<Product, int> products)
+        public StoreShoppingCart (Store s)
         {
             _store = s;
-            _productQuantities = products;
+            _productQuantities = new Dictionary<Product, int>();
         }
 
         public void AddToCart(Product p, int quantity)

@@ -19,9 +19,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public static UsersManagement Instance => lazy.Value;
 
+        public Dictionary<User, UserShoppingCart> Users { get => _users; set => _users = value; }
+
         private UsersManagement()
         {
             _activeUser = new User();
+            _users = new Dictionary<User, UserShoppingCart>();
         }
 
         public User getLoggedInUser() => _activeUser;
@@ -75,10 +78,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (p.Quantity >= quantity)
             {
                 if (storeCart == null)
-                {
-                    Dictionary<Product, int> products = new Dictionary<Product, int>();
-                    storeCart = new StoreShoppingCart(s, products);
-                }
+                    storeCart = new StoreShoppingCart(s);
 
                 storeCart.AddToCart(p, quantity);
                 return true;
@@ -136,7 +136,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void insert(User user)
         {
-            _users.Add(user, null);
+            _users.Add(user, new UserShoppingCart());
         }
 
         public bool remove(User user)

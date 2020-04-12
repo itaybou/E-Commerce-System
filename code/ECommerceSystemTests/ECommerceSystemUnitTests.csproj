@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DomainLayer\UserManagement\GuestTests.cs" />
+    <Compile Include="DomainLayer\UserManagement\UsersManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
