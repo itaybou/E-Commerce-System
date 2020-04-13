@@ -22,12 +22,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _userManagement = UsersManagement.Instance;
         }
 
-        [SetUp]
-        public void setUp()
-        {
-
-        }
-
         [TearDown]
         public void tearDown()
         {
