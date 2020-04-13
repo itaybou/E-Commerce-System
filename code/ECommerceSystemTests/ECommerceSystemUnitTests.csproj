@@ -68,8 +68,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilterTests.cs" />
+    <Compile Include="DomainLayer\SystemManagement\SpellCheckerTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SystemManagerTests.cs" />
-    <Compile Include="DomainLayer\UserManagement\GuestTests.cs" />
     <Compile Include="DomainLayer\UserManagement\security\ValidationTests.cs" />
     <Compile Include="DomainLayer\UserManagement\StoreShoppingCartTests.cs" />
     <Compile Include="DomainLayer\UserManagement\UserShoppingCartTests.cs" />
