@@ -30,12 +30,18 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void ChangeProductQuantity(Product p, int quantity)
         {
-            _productQuantities[p] = quantity;
+            if (!_productQuantities.ContainsKey(p)) return;
+            if (quantity == 0)
+                _productQuantities.Remove(p);
+            else
+                _productQuantities[p] = quantity;
+
         }
 
         public void RemoveFromCart(Product p)
         {
-            _productQuantities.Remove(p);
+            if (_productQuantities.ContainsKey(p))
+                _productQuantities.Remove(p);
         }
 
         public double getTotalCartPrice()
