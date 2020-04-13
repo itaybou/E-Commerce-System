@@ -68,9 +68,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilterTests.cs" />
+    <Compile Include="DomainLayer\SystemManagement\SystemManagerTests.cs" />
     <Compile Include="DomainLayer\UserManagement\GuestTests.cs" />
+    <Compile Include="DomainLayer\UserManagement\security\ValidationTests.cs" />
     <Compile Include="DomainLayer\UserManagement\StoreShoppingCartTests.cs" />
+    <Compile Include="DomainLayer\UserManagement\UserShoppingCartTests.cs" />
     <Compile Include="DomainLayer\UserManagement\UsersManagementTests.cs" />
+    <Compile Include="DomainLayer\Utilities\RangeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
