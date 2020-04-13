@@ -25,6 +25,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _uname = uname;
             _pswd = pswd;
             _details = new UserDetails(fname, lname, email);
+            _purchaseHistory = new List<UserPurchase>();
         }
 
         public bool isSubscribed()
@@ -55,6 +56,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void logPurchase(UserPurchase purchase)
         {
             _purchaseHistory.Add(purchase);
+        }
+
+        public string Password()
+        {
+            return _pswd;
         }
 
         public class UserDetails

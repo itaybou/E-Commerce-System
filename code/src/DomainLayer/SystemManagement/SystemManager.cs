@@ -38,7 +38,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 if (_transactionManager.supplyTransaction(allProducts, address))                                                        // supply all prodcuts by quantity
                 {
                     foreach ((Store, double) storePayment in storePayments)                                                             // send payment to all stores bought from
-                    {       
+                    {
+                        storeProducts[storePayment.Item1].ToList().ForEach(prod =>
+                        {
+                            prod.Key.Quantity -= prod.Value;
+                            if (prod.Key.Quantity.Equals(0))
+                                storePayment.Item1.Inventory.Products.ForEach(inv =>
+                                {
+                                    if (inv.ProductList.Contains(prod.Key))
+                                        inv.ProductList.Remove(prod.Key);
+                                });
+                        });
                         _transactionManager.sendPayment(storePayment.Item1, storePayment.Item2);
                         var storeBoughtProducts = storeProducts[storePayment.Item1];
                         _storeManagement.logStorePurchase(storePayment.Item1, _userManagement.getLoggedInUser(), storePayment.Item2, storeBoughtProducts);

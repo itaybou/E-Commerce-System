@@ -33,7 +33,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public static Permissions CreateOwner(User assignedBy)
         {
-            if(assignedBy.isSubscribed())
+            if(assignedBy == null || assignedBy.isSubscribed())
             {
                 Permissions permissions = new Permissions(assignedBy, true);
                 return permissions;
