@@ -81,7 +81,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ECommerceSystem.csproj">
+    <ProjectReference Include="..\..\src\ECommerceSystem.csproj">
       <Project>{B9101BD1-CB28-4900-8716-E0818A1DEC74}</Project>
       <Name>ECommerceSystem</Name>
     </ProjectReference>

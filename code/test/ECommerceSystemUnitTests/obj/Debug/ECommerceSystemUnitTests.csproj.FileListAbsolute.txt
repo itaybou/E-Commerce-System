@@ -240,3 +240,5 @@ C:\Users\סהר\source\repos\E-Commerce-System\code\ECommerceSystemTests\obj\Deb
 C:\Users\סהר\source\repos\E-Commerce-System\code\ECommerceSystemTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
 C:\Users\סהר\source\repos\E-Commerce-System\code\ECommerceSystemTests\obj\Debug\ECommerceSystemTests.dll
 C:\Users\סהר\source\repos\E-Commerce-System\code\ECommerceSystemTests\obj\Debug\ECommerceSystemTests.pdb
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.pdb
