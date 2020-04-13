@@ -48,12 +48,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void ChangeProductQuantityTest()
         {
             var product = new Product(null, null, 10, 25.5, 5);
+            var product2 = new Product(null, null, 10, 25.5, 5);
             _storeShoppingCart.AddToCart(product, 5);
             Assert.AreEqual(_storeShoppingCart.Products[product], 5);
             _storeShoppingCart.ChangeProductQuantity(product, 2);
             Assert.AreEqual(_storeShoppingCart.Products[product], 2);
             _storeShoppingCart.ChangeProductQuantity(product, 0);
             Assert.IsEmpty(_storeShoppingCart.Products);
+            _storeShoppingCart.ChangeProductQuantity(product2, 3);
+            Assert.IsEmpty(_storeShoppingCart.Products);
+            _storeShoppingCart.AddToCart(product2, 5);
+            Assert.AreEqual(_storeShoppingCart.Products[product2], 5);
         }
 
         [Test()]
