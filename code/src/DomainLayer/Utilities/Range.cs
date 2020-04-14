@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.DomainLayer.SystemManagement.logger;
+using PostSharp.Aspects;
 
 namespace ECommerceSystem.DomainLayer.Utilities
 {
@@ -24,6 +28,7 @@ namespace ECommerceSystem.DomainLayer.Utilities
             else throw new ArgumentException();
         }
 
+        [Trace("Debug")]
         public bool inRange(T value)
         {
             return value.CompareTo(min) >= 0 && value.CompareTo(max) <= 0;

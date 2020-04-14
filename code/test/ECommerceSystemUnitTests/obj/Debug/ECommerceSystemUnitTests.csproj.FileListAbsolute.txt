@@ -264,3 +264,6 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.ValueTuple.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\NLog.config
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\NLog.dll
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\NLog.xml

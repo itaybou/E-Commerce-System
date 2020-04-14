@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.ServiceLayer
@@ -17,6 +18,7 @@ namespace ECommerceSystem.ServiceLayer
             _management = UsersManagement.Instance;
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Check whether the user is already in subscribed state and register user to system.
         /// </summary>
@@ -28,7 +30,8 @@ namespace ECommerceSystem.ServiceLayer
         /// <returns>true if registered successfully</returns>
         public bool register(string uname, string pswd, string fname, string lname, string email)
         {
-            return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
+            //return !_management.getLoggedInUser().isSubscribed() && _management.register(uname, pswd, fname, lname, email).Equals(null);
+            return _management.register(uname, pswd, fname, lname, email) == null;
         }
 
         /// <summary>

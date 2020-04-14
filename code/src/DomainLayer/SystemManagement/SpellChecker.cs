@@ -151,8 +151,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     bin.Serialize(stream, dictionary);
                 }
             }
-            catch (IOException)
+            catch (IOException e)
             {
+                SystemLogger.logger.Error("Seriazlize: " + e.Message);
             }
         }
 
