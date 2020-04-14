@@ -75,6 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
+    <Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainLayer\StoresManagement\Category.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount.cs" />

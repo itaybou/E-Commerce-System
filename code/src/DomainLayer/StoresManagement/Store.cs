@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class Store
     {
+
+        private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
+
+
         private string _name;
         private double _rating;
         private long _raterCount;
@@ -248,10 +253,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return new Tuple<Store, List<Product>>(this, _inventory.SelectMany(p => p).ToList());
         }
 
-        public void rateStore(int rating)
+        public void rateStore(double rating)
         {
             ++_raterCount;
-            _rating = ((_rating * _raterCount) + rating) / _raterCount;
+            rating = RATING_RANGE.inRange(rating) ? rating :
+                     rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
+            _rating = ((_rating * (_raterCount - 1)) + rating) / _raterCount;
         }
 
         public void logPurchase(StorePurchase purchase)
