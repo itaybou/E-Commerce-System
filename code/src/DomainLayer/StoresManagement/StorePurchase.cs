@@ -20,8 +20,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _productsPurchased = productsPurchased;
         }
 
-        public User User { get => _user; set => _user = value; }
-        public double TotalPrice { get => _totalPrice; set => _totalPrice = value; }
-        public List<Product> ProductsPurchased { get => _productsPurchased; set => _productsPurchased = value; }
+        public User User { get => _user; }
+        public double TotalPrice { get => _totalPrice; }
+        public List<Product> ProductsPurchased { get => _productsPurchased; }
     }
 }

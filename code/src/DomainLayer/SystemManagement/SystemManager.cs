@@ -30,7 +30,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         }
 
 
-        public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, IEnumerable<(Store, double)> storePayments,
+        public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, List<(Store, double)> storePayments,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
@@ -59,39 +59,57 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
-
+        /// <summary>
+        /// Makes a purchase for the current logged user shopping cart
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="id"></param>
+        /// <param name="creditCardNumber"></param>
+        /// <param name="expirationCreditCard"></param>
+        /// <param name="CVV"></param>
+        /// <param name="address"></param>
+        /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         public List<Product> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var shoppingCart = _userManagement.getActiveUserShoppingCart();                                                 // User shopping cart
-            var storeShoppingCarts = shoppingCart.StoreCarts.Select(storeCart => (storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products));    // Store => store cart
-            var availableProducts = storeShoppingCarts.Where(storeCart => storeCart.Products.ToList().All(prodQuantity => prodQuantity.Key.Quantity >= prodQuantity.Value));    // Available products by quantity
-            var unavailableProducts = storeShoppingCarts.Except(availableProducts);                                         // unavailable products by qunatity
+            var storeShoppingCarts = shoppingCart.StoreCarts.Select(storeCart => (storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products)).ToList();    // Store => store cart
+            var unavailableProducts = storeShoppingCarts.Select(storeCart => storeCart.Products.Select(p => (p.Key, p.Value))).SelectMany(p => p).Where(p => p.Key.Quantity < p.Value).ToList();                              // unavailable products by qunatity
             if (!unavailableProducts.Any())
             {
                 var totalPrice = shoppingCart.getTotalACartPrice();                                                         // total user cart price
                 var storeProdcuts = shoppingCart.StoreCarts.Select(storeCart => (storeCart.store, storeCart.Products)).ToDictionary(pair => pair.store, pair => pair.Products);
                 var allProdcuts = shoppingCart.StoreCarts.Select(storeCart => storeCart.Products)                           // Get dictionary from Product => Quantity for each store cart
                  .SelectMany(dict => dict).ToDictionary(pair => pair.Key, pair => pair.Value);
-                var storePayments = availableProducts.Select(s => (s.store, s.Item2));
-                makePurchase(totalPrice, allProdcuts, storeProdcuts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                var storePayments = storeShoppingCarts.Select(s => (s.store, s.Item2));
+                makePurchase(totalPrice, allProdcuts, storeProdcuts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                _userManagement.resetActiveUserShoppingCart();
                 return null;
             }
-            else return unavailableProducts.Select(prod => prod.Products.Select(p => p.Key)).SelectMany(i => i).ToList();   // return all unavailable products from cart
+            else return unavailableProducts.Select(p => p.Key).ToList();
         }
 
 
         public List<Product> purchaseProducts(List<Tuple<Store, (Product, int)>> products, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            var availableProducts = products.Where(product => product.Item2.Item1.Quantity >= product.Item2.Item2);
-            var unavailableProducts = products.Except(availableProducts);
+            var availableProducts = products.Where(product => product.Item2.Item1.Quantity >= product.Item2.Item2).ToList();
+            var unavailableProducts = products.Except(availableProducts).ToList();
             if (!unavailableProducts.Any())
             {
                 var productQuantities = products.Select(tuple => tuple.Item2);
                 var totalPrice = productQuantities.Aggregate(0.0, (total, current) => total += (current.Item1.CalculateDiscount() * current.Item2));
-                var storeProducts = products.ToDictionary(pair => pair.Item1, pair => new Dictionary<Product, int>() { { pair.Item2.Item1, pair.Item2.Item2 } });
+                var storeProducts = new Dictionary<Store, Dictionary<Product, int>>();
+                products.ForEach(prod =>
+                {
+                    if (storeProducts.ContainsKey(prod.Item1))
+                    {
+                        storeProducts[prod.Item1].Add(prod.Item2.Item1, prod.Item2.Item2);
+                    }
+                    else storeProducts.Add(prod.Item1, new Dictionary<Product, int>() { { prod.Item2.Item1, prod.Item2.Item2 } });
+                });
                 var allProducts = productQuantities.ToDictionary(pair => pair.Item1, pair => pair.Item2);
-                var storePayments = products.Select(p => (p.Item1, p.Item2.Item1.CalculateDiscount() * p.Item2.Item2));
-                makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                var storePayments = storeProducts.Select(p => (p.Key,  p.Value.ToList().Aggregate(0.0, (total, curr) => total += curr.Key.CalculateDiscount() * curr.Value)));
+                makePurchase(totalPrice, allProducts, storeProducts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                 return null;
             }
             return unavailableProducts.Select(prod => prod.Item2.Item1).ToList();

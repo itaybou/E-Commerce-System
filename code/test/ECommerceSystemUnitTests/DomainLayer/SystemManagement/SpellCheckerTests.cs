@@ -55,6 +55,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(_spellChecker.Correct("MISATKE").Contains("mistake"));
             Assert.True(_spellChecker.Correct("MISIGN").Contains("missing"));
             Assert.True(_spellChecker.Correct("mIxdE").Contains("mixed"));
+            Assert.True(_spellChecker.Correct("banna").Contains("banana"));
+            Assert.True(_spellChecker.Correct("shcedle").Contains("schedule"));
         }
     }
 }

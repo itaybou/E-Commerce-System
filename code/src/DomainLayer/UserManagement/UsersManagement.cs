@@ -68,6 +68,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _users.ContainsKey(user) ? _users[user] : new UserShoppingCart();
         }
 
+        public void resetActiveUserShoppingCart()
+        {
+            getLoggedInUser()._cart = new UserShoppingCart();
+            _users[getLoggedInUser()] = getLoggedInUser()._cart;
+        }
 
         public bool addProductToCart(Product p, Store s, int quantity)
         {
