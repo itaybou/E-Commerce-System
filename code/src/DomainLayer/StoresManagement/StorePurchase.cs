@@ -19,5 +19,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _totalPrice = totalPrice;
             _productsPurchased = productsPurchased;
         }
+
+        public User User { get => _user; }
+        public double TotalPrice { get => _totalPrice; }
+        public List<Product> ProductsPurchased { get => _productsPurchased; }
     }
 }

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class Store
     {
+        private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
         private string _name;
         private double _rating;
         private long _raterCount;
@@ -34,12 +36,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
             this.Name = name;
             this._isOpen = true;
+            this._purchaseHistory = new List<StorePurchase>();
         }
 
         public string Name { get => _name; set => _name = value; }
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        internal List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
+        public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
 
         public bool isOpen()
         {
@@ -248,9 +251,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return new Tuple<Store, List<Product>>(this, _inventory.SelectMany(p => p).ToList());
         }
 
-        public void rateStore(int rating)
+        public void rateStore(double rating)
         {
             ++_raterCount;
+            rating = RATING_RANGE.inRange(rating) ? rating :
+                rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
             _rating = ((_rating * _raterCount) + rating) / _raterCount;
         }
 
