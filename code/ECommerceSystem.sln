@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D5684307-33C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C6E24739-5C32-4B69-A885-0E9F39FA0629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemUnitTests", "ECommerceSystemTests\ECommerceSystemUnitTests.csproj", "{C9A35E21-0B0C-4533-9FD6-19536FE6D46E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemUnitTests", "test\ECommerceSystemUnitTests\ECommerceSystemUnitTests.csproj", "{C9A35E21-0B0C-4533-9FD6-19536FE6D46E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

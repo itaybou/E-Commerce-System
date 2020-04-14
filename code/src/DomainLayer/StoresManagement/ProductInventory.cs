@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class ProductInventory : IEnumerable<Product>
     {
+        private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
+
         private long _ID;
         private string _name;
         private string _description;
@@ -23,6 +26,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Category Category { get => _category; set => _category = value; }
         public List<string> Keywords { get => _keywords.ToList(); }
         public double Rating { get => _rating; }
+        public List<Product> ProductList{ get => _productInventory; set => _productInventory = value; }
 
         public double Price {
             get => _price;
@@ -135,9 +139,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public void rateProduct(int rating)
+        public void rateProduct(double rating)
         {
             ++_raterCount;
+            rating = RATING_RANGE.inRange(rating) ? rating :
+                     rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
             _rating = ((_rating * _raterCount) + rating) / _raterCount;
         }
 

@@ -22,5 +22,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             throw new NotSupportedException();
         }
+
+        public string Password()
+        {
+            return null;
+        }
     }
 }

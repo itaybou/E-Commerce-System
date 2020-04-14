@@ -19,9 +19,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public static UsersManagement Instance => lazy.Value;
 
+        public Dictionary<User, UserShoppingCart> Users { get => _users; set => _users = value; }
+
         private UsersManagement()
         {
             _activeUser = new User();
+            _users = new Dictionary<User, UserShoppingCart>();
         }
 
         public User getLoggedInUser() => _activeUser;
@@ -42,7 +45,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool login(string uname, string pswd)
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
-            var user = _users.Keys.ToList().Find(u => u.Name().Equals(uname) && ((Subscribed)u._state)._pswd.Equals(encrypted_pswd));
+            var user = _users.Keys.ToList().Find(u => u.Name().Equals(uname) && u._state.Password().Equals(encrypted_pswd));
             if (user != null)
             {
                 _activeUser = user;
@@ -53,9 +56,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool logout()
         {
-            if (!_activeUser._state.isSubscribed())
+            if (_activeUser != null && !_activeUser._state.isSubscribed())
                 return false;
-            _activeUser._state = new Guest();
+            _activeUser = new User(new Guest());
             _activeUser._cart = new UserShoppingCart();;
             return true;
         }
@@ -76,8 +79,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 if (storeCart == null)
                 {
-                    Dictionary<Product, int> products = new Dictionary<Product, int>();
-                    storeCart = new StoreShoppingCart(s, products);
+                    storeCart = new StoreShoppingCart(s);
+                    userCart.StoreCarts.Add(storeCart);
                 }
 
                 storeCart.AddToCart(p, quantity);
@@ -121,7 +124,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void logUserPurchase(double totalPrice, Dictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            if(getLoggedInUser().isSubscribed())
+            if(getLoggedInUser() != null && getLoggedInUser().isSubscribed())
             {
                 var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
                 getLoggedInUser()._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
@@ -136,7 +139,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void insert(User user)
         {
-            _users.Add(user, null);
+            _users.Add(user, new UserShoppingCart());
         }
 
         public bool remove(User user)
@@ -160,12 +163,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             assignedUser.removeManagerStore(store);
         }
 
-        internal User getUserByName(string managerUserName)
+        public User getUserByName(string managerUserName)
         {
             return _users.Keys.ToList().Find(u => u.Name().Equals(managerUserName));
         }
 
-        internal bool isSubscribed(string newManageruserName)
+        public bool isSubscribed(string newManageruserName)
         {
             return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
         }

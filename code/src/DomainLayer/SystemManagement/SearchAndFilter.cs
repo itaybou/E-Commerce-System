@@ -19,7 +19,11 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private Range<double> _storeRatingFilter;
         private Category? _categoryFilter;
 
-        public Range<double> StoreRatingFilter { get => _storeRatingFilter;  }
+        public Range<double> StoreRatingFilter { get => _storeRatingFilter; set => _storeRatingFilter = value; }
+        public StoreManagement StoreManagement { get => _storeManagement; set => _storeManagement = value; }
+        public Range<double> PriceRangeFilter { get => _priceRangeFilter; set => _priceRangeFilter = value; }
+        public Range<double> ProductRatingFilter { get => _productRatingFilter; set => _productRatingFilter = value; }
+        public Category? CategoryFilter { get => _categoryFilter; set => _categoryFilter = value; }
 
         public SearchAndFilter()
         {
@@ -27,7 +31,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _visibleProducts = getAllProdcuts();
         }
 
-        public List<ProductInventory> getAllProdcuts()
+        public virtual List<ProductInventory> getAllProdcuts()
         {
             return _storeRatingFilter != null ?
                 filterProducts(_storeManagement.getAllStoreInventoryWithRating(_storeRatingFilter)) : filterProducts(_storeManagement.getAllStoresProdcutInventories());
@@ -35,56 +39,56 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public List<ProductInventory> searchProductsByCategory(Category category)
         {
-            _visibleProducts = filterProducts(getAllProdcuts().FindAll(p => p.Category.Equals(category)));
+            _visibleProducts = getAllProdcuts().FindAll(p => p.Category.Equals(category));
             return _visibleProducts;
         }
 
         public List<ProductInventory> searchProductsByName(string prodName)
         {
-            _visibleProducts = filterProducts(getAllProdcuts().FindAll(p => p.Name.Equals(prodName)));
+            _visibleProducts = getAllProdcuts().FindAll(p => p.Name.Equals(prodName));
             return _visibleProducts;
         }
 
         public List<ProductInventory> searchProductsByKeyword(List<string> keywords)
         {
-            _visibleProducts = filterProducts(getAllProdcuts().FindAll(p => p.Keywords.Intersect(keywords).Any()));
+            _visibleProducts = getAllProdcuts().FindAll(p => p.Keywords.Intersect(keywords).Any());
             return _visibleProducts;
         }
 
         public List<ProductInventory> filterProducts(List<ProductInventory> products)
         {
-            Func<ProductInventory, bool> priceRangeFilter = p => (_priceRangeFilter != null && _priceRangeFilter.inRange(p.Price));
-            Func<ProductInventory, bool> productRangeFilter = p => (_productRatingFilter != null && _productRatingFilter.inRange(p.Rating));
-            Func<ProductInventory, bool> categoryFilter = p => (_categoryFilter != null && p.Category.Equals(_categoryFilter));
+            Func<ProductInventory, bool> priceRangeFilter = p => (_priceRangeFilter != null && _priceRangeFilter.inRange(p.Price)) || _priceRangeFilter == null;
+            Func<ProductInventory, bool> productRangeFilter = p => (_productRatingFilter != null && _productRatingFilter.inRange(p.Rating)) || _productRatingFilter == null;
+            Func<ProductInventory, bool> categoryFilter = p => (_categoryFilter != null && p.Category.Equals(CategoryFilter)) || _categoryFilter == null;
             Func<bool> noFilters = () => (_categoryFilter == null && _productRatingFilter == null && _priceRangeFilter == null);
-            return products.Where(p => noFilters() || priceRangeFilter(p) || productRangeFilter(p) || categoryFilter(p)).ToList();
+            return products.Where(p => noFilters() || (priceRangeFilter(p) && productRangeFilter(p) && categoryFilter(p))).ToList();
         }
 
         public List<ProductInventory> applyPriceRangeFilter(double from, double to)
         {
             _priceRangeFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(_visibleProducts);
+            _visibleProducts = filterProducts(getAllProdcuts());
             return _visibleProducts;
         }
 
         public List<ProductInventory> applyStoreRatingFilter(double from, double to)
         {
             _storeRatingFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(_visibleProducts);
+            _visibleProducts = filterProducts(getAllProdcuts());
             return _visibleProducts;
         }
 
         public List<ProductInventory> applyProductRatingFilter(double from, double to)
         {
             _productRatingFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(_visibleProducts);
+            _visibleProducts = filterProducts(getAllProdcuts());
             return _visibleProducts;
         }
 
         public List<ProductInventory> applyCategoryFilter(Category category)
         {
-            _categoryFilter = category;
-            _visibleProducts = filterProducts(_visibleProducts);
+            CategoryFilter = category;
+            _visibleProducts = filterProducts(getAllProdcuts());
             return _visibleProducts;
         }
 
@@ -102,10 +106,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     _storeRatingFilter = null;
                     break;
                 case Filters.CATEGORY:
-                    _categoryFilter = null;
+                    CategoryFilter = null;
                     break;
             }
-            _visibleProducts = filterProducts(_visibleProducts);
+            _visibleProducts = filterProducts(getAllProdcuts());
             return _visibleProducts;
         }
     }
