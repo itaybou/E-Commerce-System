@@ -82,7 +82,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        public bool modifyProductQuantity(int productID, int newQuantity)
+        public bool modifyProductQuantity(long productID, int newQuantity)
         {
             if(newQuantity <= 0)
             {
@@ -98,7 +98,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool deleteProduct(int productID)
+        public bool deleteProduct(long productID)
         {
             Product product = getProducByID(productID);
             if (product == null)
@@ -119,7 +119,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductDiscountType(int productID, Discount newDiscount)
+        public bool modifyProductDiscountType(long productID, Discount newDiscount)
         {
             if(newDiscount == null)
             {
@@ -135,7 +135,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductPurchaseType(int productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(long productID, PurchaseType purchaseType)
         {
             if (purchaseType == null )
             {

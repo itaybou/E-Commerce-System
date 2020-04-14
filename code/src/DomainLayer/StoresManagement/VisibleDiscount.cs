@@ -8,9 +8,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class VisibleDiscount : Discount
     {
+
+        public VisibleDiscount(float percentage, DiscountPolicy policy)
+        {
+            this.Percentage = percentage;
+            this.Policy = policy;
+        }
+        
         public override double CalculateDiscount(double price)
         {
-            return ((100 - this._percentage)/100) * price;
+            return ((100 - this.Percentage)/100) * price;
         }
     }
 }

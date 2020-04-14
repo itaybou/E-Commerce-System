@@ -11,7 +11,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<ProductInventory> _products;
         private long _productIDCounter;
-        public List<ProductInventory> Products { get => _products; set => _products = value; }
+        public List<ProductInventory> Products { get => _products;}
 
         public Inventory()
         {
@@ -20,7 +20,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
         
         //Return null if there isn`t product with name
-        private ProductInventory getProductByName(string name)
+        public ProductInventory getProductByName(string name)
         {
             foreach (ProductInventory p in _products)
             {
@@ -34,7 +34,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
         {
-            if(getProductByName(productName) != null) // check if the name already exist
+            if (productName.Equals(""))
+            {
+                return false;
+            }
+            if (getProductByName(productName) != null) // check if the name already exist
             {
                 return false;
             }
@@ -60,6 +64,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductName(string newProductName, string oldProductName)
         {
+            if (newProductName.Equals(""))
+            {
+                return false;
+            }
             ProductInventory productInventory = getProductByName(oldProductName);
             if (productInventory == null) // check if the product exist
             {
@@ -91,7 +99,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool modifyProductQuantity(string productName, int productID, int newQuantity)
+        public bool modifyProductQuantity(string productName, long productID, int newQuantity)
         {
             ProductInventory productInventory = getProductByName(productName);
             if (productInventory == null) // check if the product exist
@@ -117,7 +125,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool deleteProduct(string productInvName, int productID)
+        public bool deleteProduct(string productInvName, long productID)
         {
             ProductInventory productInventory = getProductByName(productInvName);
             if (productInventory == null) // check if the product exist
@@ -130,8 +138,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool modifyProductDiscountType(string productInvName, int productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string productInvName, long productID, Discount newDiscount)
         {
+            if(newDiscount.Percentage < 0)
+            {
+                return false;
+            }
+
             ProductInventory productInventory = getProductByName(productInvName);
             if (productInventory == null) // check if the product exist
             {
@@ -143,7 +156,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool modifyProductPurchaseType(string productInvName, int productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string productInvName, long productID, PurchaseType purchaseType)
         {
             ProductInventory productInventory = getProductByName(productInvName);
             if (productInventory == null) // check if the product exist

@@ -13,7 +13,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
     {
 
         string productName = "Iphone", description = "description";
-        Discount discount = new VisibleDiscount();
+        Discount discount = new VisibleDiscount(10, new DiscountPolicy());
         PurchaseType purchaseType = new ImmediatePurchase();
         double price = 100;
         int quantity = 5;
@@ -88,7 +88,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void modifyProductDiscountTypeTest()
         {
-            Discount newDiscount = new VisibleDiscount();
+            Discount newDiscount = new VisibleDiscount(10, new DiscountPolicy());
 
             Assert.False(productInv.modifyProductDiscountType(1, null), "Modify discount to null discount successed");
             Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the discount didnt changed
