@@ -1,1 +1,0 @@
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\.vs\ECommerceSystem\v16\lut\0\i\ECommerceSystemUnitTests\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
