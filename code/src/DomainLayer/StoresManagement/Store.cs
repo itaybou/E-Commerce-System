@@ -159,9 +159,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else return _inventory.modifyProductName(newProductName, oldProductName);
         }
 
-
-
-
         //*********Assign*********
 
         public bool assignOwner(User loggedInUser, string newOwneruserName)
