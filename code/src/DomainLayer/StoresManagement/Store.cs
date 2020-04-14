@@ -258,5 +258,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             _purchaseHistory.Add(purchase);
         }
+
+        public List<StorePurchase> purchaseHistory(User loggedInUser)
+        {
+            if( !_premmisions[loggedInUser.Name()].canWatchHistory() || !loggedInUser.isSystemAdmin())
+            {
+                return null;
+            }
+
+            return this.PurchaseHistory;
+        }
     }
 }

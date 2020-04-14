@@ -52,5 +52,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             ((Subscribed)_state).removeManagerStore(store);
         }
+
+        public bool isSystemAdmin()
+        {
+            return _state.isSystemAdmin();
+        }
+
+        //Assume _state is subsbcribed
+        public List<UserPurchase> getHistoryPurchase()
+        {
+            return ((Subscribed)_state).PurchaseHistory;
+        }
     }
 }

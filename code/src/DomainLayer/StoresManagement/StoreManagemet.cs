@@ -120,6 +120,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return store == null ? false : store.deleteProductInventory(loggedInUser.Name(), productInvName);
         }
 
+
         //@pre - logged in user is subscribed
         public bool deleteProduct(string storeName, string productInvName, int productID)
         {
@@ -320,7 +321,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProdcuts;
         }
 
-        internal List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
+        public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProdcuts = new List<ProductInventory>();
             foreach(Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
@@ -329,5 +330,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             return allProdcuts;
         }
+
+        public List <StorePurchase> purchaseHistory(string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            if(store == null) //storeName isn`t exist
+            {
+                return null;
+            }
+            User loggedInUser = _userManagement.getLoggedInUser();
+            
+            return store.purchaseHistory(loggedInUser);
+        }
+
     }
 }

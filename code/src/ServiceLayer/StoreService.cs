@@ -103,11 +103,11 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         //Usecase - 4.10
-        //TOOD
-
-        //Usecase - 6.4
-        //TOOD
-
+        //Usecase - 6.4.2
+        public List<StorePurchase> purchaseHistory(string storeName)
+        {
+            return _storeManagement.purchaseHistory(storeName);
+        }
 
     }
 }

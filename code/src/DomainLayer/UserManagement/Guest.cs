@@ -27,5 +27,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return null;
         }
+
+        public bool isSystemAdmin()
+        {
+            return false;
+        }
     }
 }

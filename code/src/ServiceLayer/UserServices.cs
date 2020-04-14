@@ -93,5 +93,17 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _management.changeProductQuantity(p, quantity);
         }
+
+
+        /// <param userName>user to watch his history</param>
+        /// <returns>List of the purchase history of userName</returns>
+        /// @pre - The logged in user is system admin
+        public List<UserPurchase> userPurchaseHistory(string userName)
+        {
+            return _management.userPurchaseHistory(userName);
+        }
+
+
+
     }
 }
