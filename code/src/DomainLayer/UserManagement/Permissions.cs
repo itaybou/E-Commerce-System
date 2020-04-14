@@ -13,7 +13,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         DeleteProductInv,
         ModifyProduct,
         WatchAndomment,
-        PurchaseHistory
+        PurchaseHistory,
+        WatchHistory
     }
 
     public class Permissions
@@ -63,8 +64,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions[permissionType.AddProduct] = isOwner;
             _permissions[permissionType.DeleteProductInv] = isOwner;
             _permissions[permissionType.ModifyProduct] = isOwner;
-            _permissions[permissionType.WatchAndomment] = true;
-            _permissions[permissionType.PurchaseHistory] = true;
+            _permissions[permissionType.WatchHistory] = isOwner;
+            _permissions[permissionType.WatchAndomment] = true; // Default to manager
+            _permissions[permissionType.PurchaseHistory] = true; // Default to manager
         }
 
         public void makeOwner()
@@ -96,6 +98,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[permissionType.ModifyProduct];
         }
 
+        public bool canWatchHistory()
+        {
+            return _permissions[permissionType.WatchHistory];
+        }
+
         public void edit(List <permissionType> permissions)
         {
             foreach (KeyValuePair<permissionType, bool> per in _permissions)
@@ -103,5 +110,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _permissions[per.Key] = permissions.Contains(per.Key);
             }
         }
+
     }
 }

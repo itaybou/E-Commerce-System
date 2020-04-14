@@ -63,6 +63,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _pswd;
         }
 
+        public virtual bool isSystemAdmin()
+        {
+            return false;
+        }
+
         public class UserDetails
         {
             private string _fname { get; set; }

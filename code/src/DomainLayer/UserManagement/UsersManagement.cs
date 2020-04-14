@@ -108,6 +108,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return false;
         }
 
+
         public bool removeProdcutFromCart(Product p)
         {
             if (ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
@@ -171,6 +172,25 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool isSubscribed(string newManageruserName)
         {
             return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
+        }
+
+        //@pre - logged in user is system admin
+        public List<UserPurchase> userPurchaseHistory(string userName)
+        {
+            User historyUser = getUserByName(userName);
+            User loggedInUser = getLoggedInUser();
+
+            if (!loggedInUser.isSystemAdmin())
+            {
+                return null;
+            }
+            if(historyUser == null || !historyUser.isSubscribed())
+            {
+                return null;
+            }
+
+            return historyUser.getHistoryPurchase();
+
         }
     }
 }

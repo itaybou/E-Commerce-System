@@ -12,5 +12,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         string Name();
         string Password();
         void logPurchase(UserPurchase userPurchase);
+        bool isSystemAdmin();
     } 
 }
