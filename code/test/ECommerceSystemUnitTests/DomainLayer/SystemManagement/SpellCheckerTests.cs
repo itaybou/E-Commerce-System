@@ -22,8 +22,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void SpellCheckerTest()
         {
-            Assert.True(File.Exists(SPELL_CHECK_WORDS_TXT));
-            Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));
+            Assert.True(File.Exists(SPELL_CHECK_WORDS_TXT));        //Test to check the english words text file is exist
+            Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));        //Test to check the serializable file is exists
             Assert.IsNotEmpty(SpellChecker.Deserialize<HashSet<string>>(File.Open(SPELL_CHECK_FILE_NAME, FileMode.Open)));
         }
 
@@ -34,6 +34,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));
         }
 
+
+        //Tests to check the spellChecker returns the requested words.
         [Test()]
         public void CorrectTest()
         {
