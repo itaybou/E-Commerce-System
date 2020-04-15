@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ECommerceSystem.DomainLayer.SystemManagement.logger;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using PostSharp.Aspects;
 
 namespace ECommerceSystem.DomainLayer.Utilities
 {

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.TransactionManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.TransactionManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
@@ -28,7 +26,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _transactionManager = TransactionManager.Instance;
             _searchAndFilter = new SearchAndFilter();
         }
-
 
         public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, List<(Store, double)> storePayments,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
@@ -89,7 +86,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             else return unavailableProducts.Select(p => p.Key).ToList();
         }
 
-
         public List<Product> purchaseProducts(List<Tuple<Store, (Product, int)>> products, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var availableProducts = products.Where(product => product.Item2.Item1.Quantity >= product.Item2.Item2).ToList();
@@ -108,18 +104,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     else storeProducts.Add(prod.Item1, new Dictionary<Product, int>() { { prod.Item2.Item1, prod.Item2.Item2 } });
                 });
                 var allProducts = productQuantities.ToDictionary(pair => pair.Item1, pair => pair.Item2);
-                var storePayments = storeProducts.Select(p => (p.Key,  p.Value.ToList().Aggregate(0.0, (total, curr) => total += curr.Key.CalculateDiscount() * curr.Value)));
+                var storePayments = storeProducts.Select(p => (p.Key, p.Value.ToList().Aggregate(0.0, (total, curr) => total += curr.Key.CalculateDiscount() * curr.Value)));
                 makePurchase(totalPrice, allProducts, storeProducts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                 return null;
             }
             return unavailableProducts.Select(prod => prod.Item2.Item1).ToList();
         }
 
-
         public bool purchaseProduct(Tuple<Store, (Product, int)> product, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var available = product.Item2.Item1.Quantity >= product.Item2.Item2;
-            if(available)
+            if (available)
             {
                 var totalPrice = product.Item2.Item1.CalculateDiscount() * product.Item2.Item2;
                 var allProducts = new Dictionary<Product, int>()

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -18,7 +14,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _products = new List<ProductInventory>();
             _productIDCounter = 0;
         }
-        
+
         //Return null if there isn`t product with name
         private ProductInventory getProductByName(string name)
         {
@@ -34,7 +30,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
         {
-            if(getProductByName(productName) != null) // check if the name already exist
+            if (getProductByName(productName) != null) // check if the name already exist
             {
                 return false;
             }
@@ -74,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductPrice(string productName, int newPrice)
         {
-            if(newPrice <= 0)
+            if (newPrice <= 0)
             {
                 return false;
             }
@@ -158,7 +154,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerator<ProductInventory> GetEnumerator()
         {
-            foreach(var product in _products)
+            foreach (var product in _products)
             {
                 yield return product;
             }

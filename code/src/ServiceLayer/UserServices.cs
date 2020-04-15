@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
+using System.Collections.Generic;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -34,6 +30,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.register(uname, pswd, fname, lname, email) == null;
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Change current active user to a user matching input details if exists.
         /// </summary>
@@ -45,6 +42,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.login(uname, pswd);
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Change current active user to guest state.
         /// </summary>
@@ -54,6 +52,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.logout();
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Add selected product times quantity from store to user shopping cart.
         /// </summary>
@@ -66,6 +65,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.addProductToCart(p, s, quantity);
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Retrieves user shopping cart details.
         /// </summary>
@@ -75,6 +75,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.ShoppingCartDetails();
         }
 
+        [Trace("Info")]
         /// <summary>
         /// Remove input product from user cart.
         /// </summary>
@@ -85,7 +86,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.removeProdcutFromCart(p);
         }
 
-
+        [Trace("Info")]
         /// <summary>
         /// Changes specific product quantity in user cart.
         /// </summary>
@@ -97,7 +98,7 @@ namespace ECommerceSystem.ServiceLayer
             return _management.changeProductQuantity(p, quantity);
         }
 
-
+        [Trace("Info")]
         /// <param userName>user to watch his history</param>
         /// <returns>List of the purchase history of userName</returns>
         /// @pre - The logged in user is system admin
@@ -105,8 +106,5 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _management.userPurchaseHistory(userName);
         }
-
-
-
     }
 }

@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.Utilities;
-using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
@@ -94,17 +92,20 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public List<ProductInventory> cancelFilter(Filters filter)
         {
-            switch(filter)
+            switch (filter)
             {
                 case Filters.PRICE_RANGE:
                     _priceRangeFilter = null;
                     break;
+
                 case Filters.PRODUCT_RATING:
                     _productRatingFilter = null;
                     break;
+
                 case Filters.STORE_RATING:
                     _storeRatingFilter = null;
                     break;
+
                 case Filters.CATEGORY:
                     CategoryFilter = null;
                     break;

@@ -1,14 +1,11 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.DomainLayer.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-
     public class StoreManagement
     {
         private List<Store> _stores;
@@ -40,18 +37,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return loggedInUser;
         }
 
-
         // Return null if the name isn`t exist
         public Store getStoreByName(string name)
         {
-            foreach(Store store in _stores)
+            foreach (Store store in _stores)
             {
                 if (store.Name.Equals(name))
                 {
                     return store;
                 }
             }
-            return null; 
+            return null;
         }
 
         //@pre - logged in user is subscribed
@@ -120,7 +116,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return store == null ? false : store.deleteProductInventory(loggedInUser.Name(), productInvName);
         }
 
-
         //@pre - logged in user is subscribed
         public bool deleteProduct(string storeName, string productInvName, int productID)
         {
@@ -160,7 +155,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, int productID ,int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, int productID, int newQuantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -195,7 +190,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return store == null ? false : store.modifyProductPurchaseType(loggedInUser.Name(), productInvName, productID, purchaseType);
         }
 
-
         //*********Assign*********
 
         //@pre - logged in user is subscribed
@@ -213,7 +207,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            bool isSuccess = store == null? false : store.assignOwner(loggedInUser, newOwneruserName);
+            bool isSuccess = store == null ? false : store.assignOwner(loggedInUser, newOwneruserName);
             if (isSuccess)
             {
                 User assignedUser = _userManagement.getUserByName(newOwneruserName);
@@ -273,7 +267,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
-
         //*********Edit permmiossions*********
 
         public bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions)
@@ -285,13 +278,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            if(store == null)
+            if (store == null)
             {
                 return false;
             }
 
             return store.editPermissions(managerUserName, permissions, loggedInUser.Name());
-
         }
 
         public Tuple<Store, List<Product>> getStoreProducts(string storeName)
@@ -302,10 +294,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Dictionary<Store, List<Product>> getAllStoresProducts()
         {
             var storeProdcuts = new Dictionary<Store, List<Product>>();
-            _stores.ForEach(s => 
+            _stores.ForEach(s =>
                 {
-                var storeInfo = s.getStoreInfo();
-                storeProdcuts.Add(storeInfo.Item1, storeInfo.Item2);
+                    var storeInfo = s.getStoreInfo();
+                    storeProdcuts.Add(storeInfo.Item1, storeInfo.Item2);
                 }
             );
             return storeProdcuts;
@@ -314,7 +306,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoresProdcutInventories()
         {
             var allProdcuts = new List<ProductInventory>();
-            foreach(Store store in _stores)
+            foreach (Store store in _stores)
             {
                 allProdcuts.Concat(store.Inventory.Products);
             }
@@ -324,24 +316,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProdcuts = new List<ProductInventory>();
-            foreach(Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
+            foreach (Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
             {
                 allProdcuts.Concat(store.Inventory.Products);
             }
             return allProdcuts;
         }
 
-        public List <StorePurchase> purchaseHistory(string storeName)
+        public List<StorePurchase> purchaseHistory(string storeName)
         {
             Store store = getStoreByName(storeName);
-            if(store == null) //storeName isn`t exist
+            if (store == null) //storeName isn`t exist
             {
                 return null;
             }
             User loggedInUser = _userManagement.getLoggedInUser();
-            
+
             return store.purchaseHistory(loggedInUser);
         }
-
     }
 }

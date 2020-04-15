@@ -4,9 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
@@ -26,6 +24,11 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public HashSet<string> readDictionaryFromText()
         {
+            if(!File.Exists(SPELL_CHECK_WORDS_TXT))
+            {
+                SystemLogger.logger.Error("Missing spell checker dictionary file!");
+                return null;
+            }
             var dictionary = new HashSet<string>();
             string fileContent = File.ReadAllText(SPELL_CHECK_WORDS_TXT);
             List<string> wordList = fileContent.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -43,7 +46,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public List<string> Correct(string word)
         {
-            if (string.IsNullOrEmpty(word))
+            if (string.IsNullOrEmpty(word) || _dictionary == null)
                 return null;
             word = word.ToLower();
             // no spelling error
@@ -153,7 +156,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
             catch (IOException e)
             {
-                SystemLogger.logger.Error("Seriazlize: " + e.Message);
+                SystemLogger.logger.Error("Seriazlize spell checker file failed: " + e.Message);
             }
         }
 
@@ -170,8 +173,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     ret = (Object)bin.Deserialize(stream);
                 }
             }
-            catch (IOException)
+            catch (IOException e)
             {
+                SystemLogger.logger.Error("Deseriazlize spell checker file failed: " + e.Message);
             }
             return ret;
         }

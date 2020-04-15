@@ -1,6 +1,5 @@
 ﻿using NLog;
 using System.Diagnostics;
-using System.Text;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {

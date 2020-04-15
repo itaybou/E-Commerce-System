@@ -1,11 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.UserManagement.security;
 using PostSharp.Aspects;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.logger
 {
@@ -21,6 +17,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.logger
         }
 
         public string Category { get { return category; } }
+
         public override void OnEntry(MethodExecutionArgs args)
         {
             var stringBuilder = new StringBuilder();
@@ -28,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.logger
             {
                 var paramValue = args.Arguments.GetArgument(i);
                 paramValue = args.Method.GetParameters()[i].Name.Equals(PSWD_PARAM_NAME) ? Encryption.encrypt((string)paramValue) : paramValue;
-                stringBuilder.AppendFormat("({0}: type: {1}, name: {2}, value: {3}) ", 
+                stringBuilder.AppendFormat("({0}: type: {1}, name: {2}, value: {3}) ",
                     i, args.Arguments.GetArgument(i).GetType().Name, args.Method.GetParameters()[i].Name, paramValue);
             }
             SystemLogger.LogMethodInfo(stringBuilder.ToString());

@@ -1,4 +1,0 @@
-2020-04-15 01:59:49.2886|Method call [Name: inRange], [Parameters: (0: type: Double, name: value, value: 2) ]
-2020-04-15 01:59:49.3367|Method call [Name: register], [Parameters: (0: type: String, name: uname, value: itay) (1: type: String, name: pswd, value: 9E4470ACC1A20F6C5B8B498BA4A9D04664001070B5544088571257FC7ADE5AD8) (2: type: String, name: fname, value: fname) (3: type: String, name: lname, value: lname) (4: type: String, name: email, value: mail@mail) ]
-2020-04-15 01:59:49.3367|Method call [Name: inRange], [Parameters: (0: type: Int32, name: value, value: 8) ]
-2020-04-15 01:59:49.3457|hello
