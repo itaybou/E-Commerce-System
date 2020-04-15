@@ -9,11 +9,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
     public enum permissionType
     {
-        AddProduct,
+        AddProductInv,
         DeleteProductInv,
         ModifyProduct,
         WatchAndomment,
-        PurchaseHistory
+        WatchPurchaseHistory
     }
 
     public class Permissions
@@ -22,7 +22,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private Dictionary<permissionType, bool> _permissions;
         private bool _isOwner;
 
-        internal User AssignedBy { get => _assignedBy; set => _assignedBy = value; }
+        public User AssignedBy { get => _assignedBy;}
 
         private Permissions(User assignedBy, bool isOwner)
         {
@@ -60,11 +60,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private void initPermmisionsDict(bool isOwner)
         {
             _permissions = new Dictionary<permissionType, bool>();
-            _permissions[permissionType.AddProduct] = isOwner;
+            _permissions[permissionType.AddProductInv] = isOwner;
             _permissions[permissionType.DeleteProductInv] = isOwner;
             _permissions[permissionType.ModifyProduct] = isOwner;
             _permissions[permissionType.WatchAndomment] = true;
-            _permissions[permissionType.PurchaseHistory] = true;
+            _permissions[permissionType.WatchPurchaseHistory] = true;
         }
 
         public void makeOwner()
@@ -83,7 +83,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool canAddProduct()
         {
-            return _permissions[permissionType.AddProduct];
+            return _permissions[permissionType.AddProductInv];
         }
 
         public bool canDeleteProduct()
@@ -96,11 +96,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[permissionType.ModifyProduct];
         }
 
+        public bool canWatchPurchaseHistory()
+        {
+            return _permissions[permissionType.WatchPurchaseHistory];
+        }
+
+        public bool canWatchAndomment()
+        {
+            return _permissions[permissionType.WatchAndomment];
+        }
+
         public void edit(List <permissionType> permissions)
         {
-            foreach (KeyValuePair<permissionType, bool> per in _permissions)
+            // reset all permissions to false
+            for (int i = 0; i < _permissions.Count; i++)
             {
-                _permissions[per.Key] = permissions.Contains(per.Key);
+                permissionType per = _permissions.ElementAt(i).Key;
+                _permissions[per] = permissions.Contains(per);
             }
         }
     }

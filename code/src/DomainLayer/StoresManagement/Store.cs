@@ -21,7 +21,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private PurchasePolicy _purchasePolicy;
         private Dictionary<string, Permissions> _premmisions;
         private Inventory _inventory;
-        private bool _isOpen;
 
         private List<StorePurchase> _purchaseHistory;
 
@@ -38,19 +37,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._inventory = new Inventory();
             this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
             this.Name = name;
-            this._isOpen = true;
+            this._purchaseHistory = new List<StorePurchase>();
         }
 
         public string Name { get => _name; set => _name = value; }
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        internal List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
+        public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
 
-        public bool isOpen()
-        {
-            return _isOpen;
 
-        }
         //*********Add, Delete, Modify Products*********
 
 
@@ -58,7 +53,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
             int quantity, Category category, List<string> keywords, long productInvID)
         {
-            if (!(_premmisions[activeUserName].canAddProduct()))
+            if (!_premmisions.ContainsKey(activeUserName) || !(_premmisions[activeUserName].canAddProduct()))
             {
                 return false;
             }
@@ -69,7 +64,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) ||  !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -82,7 +77,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool deleteProductInventory(string loggedInUserName, string productInvName)
         {
 
-            if (!(_premmisions[loggedInUserName].canDeleteProduct()))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !(_premmisions[loggedInUserName].canDeleteProduct()))
             {
                 return false;
             }
@@ -91,9 +86,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
-        public bool deleteProduct(string loggedInUserName, string productInvName, int productID)
+        public bool deleteProduct(string loggedInUserName, string productInvName, long productID)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -106,7 +101,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private bool isLoggedInUserCanMoidfy(string loggedInUserName)
         {
-            if (!(_premmisions[loggedInUserName].canModifyProduct()))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !(_premmisions[loggedInUserName].canModifyProduct()))
             {
                 return false;
             }
@@ -117,7 +112,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool modifyProductPrice(string loggedInUserName, string productName, int newPrice)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -125,9 +120,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, int productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, long productID, Discount newDiscount)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -135,9 +130,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, int productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, long productID, PurchaseType purchaseType)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -145,9 +140,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
-        public bool modifyProductQuantity(string loggedInUserName, string productName, int productID, int newQuantity)
+        public bool modifyProductQuantity(string loggedInUserName, string productName, long productID, int newQuantity)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -157,7 +152,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool modifyProductName(string loggedInUserName, string newProductName, string oldProductName)
         {
-            if (!isLoggedInUserCanMoidfy(loggedInUserName))
+            if (!_premmisions.ContainsKey(loggedInUserName) || !isLoggedInUserCanMoidfy(loggedInUserName))
             {
                 return false;
             }
@@ -169,7 +164,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool assignOwner(User loggedInUser, string newOwneruserName)
         {
 
-            if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
+            if (!_premmisions.ContainsKey(loggedInUser.Name()) || !_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
@@ -195,7 +190,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool assignManager(User loggedInUser, string newManageruserName)
         {
 
-            if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
+            if (!_premmisions.ContainsKey(loggedInUser.Name()) || !_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
@@ -264,6 +259,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public void logPurchase(StorePurchase purchase)
         {
             _purchaseHistory.Add(purchase);
+        }
+
+        public Permissions getPermissionByName(string userName)
+        {
+            if (_premmisions.ContainsKey(userName))
+            {
+                return _premmisions[userName];
+            }
+            else return null;
         }
     }
 }
