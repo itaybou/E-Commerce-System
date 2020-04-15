@@ -22,7 +22,6 @@ namespace ECommerceSystem.DomainLayer.Utilities
             else throw new ArgumentException();
         }
 
-        [Trace("Debug")]
         public bool inRange(T value)
         {
             return value.CompareTo(min) >= 0 && value.CompareTo(max) <= 0;

@@ -12,8 +12,6 @@ namespace ECommerceSystem
             range.inRange(2.0);
             UserServices s = new UserServices();
             s.register("itay", "itAy5dad", "fname", "lname", "mail@mail");
-            SystemLogger.logger.Trace("hello");
-            SystemLogger.logger.Warn("WARN");
         }
     }
 }

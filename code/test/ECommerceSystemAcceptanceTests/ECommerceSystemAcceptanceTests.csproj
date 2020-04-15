@@ -29,6 +29,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="supply_system_requirments\" />
+    <Folder Include="payment_system_requirments\" />
+    <Folder Include="system_admin_requirments\" />
+    <Folder Include="store_owner_requirments\" />
+    <Folder Include="subscribed_requirments\" />
     <Folder Include="requirment_stories\" />
   </ItemGroup>
 

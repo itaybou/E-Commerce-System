@@ -9,7 +9,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     public class StoreManagement
     {
         private List<Store> _stores;
-        private List<string> _productCategories;
         private UsersManagement _userManagement;
         private long _productInvID;
 
