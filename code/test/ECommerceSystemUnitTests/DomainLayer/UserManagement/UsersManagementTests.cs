@@ -1,11 +1,8 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 {
@@ -13,6 +10,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
     public class UsersManagementTests
     {
         private UsersManagement _userManagement;
+
         private string uname = "test", bad_pswd = "password", good_pswd = "passwordA5",
             fname = "name", lname = "lname", email = "email@email.com", bad_email = "helloworld";
 
@@ -44,7 +42,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             Assert.NotNull(_userManagement.register(uname, bad_pswd, fname, lname, email)); // Test register method not passed due to bad password
             Assert.NotNull(_userManagement.register(uname, bad_pswd, fname, lname, bad_email)); // Test register method not passed due to bad email
             Assert.Null(_userManagement.register(uname, good_pswd, fname, lname, email)); // Test register method passes with good password
-            Assert.True(_userManagement.Users.Any() && _userManagement.Users.Count.Equals(1));   // Test users list has 
+            Assert.True(_userManagement.Users.Any() && _userManagement.Users.Count.Equals(1));   // Test users list has
             Assert.IsEmpty(_userManagement.Users.First().Value);   // Test user initialized with empty shopping cart
             var registered = _userManagement.Users.First().Key;
             Assert.AreEqual(registered.Name(), uname);
@@ -73,7 +71,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void logoutTest()
         {
-            _userManagement.register(uname, good_pswd, fname, lname, email);  
+            _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
             var activeUser = _userManagement._activeUser;
             var subscribedCart = activeUser._cart;
@@ -112,12 +110,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var cart = _userManagement.getActiveUserShoppingCart();
             Assert.IsEmpty(cart);                                               // Test inital cart is empty
             Assert.IsEmpty(cart.StoreCarts);                                    // Test inital store carts list is empty
-            _userManagement.addProductToCart(product, store, 1);                
+            _userManagement.addProductToCart(product, store, 1);
             Assert.IsNotEmpty(cart);                                              // Test cart is not empty after adding first product
             Assert.AreEqual(cart.StoreCarts.Count, 1);                            // Test only one new store cart added
             Assert.AreEqual(cart.StoreCarts.First().Products.Count, 1);           // Test only one new prodcut added
             Assert.AreEqual(cart.StoreCarts.First().Products[product], 1);        // Test product quantity added is one
-            _userManagement.addProductToCart(product, store, 2);                
+            _userManagement.addProductToCart(product, store, 2);
             Assert.AreEqual(cart.StoreCarts.Count, 1);                            // Test adding same product from same store, store cart list remains of size one
             Assert.AreEqual(cart.StoreCarts.First().Products.Count, 1);           // Test adding same product from same store, product count remains one
             Assert.AreEqual(cart.StoreCarts.First().Products[product], 3);        // Test adding same product from same store, increases accumulated qunatity
@@ -174,7 +172,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             Assert.True(_userManagement.removeProdcutFromCart(product));    // Test passed on trying to remove existing product
             Assert.AreEqual(_userManagement.getActiveUserShoppingCart().Count(), 1);    // Test only one product was removed
             Assert.AreEqual(_userManagement.getActiveUserShoppingCart().First(), product2); // Test remaining product is the one that was not removed
-
         }
 
         [Test()]
@@ -193,7 +190,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product2 = new Product(null, null, 10, 15.5, 2);
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
-            var prodcutQunatities = new Dictionary<Product, int>(){{product, 1}, {product2, 2}};
+            var prodcutQunatities = new Dictionary<Product, int>() { { product, 1 }, { product2, 2 } };
             _userManagement.logUserPurchase(41, prodcutQunatities, "fname", "lname", 305278384, "343-434", DateTime.Now, 300, "BGU University");
             var purchaseHistory = ((Subscribed)(_userManagement.getLoggedInUser()._state)).PurchaseHistory;
             Assert.AreEqual(purchaseHistory.First().ProductsPurchased.Count, 2);            // Test both proudcts added to user purchase on same purchase

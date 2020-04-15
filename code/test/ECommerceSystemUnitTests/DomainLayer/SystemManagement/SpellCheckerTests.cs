@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 
@@ -27,8 +22,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void SpellCheckerTest()
         {
-            Assert.True(File.Exists(SPELL_CHECK_WORDS_TXT));
-            Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));
+            Assert.True(File.Exists(SPELL_CHECK_WORDS_TXT));        //Test to check the english words text file is exist
+            Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));        //Test to check the serializable file is exists
             Assert.IsNotEmpty(SpellChecker.Deserialize<HashSet<string>>(File.Open(SPELL_CHECK_FILE_NAME, FileMode.Open)));
         }
 
@@ -39,6 +34,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));
         }
 
+
+        //Tests to check the spellChecker returns the requested words.
         [Test()]
         public void CorrectTest()
         {
@@ -55,6 +52,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(_spellChecker.Correct("MISATKE").Contains("mistake"));
             Assert.True(_spellChecker.Correct("MISIGN").Contains("missing"));
             Assert.True(_spellChecker.Correct("mIxdE").Contains("mixed"));
+            Assert.True(_spellChecker.Correct("banna").Contains("banana"));
+            Assert.True(_spellChecker.Correct("shcedle").Contains("schedule"));
         }
     }
 }

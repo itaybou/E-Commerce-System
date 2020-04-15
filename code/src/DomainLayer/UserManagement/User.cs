@@ -1,10 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
-
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -38,7 +33,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         //Assume _state is subsbcribed
         public void addOwnStore(Store store)
         {
-            ((Subscribed)_state).addOwnStore(store); 
+            ((Subscribed)_state).addOwnStore(store);
         }
 
         //Assume _state is subsbcribed

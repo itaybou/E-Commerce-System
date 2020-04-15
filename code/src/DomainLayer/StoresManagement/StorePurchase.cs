@@ -1,9 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -20,8 +16,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _productsPurchased = productsPurchased;
         }
 
-        public User User { get => _user; set => _user = value; }
-        public double TotalPrice { get => _totalPrice; set => _totalPrice = value; }
-        public List<Product> ProductsPurchased { get => _productsPurchased; set => _productsPurchased = value; }
+        public User User { get => _user; }
+        public double TotalPrice { get => _totalPrice; }
+        public List<Product> ProductsPurchased { get => _productsPurchased; }
     }
 }

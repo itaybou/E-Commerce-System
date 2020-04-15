@@ -1,9 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -13,9 +10,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private Dictionary<Product, int> _productQuantities; // Product => Quantity
 
         public Store store { get => _store; set => _store = value; }
-        public Dictionary<Product, int> Products { get => _productQuantities;}
+        public Dictionary<Product, int> Products { get => _productQuantities; }
 
-        public StoreShoppingCart (Store s)
+        public StoreShoppingCart(Store s)
         {
             _store = s;
             _productQuantities = new Dictionary<Product, int>();
@@ -35,7 +32,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _productQuantities.Remove(p);
             else
                 _productQuantities[p] = quantity;
-
         }
 
         public void RemoveFromCart(Product p)

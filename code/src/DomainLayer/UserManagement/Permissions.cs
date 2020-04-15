@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
-{   
-
+{
     public enum permissionType
     {
         AddProductInv,
@@ -34,7 +29,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public static Permissions CreateOwner(User assignedBy)
         {
-            if(assignedBy == null || assignedBy.isSubscribed())
+            if (assignedBy == null || assignedBy.isSubscribed())
             {
                 Permissions permissions = new Permissions(assignedBy, true);
                 return permissions;
@@ -109,7 +104,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[permissionType.WatchAndomment];
         }
 
-        public void edit(List <permissionType> permissions)
+        public void edit(List<permissionType> permissions)
         {
             // reset all permissions to false
             for (int i = 0; i < _permissions.Count; i++)
@@ -118,6 +113,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _permissions[per] = permissions.Contains(per);
             }
         }
-
     }
 }
