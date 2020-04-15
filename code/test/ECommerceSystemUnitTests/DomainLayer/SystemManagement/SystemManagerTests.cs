@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
 {
@@ -17,7 +14,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private UsersManagement _userManagement;
         private StoreManagement _storeManagement;
         private Store _store1, _store2;
-        double _totalPrice;
+        private double _totalPrice;
         private Dictionary<Product, int> _allProducts;
         private Dictionary<Store, Dictionary<Product, int>> _storeProducts;
         private IEnumerable<(Store, double)> _storePayments;
@@ -71,9 +68,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             var store1_purchase = _store1.PurchaseHistory.First();
             Assert.True(store1_purchase.User == _userManagement.getLoggedInUser());
             Assert.AreEqual(_storeProducts[_store1].ToList().Aggregate(0.0, (total, prod) => total += prod.Key.CalculateDiscount() * prod.Value), store1_purchase.TotalPrice);
-            foreach(var prodPurchase in store1_purchase.ProductsPurchased)  // Verify purchase log contains the correct products for store 1
+            foreach (var prodPurchase in store1_purchase.ProductsPurchased)  // Verify purchase log contains the correct products for store 1
             {
-                Assert.True(_storeProducts[_store1].ToList().Exists(p => p.Key.Id.Equals(prodPurchase.Id)));   
+                Assert.True(_storeProducts[_store1].ToList().Exists(p => p.Key.Id.Equals(prodPurchase.Id)));
                 Assert.False(_storeProducts[_store2].ToList().Exists(p => p.Key.Id.Equals(prodPurchase.Id)));
                 Assert.True(_storeProducts[_store1].ToList().All(p => p.Key != prodPurchase));  // New product is stored in purchase history (indeifferent to changes)
             }

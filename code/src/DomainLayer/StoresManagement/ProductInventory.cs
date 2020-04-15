@@ -1,10 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.Utilities;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -26,9 +23,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Category Category { get => _category; set => _category = value; }
         public List<string> Keywords { get => _keywords.ToList(); }
         public double Rating { get => _rating; }
-        public List<Product> ProductList{ get => _productInventory; set => _productInventory = value; }
+        public List<Product> ProductList { get => _productInventory; set => _productInventory = value; }
 
-        public double Price {
+        public double Price
+        {
             get => _price;
             set
             {
@@ -49,7 +47,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             keywords.ForEach(k => _keywords.Add(k));
         }
 
-        public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 
+        public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType,
             double price, int quantity, Category category, List<string> keywords, long productIDCounter, long productInvID)
         {
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, productInvID, keywords);
@@ -60,9 +58,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private Product getProducByID(long id)
         {
-            foreach(Product p in _productInventory)
+            foreach (Product p in _productInventory)
             {
-                if(p.Id == id)
+                if (p.Id == id)
                 {
                     return p;
                 }
@@ -72,13 +70,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductQuantity(int productID, int newQuantity)
         {
-            if(newQuantity <= 0)
+            if (newQuantity <= 0)
             {
                 return false;
             }
 
             Product product = getProducByID(productID);
-            if(product == null)
+            if (product == null)
             {
                 return false;
             }
@@ -99,7 +97,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, long id)
         {
-            if(quantity <= 0)
+            if (quantity <= 0)
             {
                 return false;
             }
@@ -109,7 +107,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductDiscountType(int productID, Discount newDiscount)
         {
-            if(newDiscount == null)
+            if (newDiscount == null)
             {
                 return false;
             }
@@ -149,7 +147,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerator<Product> GetEnumerator()
         {
-            foreach(var product in _productInventory)
+            foreach (var product in _productInventory)
             {
                 yield return product;
             }

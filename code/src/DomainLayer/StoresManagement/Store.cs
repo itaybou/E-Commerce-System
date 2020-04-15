@@ -1,10 +1,8 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.DomainLayer.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -23,7 +21,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private List<StorePurchase> _purchaseHistory;
 
         // TODO: maybe delete
-        private Dictionary<Subscribed, Permissions> managers;   
+        private Dictionary<Subscribed, Permissions> managers;
+
         private Dictionary<Subscribed, Permissions> owners;
         //
 
@@ -33,7 +32,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._purchasePolicy = purchasePolicy;
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
-            this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
+            this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null));
             this.Name = name;
             this._isOpen = true;
             this._purchaseHistory = new List<StorePurchase>();
@@ -47,10 +46,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool isOpen()
         {
             return _isOpen;
-
         }
-        //*********Add, Delete, Modify Products*********
 
+        //*********Add, Delete, Modify Products*********
 
         //@pre - logged in user have permission to add product
         public bool addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
@@ -71,15 +69,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
             else return _inventory.addProduct(productInvName, discount, purchaseType, quantity);
         }
-
 
         //@pre - logged in user have permission to delete product
         public bool deleteProductInventory(string loggedInUserName, string productInvName)
         {
-
             if (!(_premmisions[loggedInUserName].canDeleteProduct()))
             {
                 return false;
@@ -98,9 +93,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else return _inventory.deleteProduct(productInvName, productID);
         }
 
-
         //*********Modify Products*********
-
 
         private bool isLoggedInUserCanMoidfy(string loggedInUserName)
         {
@@ -166,13 +159,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool assignOwner(User loggedInUser, string newOwneruserName)
         {
-
             if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
             }
 
-            if(_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner() ) // The user of userName is already owner of this store
+            if (_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner()) // The user of userName is already owner of this store
             {
                 return false;
             }
@@ -192,7 +184,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool assignManager(User loggedInUser, string newManageruserName)
         {
-
             if (!_premmisions[loggedInUser.Name()].isOwner()) //Check that the assign is owner
             {
                 return false;
@@ -206,13 +197,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             Permissions per = Permissions.CreateManager(loggedInUser);
             if (per == null) return false; // loggedInUser isn`t subscribed
             _premmisions.Add(newManageruserName, per);
-            
+
             return true;
         }
 
         public bool removeManager(User loggedInUser, string managerUserName)
         {
-
             if (!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) // The user of userName isn`t manager of this store or he is owner of this store
             {
                 return false;
@@ -227,12 +217,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-
         // @Pre - loggedInUserName is the user who assign managerUserName
         //        managerUserName is manager in this store
         public bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName)
         {
-            if(!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) //The managerUserName isn`t manager
+            if (!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) //The managerUserName isn`t manager
             {
                 return false;
             }
@@ -266,7 +255,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public List<StorePurchase> purchaseHistory(User loggedInUser)
         {
-            if( !_premmisions[loggedInUser.Name()].canWatchHistory() || !loggedInUser.isSystemAdmin())
+            if (!_premmisions[loggedInUser.Name()].canWatchHistory() || !loggedInUser.isSystemAdmin())
             {
                 return null;
             }

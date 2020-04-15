@@ -1,5 +1,5 @@
-﻿using System;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using System;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {

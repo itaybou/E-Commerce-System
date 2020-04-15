@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ECommerceSystem.DomainLayer.Utilities;
+using System;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.security
 {
@@ -15,11 +11,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
 
         public static bool IsValidEmail(string email)
         {
-            try {
+            try
+            {
                 var addr = new MailAddress(email);
                 return addr.Address == email;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }

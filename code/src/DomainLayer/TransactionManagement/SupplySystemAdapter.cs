@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using System.Collections.Generic;
-using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {

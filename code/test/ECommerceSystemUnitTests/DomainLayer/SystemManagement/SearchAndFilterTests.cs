@@ -1,13 +1,9 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.Utilities;
+using Moq;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
 {
@@ -75,7 +71,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void searchProductsByKeywordTest()
         {
-            Assert.AreEqual(_mock.Object.searchProductsByKeyword(new List<string> { {"Phone" }, { "Laptop" } }).Count, 4);   // Test search by keywords matching expected
+            Assert.AreEqual(_mock.Object.searchProductsByKeyword(new List<string> { { "Phone" }, { "Laptop" } }).Count, 4);   // Test search by keywords matching expected
             Assert.AreEqual(_mock.Object.searchProductsByKeyword(new List<string> { { "Laptop" }, { "Computer" } }).Count, 1);   // Test not returning duplicate result for same product
             Assert.AreEqual(_mock.Object.searchProductsByKeyword(new List<string> { { "Phone" }, { "Apple" } }).Count, 3);   // Test not returning duplicate result for same product
         }

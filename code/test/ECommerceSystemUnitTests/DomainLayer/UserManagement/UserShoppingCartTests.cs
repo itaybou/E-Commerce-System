@@ -1,18 +1,11 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.UserManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using NUnit.Framework;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 {
     [TestFixture()]
     public class UserShoppingCartTests
     {
-
         private UserShoppingCart _userShoppingCart;
         private StoreShoppingCart _storeShoppingCart1;
         private StoreShoppingCart _storeShoppingCart2;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.ServiceLayer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -15,7 +13,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public User _activeUser { get; set; }
 
-        private static readonly Lazy<UsersManagement> lazy = new Lazy<UsersManagement> (() => new UsersManagement());
+        private static readonly Lazy<UsersManagement> lazy = new Lazy<UsersManagement>(() => new UsersManagement());
 
         public static UsersManagement Instance => lazy.Value;
 
@@ -59,7 +57,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (_activeUser != null && !_activeUser._state.isSubscribed())
                 return false;
             _activeUser = new User(new Guest());
-            _activeUser._cart = new UserShoppingCart();;
+            _activeUser._cart = new UserShoppingCart(); ;
             return true;
         }
 
@@ -113,7 +111,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return false;
         }
 
-
         public bool removeProdcutFromCart(Product p)
         {
             if (ShoppingCartDetails().All(prod => !prod.Id.Equals(p.Id)))
@@ -130,7 +127,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void logUserPurchase(double totalPrice, Dictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            if(getLoggedInUser() != null && getLoggedInUser().isSubscribed())
+            if (getLoggedInUser() != null && getLoggedInUser().isSubscribed())
             {
                 var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
                 getLoggedInUser()._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
@@ -152,7 +149,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return _users.Remove(user);
         }
-
 
         public void addOwnStore(Store store, User user)
         {
@@ -189,13 +185,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 return null;
             }
-            if(historyUser == null || !historyUser.isSubscribed())
+            if (historyUser == null || !historyUser.isSubscribed())
             {
                 return null;
             }
 
             return historyUser.getHistoryPurchase();
-
         }
     }
 }

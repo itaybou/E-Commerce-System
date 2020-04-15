@@ -1,9 +1,6 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -15,10 +12,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private PaymentShipmentDetails _paymentShippingMethod;
 
         public List<Product> ProductsPurchased { get => _productsPurchased; }
-        public PaymentShipmentDetails PaymentShippingMethod { get => _paymentShippingMethod;  }
-        public double TotalPrice { get => _totalPrice;  }
+        public PaymentShipmentDetails PaymentShippingMethod { get => _paymentShippingMethod; }
+        public double TotalPrice { get => _totalPrice; }
 
-        public UserPurchase(double totalPrice, List<Product> productsPurchased, 
+        public UserPurchase(double totalPrice, List<Product> productsPurchased,
             string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             _totalPrice = totalPrice;
@@ -52,9 +49,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string FirstName { get => _firstName; }
         public string LastName { get => _lastName; }
         public int Id { get => _id; }
-        public string CreditCardNumber { get => _creditCardNumber;  }
+        public string CreditCardNumber { get => _creditCardNumber; }
         public DateTime ExpirationCreditCard { get => _expirationCreditCard; }
-        public int CVV { get => _CVV;  }
-        public string Address { get => _address;  }
+        public int CVV { get => _CVV; }
+        public string Address { get => _address; }
     }
 }
