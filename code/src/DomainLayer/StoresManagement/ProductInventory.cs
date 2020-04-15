@@ -22,11 +22,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private HashSet<string> _keywords;
         private List<Product> _productInventory;
 
-        public string Name { get => _name; set => _name = value; }
-        public Category Category { get => _category; set => _category = value; }
+        public Category Category { get => _category;}
         public List<string> Keywords { get => _keywords.ToList(); }
         public double Rating { get => _rating; }
-        public List<Product> ProductList{ get => _productInventory; set => _productInventory = value; }
+        public List<Product> ProductList{ get => _productInventory;}
+        public long ID { get => _ID; }
+        public string Description { get => _description; }
+        public double Price1 { get => _price; }
+        public long RaterCount { get => _raterCount; }
+        public HashSet<string> Keywords1 { get => _keywords; }
+        public string Name { get => _name; set => _name = value; }
+
 
         public double Price {
             get => _price;
@@ -36,6 +42,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 _productInventory.ForEach(p => p.BasePrice = _price);
             }
         }
+
 
         private ProductInventory(string name, string description, double price, Category category, long ID, List<string> keywords)
         {
@@ -52,13 +59,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 
             double price, int quantity, Category category, List<string> keywords, long productIDCounter, long productInvID)
         {
+            if(price < 0 || quantity < 0 || discount == null || purchaseType == null)
+            {
+                return null;
+            }
+
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, productInvID, keywords);
             Product newProduct = new Product(discount, purchaseType, quantity, price, productIDCounter);
             productInventory._productInventory.Add(newProduct);
             return productInventory;
         }
 
-        private Product getProducByID(long id)
+        public Product getProducByID(long id)
         {
             foreach(Product p in _productInventory)
             {
@@ -70,7 +82,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        public bool modifyProductQuantity(int productID, int newQuantity)
+        public bool modifyProductQuantity(long productID, int newQuantity)
         {
             if(newQuantity <= 0)
             {
@@ -86,7 +98,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool deleteProduct(int productID)
+        public bool deleteProduct(long productID)
         {
             Product product = getProducByID(productID);
             if (product == null)
@@ -99,7 +111,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, long id)
         {
-            if(quantity <= 0)
+            if(quantity <= 0 || discount == null || purchaseType == null || price <= 0 || id < 0 || getProducByID(id) != null)
             {
                 return false;
             }
@@ -107,7 +119,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductDiscountType(int productID, Discount newDiscount)
+        public bool modifyProductDiscountType(long productID, Discount newDiscount)
         {
             if(newDiscount == null)
             {
@@ -123,9 +135,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductPurchaseType(int productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(long productID, PurchaseType purchaseType)
         {
-            if (purchaseType == null)
+            if (purchaseType == null )
             {
                 return false;
             }
@@ -138,13 +150,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             product.PurchaseType = purchaseType;
             return true;
         }
-
+        
         public void rateProduct(double rating)
         {
             ++_raterCount;
             rating = RATING_RANGE.inRange(rating) ? rating :
                      rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
-            _rating = ((_rating * _raterCount) + rating) / _raterCount;
+            _rating = ((_rating * (_raterCount-1)) + rating) / _raterCount;
         }
 
         public IEnumerator<Product> GetEnumerator()

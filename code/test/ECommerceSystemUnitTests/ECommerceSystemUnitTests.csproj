@@ -73,6 +73,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\InventoryTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\ProductInventoryTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\StoreTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilterTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SpellCheckerTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SystemManagerTests.cs" />
