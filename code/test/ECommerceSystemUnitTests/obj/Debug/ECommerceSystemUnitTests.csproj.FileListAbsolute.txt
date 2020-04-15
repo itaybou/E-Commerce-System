@@ -298,3 +298,7 @@ C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTest
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.dll
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csprojAssemblyReference.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemTests.pdb

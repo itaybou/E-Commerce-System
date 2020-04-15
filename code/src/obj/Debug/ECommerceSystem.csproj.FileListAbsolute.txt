@@ -58,3 +58,7 @@ C:\Users\סהר\source\repos\E-Commerce-System\code\src\bin\Debug\PostSharp.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\src\obj\Debug\PostSharp\touch
 C:\Users\סהר\source\repos\E-Commerce-System\code\src\obj\Debug\PostSharp\dependencies.txt
 C:\Users\סהר\source\repos\E-Commerce-System\code\src\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csprojAssemblyReference.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csproj.CoreCompileInputs.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.pdb

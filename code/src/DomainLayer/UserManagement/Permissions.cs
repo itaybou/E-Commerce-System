@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -113,5 +114,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _permissions[per] = permissions.Contains(per);
             }
         }
+
     }
 }
