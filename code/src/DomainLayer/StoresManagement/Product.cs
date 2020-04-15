@@ -26,10 +26,10 @@
             return _discount == null ? _basePrice : _discount.CalculateDiscount(_basePrice);
         }
 
-        public long Id { get => _id; set => _id = value; }
+        public long Id { get => _id;}
         public double BasePrice { get => _basePrice; set => _basePrice = value; }
         public int Quantity { get => _quantity; set => _quantity = value; }
-        internal Discount Discount { get => _discount; set => _discount = value; }
-        internal PurchaseType PurchaseType { get => _purchaseType; set => _purchaseType = value; }
+        public Discount Discount { get => _discount; set => _discount = value; }
+        public PurchaseType PurchaseType { get => _purchaseType; set => _purchaseType = value; }
     }
 }
