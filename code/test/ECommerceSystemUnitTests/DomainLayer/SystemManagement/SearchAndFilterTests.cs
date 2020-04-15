@@ -110,42 +110,42 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void applyPriceRangeFilterTest()
         {
-            Assert.AreEqual(_mock.Object.applyPriceRangeFilter(15.0, 150.0).Count, 4);
-            Assert.NotNull(_mock.Object.PriceRangeFilter);
+            Assert.AreEqual(_mock.Object.applyPriceRangeFilter(15.0, 150.0).Count, 4);   // Test returned filtered products as expected
+            Assert.NotNull(_mock.Object.PriceRangeFilter);          //Check the filter object is not null
         }
 
         [Test()]
         public void applyStoreRatingFilterTest()
         {
-            Assert.AreEqual(_mock.Object.applyStoreRatingFilter(3.0, 4.0).Count, 10);
-            Assert.NotNull(_mock.Object.StoreRatingFilter);
+            Assert.AreEqual(_mock.Object.applyStoreRatingFilter(3.0, 4.0).Count, 10);   // Test returned filtered products as expected
+            Assert.NotNull(_mock.Object.StoreRatingFilter);          //Check the filter object is not null
         }
 
         [Test()]
         public void applyProductRatingFilterTest()
         {
-            Assert.AreEqual(_mock.Object.applyProductRatingFilter(4.0, 5.0).Count, 6);
-            Assert.NotNull(_mock.Object.ProductRatingFilter);
+            Assert.AreEqual(_mock.Object.applyProductRatingFilter(4.0, 5.0).Count, 6);   // Test returned filtered products as expected
+            Assert.NotNull(_mock.Object.ProductRatingFilter);          //Check the filter object is not null
         }
 
         [Test()]
         public void applyCategoryFilterTest()
         {
-            Assert.AreEqual(_mock.Object.applyCategoryFilter(Category.ELECTRONICS).Count, 4);
-            Assert.NotNull(_mock.Object.CategoryFilter);
+            Assert.AreEqual(_mock.Object.applyCategoryFilter(Category.ELECTRONICS).Count, 4);   // Test returned filtered products as expected
+            Assert.NotNull(_mock.Object.CategoryFilter);          //Check the filter object is not null
         }
 
         [Test()]
         public void cancelFilterTest()
         {
-            Assert.AreEqual(_mock.Object.cancelFilter(Filters.CATEGORY).Count, 10);
-            Assert.AreEqual(_mock.Object.cancelFilter(Filters.PRICE_RANGE).Count, 10);
+            Assert.AreEqual(_mock.Object.cancelFilter(Filters.CATEGORY).Count, 10);      // Test returned filtered products as expected
+            Assert.AreEqual(_mock.Object.cancelFilter(Filters.PRICE_RANGE).Count, 10);   // Test returned filtered products as expected
             _mock.Object.applyPriceRangeFilter(15.0, 150.0);
             _mock.Object.applyCategoryFilter(Category.ELECTRONICS);
-            Assert.AreEqual(_mock.Object.cancelFilter(Filters.CATEGORY).Count, 4);
+            Assert.AreEqual(_mock.Object.cancelFilter(Filters.CATEGORY).Count, 4);      // Test returned filtered products as expected
             Assert.IsNull(_mock.Object.CategoryFilter);
             _mock.Object.applyCategoryFilter(Category.ELECTRONICS);
-            Assert.AreEqual(_mock.Object.cancelFilter(Filters.PRICE_RANGE).Count, 4);
+            Assert.AreEqual(_mock.Object.cancelFilter(Filters.PRICE_RANGE).Count, 4);   // Test returned filtered products as expected
             Assert.IsNull(_mock.Object.ProductRatingFilter);
         }
     }
