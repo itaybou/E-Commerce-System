@@ -1,0 +1,6 @@
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.csprojAssemblyReference.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.Properties.Resources.resources
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.csproj.GenerateResource.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.csproj.CoreCompileInputs.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.AssemblyInfoInputs.cache
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\ECommerceSystemAcceptanceTests\obj\Debug\netcoreapp2.2\ECommerceSystemAcceptanceTests.AssemblyInfo.cs
