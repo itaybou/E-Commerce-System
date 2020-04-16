@@ -37,6 +37,22 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
         }
 
+        public void storesCleanUp()
+        {
+            if (_real != null)
+            {
+                _real.storesCleanUp();
+            }
+        }
+
+        public void cancelSearchFilters()
+        {
+            if (_real != null)
+            {
+                _real.cancelSearchFilters();
+            }
+        }
+
         public void openStoreWithProducts(string storeName, string ownerName, List<string> products)
         {
             if (_real != null)
@@ -82,12 +98,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new List<string>();
         }
 
-        public void cancelSearchFilters()
-        {
-            if (_real != null)
-            {
-                _real.cancelSearchFilters();
-            }
-        }
+
     }
 }

@@ -34,6 +34,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void tearDown()
         {
             _bridge.usersCleanUp();
+            _bridge.storesCleanUp();
         }
 
         [TestCase()]

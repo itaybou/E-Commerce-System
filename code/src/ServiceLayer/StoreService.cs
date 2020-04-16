@@ -15,6 +15,11 @@ namespace ECommerceSystem.ServiceLayer
             _storeManagement = StoreManagement.Instance;
         }
 
+        public void removeAllStores()
+        {
+            _storeManagement.Stores.Clear();
+        }
+
         [Trace("Info")]
         //Usecase - 2.4
         public Tuple<Store, List<Product>> getStoreInfo(string storeName)

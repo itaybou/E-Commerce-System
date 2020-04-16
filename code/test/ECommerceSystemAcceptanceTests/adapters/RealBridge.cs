@@ -37,6 +37,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _userServices.removeAllUsers();
         }
 
+        public void storesCleanUp()
+        {
+            _storeService.removeAllStores();
+        }
+
         public void openStoreWithProducts(string storeName, string ownerName, List<string> products)
         {
             _storeService.openStore(storeName, new DiscountPolicy(), new PurchasePolicy());

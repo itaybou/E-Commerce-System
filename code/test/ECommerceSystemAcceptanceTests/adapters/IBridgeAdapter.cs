@@ -8,6 +8,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool IsUserSubscribed(string username);
         bool IsUserLogged(string username);
         void usersCleanUp();
+        void storesCleanUp();
         void openStoreWithProducts(string storeName, string ownerName, List<string> products);
         void cancelSearchFilters();
 

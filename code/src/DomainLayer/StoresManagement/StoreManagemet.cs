@@ -16,6 +16,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public static StoreManagement Instance => lazy.Value;
 
+        public List<Store> Stores { get => _stores; set => _stores = value; }
+
         private StoreManagement()
         {
             this._userManagement = UsersManagement.Instance;
