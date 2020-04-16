@@ -41,14 +41,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
             string error;
             Assert.True(Validation.isValidPassword(valid_pswd1, out error));
             Assert.True(Validation.isValidPassword(valid_pswd2, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd1, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd2, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd1, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd2, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd3, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd4, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd5, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd6, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd7, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd8, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd6, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd7, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd8, out error));
         }
     }
 }

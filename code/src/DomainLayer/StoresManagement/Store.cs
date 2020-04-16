@@ -241,7 +241,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Tuple<Store, List<Product>> getStoreInfo()
         {
-            return new Tuple<Store, List<Product>>(this, _inventory.SelectMany(p => p).ToList());
+            var prods = _inventory.SelectMany(p => p).ToList();
+            return new Tuple<Store, List<Product>>(this, prods);
         }
 
         public void rateStore(double rating)

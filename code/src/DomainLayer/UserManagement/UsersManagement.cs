@@ -37,7 +37,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 insert(new User(new Subscribed(uname, encrypted_pswd, fname, lname, email)));
                 return null;
             }
-            return error;
+            return exists? "User already exists" : error;
         }
 
         public bool login(string uname, string pswd)

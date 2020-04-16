@@ -64,6 +64,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name(), name); //sync - make user.name property
+            _stores.Add(newStore);
             _userManagement.addOwnStore(newStore, loggedInUser);
             return true;
         }
@@ -304,12 +305,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public List<ProductInventory> getAllStoresProdcutInventories()
         {
-            var allProdcuts = new List<ProductInventory>();
+            var allProducts = new List<ProductInventory>();
             foreach (Store store in _stores)
             {
-                allProdcuts.Concat(store.Inventory.Products);
+                allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
-            return allProdcuts;
+            return allProducts;
         }
 
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)

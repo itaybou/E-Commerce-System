@@ -2,6 +2,7 @@
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -12,6 +13,22 @@ namespace ECommerceSystem.ServiceLayer
         public UserServices()
         {
             _management = UsersManagement.Instance;
+        }
+
+        public bool isUserSubscribed(string username)
+        {
+            return _management.Users.Keys.ToList().Any(u => u.Name().Equals(username));
+        }
+
+        public bool isUserLogged(string username)
+        {
+            return _management.getLoggedInUser().isSubscribed() && _management.getLoggedInUser().Name().Equals(username);
+        }
+
+        public void removeAllUsers()
+        {
+            _management.Users.Clear();
+            _management._activeUser = new User(new Guest());
         }
 
         [Trace("Info")]

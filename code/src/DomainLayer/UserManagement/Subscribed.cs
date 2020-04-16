@@ -21,6 +21,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _pswd = pswd;
             _details = new UserDetails(fname, lname, email);
             _purchaseHistory = new List<UserPurchase>();
+            _storesOwned = new List<Store>();
+            _storesManaged = new List<Store>();
         }
 
         public bool isSubscribed()

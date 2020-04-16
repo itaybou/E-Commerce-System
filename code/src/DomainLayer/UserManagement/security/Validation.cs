@@ -28,7 +28,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
         {
             if (string.IsNullOrWhiteSpace(pswd) || !PSWD_RANGE.inRange(pswd.Length))
             {
-                throw new Exception($"Password should be between {PSWD_RANGE.min} to {PSWD_RANGE.max} characters");
+                error = $"Password should be between {PSWD_RANGE.min} to {PSWD_RANGE.max} characters.";
+                return false;
             }
             var hasNumber = new Regex(@"[0-9]+");
             var hasUpperChar = new Regex(@"[A-Z]+");
