@@ -27,11 +27,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
         [Test()]
         public void IsValidEmailTest()
         {
-            Assert.True(Validation.IsValidEmail(valid_email1));
-            Assert.True(Validation.IsValidEmail(valid_email2));
-            Assert.False(Validation.IsValidEmail(invalid_email1));
-            Assert.False(Validation.IsValidEmail(invalid_email2));
-            Assert.False(Validation.IsValidEmail(invalid_email3));
+            string error;
+            Assert.True(Validation.IsValidEmail(valid_email1, out error));
+            Assert.True(Validation.IsValidEmail(valid_email2, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email1, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email2, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email3, out error));
         }
 
         [Test()]

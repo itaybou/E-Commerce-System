@@ -7,7 +7,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
 {
     class RealBridge : IBridgeAdapter
     {
-        UserServices _userServices;
+        private UserServices _userServices;
 
         public RealBridge()
         {

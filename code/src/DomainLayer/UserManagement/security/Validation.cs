@@ -9,15 +9,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
     {
         public static Range<int> PSWD_RANGE = new Range<int>(6, 15);
 
-        public static bool IsValidEmail(string email)
+        public static bool IsValidEmail(string email, out string error)
         {
+            error = null;
             try
-            {
+            { 
                 var addr = new MailAddress(email);
                 return addr.Address == email;
             }
             catch
             {
+                error = "Email address is not valid";
                 return false;
             }
         }

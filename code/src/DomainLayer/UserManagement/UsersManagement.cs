@@ -31,7 +31,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             string error = null;
             var exists = getAll().Exists(user => user.isSubscribed() && user.Name().Equals(uname));
-            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email))
+            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
             {
                 var encrypted_pswd = Encryption.encrypt(pswd);
                 insert(new User(new Subscribed(uname, encrypted_pswd, fname, lname, email)));
