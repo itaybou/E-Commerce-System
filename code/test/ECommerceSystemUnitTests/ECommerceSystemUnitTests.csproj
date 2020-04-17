@@ -10,8 +10,8 @@
     <ProjectGuid>{C9A35E21-0B0C-4533-9FD6-19536FE6D46E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECommerceSystemTests</RootNamespace>
-    <AssemblyName>ECommerceSystemTests</AssemblyName>
+    <RootNamespace>ECommerceSystemAcceptanceTests</RootNamespace>
+    <AssemblyName>ECommerceSystemAcceptanceTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
