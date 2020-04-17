@@ -42,6 +42,16 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _storeService.removeAllStores();
         }
 
+        public void cancelSearchFilters()
+        {
+            var filters = CategoryMethods.GetValues(typeof(Filters)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper()).ToList();
+            filters.ForEach(filter =>
+            {
+                var f = (Filters)Enum.Parse(typeof(Filters), filter);
+                _systemService.cancelFilter(f);
+            });
+        }
+
         public void openStoreWithProducts(string storeName, string ownerName, List<string> products)
         {
             _storeService.openStore(storeName, new DiscountPolicy(), new PurchasePolicy());
@@ -123,29 +133,29 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return _systemService.getAllProducts().Select(p => p.Name).ToList();
         }
 
-        public void cancelSearchFilters()
-        {
-            var filters = CategoryMethods.GetValues(typeof(Filters)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper()).ToList();
-            filters.ForEach(filter =>
-            {
-                var f = (Filters)Enum.Parse(typeof(Filters), filter);
-                _systemService.cancelFilter(f);
-            });
-        }
 
-        public Dictionary<long, int> AddTocart(long prodID, int quantity) //2.6
+        public Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity) //2.6
         {
             var info = _storeService.getAllStoresInfo();
-            var prod = info.ToList().FindAll(pair => pair.Value.Exists(p => p.Id.Equals(prodID)));
-            prod.ForEach(pair =>
+            var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
+            prod.ForEach(pair => _userServices.addProductToCart(pair.Item2, pair.Item1, quantity));
+            var dict = new Dictionary<string, Dictionary<long, int>>();
+            _userServices.ShoppingCartDetails().StoreCarts.ForEach(storeCart =>
             {
-                pair.Value.ForEach(p => { _userServices.addProductToCart(p, pair.Key, quantity); });
-            });
-
-            var dict = new Dictionary<long,int>();
-            prod.ForEach(pair =>
-            {
-                pair.Value.ForEach(p => { dict.Add(p.Id, p.Quantity); });
+                var storeDict = new Dictionary<long, int>();
+                storeCart.Products.ToList().ForEach(p =>
+                {
+                    if (storeDict.ContainsKey(p.Key.Id))
+                    {
+                        storeDict[p.Key.Id] += p.Value;
+                    }
+                    else storeDict.Add(p.Key.Id, p.Value);
+                });
+                if (dict.ContainsKey(storeCart.store.Name))
+                {
+                    dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
+                }
+                else dict.Add(storeCart.store.Name, storeDict);
             });
 
             return dict;

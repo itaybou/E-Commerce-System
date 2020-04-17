@@ -98,13 +98,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new List<string>();
         }
 
-        public Dictionary<long, int> AddTocart(long prodID, int quantity) //2.6
+        public Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity) //2.6
         {
             if (_real != null)
             {
                 return _real.AddTocart(prodID, quantity);
             }
-            else return new Dictionary<long, int>();
+            else return new Dictionary<string, Dictionary<long, int>>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
-    // Requirment 2.4
+    // Requirment 2.6
     [TestFixture()]
     internal class AddToCart
     {
@@ -40,7 +40,14 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void TestAddToCart()
         {
             var prod = _bridge.AddTocart(1, 20);
-            Assert.AreEqual(prod[1],40);
+            Assert.AreEqual(prod["store1"][1], 20);
+            _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product1" }, { "product4" }, { "product5" } });
+            prod = _bridge.AddTocart(1, 20);
+            Assert.AreEqual(prod["store1"][1], 40);
+            Assert.AreEqual(prod["store2"][1], 20);
+            prod = _bridge.AddTocart(2, 20);
+            Assert.AreEqual(prod["store1"][2], 20);
+            Assert.AreEqual(prod["store2"][2], 20);
         }
     }
 }
