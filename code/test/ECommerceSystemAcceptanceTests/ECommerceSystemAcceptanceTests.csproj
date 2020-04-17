@@ -60,6 +60,7 @@
     <Compile Include="adapters\ProxyBridge.cs" />
     <Compile Include="adapters\RealBridge.cs" />
     <Compile Include="guest_requirments\SearchAndFilterProducts.cs" />
+    <Compile Include="guest_requirments\AddToCart.cs" />
     <Compile Include="guest_requirments\ViewStoreProductInfo.cs" />
     <Compile Include="guest_requirments\LoginTest.cs" />
     <Compile Include="guest_requirments\RegisterTest.cs" />

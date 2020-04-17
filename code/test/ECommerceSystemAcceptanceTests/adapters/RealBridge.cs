@@ -132,5 +132,23 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 _systemService.cancelFilter(f);
             });
         }
+
+        public Dictionary<long, int> AddTocart(long prodID, int quantity) //2.6
+        {
+            var info = _storeService.getAllStoresInfo();
+            var prod = info.ToList().FindAll(pair => pair.Value.Exists(p => p.Id.Equals(prodID)));
+            prod.ForEach(pair =>
+            {
+                pair.Value.ForEach(p => { _userServices.addProductToCart(p, pair.Key, quantity); });
+            });
+
+            var dict = new Dictionary<long,int>();
+            prod.ForEach(pair =>
+            {
+                pair.Value.ForEach(p => { dict.Add(p.Id, p.Quantity); });
+            });
+
+            return dict;
+        }
     }
 }
