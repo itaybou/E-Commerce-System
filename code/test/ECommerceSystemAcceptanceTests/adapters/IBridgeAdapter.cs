@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ECommerceSystemAcceptanceTests.adapters
+﻿namespace ECommerceSystemAcceptanceTests.adapters
 {
-    class IBridgeAdapter
+    interface IBridgeAdapter
     {
+        bool register(string uname, string pswd, string fname, string lname, string email); // Requirment 2.2
     }
 }

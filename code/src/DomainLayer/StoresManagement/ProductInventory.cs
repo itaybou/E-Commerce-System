@@ -54,6 +54,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._ID = ID;
             this._keywords = new HashSet<string>();
             keywords.ForEach(k => _keywords.Add(k));
+            _raterCount = 0;
+            _rating = 0;
         }
 
         public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 

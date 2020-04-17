@@ -19,15 +19,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private long _raterCount;
         private DiscountPolicy _discountPolicy;
         private PurchasePolicy _purchasePolicy;
-        private Dictionary<string, Permissions> _premmisions;
+        private Dictionary<string, Permissions> _premmisions; // username => permissions
         private Inventory _inventory;
 
         private List<StorePurchase> _purchaseHistory;
 
-        // TODO: maybe delete
-        private Dictionary<Subscribed, Permissions> managers;   
-        private Dictionary<Subscribed, Permissions> owners;
-        //
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
         {

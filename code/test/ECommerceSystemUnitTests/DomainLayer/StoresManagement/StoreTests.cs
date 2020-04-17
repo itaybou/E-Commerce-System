@@ -293,7 +293,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             List<permissionType> fewPermissions = new List<permissionType>();
             fewPermissions.Add(permissionType.AddProductInv);
             fewPermissions.Add(permissionType.DeleteProductInv);
-            fewPermissions.Add(permissionType.WatchAndomment);
+            fewPermissions.Add(permissionType.WatchAndComment);
 
 
             Assert.False(_store.editPermissions(_newManager.Name(), emptyPermissions, _regularUser.Name()), "Edit permiossions for manager by regular successed");

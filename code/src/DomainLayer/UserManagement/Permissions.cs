@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -8,9 +9,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         AddProductInv,
         DeleteProductInv,
         ModifyProduct,
-        WatchAndomment,
-        WatchPurchaseHistory
-        WatchHistory
+        WatchAndComment,
+        WatchPurchaseHistory,
     }
 
     public class Permissions
@@ -60,10 +60,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions[permissionType.AddProductInv] = isOwner;
             _permissions[permissionType.DeleteProductInv] = isOwner;
             _permissions[permissionType.ModifyProduct] = isOwner;
-            _permissions[permissionType.WatchHistory] = true; // Default to manager
-            _permissions[permissionType.WatchPurchaseHistory] = true;
-            _permissions[permissionType.PurchaseHistory] = true;
-            _permissions[permissionType.PurchaseHistory] = true; // Default to manager
+            _permissions[permissionType.WatchPurchaseHistory] = true;   // defualt for manager
+            _permissions[permissionType.WatchAndComment] = true;     // default for manager
         }
 
         public void makeOwner()
@@ -102,7 +100,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool canWatchAndomment()
         {
-            return _permissions[permissionType.WatchAndomment];
+            return _permissions[permissionType.WatchAndComment];
         }
 
         public void edit(List<permissionType> permissions)
@@ -115,5 +113,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
+        internal bool canWatchHistory()
+        {
+            return _permissions[permissionType.WatchPurchaseHistory];
+        }
     }
 }
