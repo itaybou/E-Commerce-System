@@ -96,28 +96,28 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductInvTest()
         {
-            Assert.False(_store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
+            Assert.AreEqual(-1, _store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
                          _category, _keywords, 2), "Add productInv successed while the user isn`t owner/manager");
-            Assert.False(_store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
+            Assert.AreEqual(-1, _store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
                         _category, _keywords, 2), "Add productInv successed while the user is manager without permission");
 
-            Assert.True(_store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
+            Assert.AreNotEqual(-1, _store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
                          _category, _keywords, 2), "Fail to add productInv by the owner"); 
-            Assert.True(_store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, 3), "Fail to add productInv by permited manager"); 
+            Assert.AreNotEqual(-1, _store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
+                         _category, _keywords, 3), "Fail to add productInv by permited manager");
         }
 
         [Test()]
         public void addProductTest()
         {
-            Assert.False(_store.addProduct("regularUser", _productName, _discount, _purchaseType, 20),
+            Assert.AreEqual(-1, _store.addProduct("regularUser", _productName, _discount, _purchaseType, 20),
                                 "Add group of products successed while the user isn`t owner/manager");
-            Assert.False(_store.addProduct("nonPermitManager", _productName, _discount, _purchaseType, 20),
+            Assert.AreEqual(-1, _store.addProduct("nonPermitManager", _productName, _discount, _purchaseType, 20),
                     "Add group of products successed while the user is manager without permission");
 
-            Assert.True(_store.addProduct("permitManager", _productName, _discount, _purchaseType, 20),
+            Assert.AreNotEqual(-1, _store.addProduct("permitManager", _productName, _discount, _purchaseType, 20),
                     "Fail to add group of products by permited manager");
-            Assert.True(_store.addProduct("owner", _productName, _discount, _purchaseType, 20),
+            Assert.AreNotEqual(-1, _store.addProduct("owner", _productName, _discount, _purchaseType, 20),
                     "Fail to add group of products by the owner");
 
         }

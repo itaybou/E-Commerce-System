@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;;
+﻿using NUnit.Framework;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using System;
 using System.Collections.Generic;
@@ -44,13 +44,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductInvTest()
         {
-            Assert.True(inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Failed to add productInv to inventory");
-            Assert.False(inventory.addProductInv("Galaxy", "samsung", null, new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with null discount to inventory successed"); //discount null 
-            Assert.False(inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), null, 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with null purchase type to inventory successed"); //purchase type null
-            Assert.False(inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -5, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with negative price to inventory successed"); //negative price
-            Assert.False(inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, -5, Category.ELECTRONICS, keywords, 2), "Add productInv with negative quantity to inventory successed"); //negative quantity
-            Assert.False(inventory.addProductInv(productName, "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with already exist name to inventory successed"); //exist name
-            Assert.False(inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 1), "Add productInv with already exist id to inventory successed"); //exist name
+            Assert.AreNotEqual(-1, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Failed to add productInv to inventory");
+            Assert.AreEqual(-1, inventory.addProductInv("Galaxy", "samsung", null, new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with null discount to inventory successed"); //discount null 
+            Assert.AreEqual(-1, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), null, 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with null purchase type to inventory successed"); //purchase type null
+            Assert.AreEqual(-1, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -5, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with negative price to inventory successed"); //negative price
+            Assert.AreEqual(-1, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, -5, Category.ELECTRONICS, keywords, 2), "Add productInv with negative quantity to inventory successed"); //negative quantity
+            Assert.AreEqual(-1, inventory.addProductInv(productName, "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 2), "Add productInv with already exist name to inventory successed"); //exist name
+            Assert.AreEqual(-1, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, 1), "Add productInv with already exist id to inventory successed"); //exist name
         }
 
         [Test()]
@@ -96,12 +96,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductTest()
         {
-            Assert.True(inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 50), "Failed to add new group of products to productInv");
+            Assert.AreNotEqual(-1, inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 50), "Failed to add new group of products to productInv");
             Assert.AreEqual(2, inventory.getProductByName(productName).ProductList.Count, "Didnt add new product group when suppused to");
 
-            Assert.False(inventory.addProduct("Galaxy", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 50), "Add group of products for non exist to productInv successed");
-            Assert.False(inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -1), "Add group of products with negative quantity to productInv successed");
-            Assert.False(inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 0), "Add group of products with quantity 0 to productInv successed");
+            Assert.AreEqual(-1, inventory.addProduct("Galaxy", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 50), "Add group of products for non exist to productInv successed");
+            Assert.AreEqual(-1, inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -1), "Add group of products with negative quantity to productInv successed");
+            Assert.AreEqual(-1, inventory.addProduct(productName, new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 0), "Add group of products with quantity 0 to productInv successed");
         }
 
         [Test()]

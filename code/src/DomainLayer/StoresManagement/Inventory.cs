@@ -32,20 +32,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        public bool addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
+        //return product(not product inventory!) id, return -1 in case of fail
+        public long addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
         {
             if (productName.Equals(""))
             {
-                return false;
+                return -1;
             }
             if (getProductByName(productName) != null) // check if the name already exist
             {
-                return false;
+                return -1;
             }
 
             ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords, ++_productIDCounter, productInvID);
             _products.Add(productInventory);
-            return true;
+            return _productIDCounter;
         }
 
         public bool deleteProductInventory(string productName)
@@ -68,14 +69,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            ProductInventory productInventory = getProductByName(oldProductName);
-            if (productInventory == null) // check if the product exist
+            ProductInventory oldproductInventory = getProductByName(oldProductName);
+            ProductInventory newproductInventory = getProductByName(newProductName);
+            if (oldproductInventory == null || newproductInventory != null) // check that oldProductName exist and newProductName isnt exist
             {
                 return false;
             }
             else
             {
-                productInventory.Name = newProductName;
+                oldproductInventory.Name = newProductName;
                 return true;
             }
         }
@@ -112,16 +114,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        //return the new product id or -1 in case of fail
+        public long addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             ProductInventory productInventory = getProductByName(productInvName);
             if (productInventory == null) // check if the product exist
             {
-                return false;
+                return -1;
             }
             else
             {
-                return productInventory.addProduct(discount, purchaseType, quantity, productInventory.Price, ++_productIDCounter);
+                if(productInventory.addProduct(discount, purchaseType, quantity, productInventory.Price, ++_productIDCounter)){
+                    return _productIDCounter;
+                }
+                else
+                {
+                    _productIDCounter--;
+                    return -1;
+                }
             }
         }
 
