@@ -59,6 +59,9 @@
     <Compile Include="adapters\IBridgeAdapter.cs" />
     <Compile Include="adapters\ProxyBridge.cs" />
     <Compile Include="adapters\RealBridge.cs" />
+    <Compile Include="guest_requirments\ChangeProductCartQuantityTest.cs" />
+    <Compile Include="guest_requirments\RemoveFromCartTest.cs" />
+    <Compile Include="guest_requirments\ViewUserCartTest.cs" />
     <Compile Include="subscribed_requirments\LogouTest.cs" />
     <Compile Include="guest_requirments\SearchAndFilterProductsTest.cs" />
     <Compile Include="guest_requirments\AddToCartTest.cs" />

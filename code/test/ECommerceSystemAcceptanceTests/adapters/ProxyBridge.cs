@@ -59,6 +59,16 @@ namespace ECommerceSystemAcceptanceTests.adapters
             {
                 _real.openStoreWithProducts(storeName, ownerName, products);
             }
+
+        }
+
+        public Dictionary<string, Dictionary<long, int>> getUserCartDetails()
+        {
+            if (_real != null)
+            {
+                return _real.getUserCartDetails();
+            }
+            else return new Dictionary<string, Dictionary<long, int>>();
         }
 
         // Requirments
@@ -107,13 +117,40 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new Dictionary<string, Dictionary<long, int>>();
         }
 
-        public bool logout()
+        public Dictionary<string, Dictionary<long, int>> ViewUserCart() //2.7
+        {
+            if (_real != null)
+            {
+                return _real.ViewUserCart();
+            }
+            else return new Dictionary<string, Dictionary<long, int>>();
+        }
+
+        public bool logout() //3.1
         {
             if (_real != null)
             {
                 return _real.logout();
             }
             else return true;
+        }
+
+        public bool RemoveFromCart(long prodID)
+        {
+            if (_real != null)
+            {
+                return _real.RemoveFromCart(prodID);
+            }
+            else return false;
+        }
+
+        public bool ChangeProductCartQuantity(long prodID, int quantity)
+        {
+            if (_real != null)
+            {
+                return _real.ChangeProductCartQuantity(prodID, quantity);
+            }
+            else return false;
         }
     }
 }

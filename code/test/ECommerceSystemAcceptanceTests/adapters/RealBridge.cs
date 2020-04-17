@@ -52,6 +52,31 @@ namespace ECommerceSystemAcceptanceTests.adapters
             });
         }
 
+        public Dictionary<string, Dictionary<long, int>> getUserCartDetails()
+        {
+            var dict = new Dictionary<string, Dictionary<long, int>>();
+            var cart = _userServices.ShoppingCartDetails();
+            cart.StoreCarts.ForEach(storeCart =>
+            {
+                var storeDict = new Dictionary<long, int>();
+                storeCart.Products.ToList().ForEach(p =>
+                {
+                    if (storeDict.ContainsKey(p.Key.Id))
+                    {
+                        storeDict[p.Key.Id] += p.Value;
+                    }
+                    else storeDict.Add(p.Key.Id, p.Value);
+                });
+                if (dict.ContainsKey(storeCart.store.Name))
+                {
+                    dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
+                }
+                else dict.Add(storeCart.store.Name, storeDict);
+            });
+
+            return dict;
+        }
+
         public void openStoreWithProducts(string storeName, string ownerName, List<string> products)
         {
             _storeService.openStore(storeName, new DiscountPolicy(), new PurchasePolicy());
@@ -139,31 +164,32 @@ namespace ECommerceSystemAcceptanceTests.adapters
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
             prod.ForEach(pair => _userServices.addProductToCart(pair.Item2, pair.Item1, quantity));
-            var dict = new Dictionary<string, Dictionary<long, int>>();
-            _userServices.ShoppingCartDetails().StoreCarts.ForEach(storeCart =>
-            {
-                var storeDict = new Dictionary<long, int>();
-                storeCart.Products.ToList().ForEach(p =>
-                {
-                    if (storeDict.ContainsKey(p.Key.Id))
-                    {
-                        storeDict[p.Key.Id] += p.Value;
-                    }
-                    else storeDict.Add(p.Key.Id, p.Value);
-                });
-                if (dict.ContainsKey(storeCart.store.Name))
-                {
-                    dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
-                }
-                else dict.Add(storeCart.store.Name, storeDict);
-            });
+            return getUserCartDetails();
+        }
 
-            return dict;
+        public Dictionary<string, Dictionary<long, int>> ViewUserCart()
+        {
+            return getUserCartDetails(); //uses User service function
         }
 
         public bool logout()
         {
             return _userServices.logout();
+        }
+
+        public bool RemoveFromCart(long prodID)
+        {
+            var info = _storeService.getAllStoresInfo();
+            var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
+            return _userServices.RemoveFromCart(prod);
+
+        }
+
+        public bool ChangeProductCartQuantity(long prodID, int quantity)
+        {
+            var info = _storeService.getAllStoresInfo();
+            var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
+            return _userServices.ChangeProductQunatity(prod, quantity);
         }
     }
 }
