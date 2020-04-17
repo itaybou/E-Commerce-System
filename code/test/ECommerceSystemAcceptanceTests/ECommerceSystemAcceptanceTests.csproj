@@ -59,9 +59,10 @@
     <Compile Include="adapters\IBridgeAdapter.cs" />
     <Compile Include="adapters\ProxyBridge.cs" />
     <Compile Include="adapters\RealBridge.cs" />
-    <Compile Include="guest_requirments\SearchAndFilterProducts.cs" />
-    <Compile Include="guest_requirments\AddToCart.cs" />
-    <Compile Include="guest_requirments\ViewStoreProductInfo.cs" />
+    <Compile Include="subscribed_requirments\LogouTest.cs" />
+    <Compile Include="guest_requirments\SearchAndFilterProductsTest.cs" />
+    <Compile Include="guest_requirments\AddToCartTest.cs" />
+    <Compile Include="guest_requirments\ViewStoreProductInfoTest.cs" />
     <Compile Include="guest_requirments\LoginTest.cs" />
     <Compile Include="guest_requirments\RegisterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +73,6 @@
   <ItemGroup>
     <Folder Include="payment_system_requirments\" />
     <Folder Include="store_owner_requirments\" />
-    <Folder Include="subscribed_requirments\" />
     <Folder Include="supply_system_requirments\" />
     <Folder Include="system_admin_requirments\" />
   </ItemGroup>

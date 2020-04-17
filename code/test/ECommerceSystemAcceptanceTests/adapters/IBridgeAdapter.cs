@@ -17,6 +17,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool login(string uname, string pswd); // Requirment 2.3
         Dictionary<string, List<string>> ViewProdcutStoreInfo(); // Requirment 2.4
         List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to); // Requirment 2.5
-        Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity);
+        Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity); // Requirment 2.6
+
+
+        bool logout(); // Requirment 3.1
     }
 }

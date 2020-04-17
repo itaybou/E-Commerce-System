@@ -106,5 +106,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else return new Dictionary<string, Dictionary<long, int>>();
         }
+
+        public bool logout()
+        {
+            if (_real != null)
+            {
+                return _real.logout();
+            }
+            else return true;
+        }
     }
 }

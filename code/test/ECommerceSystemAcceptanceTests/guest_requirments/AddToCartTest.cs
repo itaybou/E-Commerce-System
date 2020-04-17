@@ -6,9 +6,9 @@ using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
-    // Requirment 2.4
+    // Requirment 2.6
     [TestFixture()]
-    internal class ViewStoreProductInfo
+    internal class AddToCartTest
     {
         private string uname, pswd;
         private IBridgeAdapter _bridge;
@@ -37,19 +37,20 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         }
 
         [TestCase()]
-        public void TestViewAllStoreProducts()
+        public void TestAddToCart()
         {
-            var prods = _bridge.ViewProdcutStoreInfo();
-            Assert.AreEqual(prods.Keys.First(), "store1");
-            Assert.AreEqual(prods.Values.First().Count, 3);
-            _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product4" }, { "product5" }, { "product6" } });
-            prods = _bridge.ViewProdcutStoreInfo();
-            Assert.AreEqual(prods.Count, 2);
-            Assert.AreEqual(prods.Values.SelectMany(p => p).ToList().Count, 6);
-            _bridge.openStoreWithProducts("store3", uname, new List<string>() { { "product0" } });
-            prods = _bridge.ViewProdcutStoreInfo();
-            Assert.AreEqual(prods.Count, 3);
-            Assert.AreEqual(prods.Values.SelectMany(p => p).ToList().Count, 7);
+            var prod = _bridge.AddTocart(1, 20);
+            Assert.AreEqual(prod["store1"][1], 20);
+            _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product1" }, { "product4" }, { "product5" } });
+            prod = _bridge.AddTocart(1, 20);
+            Assert.AreEqual(prod["store1"][1], 40);
+            Assert.AreEqual(prod["store2"][1], 20);
+            prod = _bridge.AddTocart(2, 20);
+            Assert.AreEqual(prod["store1"][2], 20);
+            Assert.AreEqual(prod["store2"][2], 20);
+            prod = _bridge.AddTocart(3, 20);
+            Assert.AreEqual(prod["store1"][3], 20);
+            Assert.AreEqual(prod["store2"][3], 20);
         }
     }
 }

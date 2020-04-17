@@ -8,7 +8,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
     // Requirment 2.5
     [TestFixture()]
-    internal class SearchAndFilterProducts
+    internal class SearchAndFilterProductsTest
     {
         private string uname, pswd;
         private IBridgeAdapter _bridge;

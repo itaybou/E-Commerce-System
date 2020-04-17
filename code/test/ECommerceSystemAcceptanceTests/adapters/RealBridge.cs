@@ -160,5 +160,10 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
             return dict;
         }
+
+        public bool logout()
+        {
+            return _userServices.logout();
+        }
     }
 }
