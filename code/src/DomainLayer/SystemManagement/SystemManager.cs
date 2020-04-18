@@ -9,6 +9,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 {
     public class SystemManager
     {
+        private object _transactionLock = new object();
         private static readonly Lazy<SystemManager> lazy = new Lazy<SystemManager>(() => new SystemManager());
         public static SystemManager Instance => lazy.Value;
 
@@ -31,32 +32,35 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
-            if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
+            lock (_transactionLock)
             {
-                if (_transactionManager.supplyTransaction(allProducts, address))                                                        // supply all prodcuts by quantity
+                if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
                 {
-                    foreach ((Store, double) storePayment in storePayments)                                                             // send payment to all stores bought from
+                    if (_transactionManager.supplyTransaction(allProducts, address))                                                        // supply all prodcuts by quantity
                     {
-                        storeProducts[storePayment.Item1].ToList().ForEach(prod =>
+                        foreach ((Store, double) storePayment in storePayments)                                                             // send payment to all stores bought from
                         {
-                            prod.Key.Quantity -= prod.Value;
-                            if (prod.Key.Quantity.Equals(0))
-                                storePayment.Item1.Inventory.Products.ForEach(inv =>
-                                {
-                                    if (inv.ProductList.Contains(prod.Key))
-                                        inv.ProductList.Remove(prod.Key);
-                                });
-                        });
-                        _transactionManager.sendPayment(storePayment.Item1, storePayment.Item2);
-                        var storeBoughtProducts = storeProducts[storePayment.Item1];
-                        _storeManagement.logStorePurchase(storePayment.Item1, _userManagement.getLoggedInUser(), storePayment.Item2, storeBoughtProducts);
+                            storeProducts[storePayment.Item1].ToList().ForEach(prod =>
+                            {
+                                prod.Key.Quantity -= prod.Value;
+                                if (prod.Key.Quantity.Equals(0))
+                                    storePayment.Item1.Inventory.Products.ForEach(inv =>
+                                    {
+                                        if (inv.ProductList.Contains(prod.Key))
+                                            inv.ProductList.Remove(prod.Key);
+                                    });
+                            });
+                            _transactionManager.sendPayment(storePayment.Item1, storePayment.Item2);
+                            var storeBoughtProducts = storeProducts[storePayment.Item1];
+                            _storeManagement.logStorePurchase(storePayment.Item1, _userManagement.getLoggedInUser(), storePayment.Item2, storeBoughtProducts);
+                        }
+                        purchased = true;
                     }
-                    purchased = true;
+                    else _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);   // if supply failed, refund user
                 }
-                else _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);   // if supply failed, refund user
+                if (purchased)
+                    _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             }
-            if(purchased)
-                _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             return purchased;
         }
 

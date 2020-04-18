@@ -336,7 +336,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.AreEqual(expected, _store.purchaseHistory(_owner), "fail to view store history");
             Assert.AreEqual(expected, _store.purchaseHistory(_permitManager), "fail to view store history");
 
-            User admin = new User(new SystemAdmin("admind", "123456", "fname", "lname", "email"));
+            User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
             Assert.AreEqual(expected, _store.purchaseHistory(admin), "fail to view store history");
 
             //fail:

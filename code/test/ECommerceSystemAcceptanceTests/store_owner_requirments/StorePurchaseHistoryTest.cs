@@ -47,8 +47,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
+
             //system admin
-            _bridge.login("admin", "123456");
+            _bridge.login("admin", "4dMinnn");
             Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
         }
