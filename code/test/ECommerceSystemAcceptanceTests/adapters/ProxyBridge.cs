@@ -129,7 +129,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public List<StorePurchase> purchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName)
         {
             if (real != null)
             {

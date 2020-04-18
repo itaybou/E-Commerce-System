@@ -146,9 +146,26 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.openStore(name, discount, purchase);
         }
 
-        public List<StorePurchase> purchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName)
         {
-            return _storeService.purchaseHistory(storeName);
+            List<StorePurchase> history = _storeService.purchaseHistory(storeName);
+
+            if(history == null)
+            {
+                return null;
+            }
+            
+            List<Tuple<string, List<Tuple<long, int>>, double>> purchases = new List<Tuple<string, List<Tuple<long, int>>, double>>();
+            foreach(StorePurchase s in history)
+            {
+                List<Tuple<long, int>> products = new List<Tuple<long, int>>();
+                foreach(Product p in s.ProductsPurchased)
+                {
+                    products.Add(Tuple.Create(p.Id, p.Quantity));
+                }
+                purchases.Add(Tuple.Create(s.User.Name(), products, s.TotalPrice));
+            }
+            return purchases;
         }
 
         public bool register(string uname, string pswd, string fname, string lname, string email)

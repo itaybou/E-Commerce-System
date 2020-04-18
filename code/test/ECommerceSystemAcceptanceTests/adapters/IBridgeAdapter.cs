@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 
@@ -32,7 +33,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         bool removeManager(string managerUserName, string storeName); //Requirement 4.7
 
-        List<StorePurchase> purchaseHistory(string storeName); // Requirements 4.10 and 6.4.2
+        List <Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName); // Requirements 4.10 and 6.4.2
 
 
     }
