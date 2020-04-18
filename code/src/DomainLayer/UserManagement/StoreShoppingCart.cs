@@ -30,8 +30,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (!_productQuantities.ContainsKey(p)) return;
             if (quantity == 0)
                 _productQuantities.Remove(p);
-            else
-                _productQuantities[p] = quantity;
+            else _productQuantities[p] = quantity;
         }
 
         public void RemoveFromCart(Product p)

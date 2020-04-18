@@ -27,11 +27,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
         [Test()]
         public void IsValidEmailTest()
         {
-            Assert.True(Validation.IsValidEmail(valid_email1));
-            Assert.True(Validation.IsValidEmail(valid_email2));
-            Assert.False(Validation.IsValidEmail(invalid_email1));
-            Assert.False(Validation.IsValidEmail(invalid_email2));
-            Assert.False(Validation.IsValidEmail(invalid_email3));
+            string error;
+            Assert.True(Validation.IsValidEmail(valid_email1, out error));
+            Assert.True(Validation.IsValidEmail(valid_email2, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email1, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email2, out error));
+            Assert.False(Validation.IsValidEmail(invalid_email3, out error));
         }
 
         [Test()]
@@ -40,14 +41,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
             string error;
             Assert.True(Validation.isValidPassword(valid_pswd1, out error));
             Assert.True(Validation.isValidPassword(valid_pswd2, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd1, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd2, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd1, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd2, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd3, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd4, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd5, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd6, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd7, out error));
-            Assert.Throws<Exception>(() => Validation.isValidPassword(invalid_pswd8, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd6, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd7, out error));
+            Assert.False(Validation.isValidPassword(invalid_pswd8, out error));
         }
     }
 }

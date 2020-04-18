@@ -17,6 +17,13 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         // Use-case 2.5 - search and filter services
+        public List<ProductInventory> getAllProducts()
+        {
+            return _systemManager.SearchAndFilterSystem.getAllProdcuts();
+        }
+
+        [Trace("Info")]
+        // Use-case 2.5 - search and filter services
         public List<ProductInventory> searchProductsByCategory(Category category)
         {
             return _systemManager.SearchAndFilterSystem.searchProductsByCategory(category);
@@ -46,7 +53,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="to">the requested price to filter to</param>
         /// <returns>List of all the product matching the filter</returns>
         [Trace("Info")]
-        private List<ProductInventory> applyPriceRangeFilter(double from, double to)
+        public List<ProductInventory> applyPriceRangeFilter(double from, double to)
         {
             return _systemManager.SearchAndFilterSystem.applyPriceRangeFilter(from, to);
         }
@@ -58,7 +65,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="to">the requested store rating to filter to</param>
         /// <returns>List of all the product matching the filter</returns>
         [Trace("Info")]
-        private List<ProductInventory> applyStoreRatingFilter(double from, double to)
+        public List<ProductInventory> applyStoreRatingFilter(double from, double to)
         {
             return _systemManager.SearchAndFilterSystem.applyStoreRatingFilter(from, to);
         }
@@ -70,7 +77,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="to">the requested product rating to filter to</param>
         /// <returns>List of all the product matching the filter</returns>
         [Trace("Info")]
-        private List<ProductInventory> applyProductRatingFilter(double from, double to)
+        public List<ProductInventory> applyProductRatingFilter(double from, double to)
         {
             return _systemManager.SearchAndFilterSystem.applyProductRatingFilter(from, to);
         }
@@ -81,7 +88,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="category">the requested category to filter </param>
         /// <returns>List of all the product matching the filter</returns>
         [Trace("Info")]
-        private List<ProductInventory> applyCategoryFilter(Category category)
+        public List<ProductInventory> applyCategoryFilter(Category category)
         {
             return _systemManager.SearchAndFilterSystem.applyCategoryFilter(category);
         }
@@ -92,7 +99,7 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="filter"> which filter to cancel </param>
         /// <returns>List of all the product matching after cancelling the filter</returns>
         [Trace("Info")]
-        private List<ProductInventory> cancelFilter(Filters filter)
+        public List<ProductInventory> cancelFilter(Filters filter)
         {
             return _systemManager.SearchAndFilterSystem.cancelFilter(filter);
         }

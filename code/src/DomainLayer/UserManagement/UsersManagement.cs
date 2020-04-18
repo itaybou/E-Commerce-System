@@ -31,13 +31,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             string error = null;
             var exists = getAll().Exists(user => user.isSubscribed() && user.Name().Equals(uname));
-            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email))
+            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
             {
                 var encrypted_pswd = Encryption.encrypt(pswd);
                 insert(new User(new Subscribed(uname, encrypted_pswd, fname, lname, email)));
                 return null;
             }
-            return error;
+            return exists? "User already exists" : error;
         }
 
         public bool login(string uname, string pswd)
@@ -63,7 +63,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public UserShoppingCart getUserCart(User user)
         {
-            return _users.ContainsKey(user) ? _users[user] : new UserShoppingCart();
+            return _users.ContainsKey(user) ? _users[user] : user._cart;
         }
 
         public void resetActiveUserShoppingCart()
@@ -173,6 +173,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool isSubscribed(string newManageruserName)
         {
             return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
+        }
+
+        public List<UserPurchase> loggedUserPurchaseHistory()
+        {
+            return getLoggedInUser().isSubscribed() ? getLoggedInUser().getHistoryPurchase() : new List<UserPurchase>();
         }
 
         //@pre - logged in user is system admin

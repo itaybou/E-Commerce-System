@@ -9,15 +9,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
     {
         public static Range<int> PSWD_RANGE = new Range<int>(6, 15);
 
-        public static bool IsValidEmail(string email)
+        public static bool IsValidEmail(string email, out string error)
         {
+            error = null;
             try
-            {
+            { 
                 var addr = new MailAddress(email);
                 return addr.Address == email;
             }
             catch
             {
+                error = "Email address is not valid";
                 return false;
             }
         }
@@ -26,7 +28,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
         {
             if (string.IsNullOrWhiteSpace(pswd) || !PSWD_RANGE.inRange(pswd.Length))
             {
-                throw new Exception($"Password should be between {PSWD_RANGE.min} to {PSWD_RANGE.max} characters");
+                error = $"Password should be between {PSWD_RANGE.min} to {PSWD_RANGE.max} characters.";
+                return false;
             }
             var hasNumber = new Regex(@"[0-9]+");
             var hasUpperChar = new Regex(@"[A-Z]+");
