@@ -126,15 +126,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new Dictionary<string, Dictionary<long, int>>();
         }
 
-        public bool logout() //3.1
-        {
-            if (_real != null)
-            {
-                return _real.logout();
-            }
-            else return true;
-        }
-
         public bool RemoveFromCart(long prodID)
         {
             if (_real != null)
@@ -151,6 +142,15 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return _real.ChangeProductCartQuantity(prodID, quantity);
             }
             else return false;
+        }
+
+        public bool logout() //3.1
+        {
+            if (_real != null)
+            {
+                return _real.logout();
+            }
+            else return true;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
             _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } } );
+            _bridge.logout();
         }
 
         [TearDown]
@@ -41,10 +42,15 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             var prod = _bridge.AddTocart(1, 20);
             Assert.AreEqual(prod["store1"][1], 20);
+            _bridge.login(uname, pswd);
             _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product1" }, { "product4" }, { "product5" } });
+            _bridge.logout();
+            prod = _bridge.AddTocart(1, 20);
+            Assert.AreEqual(prod["store1"][1], 20);
+            Assert.AreEqual(prod["store2"][1], 20);
             prod = _bridge.AddTocart(1, 20);
             Assert.AreEqual(prod["store1"][1], 40);
-            Assert.AreEqual(prod["store2"][1], 20);
+            Assert.AreEqual(prod["store2"][1], 40);
             prod = _bridge.AddTocart(2, 20);
             Assert.AreEqual(prod["store1"][2], 20);
             Assert.AreEqual(prod["store2"][2], 20);

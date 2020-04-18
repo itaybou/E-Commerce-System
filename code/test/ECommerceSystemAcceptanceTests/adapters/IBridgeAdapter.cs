@@ -24,8 +24,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool RemoveFromCart(long prodID); //Requirment 2.7.1
         bool ChangeProductCartQuantity(long prodID, int quantity); //Requirment 2.7.2
 
-
-
         bool logout(); // Requirment 3.1
     }
 }

@@ -28,6 +28,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.login(uname, pswd);
             _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } } );
             _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product2" }, { "product5" }, { "product4" } });
+            _bridge.logout();
         }
 
         [TearDown]
