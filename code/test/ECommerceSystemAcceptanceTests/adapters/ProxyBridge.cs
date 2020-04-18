@@ -14,131 +14,130 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public long addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.addProduct(storeName, productInvName, discountType, discountPercentage, purchaseType, quantity);
+                return _real.addProduct(storeName, productInvName, discountType, discountPercentage, purchaseType, quantity);
             }
             else return 1;
         }
 
-        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, Category category, List<string> keys)
+        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List<string> keys)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.addProductInv(storeName, productName, description, discountType, discountPercentage, purchaseType, price, quantity, category, keys);
+                return _real.addProductInv(storeName, productName, description, discountType, discountPercentage, purchaseType, price, quantity, category, keys);
             }
             else return 1;
         }
 
         public bool assignManager(string newManageruserName, string storeName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.assignManager(newManageruserName, storeName);
+                return _real.assignManager(newManageruserName, storeName);
             }
             else return false;
         }
 
         public bool assignOwner(string newOwneruserName, string storeName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.assignOwner(newOwneruserName, storeName);
+                return _real.assignOwner(newOwneruserName, storeName);
             }
             else return false;
         }
 
         public bool deleteProduct(string storeName, string productInvName, long productID)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.deleteProduct(storeName, productInvName, productID);
+                return _real.deleteProduct(storeName, productInvName, productID);
             }
             else return true;
         }
 
         public bool deleteProductInv(string storeName, string productName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.deleteProductInv(storeName, productName);
+                return _real.deleteProductInv(storeName, productName);
             }
             else return true;
         }
 
-        public bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions)
+        public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.editPermissions(storeName, managerUserName, permissions);
+                return _real.editPermissions(storeName, managerUserName, permissions);
             }
             else return false;
         }
 
         public bool modifyProductDiscountType(string storeName, string productInvName, long productID, string newDiscount, int discountPercentage)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.modifyProductDiscountType(storeName, productInvName, productID, newDiscount, discountPercentage);
+                return _real.modifyProductDiscountType(storeName, productInvName, productID, newDiscount, discountPercentage);
             }
             else return true;
         }
 
         public bool modifyProductName(string storeName, string newProductName, string oldProductName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.modifyProductName(storeName, newProductName, oldProductName);
+                return _real.modifyProductName(storeName, newProductName, oldProductName);
             }
             else return true;
         }
 
         public bool modifyProductPrice(string storeName, string productInvName, int newPrice)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.modifyProductPrice(storeName, productInvName, newPrice);
+                return _real.modifyProductPrice(storeName, productInvName, newPrice);
             }
             else return true;
         }
 
         public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, string purchaseType)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.modifyProductPurchaseType(storeName, productInvName, productID, purchaseType);
+                return _real.modifyProductPurchaseType(storeName, productInvName, productID, purchaseType);
             }
             else return true;
         }
 
         public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
+                return _real.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
             }
             else return true;
         }
 
         public bool openStore(string name, string discountPolicy, string purchasePolicy)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.openStore(name, discountPolicy, purchasePolicy);
+                return _real.openStore(name, discountPolicy, purchasePolicy);
             }
             else return true;
         }
 
-        public List<Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.purchaseHistory(storeName);
+                return _real.StorePurchaseHistory(storeName);
             }
             else return null;
         }
 
-        public bool register(string uname, string pswd, string fname, string lname, string email)
         // Utility methods
         public bool IsUserLogged(string username)
         {
@@ -212,9 +211,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public bool removeManager(string managerUserName, string storeName)
         {
-            if (real != null)
+            if (_real != null)
             {
-                return real.removeManager(managerUserName, storeName);
+                return _real.removeManager(managerUserName, storeName);
             }
             else return false;
         }
@@ -300,11 +299,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public List<long> PurchaseHistory()
+        public List<long> UserPurchaseHistory()
         {
             if (_real != null)
             {
-                return _real.PurchaseHistory();
+                return _real.UserPurchaseHistory();
             }
             else return new List<long>();
         }

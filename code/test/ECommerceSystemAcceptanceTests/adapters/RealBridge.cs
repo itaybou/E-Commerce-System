@@ -48,10 +48,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         }
 
-        public long addProductInv(string storeName, string description, string productName, string discountType, int discountPercentage, string purchaseType, double price, int quantity, Category category, List <string> keys)
+        public long addProductInv(string storeName, string description, string productName, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;
+            var cat = (Category)Enum.Parse(typeof(Category), category);
             if (discountType.Equals("visible"))
             {
                 discount = new VisibleDiscount(discountPercentage, new DiscountPolicy());
@@ -69,7 +70,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return -1;
             }
 
-            return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, category, keywords);
+            return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
         }
 
         public bool assignManager(string newManageruserName, string storeName)
@@ -92,9 +93,10 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.deleteProductInv(storeName, productName);
         }
 
-        public bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions)
+        public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
         {
-            return _storeService.editPermissions(storeName, managerUserName, permissions);
+            var permissionTypes = permissions.Select(p => (permissionType)Enum.Parse(typeof(permissionType), p)).ToList();
+            return _storeService.editPermissions(storeName, managerUserName, permissionTypes);
         }
 
         public bool modifyProductDiscountType(string storeName, string productInvName, long productID, string newDiscount, int discountPercentage)
@@ -151,7 +153,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.openStore(name, discount, purchase);
         }
 
-        public List<Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName)
         {
             List<StorePurchase> history = _storeService.purchaseHistory(storeName);
 
@@ -173,7 +175,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return purchases;
         }
 
-        public bool register(string uname, string pswd, string fname, string lname, string email)
         // Utility methods
         public bool IsUserLogged(string username)
         {
@@ -380,7 +381,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _userServices.logout();
         }
 
-        public List<long> PurchaseHistory() // 3.7
+        public List<long> UserPurchaseHistory() // 3.7
         {
             var history = _userServices.loggedUserPurchaseHistory();
             return history.Select(h => h.ProductsPurchased.Select(p => p.Id)).SelectMany(p => p).ToList();

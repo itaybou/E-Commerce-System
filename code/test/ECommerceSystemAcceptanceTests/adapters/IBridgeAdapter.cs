@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
@@ -26,11 +27,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address); // Requirment 2.8
 
         bool logout(); // Requirment 3.1
-        List<long> PurchaseHistory(); // Requirment 3.7
+        List<long> UserPurchaseHistory(); // Requirment 3.7
 
         bool openStore(string name, string discountPolicy, string purchasePolicy); // Requirment 3.2
 
-        long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, Category category, List <string> keys); // Requirment 4.1.1
+        long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys); // Requirment 4.1.1
 
         bool deleteProductInv(string storeName, string productName); // Requirment 4.1.2
 
@@ -48,11 +49,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         bool assignManager(string newManageruserName, string storeName); // Requirment 4.5
 
-        bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions); //Requirement 4.6
+        bool editPermissions(string storeName, string managerUserName, List<string> permissions); //Requirement 4.6
 
         bool removeManager(string managerUserName, string storeName); //Requirement 4.7
 
-        List <Tuple<string, List<Tuple<long, int>>, double>> purchaseHistory(string storeName); // Requirements 4.10 and 6.4.2
+        List <Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName); // Requirements 4.10 and 6.4.2
 
 
     }

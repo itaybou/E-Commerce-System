@@ -45,7 +45,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group as regular user success");
             Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as regular user success");
             Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as regular user success");
-            _bridge.logout():
+            _bridge.logout();
         }
 
 
@@ -60,7 +60,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group asnot permited manager success");
             Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as not permited manager success");
             Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as not permited manager success");
-            _bridge.logout():
+            _bridge.logout();
         }
 
         [TestCase()]
@@ -75,7 +75,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.modifyProductQuantity(_storeName, notExistProduct, _iphoneFirstGroupProductsID, 50), "modify quantity of product group of not exist product success");
             Assert.False(_bridge.modifyProductDiscountType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group of not exist product success");
             Assert.False(_bridge.modifyProductPurchaseType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group of not exist product success");
-            _bridge.logout():
+            _bridge.logout();
         }
 
         [TestCase()]

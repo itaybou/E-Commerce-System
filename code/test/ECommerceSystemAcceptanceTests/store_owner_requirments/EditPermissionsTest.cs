@@ -13,15 +13,15 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
     [TestFixture()]
     class EditPermissionsTest : StoreOwnerTests
     {
-        List <permissionType> _permissions;
+        List <string> _permissions;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
         {
             base.oneTimeSetup();
-            _permissions = new List<permissionType>();
-            _permissions.Add(permissionType.AddProductInv);
-            _permissions.Add(permissionType.DeleteProductInv);
+            _permissions = new List<string>();
+            _permissions.Add("AddProductInv");
+            _permissions.Add("DeleteProductInv");
         }
 
         [TestCase()]

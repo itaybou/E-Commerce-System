@@ -23,7 +23,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
 
             _bridge.login(_userName, _pswd);
-            _bridge.purchaseProduct((_storeName, (_productID, 1)), _fname, _lname, 123456789, "1234123412341234", DateTime.Today, 123, "address");
+            _bridge.PurchaseProducts(new Dictionary<long, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
             _bridge.logout();
         }
 
@@ -39,17 +39,17 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
             //owner
             _bridge.login(_ownerUserName, _pswd);
-            Assert.AreEqual(expectedHistory, _bridge.purchaseHistory(_storeName), "fail to return purchase history of store");
+            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
             //permited manager
             _bridge.login(_managerUserName, _pswd);
-            Assert.AreEqual(expectedHistory, _bridge.purchaseHistory(_storeName), "fail to return purchase history of store");
+            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
             //system admin
             _bridge.login("admin", "123456");
-            Assert.AreEqual(expectedHistory, _bridge.purchaseHistory(_storeName), "fail to return purchase history of store");
+            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
         }
 
@@ -58,13 +58,13 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void storePurchaseHistoryFail()
         {
             _bridge.login(_ownerUserName, _pswd);
-            Assert.Null(_bridge.purchaseHistory("not exist"), "purchase history of not exist store successed");
+            Assert.Null(_bridge.StorePurchaseHistory("not exist"), "purchase history of not exist store successed");
             _bridge.logout();
 
 
-            Assert.Null(_bridge.purchaseHistory(_storeName), "purchase history with guest successed");
+            Assert.Null(_bridge.StorePurchaseHistory(_storeName), "purchase history with guest successed");
             _bridge.login(_userName, _pswd);
-            Assert.Null(_bridge.purchaseHistory(_storeName), "purchase history with regular user successed");
+            Assert.Null(_bridge.StorePurchaseHistory(_storeName), "purchase history with regular user successed");
             _bridge.logout();
         }
 

@@ -18,7 +18,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         protected string _productName, _description, _discontType, _purchaseType, _storeName;
         protected double _price;
         protected int _quantity, _discountPercentage;
-        protected Category _category;
+        protected string _category;
         protected List<string> _keywords;
 
         //users details:
@@ -28,8 +28,8 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         protected string _pswd, _fname, _lname, _email;
 
         //store details:
-        protected DiscountPolicy _discountPolicy;
-        protected PurchasePolicy _purchasePolicy;
+        protected string _discountPolicy;
+        protected string _purchasePolicy;
 
         [OneTimeSetUp]
         public void oneTimeSetup()
@@ -45,16 +45,20 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _price = 100;
             _discountPercentage = 20;
             _quantity = 5;
-            _category = Category.CELLPHONES;
+            _category = "CELLPHONES";
             _keywords = new List<string>();
             _keywords.Add("phone");
 
             //store details:
-            _discountPolicy = new DiscountPolicy();
-            _purchasePolicy = new PurchasePolicy();
+            _discountPolicy = "discount";
+            _purchasePolicy = "purchase";
 
             //init users:
-            _pswd = "123456";
+            _ownerUserName = "owner";
+            _managerUserName = "manager";
+            _userName = "user";
+
+            _pswd = "h3Llo0";
             _fname = "fname";
             _lname = "lname";
             _email = "email@gmail.com";

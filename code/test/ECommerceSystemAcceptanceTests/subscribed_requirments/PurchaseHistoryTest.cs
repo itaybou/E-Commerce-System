@@ -58,18 +58,18 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.AddTocart(1, 10);
             _bridge.AddTocart(2, 5);
             _bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address);
-            var h = _bridge.PurchaseHistory();
+            var h = _bridge.UserPurchaseHistory();
             Assert.True(h.SequenceEqual(new List<long>() { { 1 }, { 2 } }));
             Assert.IsEmpty(_bridge.ViewUserCart());
             _bridge.AddTocart(3, 20);
             _bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address);
-            h = _bridge.PurchaseHistory();
+            h = _bridge.UserPurchaseHistory();
             Assert.True(h.SequenceEqual(new List<long>() { { 1 }, { 2 }, { 3 } }));
             _bridge.AddTocart(1, 10);
             _bridge.AddTocart(2, 5);
             _bridge.AddTocart(4, 10);
             _bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address);
-            Assert.True(_bridge.PurchaseHistory().SequenceEqual(new List<long>() { { 1 }, { 2 }, { 3 }, { 1 }, { 2 }, { 4 } }));
+            Assert.True(_bridge.UserPurchaseHistory().SequenceEqual(new List<long>() { { 1 }, { 2 }, { 3 }, { 1 }, { 2 }, { 4 } }));
         }
     }
 }

@@ -44,10 +44,6 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\PostSharp.dll
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\ECommerceSystem.pdb
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\ECommerceSystem.exe.config
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\nunit.framework.pdb
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\nunit.framework.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\System.ValueTuple.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\NLog.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\PostSharp.xml
