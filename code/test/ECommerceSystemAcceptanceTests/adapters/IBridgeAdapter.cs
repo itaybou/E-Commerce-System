@@ -23,7 +23,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
         Dictionary<string, Dictionary<long, int>> ViewUserCart(); //Requirment 2.7
         bool RemoveFromCart(long prodID); //Requirment 2.7.1
         bool ChangeProductCartQuantity(long prodID, int quantity); //Requirment 2.7.2
+        bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address); // Requirment 2.8
 
         bool logout(); // Requirment 3.1
+        List<long> PurchaseHistory(); // Requirment 3.7
     }
 }

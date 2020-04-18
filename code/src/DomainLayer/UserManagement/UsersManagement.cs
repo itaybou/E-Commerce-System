@@ -175,6 +175,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
         }
 
+        public List<UserPurchase> loggedUserPurchaseHistory()
+        {
+            return getLoggedInUser().isSubscribed() ? getLoggedInUser().getHistoryPurchase() : new List<UserPurchase>();
+        }
+
         //@pre - logged in user is system admin
         public List<UserPurchase> userPurchaseHistory(string userName)
         {

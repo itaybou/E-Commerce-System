@@ -123,5 +123,15 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _management.userPurchaseHistory(userName);
         }
+
+        [Trace("Info")]
+        /// <summary>
+        /// Returns the current logged in user purchase history
+        /// </summary>
+        /// <returns>logged user purchase history</returns>
+        public List<UserPurchase> loggedUserPurchaseHistory()
+        {
+            return _management.loggedUserPurchaseHistory();
+        }
     }
 }

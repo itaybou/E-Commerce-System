@@ -7,6 +7,7 @@
         private double _basePrice;
         private Discount _discount;
         private PurchaseType _purchaseType;
+        private string _name;
 
         public Product(Discount discount, PurchaseType purchaseType, int quantity, double price, long id)
         {

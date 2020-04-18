@@ -167,17 +167,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return getUserCartDetails();
         }
 
-        public Dictionary<string, Dictionary<long, int>> ViewUserCart()
+        public Dictionary<string, Dictionary<long, int>> ViewUserCart() // 2.7
         {
             return getUserCartDetails(); //uses User service function
         }
 
-        public bool logout()
-        {
-            return _userServices.logout();
-        }
 
-        public bool RemoveFromCart(long prodID)
+        public bool RemoveFromCart(long prodID) // 2.7.1
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
@@ -185,11 +181,51 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         }
 
-        public bool ChangeProductCartQuantity(long prodID, int quantity)
+        public bool ChangeProductCartQuantity(long prodID, int quantity)    // 2.7.2
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
             return _userServices.ChangeProductQunatity(prod, quantity);
+        }
+
+        public bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
+        {
+            var idNum = Int32.Parse(id);
+            var cvvNum = Int32.Parse(CVV);
+            List<Product> missingProducts;
+            if (products == null)
+            {
+                missingProducts = _systemService.purchaseUserShoppingCart(firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+                return missingProducts == null ? true : false;
+            }
+            var storesProducts = _storeService.getAllStoresInfo().ToList().Select(item => Tuple.Create(item.Key, item.Value)).ToList()
+                .Select(pair => Tuple.Create(pair.Item1, pair.Item2.FindAll(p => products.ContainsKey(p.Id)))).ToList();
+
+            var purchaseProducts = new List<Tuple<Store, (Product, int)>>();
+            foreach (Tuple<Store, List<Product>> s in storesProducts)
+            {
+                foreach(Product p in s.Item2)
+                {
+                    purchaseProducts.Add(Tuple.Create(s.Item1, (p, products[p.Id])));
+                }
+            }
+            if(purchaseProducts.Count == 1)
+            {
+                return _systemService.purchaseProduct(purchaseProducts.First(), firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+            }
+            missingProducts = _systemService.purchaseProducts(purchaseProducts, firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+            return missingProducts == null ? true : false;
+        }
+
+        public bool logout()    // 3.1
+        {
+            return _userServices.logout();
+        }
+
+        public List<long> PurchaseHistory() // 3.7
+        {
+            var history = _userServices.loggedUserPurchaseHistory();
+            return history.Select(h => h.ProductsPurchased.Select(p => p.Id)).SelectMany(p => p).ToList();
         }
     }
 }

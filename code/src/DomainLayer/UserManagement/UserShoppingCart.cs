@@ -9,7 +9,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         private List<StoreShoppingCart> _storeCarts;
 
-        public List<StoreShoppingCart> StoreCarts { get => _storeCarts; }
+        public List<StoreShoppingCart> StoreCarts { get => _storeCarts; set => _storeCarts = value; }
 
         public UserShoppingCart()
         {

@@ -152,5 +152,23 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else return true;
         }
+
+        public bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address)
+        {
+            if (_real != null)
+            {
+                return _real.PurchaseProducts(products, firstName, lastName, id, creditCardNumber, creditExpiration, CVV, address);
+            }
+            else return true;
+        }
+
+        public List<long> PurchaseHistory()
+        {
+            if (_real != null)
+            {
+                return _real.PurchaseHistory();
+            }
+            else return new List<long>();
+        }
     }
 }

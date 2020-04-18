@@ -27,9 +27,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _searchAndFilter = new SearchAndFilter();
         }
 
-        public void makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, List<(Store, double)> storePayments,
+        public bool makePurchase(double totalPrice, Dictionary<Product, int> allProducts, Dictionary<Store, Dictionary<Product, int>> storeProducts, List<(Store, double)> storePayments,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
+            var purchased = false;
             if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
             {
                 if (_transactionManager.supplyTransaction(allProducts, address))                                                        // supply all prodcuts by quantity
@@ -50,10 +51,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                         var storeBoughtProducts = storeProducts[storePayment.Item1];
                         _storeManagement.logStorePurchase(storePayment.Item1, _userManagement.getLoggedInUser(), storePayment.Item2, storeBoughtProducts);
                     }
+                    purchased = true;
                 }
                 else _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);   // if supply failed, refund user
             }
-            _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            if(purchased)
+                _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            return purchased;
         }
 
         /// <summary>
@@ -66,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <param name="expirationCreditCard"></param>
         /// <param name="CVV"></param>
         /// <param name="address"></param>
-        /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
+        /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
         public List<Product> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var shoppingCart = _userManagement.getActiveUserShoppingCart();                                                 // User shopping cart
@@ -79,9 +83,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 var allProdcuts = shoppingCart.StoreCarts.Select(storeCart => storeCart.Products)                           // Get dictionary from Product => Quantity for each store cart
                  .SelectMany(dict => dict).ToDictionary(pair => pair.Key, pair => pair.Value);
                 var storePayments = storeShoppingCarts.Select(s => (s.store, s.Item2));
-                makePurchase(totalPrice, allProdcuts, storeProdcuts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-                _userManagement.resetActiveUserShoppingCart();
-                return null;
+                var purchased = makePurchase(totalPrice, allProdcuts, storeProdcuts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                if(purchased)
+                    _userManagement.resetActiveUserShoppingCart();
+                return purchased ? null : new List<Product>(); // if purchased return null else return empty lost indicating that payment process/supply was not successful
             }
             else return unavailableProducts.Select(p => p.Key).ToList();
         }
@@ -105,8 +110,15 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 });
                 var allProducts = productQuantities.ToDictionary(pair => pair.Item1, pair => pair.Item2);
                 var storePayments = storeProducts.Select(p => (p.Key, p.Value.ToList().Aggregate(0.0, (total, curr) => total += curr.Key.CalculateDiscount() * curr.Value)));
-                makePurchase(totalPrice, allProducts, storeProducts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-                return null;
+                var purchased = makePurchase(totalPrice, allProducts, storeProducts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                if (purchased)
+                {
+                    var userCart = _userManagement.getActiveUserShoppingCart();
+                    userCart.StoreCarts.ForEach(s => products.Where(pair => pair.Item1 == s.store)
+                    .ToList().ForEach(p => s.ChangeProductQuantity(p.Item2.Item1, s.Products[p.Item2.Item1] - p.Item2.Item2)));
+                    userCart.StoreCarts = userCart.StoreCarts.Where(s => s.Products.Any()).ToList();
+                }
+                return purchased? null : new List<Product>();
             }
             return unavailableProducts.Select(prod => prod.Item2.Item1).ToList();
         }
@@ -129,8 +141,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 {
                     (product.Item1, totalPrice)
                 };
-                makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-                return true;
+                return makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address); ;
             }
             return false;
         }
