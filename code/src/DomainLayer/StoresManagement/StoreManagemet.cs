@@ -77,29 +77,31 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Add, Delete, Modify Products*********
 
         //@pre - logged in user is subscribed
-        public bool addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        //return product(not product inventory!) id, return -1 in case of fail
+        public long addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return false;
+                return -1;
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProductInv(loggedInUser.Name(), description, productInvName, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
+            return store == null ? -1 : store.addProductInv(loggedInUser.Name(), description, productInvName, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
         }
 
         //@pre - logged in user is subscribed
-        public bool addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        //return the new product id or -1 in case of fail
+        public long addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return false;
+                return -1;
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? false : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
+            return store == null ? -1 : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
         }
 
         //@pre - logged in user is subscribed
@@ -116,7 +118,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool deleteProduct(string storeName, string productInvName, int productID)
+        public bool deleteProduct(string storeName, string productInvName, long productID)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -154,7 +156,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, int productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -166,7 +168,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductDiscountType(string storeName, string productInvName, int productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, Discount newDiscount)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -178,7 +180,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductPurchaseType(string storeName, string productInvName, int productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, PurchaseType purchaseType)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed

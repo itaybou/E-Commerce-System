@@ -54,3 +54,7 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csprojAssemblyReference.cache
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csproj.CoreCompileInputs.cache
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csproj.CopyComplete
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csprojAssemblyReference.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csproj.CoreCompileInputs.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_1\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.pdb
