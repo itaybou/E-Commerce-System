@@ -90,7 +90,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? -1 : store.addProductInv(loggedInUser.Name(), description, productInvName, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
+            return store == null ? -1 : store.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
         }
 
         //@pre - logged in user is subscribed
@@ -335,7 +335,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return null;
             }
             User loggedInUser = _userManagement.getLoggedInUser();
-
+            if(loggedInUser == null)
+            {
+                return null;
+            }
             return store.purchaseHistory(loggedInUser);
         }
     }

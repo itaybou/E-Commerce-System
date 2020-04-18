@@ -17,7 +17,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public new void oneTimeSetup()
         {
             base.oneTimeSetup();
-            _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords); 
+            _bridge.login(_ownerUserName, _pswd);
+            long success = _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
+            _bridge.logout();
         }
 
         [TestCase()]
@@ -28,6 +30,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
+        [TestCase()]
         public void deleteProductFail()
         {
             //not permited try do delete:

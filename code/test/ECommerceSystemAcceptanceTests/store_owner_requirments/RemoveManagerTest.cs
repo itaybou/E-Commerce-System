@@ -16,6 +16,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         [OneTimeSetUp]
         public new void oneTimeSetup()
         {
+            _otherManager = "other manager";
             base.oneTimeSetup();
             _bridge.register(_otherManager, _pswd, _fname, _lname, _email);
             _bridge.login(_ownerUserName, _pswd);

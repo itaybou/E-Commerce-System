@@ -48,7 +48,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         }
 
-        public long addProductInv(string storeName, string description, string productName, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
+        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;

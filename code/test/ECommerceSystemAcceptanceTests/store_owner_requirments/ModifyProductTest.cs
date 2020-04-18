@@ -18,7 +18,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public new void oneTimeSetup()
         {
             base.oneTimeSetup();
+            _bridge.login(_ownerUserName, _pswd);
             _iphoneFirstGroupProductsID = _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
+            _bridge.logout();
         }
 
         [TestCase()]
@@ -68,7 +70,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         {
             string notExistProduct = "not exist";
             _bridge.login(_ownerUserName, _pswd);
-            Assert.AreNotEqual(-1, _bridge.addProduct(_storeName, notExistProduct, _discontType, _discountPercentage, _purchaseType, 50), "add product group of not exist product success");
+            Assert.AreEqual(-1, _bridge.addProduct(_storeName, notExistProduct, _discontType, _discountPercentage, _purchaseType, 50), "add product group of not exist product success");
             Assert.False(_bridge.deleteProduct(_storeName, notExistProduct, _iphoneFirstGroupProductsID), "delete product group of not exist product success");
             Assert.False(_bridge.modifyProductName(_storeName, notExistProduct, "new product name"), "modify product name of not exist product success");
             Assert.False(_bridge.modifyProductPrice(_storeName, notExistProduct, 500), "delete product price of not exist product success");

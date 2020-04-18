@@ -44,6 +44,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return -1;
             }
             ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords, ++_productIDCounter, productInvID);
+            if(productInventory == null)
+            {
+                return -1;
+            }
             _products.Add(productInventory);
             return _productIDCounter;
         }

@@ -23,7 +23,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
 
             _bridge.login(_userName, _pswd);
-            _bridge.PurchaseProducts(new Dictionary<long, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
+            bool susccess =_bridge.PurchaseProducts(new Dictionary<long, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
             _bridge.logout();
         }
 

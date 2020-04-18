@@ -44,14 +44,15 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.login(_ownerUserName, _pswd);
             Assert.AreEqual(-1, _bridge.addProductInv("not exist", _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords), "add product to not exist store name successed");
             Assert.AreEqual(-1, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, -5, _quantity, _category, _keywords), "add product with negative price successed");
-            Assert.AreEqual(-1, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords), "add product with negative quantity successed");
+            Assert.AreEqual(-1, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, -5, _category, _keywords), "add product with negative quantity successed");
             Assert.AreEqual(-1, _bridge.addProductInv(_storeName, _productName, _description, _discontType, -5, _purchaseType, _price, -5, _category, _keywords), "add product with negative discount percentage successed");
 
 
             //add same product twice
             _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
             Assert.AreEqual(-1, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords));
-            
+            _bridge.deleteProductInv(_storeName, _productName); //delete the added product
+            _bridge.logout();
         }
     }
 }
