@@ -40,6 +40,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
         public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
+        public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
 
 
         //*********Add, Delete, Modify Products*********
