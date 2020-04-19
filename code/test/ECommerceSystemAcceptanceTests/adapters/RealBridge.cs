@@ -240,7 +240,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             var keywords = new List<string>() { { "hello" }, { "world" }, { "pokemon" } };
             products.ForEach(p =>
             {
-                _storeService.addProductInv(storeName, p, "desc", new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat, keywords);
+                _storeService.addProductInv(storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat, keywords);
                 i += 0.2;
                 cat = Category.ELECTRONICS;
                 keywords = new List<string>() { { "hello" }, { "my" }, { "name" }, { "is" }, { "inigo" }, { "montoya" } };
