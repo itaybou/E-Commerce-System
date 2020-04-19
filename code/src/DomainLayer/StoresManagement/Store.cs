@@ -271,10 +271,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public List<StorePurchase> purchaseHistory(User loggedInUser)
         {
-            if( !_premmisions[loggedInUser.Name()].canWatchHistory() || !loggedInUser.isSystemAdmin())
+            if(!loggedInUser.isSystemAdmin() && (!_premmisions.ContainsKey(loggedInUser.Name()) || !_premmisions[loggedInUser.Name()].canWatchHistory()))
             {
                 return null;
             }
+            
 
             return this.PurchaseHistory;
         }
