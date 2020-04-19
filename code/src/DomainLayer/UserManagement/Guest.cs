@@ -11,7 +11,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public string Name()
         {
-            return null;
+            return "";
         }
 
         public void logPurchase(UserPurchase purchase)

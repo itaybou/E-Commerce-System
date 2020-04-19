@@ -82,6 +82,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             List<permissionType> permissions = new List<permissionType>();
             permissions.Add(permissionType.AddProductInv);
             permissions.Add(permissionType.DeleteProductInv);
+            permissions.Add(permissionType.WatchPurchaseHistory);
             permissions.Add(permissionType.ModifyProduct);
             _store.editPermissions("permitManager", permissions, "owner");
 

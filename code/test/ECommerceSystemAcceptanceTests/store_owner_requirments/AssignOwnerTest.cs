@@ -24,6 +24,13 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.register(_newOwner2, _pswd, _fname, _lname, _email);
         }
 
+        [OneTimeTearDown]
+        public new void tearDown()
+        {
+            _bridge.storesCleanUp();
+            _bridge.usersCleanUp();
+        }
+
         [TestCase()]
         public void assignOwnerSuccess()
         {

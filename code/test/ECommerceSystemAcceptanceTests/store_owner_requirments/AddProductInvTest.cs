@@ -15,6 +15,19 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
     class AddProductInvTest : StoreOwnerTests
     {
 
+        [OneTimeSetUp]
+        public new void oneTimeSetup()
+        {
+            base.oneTimeSetup();
+        }
+
+        [OneTimeTearDown]
+        public new void tearDown()
+        {
+            _bridge.storesCleanUp();
+            _bridge.usersCleanUp();
+        }
+
         [TestCase()]
         public void addProductSuccess()
         {

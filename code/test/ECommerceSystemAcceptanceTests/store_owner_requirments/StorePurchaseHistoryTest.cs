@@ -27,6 +27,12 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
+        [OneTimeTearDown]
+        public new void tearDown()
+        {
+            _bridge.storesCleanUp();
+            _bridge.usersCleanUp();
+        }
 
         [TestCase()]
         public void storePurchaseHistorySuccess()
@@ -39,18 +45,18 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
             //owner
             _bridge.login(_ownerUserName, _pswd);
-            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
+            CollectionAssert.AreEquivalent(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
             //permited manager
             _bridge.login(_managerUserName, _pswd);
-            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
+            CollectionAssert.AreEquivalent(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
 
             //system admin
             _bridge.login("admin", "4dMinnn");
-            Assert.AreEqual(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
+            CollectionAssert.AreEquivalent(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
         }
 

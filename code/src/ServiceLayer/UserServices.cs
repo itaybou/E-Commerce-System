@@ -27,7 +27,7 @@ namespace ECommerceSystem.ServiceLayer
 
         public void removeAllUsers()
         {
-            _management.Users.Clear();
+            _management.Users = _management.Users.Where(u => u.Key.Name().Equals("admin")).ToDictionary(pair => pair.Key, pair => pair.Value);
             _management._activeUser = new User(new Guest());
         }
 

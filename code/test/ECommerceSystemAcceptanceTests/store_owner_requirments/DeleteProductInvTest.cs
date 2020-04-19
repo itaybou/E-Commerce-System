@@ -22,6 +22,13 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
+        [OneTimeTearDown]
+        public new void tearDown()
+        {
+            _bridge.storesCleanUp();
+            _bridge.usersCleanUp();
+        }
+
         [TestCase()]
         public void deleteProductSuccess()
         {

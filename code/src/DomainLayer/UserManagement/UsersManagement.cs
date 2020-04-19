@@ -23,7 +23,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             _activeUser = new User();
             _users = new Dictionary<User, UserShoppingCart>();
-            _users.Add(new User(new SystemAdmin("admin", "4dMinnn", "admin", "admin", "admin@gmail.com")), new UserShoppingCart());
+            _users.Add(new User(new SystemAdmin("admin", Encryption.encrypt("4dMinnn"), "admin", "admin", "admin@gmail.com")), new UserShoppingCart());
         }
 
         public User getLoggedInUser() => _activeUser;
