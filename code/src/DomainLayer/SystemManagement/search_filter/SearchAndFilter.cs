@@ -1,4 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement.search_filter;
+using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
 using ECommerceSystem.DomainLayer.Utilities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
     public class SearchAndFilter
     {
         private StoreManagement _storeManagement;
+        private ISpellChecker _spellChecker;
 
         private List<ProductInventory> _visibleProducts;
 
@@ -27,6 +30,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         {
             _storeManagement = StoreManagement.Instance;
             _visibleProducts = getAllProdcuts();
+            _spellChecker = new SpellChecker();
         }
 
         public virtual List<ProductInventory> getAllProdcuts()
@@ -35,22 +39,23 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 filterProducts(_storeManagement.getAllStoreInventoryWithRating(_storeRatingFilter)) : filterProducts(_storeManagement.getAllStoresProdcutInventories());
         }
 
-        public List<ProductInventory> searchProductsByCategory(Category category)
+        public SearchResult searchProductsByCategory(Category category)
         {
             _visibleProducts = getAllProdcuts().FindAll(p => p.Category.Equals(category));
-            return _visibleProducts;
+            return new SearchResult(_visibleProducts, null);
         }
 
-        public List<ProductInventory> searchProductsByName(string prodName)
+        public SearchResult searchProductsByName(string prodName)
         {
             _visibleProducts = getAllProdcuts().FindAll(p => p.Name.Equals(prodName));
-            return _visibleProducts;
+            return new SearchResult(_visibleProducts, _spellChecker.Correct(prodName));
         }
 
-        public List<ProductInventory> searchProductsByKeyword(List<string> keywords)
+        public SearchResult searchProductsByKeyword(List<string> keywords)
         {
+            var corrected = keywords.Select(word => _spellChecker.Correct(word)).SelectMany(correct => correct).ToList();
             _visibleProducts = getAllProdcuts().FindAll(p => p.Keywords.Intersect(keywords).Any());
-            return _visibleProducts;
+            return new SearchResult(_visibleProducts, corrected);
         }
 
         public List<ProductInventory> filterProducts(List<ProductInventory> products)

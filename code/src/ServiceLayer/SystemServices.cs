@@ -26,13 +26,13 @@ namespace ECommerceSystem.ServiceLayer
         // Use-case 2.5 - search and filter services
         public List<ProductInventory> searchProductsByCategory(Category category)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByCategory(category);
+            return _systemManager.SearchAndFilterSystem.searchProductsByCategory(category).ProductResults;
         }
 
         [Trace("Info")]
         public List<ProductInventory> searchProductsByName(string prodName)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByName(prodName);
+            return _systemManager.SearchAndFilterSystem.searchProductsByName(prodName).ProductResults;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace ECommerceSystem.ServiceLayer
         [Trace("Info")]
         public List<ProductInventory> searchProductsByKeyword(List<string> keywords)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByKeyword(keywords);
+            return _systemManager.SearchAndFilterSystem.searchProductsByKeyword(keywords).ProductResults;
         }
 
         /// <summary>
