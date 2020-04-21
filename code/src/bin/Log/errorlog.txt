@@ -1,1 +1,10 @@
-2020-04-15 20:16:50.5997 | ERROR: WARN
+###################################################################
+# ERROR LOG
+#  format: <time-stamp> | ERROR: <error details>\n<stack-trace>
+#  stack-trace format: (at <stack-trace-method>\n)*
+###################################################################
+2020-04-21 14:19:12.4717 | ERROR: hello world
+   at ECommerceSystem.Program.world(Int32 i)
+   at ECommerceSystem.Program.hello(String s, Int32 i, Double b)
+   at ECommerceSystem.Program.Main(String[] args)
+

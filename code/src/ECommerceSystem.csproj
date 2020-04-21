@@ -94,8 +94,6 @@
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="DomainLayer\SystemManagement\search_filter\SearchResult.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
-    <Compile Include="Models\ProductModel.cs" />
-    <Compile Include="Models\ShoppingCartModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainLayer\StoresManagement\Category.cs" />

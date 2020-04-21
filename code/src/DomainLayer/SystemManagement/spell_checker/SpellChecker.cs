@@ -12,8 +12,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
     public class SpellChecker : ISpellChecker
     {
         public readonly static string AppRoot = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
-        private readonly string SPELL_CHECK_FILE_NAME = Path.Combine(AppRoot, "spell_checker.bin");
-        private readonly string SPELL_CHECK_WORDS_TXT = Path.Combine(AppRoot, "words_alpha.txt");
+        private static readonly string SPELL_CHECK_FILE_NAME = Path.Combine(AppRoot, "spell_checker.bin");
+        private static readonly string SPELL_CHECK_WORDS_TXT = Path.Combine(AppRoot, "words_alpha.txt");
         private HashSet<string> _dictionary;
         private static Regex _wordRegex = new Regex("[a-z]+", RegexOptions.Compiled);
 
@@ -157,7 +157,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
             catch (IOException e)
             {
-                SystemLogger.logger.Error("Seriazlize spell checker file failed: " + e.Message);
+                SystemLogger.LogError("Serialize spell checker file failed: " + e.Message + "\n" + "Path: " + SPELL_CHECK_FILE_NAME);
             }
         }
 
@@ -176,7 +176,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
             catch (IOException e)
             {
-                SystemLogger.logger.Error("Deseriazlize spell checker file failed: " + e.Message);
+                SystemLogger.LogError("Deseriazlize spell checker file failed: " + e.Message + "\n" + "Path: " + SPELL_CHECK_FILE_NAME);
             }
             return ret;
         }
