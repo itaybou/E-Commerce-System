@@ -22,6 +22,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         private SystemManager()
         {
+            SystemLogger.initLogger();
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
             _transactionManager = TransactionManager.Instance;
@@ -56,7 +57,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                         }
                         purchased = true;
                     }
-                    else _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);   // if supply failed, refund user
+                    else if (!_transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV))   // if supply failed, refund user
+                    {
+                        SystemLogger.LogError("Refund transaction failed to credit card: " + creditCardNumber);
+                    }
                 }
                 if (purchased)
                     _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);

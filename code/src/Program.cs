@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.Utilities;
 using ECommerceSystem.ServiceLayer;
 using System;
@@ -11,12 +12,21 @@ namespace ECommerceSystem
     {
         private static void Main(string[] args)
         {
-            var range = new Range<double>(1.0, 3.0);
+            SystemLogger.initLogger();
+            hello("helloworld", 3, 4.5);
+        }
+        
+        [Trace("info")]
+        public static int hello(string s, int i, double b)
+        {
+            return world(5);
+        }
 
-
-            range.inRange(2.0);
-            UserServices s = new UserServices();
-            s.register("itay", "itAy5dad", "fname", "lname", "mail@mail");
+        [Trace("info")]
+        public static int world(int i)
+        {
+            SystemLogger.LogError("hello world");
+            return 1;
         }
     }
 }

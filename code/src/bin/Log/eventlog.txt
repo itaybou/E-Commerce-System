@@ -1,3 +1,7 @@
-2020-04-15 20:16:50.5130 | Method call [Name: inRange], [Parameters: (0: type: Double, name: value, value: 2) ]
-2020-04-15 20:16:50.5848 | Method call [Name: register], [Parameters: (0: type: String, name: uname, value: itay) (1: type: String, name: pswd, value: 9E4470ACC1A20F6C5B8B498BA4A9D04664001070B5544088571257FC7ADE5AD8) (2: type: String, name: fname, value: fname) (3: type: String, name: lname, value: lname) (4: type: String, name: email, value: mail@mail) ]
-2020-04-15 20:16:50.5848 | Method call [Name: inRange], [Parameters: (0: type: Int32, name: value, value: 8) ]
+###################################################################
+# EVENT LOG
+#  format: <time-stamp> | <method name>, (<param info>)\n
+#  param info format: <index>, <type>, <param name>, <param value>
+###################################################################
+2020-04-21 14:19:12.4377 | hello, (0, String, s, helloworld, 1, Int32, i, 3, 2, Double, b, 4.5)
+2020-04-21 14:19:12.4717 | world, (0, Int32, i, 5)
