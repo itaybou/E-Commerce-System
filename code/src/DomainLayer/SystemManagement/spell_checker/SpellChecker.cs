@@ -1,3 +1,4 @@
+using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
-    public class SpellChecker
+    public class SpellChecker : ISpellChecker
     {
         public readonly static string AppRoot = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
         private readonly string SPELL_CHECK_FILE_NAME = Path.Combine(AppRoot, "spell_checker.bin");
