@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\StoreInterface.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\Logger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="Program.cs" />
@@ -104,8 +105,8 @@
     <Compile Include="DomainLayer\StoresManagement\ProductInventory.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagemet.cs" />
-	<Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
-	<Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
+    <Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\StorePurchase.cs" />
     <Compile Include="DomainLayer\SystemManagement\Filters.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilter.cs" />

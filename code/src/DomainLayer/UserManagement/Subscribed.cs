@@ -12,8 +12,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public UserDetails _details { get; set; }
         public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
 
-        private List<Store> _storesOwned;
-        private List<Store> _storesManaged;
+        private List<Store> _storesOwned; // DELETE?
+        private List<Store> _storesManaged; // DELETE?
+
+        private Dictionary<string, Permissions> _permiisions;  //store name --> permission
+
 
         public Subscribed(string uname, string pswd, string fname, string lname, string email)
         {
@@ -23,6 +26,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _purchaseHistory = new List<UserPurchase>();
             _storesOwned = new List<Store>();
             _storesManaged = new List<Store>();
+            _permiisions = new Dictionary<string, Permissions>();
         }
 
         public bool isSubscribed()
