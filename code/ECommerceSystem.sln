@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemAcceptanceTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemRegressionTests", "test\ECommerceSystemRegressionTests\ECommerceSystemRegressionTests.csproj", "{071854DF-1173-4954-960C-8B77884543C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{2FF67853-463B-4D70-BE84-F8E42D725F05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{071854DF-1173-4954-960C-8B77884543C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{071854DF-1173-4954-960C-8B77884543C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{071854DF-1173-4954-960C-8B77884543C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF67853-463B-4D70-BE84-F8E42D725F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF67853-463B-4D70-BE84-F8E42D725F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF67853-463B-4D70-BE84-F8E42D725F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF67853-463B-4D70-BE84-F8E42D725F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{C9A35E21-0B0C-4533-9FD6-19536FE6D46E} = {C6E24739-5C32-4B69-A885-0E9F39FA0629}
 		{48FD6AE1-735C-4A0F-970E-A6A2A33C3507} = {C6E24739-5C32-4B69-A885-0E9F39FA0629}
 		{071854DF-1173-4954-960C-8B77884543C3} = {C6E24739-5C32-4B69-A885-0E9F39FA0629}
+		{2FF67853-463B-4D70-BE84-F8E42D725F05} = {D5684307-33C8-446E-9039-EC8550300B1D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18C25E15-E162-4D31-9F47-1B9EE0B7154B}
