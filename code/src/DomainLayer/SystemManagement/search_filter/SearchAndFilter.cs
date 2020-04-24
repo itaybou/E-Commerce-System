@@ -1,7 +1,8 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement.search_filter;
 using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
 using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,110 +14,82 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private StoreManagement _storeManagement;
         private ISpellChecker _spellChecker;
 
-        private List<ProductInventory> _visibleProducts;
-
-        private Range<double> _priceRangeFilter;
-        private Range<double> _productRatingFilter;
-        private Range<double> _storeRatingFilter;
-        private Category? _categoryFilter;
-
-        public Range<double> StoreRatingFilter { get => _storeRatingFilter; set => _storeRatingFilter = value; }
-        public StoreManagement StoreManagement { get => _storeManagement; set => _storeManagement = value; }
-        public Range<double> PriceRangeFilter { get => _priceRangeFilter; set => _priceRangeFilter = value; }
-        public Range<double> ProductRatingFilter { get => _productRatingFilter; set => _productRatingFilter = value; }
-        public Category? CategoryFilter { get => _categoryFilter; set => _categoryFilter = value; }
-
         public SearchAndFilter()
         {
             _storeManagement = StoreManagement.Instance;
-            _visibleProducts = getAllProdcuts();
             _spellChecker = new SpellChecker();
         }
 
-        public virtual List<ProductInventory> getAllProdcuts()
+        private List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)
         {
-            return _storeRatingFilter != null ?
-                filterProducts(_storeManagement.getAllStoreInventoryWithRating(_storeRatingFilter)) : filterProducts(_storeManagement.getAllStoresProdcutInventories());
+            return storeRatingFilter != null ?_storeManagement.getAllStoreInventoryWithRating(storeRatingFilter) : _storeManagement.getAllStoresProdcutInventories();
         }
 
-        public SearchResult searchProductsByCategory(Category category)
+       private (List<ProductInventory>, List<string>) getAllProducts(Range<double> storeRatingFilter)
         {
-            _visibleProducts = getAllProdcuts().FindAll(p => p.Category.Equals(category));
-            return new SearchResult(_visibleProducts, null);
+            return (getProductInventories(storeRatingFilter), new List<string>());
         }
 
-        public SearchResult searchProductsByName(string prodName)
+        private (List<ProductInventory>, List<string>) searchProductsByCategory(string category, Range<double> storeRatingFilter)
         {
-            _visibleProducts = getAllProdcuts().FindAll(p => p.Name.Equals(prodName));
-            return new SearchResult(_visibleProducts, _spellChecker.Correct(prodName));
+            if(!EnumMethods.GetValues(typeof(Category)).Contains(category.ToUpper()))
+            {
+                return (new List<ProductInventory>(), new List<string>());
+            }
+            var cat = (Category)Enum.Parse(typeof(Category), category.ToUpper());
+            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Category.Equals(category));
+            return (result, new List<string>());
         }
 
-        public SearchResult searchProductsByKeyword(List<string> keywords)
+        private (List<ProductInventory>, List<string>) searchProductsByName(string prodName, Range<double> storeRatingFilter)
+        {
+            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Name.Equals(prodName));
+            return (result, _spellChecker.Correct(prodName));
+        }
+
+        private (List<ProductInventory>, List<string>) searchProductsByKeyword(List<string> keywords, Range<double> storeRatingFilter)
         {
             var corrected = keywords.Select(word => _spellChecker.Correct(word)).SelectMany(correct => correct).ToList();
-            _visibleProducts = getAllProdcuts().FindAll(p => p.Keywords.Intersect(keywords).Any());
-            return new SearchResult(_visibleProducts, corrected);
+            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Keywords.Intersect(keywords).Any());
+            return (result, corrected);
         }
 
-        public List<ProductInventory> filterProducts(List<ProductInventory> products)
+        public List<ProductInventory> filterProducts(List<ProductInventory> products, 
+            Range<double> priceRangeFilter, Range<double> productRatingFilter, string categoryFilter)
         {
-            Func<ProductInventory, bool> priceRangeFilter = p => (_priceRangeFilter != null && _priceRangeFilter.inRange(p.Price)) || _priceRangeFilter == null;
-            Func<ProductInventory, bool> productRangeFilter = p => (_productRatingFilter != null && _productRatingFilter.inRange(p.Rating)) || _productRatingFilter == null;
-            Func<ProductInventory, bool> categoryFilter = p => (_categoryFilter != null && p.Category.Equals(CategoryFilter)) || _categoryFilter == null;
-            Func<bool> noFilters = () => (_categoryFilter == null && _productRatingFilter == null && _priceRangeFilter == null);
-            return products.Where(p => noFilters() || (priceRangeFilter(p) && productRangeFilter(p) && categoryFilter(p))).ToList();
+            var category = EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            Func<ProductInventory, bool> priceRangeFilterPred = p => (priceRangeFilter != null && priceRangeFilter.inRange(p.Price)) || priceRangeFilter == null;
+            Func<ProductInventory, bool> productRangeFilterPred = p => (productRatingFilter != null && productRatingFilter.inRange(p.Rating)) || productRatingFilter == null;
+            Func<ProductInventory, bool> categoryFilterPred = p => (category != null && p.Category.Equals(category)) || category == null;
+            Func<bool> noFilters = () => (categoryFilter == null && productRatingFilter == null && priceRangeFilter == null);
+            return products.Where(p => noFilters() || (priceRangeFilterPred(p) && productRangeFilterPred(p) && categoryFilterPred(p))).ToList();
         }
 
-        public List<ProductInventory> applyPriceRangeFilter(double from, double to)
+        public SearchResultModel getProductSearchResults(string prodName, List<string> keywords, string category,
+            Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            _priceRangeFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(getAllProdcuts());
-            return _visibleProducts;
-        }
-
-        public List<ProductInventory> applyStoreRatingFilter(double from, double to)
-        {
-            _storeRatingFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(getAllProdcuts());
-            return _visibleProducts;
-        }
-
-        public List<ProductInventory> applyProductRatingFilter(double from, double to)
-        {
-            _productRatingFilter = new Range<double>(from, to);
-            _visibleProducts = filterProducts(getAllProdcuts());
-            return _visibleProducts;
-        }
-
-        public List<ProductInventory> applyCategoryFilter(Category category)
-        {
-            CategoryFilter = category;
-            _visibleProducts = filterProducts(getAllProdcuts());
-            return _visibleProducts;
-        }
-
-        public List<ProductInventory> cancelFilter(Filters filter)
-        {
-            switch (filter)
+            if(prodName != null)
             {
-                case Filters.PRICE_RANGE:
-                    _priceRangeFilter = null;
-                    break;
-
-                case Filters.PRODUCT_RATING:
-                    _productRatingFilter = null;
-                    break;
-
-                case Filters.STORE_RATING:
-                    _storeRatingFilter = null;
-                    break;
-
-                case Filters.CATEGORY:
-                    CategoryFilter = null;
-                    break;
+                var searchResult = searchProductsByName(prodName, storeRatingFilter);
+                return generateSearchResult(filterProducts(searchResult.Item1, priceFilter, productRatingFilter, category), searchResult.Item2);
             }
-            _visibleProducts = filterProducts(getAllProdcuts());
-            return _visibleProducts;
+            if (keywords != null)
+            {
+                var searchResult = searchProductsByKeyword(keywords, storeRatingFilter);
+                return generateSearchResult(filterProducts(searchResult.Item1, priceFilter, productRatingFilter, category), searchResult.Item2);
+            }
+            if (category != null)
+            {
+                var searchResult = searchProductsByCategory(category, storeRatingFilter);
+                return generateSearchResult(filterProducts(searchResult.Item1, priceFilter, productRatingFilter, category), searchResult.Item2);
+            }
+            var allProducts = getAllProducts(storeRatingFilter);
+            return generateSearchResult(filterProducts(allProducts.Item1, priceFilter, productRatingFilter, category), allProducts.Item2);
+        }
+
+        private SearchResultModel generateSearchResult(List<ProductInventory> prods, List<string> suggestions)
+        {
+            return ModelFactory.CreateSearchResult(prods, suggestions);
         }
     }
 }

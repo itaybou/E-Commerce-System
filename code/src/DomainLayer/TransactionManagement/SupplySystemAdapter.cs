@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
-    internal class SupplySystemAdapter
+    internal class SupplySystemAdapter : ISupplySystem
     {
-        internal bool supply(Dictionary<Product, int> products, string address)
+        public bool supply(IDictionary<Product, int> products, string address)
         {
             return true;
         }

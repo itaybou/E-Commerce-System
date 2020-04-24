@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public enum permissionType
+    public enum PermissionType
     {
         AddProductInv,
         DeleteProductInv,
@@ -16,7 +16,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     public class Permissions
     {
         private User _assignedBy;
-        private Dictionary<permissionType, bool> _permissions;
+        private Dictionary<PermissionType, bool> _permissions;
         private bool _isOwner;
 
         public User AssignedBy { get => _assignedBy;}
@@ -56,17 +56,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         private void initPermmisionsDict(bool isOwner)
         {
-            _permissions = new Dictionary<permissionType, bool>();
-            _permissions[permissionType.AddProductInv] = isOwner;
-            _permissions[permissionType.DeleteProductInv] = isOwner;
-            _permissions[permissionType.ModifyProduct] = isOwner;
-            _permissions[permissionType.WatchPurchaseHistory] = true;   // defualt for manager
-            _permissions[permissionType.WatchAndComment] = true;     // default for manager
+            _permissions = new Dictionary<PermissionType, bool>();
+            _permissions[PermissionType.AddProductInv] = isOwner;
+            _permissions[PermissionType.DeleteProductInv] = isOwner;
+            _permissions[PermissionType.ModifyProduct] = isOwner;
+            _permissions[PermissionType.WatchPurchaseHistory] = true;   // defualt for manager
+            _permissions[PermissionType.WatchAndComment] = true;     // default for manager
         }
 
         public void makeOwner()
         {
-            foreach (KeyValuePair<permissionType, bool> per in _permissions)
+            foreach (KeyValuePair<PermissionType, bool> per in _permissions)
             {
                 _permissions[per.Key] = true;
             }
@@ -80,42 +80,42 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool canAddProduct()
         {
-            return _permissions[permissionType.AddProductInv];
+            return _permissions[PermissionType.AddProductInv];
         }
 
         public bool canDeleteProduct()
         {
-            return _permissions[permissionType.DeleteProductInv];
+            return _permissions[PermissionType.DeleteProductInv];
         }
 
         public bool canModifyProduct()
         {
-            return _permissions[permissionType.ModifyProduct];
+            return _permissions[PermissionType.ModifyProduct];
         }
 
         public bool canWatchPurchaseHistory()
         {
-            return _permissions[permissionType.WatchPurchaseHistory];
+            return _permissions[PermissionType.WatchPurchaseHistory];
         }
 
         public bool canWatchAndomment()
         {
-            return _permissions[permissionType.WatchAndComment];
+            return _permissions[PermissionType.WatchAndComment];
         }
 
-        public void edit(List<permissionType> permissions)
+        public void edit(List<PermissionType> permissions)
         {
             // reset all permissions to false
             for (int i = 0; i < _permissions.Count; i++)
             {
-                permissionType per = _permissions.ElementAt(i).Key;
+                PermissionType per = _permissions.ElementAt(i).Key;
                 _permissions[per] = permissions.Contains(per);
             }
         }
 
         internal bool canWatchHistory()
         {
-            return _permissions[permissionType.WatchPurchaseHistory];
+            return _permissions[PermissionType.WatchPurchaseHistory];
         }
     }
 }

@@ -2,6 +2,7 @@
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using System;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ECommerceSystem
         {
             SystemLogger.initLogger();
             hello("helloworld", 3, 4.5);
+
         }
         
         [Trace("info")]

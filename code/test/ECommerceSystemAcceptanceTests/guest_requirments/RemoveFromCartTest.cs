@@ -38,18 +38,18 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.storesCleanUp();
         }
 
-        [TestCase()]
-        public void TestRemoveFromCart()
-        {
-            Assert.False(_bridge.RemoveFromCart(1));
-            _bridge.AddTocart(1, 10);
-            Assert.True(_bridge.RemoveFromCart(1));
-            _bridge.AddTocart(1, 10);
-            _bridge.AddTocart(2, 10);
-            Assert.True(_bridge.RemoveFromCart(2));
-            Assert.False(_bridge.RemoveFromCart(3));
+        //[TestCase()]
+        //public void TestRemoveFromCart()
+        //{
+        //    Assert.False(_bridge.RemoveFromCart(1));
+        //    _bridge.AddTocart(1, 10);
+        //    Assert.True(_bridge.RemoveFromCart(1));
+        //    _bridge.AddTocart(1, 10);
+        //    _bridge.AddTocart(2, 10);
+        //    Assert.True(_bridge.RemoveFromCart(2));
+        //    Assert.False(_bridge.RemoveFromCart(3));
 
 
-        }
+        //}
     }
 }

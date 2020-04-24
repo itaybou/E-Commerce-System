@@ -8,3 +8,13 @@
    at ECommerceSystem.Program.hello(String s, Int32 i, Double b)
    at ECommerceSystem.Program.Main(String[] args)
 
+2020-04-23 19:33:41.1262 | ERROR: hello world
+   at ECommerceSystem.Program.world(Int32 i)
+   at ECommerceSystem.Program.hello(String s, Int32 i, Double b)
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-04-23 19:35:18.2566 | ERROR: hello world
+   at ECommerceSystem.Program.world(Int32 i)
+   at ECommerceSystem.Program.hello(String s, Int32 i, Double b)
+   at ECommerceSystem.Program.Main(String[] args)
+

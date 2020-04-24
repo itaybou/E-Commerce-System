@@ -51,64 +51,64 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.Null(ProductInventory.Create(productName, description, discount, purchaseType, price, -5, category, keywords, productIDCounter, productInvID)); // quantity > 0 null
         }
 
-        [Test()]
-        public void modifyProductQuantityTest()
-        {
-            Assert.False(productInv.modifyProductQuantity(1, -2), "modify product to negative quantity successed"); // negative quantity
-            Assert.AreEqual(5, productInv.getProducByID(1).Quantity, "modify product to negative quantity successed");
-            Assert.False(productInv.modifyProductQuantity(2, 3), "modify non exist id product"); // Id procuct isn`t exist
-            Assert.AreEqual(5, productInv.getProducByID(1).Quantity, "modify non exist id product");
-            Assert.True(productInv.modifyProductQuantity(1, 3));
-            Assert.AreEqual(3, productInv.getProducByID(1).Quantity);
-        }
+        //[Test()]
+        //public void modifyProductQuantityTest()
+        //{
+        //    Assert.False(productInv.modifyProductQuantity(1, -2), "modify product to negative quantity successed"); // negative quantity
+        //    Assert.AreEqual(5, productInv.getProducByID(1).Quantity, "modify product to negative quantity successed");
+        //    Assert.False(productInv.modifyProductQuantity(2, 3), "modify non exist id product"); // Id procuct isn`t exist
+        //    Assert.AreEqual(5, productInv.getProducByID(1).Quantity, "modify non exist id product");
+        //    Assert.True(productInv.modifyProductQuantity(1, 3));
+        //    Assert.AreEqual(3, productInv.getProducByID(1).Quantity);
+        //}
 
-        [Test()]
-        public void deleteProductTest()
-        {
-            Assert.False(productInv.deleteProduct(3), "delete non exist id product"); // non exist id product
-            Assert.NotNull(productInv.getProducByID(1), "non exist id product deleted"); 
-            Assert.True(productInv.deleteProduct(1), "Fail to delete exist product");
-            Assert.Null(productInv.getProducByID(1), "Fail to delete exist product");
-        }
+        //[Test()]
+        //public void deleteProductTest()
+        //{
+        //    Assert.False(productInv.deleteProduct(3), "delete non exist id product"); // non exist id product
+        //    Assert.NotNull(productInv.getProducByID(1), "non exist id product deleted"); 
+        //    Assert.True(productInv.deleteProduct(1), "Fail to delete exist product");
+        //    Assert.Null(productInv.getProducByID(1), "Fail to delete exist product");
+        //}
 
-        [Test()]
-        public void addProductTest()
-        {
-            Assert.False(productInv.addProduct(null, purchaseType, 10, 50, 2), "Add new product with null discount successed");
-            Assert.False(productInv.addProduct(discount, null, 10, 50, 2), "Add new product with null purchaseType successed");
-            Assert.False(productInv.addProduct(discount, purchaseType, -1, 50, 2), "Add new product with negative quantity successed");
-            Assert.False(productInv.addProduct(discount, purchaseType, 10, -2, 2), "Add new product with negative price successed");
-            Assert.False(productInv.addProduct(discount, purchaseType, 10, 50, 1), "Add new product with exist id successed");
-            Assert.False(productInv.addProduct(discount, purchaseType, 10, 50, -1), "Add new product with negative id successed");
+        //[Test()]
+        //public void addProductTest()
+        //{
+        //    Assert.False(productInv.addProduct(null, purchaseType, 10, 50, 2), "Add new product with null discount successed");
+        //    Assert.False(productInv.addProduct(discount, null, 10, 50, 2), "Add new product with null purchaseType successed");
+        //    Assert.False(productInv.addProduct(discount, purchaseType, -1, 50, 2), "Add new product with negative quantity successed");
+        //    Assert.False(productInv.addProduct(discount, purchaseType, 10, -2, 2), "Add new product with negative price successed");
+        //    Assert.False(productInv.addProduct(discount, purchaseType, 10, 50, 1), "Add new product with exist id successed");
+        //    Assert.False(productInv.addProduct(discount, purchaseType, 10, 50, -1), "Add new product with negative id successed");
 
-            Assert.True(productInv.addProduct(discount, purchaseType, 10, 50, 2));
-            Assert.NotNull(productInv.getProducByID(2), "Fail to add a product");
-        }
+        //    Assert.True(productInv.addProduct(discount, purchaseType, 10, 50, 2));
+        //    Assert.NotNull(productInv.getProducByID(2), "Fail to add a product");
+        //}
 
-        [Test()]
-        public void modifyProductDiscountTypeTest()
-        {
-            Discount newDiscount = new VisibleDiscount(10, new DiscountPolicy());
+        //[Test()]
+        //public void modifyProductDiscountTypeTest()
+        //{
+        //    Discount newDiscount = new VisibleDiscount(10, new DiscountPolicy());
 
-            Assert.False(productInv.modifyProductDiscountType(1, null), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the discount didnt changed
-            Assert.False(productInv.modifyProductDiscountType(2, newDiscount), "Modify discount to non exist id product successed");
-            Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to non exist id product successed"); // check that the discount didnt changed
-            Assert.True(productInv.modifyProductDiscountType(1, newDiscount), "Fail to modify discount type");
-            Assert.AreEqual(newDiscount, productInv.getProducByID(1).Discount, "Fail to modify discount type");
-        }
+        //    Assert.False(productInv.modifyProductDiscountType(1, null), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the discount didnt changed
+        //    Assert.False(productInv.modifyProductDiscountType(2, newDiscount), "Modify discount to non exist id product successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to non exist id product successed"); // check that the discount didnt changed
+        //    Assert.True(productInv.modifyProductDiscountType(1, newDiscount), "Fail to modify discount type");
+        //    Assert.AreEqual(newDiscount, productInv.getProducByID(1).Discount, "Fail to modify discount type");
+        //}
 
-        [Test()]
-        public void modifyProductPurchaseTypeTest()
-        {
-            PurchaseType newPurchase = new ImmediatePurchase();
-            Assert.False(productInv.modifyProductPurchaseType(1, null), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
-            Assert.False(productInv.modifyProductPurchaseType(2, newPurchase), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
-            Assert.True(productInv.modifyProductPurchaseType(1, newPurchase), "Fail to modify discount type");
-            Assert.AreEqual(newPurchase, productInv.getProducByID(1).PurchaseType, "Fail to modify discount type");
-        }
+        //[Test()]
+        //public void modifyProductPurchaseTypeTest()
+        //{
+        //    PurchaseType newPurchase = new ImmediatePurchase();
+        //    Assert.False(productInv.modifyProductPurchaseType(1, null), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
+        //    Assert.False(productInv.modifyProductPurchaseType(2, newPurchase), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(1).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
+        //    Assert.True(productInv.modifyProductPurchaseType(1, newPurchase), "Fail to modify discount type");
+        //    Assert.AreEqual(newPurchase, productInv.getProducByID(1).PurchaseType, "Fail to modify discount type");
+        //}
 
         [Test()]
         public void rateProductTest()

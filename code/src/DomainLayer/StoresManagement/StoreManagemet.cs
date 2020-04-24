@@ -1,5 +1,8 @@
-﻿using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<Store> _stores;
         private UsersManagement _userManagement;
-        private long _productInvID;
 
         private static readonly Lazy<StoreManagement> lazy = new Lazy<StoreManagement>(() => new StoreManagement());
 
@@ -22,12 +24,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             this._userManagement = UsersManagement.Instance;
             this._stores = new List<Store>();
-            this._productInvID = 0;
         }
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
-
         private User isLoggedInUserSubscribed()
         {
             User loggedInUser = _userManagement.getLoggedInUser(); //sync
@@ -71,9 +71,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        internal void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
+        internal void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
-            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+            var purchasedProducts = storeBoughtProducts.Select(prod =>
+                new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
             store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
         }
 
@@ -81,30 +82,35 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user is subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public long addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string catName, List<string> keywords)
         {
+            if (!EnumMethods.GetValues(typeof(Category)).Contains(catName.ToUpper())) 
+            {
+                SystemLogger.LogError("Invalid category name provided " + catName);
+            }
+            var category = (Category)Enum.Parse(typeof(Category), catName.ToUpper());
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return -1;
+                return Guid.Empty;
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? -1 : store.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
+            return store == null ? new Guid() : store.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords);
         }
 
         //@pre - logged in user is subscribed
         //return the new product id or -1 in case of fail
-        public long addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return -1;
+                return Guid.Empty;
             }
 
             Store store = getStoreByName(storeName);
-            return store == null ? -1 : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
+            return store == null ? Guid.Empty : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
         }
 
         //@pre - logged in user is subscribed
@@ -121,7 +127,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -141,7 +147,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
             Store store = getStoreByName(storeName);
             return store == null ? false : store.modifyProductName(loggedInUser.Name(), newProductName, oldProductName);
         }
@@ -159,7 +164,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -171,7 +176,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -183,7 +188,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -273,8 +278,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Edit permmiossions*********
 
-        public bool editPermissions(string storeName, string managerUserName, List<permissionType> permissions)
+        public bool editPermissions(string storeName, string managerUserName, List<string> permissiosnNames)
         {
+            var permissionValues = EnumMethods.GetValues(typeof(PermissionType));
+            if(!permissiosnNames.Any(p => permissionValues.Contains(p.ToUpper()))) {
+                SystemLogger.LogError("Invalid permission type provided in permission list " + permissiosnNames.ToString());
+                throw new ArgumentException();
+            }
+            var permissions = permissiosnNames.Select(p => (PermissionType)Enum.Parse(typeof(PermissionType), p.ToUpper())).ToList();
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
@@ -290,18 +301,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return store.editPermissions(managerUserName, permissions, loggedInUser.Name());
         }
 
-        public Tuple<Store, List<Product>> getStoreProducts(string storeName)
+        public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
         {
-            return _stores.Find(s => s.Name.Equals(storeName)).getStoreInfo();
+            var info = _stores.Find(s => s.Name.Equals(storeName)).getStoreInfo();
+            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
         }
 
-        public Dictionary<Store, List<Product>> getAllStoresProducts()
+        public Dictionary<StoreModel, List<ProductModel>> getAllStoresProducts()
         {
-            var storeProdcuts = new Dictionary<Store, List<Product>>();
+            var storeProdcuts = new Dictionary<StoreModel, List<ProductModel>>();
             _stores.ForEach(s =>
                 {
                     var storeInfo = s.getStoreInfo();
-                    storeProdcuts.Add(storeInfo.Item1, storeInfo.Item2);
+                    storeProdcuts.Add(ModelFactory.CreateStore(storeInfo.Item1),
+                            storeInfo.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
                 }
             );
             return storeProdcuts;
@@ -319,15 +332,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
-            var allProdcuts = new List<ProductInventory>();
+            var allProducts = new List<ProductInventory>();
             foreach (Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
             {
-                allProdcuts.Concat(store.Inventory.Products);
+                allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
-            return allProdcuts;
+            return allProducts;
         }
 
-        public List<StorePurchase> purchaseHistory(string storeName)
+        public List<StorePurchaseModel> purchaseHistory(string storeName)
         {
             Store store = getStoreByName(storeName);
             if (store == null) //storeName isn`t exist
@@ -335,11 +348,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return null;
             }
             User loggedInUser = _userManagement.getLoggedInUser();
-            if(loggedInUser == null)
+            if (loggedInUser == null)
             {
                 return null;
             }
-            return store.purchaseHistory(loggedInUser);
+            return store.purchaseHistory(loggedInUser).Select(s => ModelFactory.CreateStorePurchase(s)).ToList();
         }
     }
 }

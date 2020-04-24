@@ -6,8 +6,8 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
     public class TransactionManager
     {
-        private PaymentSystemAdapter _paymentSystem;
-        private SupplySystemAdapter _supplySystem;
+        private IPaymentSystem _paymentSystem;
+        private ISupplySystem _supplySystem;
 
         private static readonly Lazy<TransactionManager> lazy = new Lazy<TransactionManager>(() => new TransactionManager());
 
@@ -31,11 +31,10 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
 
         public bool sendPayment(Store store, double amount)
         {
-            return _paymentSystem.pay(store, amount);
+            return _paymentSystem.sendPayment(store.Name, amount);
         }
 
-        // Params - products is product id to quantity
-        public bool supplyTransaction(Dictionary<Product, int> products, string address)
+        public bool supplyTransaction(IDictionary<Product, int> products, string address)
         {
             return _supplySystem.supply(products, address);
         }
