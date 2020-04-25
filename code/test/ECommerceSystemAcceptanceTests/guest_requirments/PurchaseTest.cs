@@ -47,18 +47,18 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
-
-        //[TestCase()]
-        //public void TestPurchaseCart()
-        //{
-        //    _bridge.AddTocart(1, 20);
-        //    Assert.True(_bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
-        //    _bridge.AddTocart(2, 20);
-        //    _bridge.AddTocart(3, 20);
-        //    Assert.IsNotEmpty(_bridge.ViewUserCart());
-        //    Assert.True(_bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
-        //    Assert.IsEmpty(_bridge.ViewUserCart());
-        //}
+        /*
+        [TestCase()]
+        public void TestPurchaseCart()
+        {
+            _bridge.AddTocart(1, 20);
+            Assert.True(_bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
+            _bridge.AddTocart(2, 20);
+            _bridge.AddTocart(3, 20);
+            Assert.IsNotEmpty(_bridge.ViewUserCart());
+            Assert.True(_bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
+            Assert.IsEmpty(_bridge.ViewUserCart());
+        }
 
         //[TestCase()]
         //public void TestPurchaseProductsFromCart()
@@ -76,11 +76,12 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         //    Assert.IsNotEmpty(_bridge.ViewUserCart());
         //}
 
-        //[TestCase()]
-        //public void TestPurchaseProduct()
-        //{
-        //    Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
-        //    Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
-        //}
+        [TestCase()]
+        public void TestPurchaseProduct()
+        {
+            Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
+            Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
+        }
+        */
     }
 }

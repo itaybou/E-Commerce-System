@@ -12,7 +12,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
     class ModifyProductTest : StoreOwnerTests
     {
-        long _iphoneFirstGroupProductsID;
+        Guid _iphoneFirstGroupProductsID;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -23,105 +23,98 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
-        [OneTimeTearDown]
-        public new void tearDown()
+        [TestCase()]
+        public void modifyProductAsGuest()
         {
-            _bridge.storesCleanUp();
-            _bridge.usersCleanUp();
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as guest success");
+            Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as guest success");
+            Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as guest success");
+            Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as guest success");
+            Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group as guest success");
+            Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as guest success");
+            Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as guest success");
         }
 
-        //[TestCase()]
-        //public void modifyProductAsGuest()
-        //{
-        //    Assert.AreEqual(-1, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as guest success");
-        //    Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as guest success");
-        //    Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as guest success");
-        //    Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as guest success");
-        //    Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group as guest success");
-        //    Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as guest success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as guest success");
-        //}
+
+        [TestCase()]
+        public void modifyProductAsRegularUser()
+        {
+            _bridge.login(_userName, _pswd);
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as regular user success");
+            Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as regular user success");
+            Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as regular user success");
+            Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as regular user success");
+            Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group as regular user success");
+            Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as regular user success");
+            Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as regular user success");
+            _bridge.logout();
+        }
 
 
-        //[TestCase()]
-        //public void modifyProductAsRegularUser()
-        //{
-        //    _bridge.login(_userName, _pswd);
-        //    Assert.AreEqual(-1, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as regular user success");
-        //    Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as regular user success");
-        //    Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as regular user success");
-        //    Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as regular user success");
-        //    Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group as regular user success");
-        //    Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as regular user success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as regular user success");
-        //    _bridge.logout();
-        //}
+        [TestCase()]
+        public void modifyProductAsNotPermitedManager()
+        {
+            _bridge.login(_managerUserName, _pswd);
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as not permited manager success");
+            Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as not permited manager success");
+            Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as not permited manager success");
+            Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as not permited manager success");
+            Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group asnot permited manager success");
+            Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as not permited manager success");
+            Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as not permited manager success");
+            _bridge.logout();
+        }
 
+        [TestCase()]
+        public void modifyNotExistProduct()
+        {
+            string notExistProduct = "not exist";
+            _bridge.login(_ownerUserName, _pswd);
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, notExistProduct, _discontType, _discountPercentage, _purchaseType, 50), "add product group of not exist product success");
+            Assert.False(_bridge.deleteProduct(_storeName, notExistProduct, _iphoneFirstGroupProductsID), "delete product group of not exist product success");
+            Assert.False(_bridge.modifyProductName(_storeName, notExistProduct, "new product name"), "modify product name of not exist product success");
+            Assert.False(_bridge.modifyProductPrice(_storeName, notExistProduct, 500), "delete product price of not exist product success");
+            Assert.False(_bridge.modifyProductQuantity(_storeName, notExistProduct, _iphoneFirstGroupProductsID, 50), "modify quantity of product group of not exist product success");
+            Assert.False(_bridge.modifyProductDiscountType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group of not exist product success");
+            Assert.False(_bridge.modifyProductPurchaseType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group of not exist product success");
+            _bridge.logout();
+        }
 
-        //[TestCase()]
-        //public void modifyProductAsNotPermitedManager()
-        //{
-        //    _bridge.login(_managerUserName, _pswd);
-        //    Assert.AreEqual(-1, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group as not permited manager success");
-        //    Assert.False(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "delete product group as not permited manager success");
-        //    Assert.False(_bridge.modifyProductName(_storeName, _productName, "new product name"), "modify product name as not permited manager success");
-        //    Assert.False(_bridge.modifyProductPrice(_storeName, _productName, 500), "delete product price as not permited manager success");
-        //    Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group asnot permited manager success");
-        //    Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group as not permited manager success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as not permited manager success");
-        //    _bridge.logout();
-        //}
+        [TestCase()]
+        public void modifyNotExistStore()
+        {
+            string notExistStore = "not exist";
+            _bridge.login(_ownerUserName, _pswd);
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(notExistStore, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group with with not exist store success");
+            Assert.False(_bridge.deleteProduct(notExistStore, _productName, _iphoneFirstGroupProductsID), "delete product group with with not exist store success");
+            Assert.False(_bridge.modifyProductName(notExistStore, _productName, "new product name"), "modify product name with with not exist store success");
+            Assert.False(_bridge.modifyProductPrice(notExistStore, _productName, 500), "delete product price with with not exist store success");
+            Assert.False(_bridge.modifyProductQuantity(notExistStore, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group with with not exist store success");
+            Assert.False(_bridge.modifyProductDiscountType(notExistStore, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group with with not exist store success");
+            Assert.False(_bridge.modifyProductPurchaseType(notExistStore, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group with with not exist store success");
+            _bridge.logout();
+        }
 
-        //[TestCase()]
-        //public void modifyNotExistProduct()
-        //{
-        //    string notExistProduct = "not exist";
-        //    _bridge.login(_ownerUserName, _pswd);
-        //    Assert.AreEqual(-1, _bridge.addProduct(_storeName, notExistProduct, _discontType, _discountPercentage, _purchaseType, 50), "add product group of not exist product success");
-        //    Assert.False(_bridge.deleteProduct(_storeName, notExistProduct, _iphoneFirstGroupProductsID), "delete product group of not exist product success");
-        //    Assert.False(_bridge.modifyProductName(_storeName, notExistProduct, "new product name"), "modify product name of not exist product success");
-        //    Assert.False(_bridge.modifyProductPrice(_storeName, notExistProduct, 500), "delete product price of not exist product success");
-        //    Assert.False(_bridge.modifyProductQuantity(_storeName, notExistProduct, _iphoneFirstGroupProductsID, 50), "modify quantity of product group of not exist product success");
-        //    Assert.False(_bridge.modifyProductDiscountType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group of not exist product success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, notExistProduct, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group of not exist product success");
-        //    _bridge.logout();
-        //}
-
-        //[TestCase()]
-        //public void modifyNotExistStore()
-        //{
-        //    string notExistStore = "not exist";
-        //    _bridge.login(_ownerUserName, _pswd);
-        //    Assert.AreEqual(-1, _bridge.addProduct(notExistStore, _productName, _discontType, _discountPercentage, _purchaseType, 50), "add product group with with not exist store success");
-        //    Assert.False(_bridge.deleteProduct(notExistStore, _productName, _iphoneFirstGroupProductsID), "delete product group with with not exist store success");
-        //    Assert.False(_bridge.modifyProductName(notExistStore, _productName, "new product name"), "modify product name with with not exist store success");
-        //    Assert.False(_bridge.modifyProductPrice(notExistStore, _productName, 500), "delete product price with with not exist store success");
-        //    Assert.False(_bridge.modifyProductQuantity(notExistStore, _productName, _iphoneFirstGroupProductsID, 50), "modify quantity of product group with with not exist store success");
-        //    Assert.False(_bridge.modifyProductDiscountType(notExistStore, _productName, _iphoneFirstGroupProductsID, "visible", 15), "modify discount type of product group with with not exist store success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(notExistStore, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group with with not exist store success");
-        //    _bridge.logout();
-        //}
-
-        //[TestCase()]
-        //public void modifyNotExistGroupProductsID()
-        //{
-        //    long notExistGroupProductsID = 10;
-        //    _bridge.login(_ownerUserName, _pswd);
-        //    Assert.False(_bridge.deleteProduct(_storeName, _productName, notExistGroupProductsID), "delete product group as with not exist id success");
-        //    Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, notExistGroupProductsID, 50), "modify quantity of product group with not exist id success");
-        //    Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, notExistGroupProductsID, "visible", 15), "modify discount type of product group with not exist id success");
-        //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, notExistGroupProductsID, "immediate"), "modify purchase type of product group with not exist id success");
-        //    _bridge.logout();
-        //}
+        [TestCase()]
+        public void modifyNotExistGroupProductsID()
+        {
+            Guid notExistGroupProductsID = Guid.NewGuid();
+            _bridge.login(_ownerUserName, _pswd);
+            Assert.False(_bridge.deleteProduct(_storeName, _productName, notExistGroupProductsID), "delete product group as with not exist id success");
+            Assert.False(_bridge.modifyProductQuantity(_storeName, _productName, notExistGroupProductsID, 50), "modify quantity of product group with not exist id success");
+            Assert.False(_bridge.modifyProductDiscountType(_storeName, _productName, notExistGroupProductsID, "visible", 15), "modify discount type of product group with not exist id success");
+            Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, notExistGroupProductsID, "immediate"), "modify purchase type of product group with not exist id success");
+            _bridge.logout();
+        }
 
         //[TestCase()]
         //public void modifyProductAsOwner()
         //{
         //    _bridge.login(_ownerUserName, _pswd);
 
-        //    //add product
-        //    Assert.AreNotEqual(-1, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
-        //    Assert.AreEqual(-1, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
+            //add product
+            Assert.AreNotEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
 
         //    //delete product:
         //    Assert.True(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "fail to delete product group ");

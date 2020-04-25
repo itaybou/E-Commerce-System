@@ -73,5 +73,12 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.assignManager(_managerUserName, _storeName);
             _bridge.logout();
         }
+
+        [OneTimeTearDown]
+        public void tearDown()
+        {
+            _bridge.storesCleanUp();
+            _bridge.usersCleanUp();
+        }
     }
 }

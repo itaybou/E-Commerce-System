@@ -66,15 +66,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name(), name); //sync - make user.name property
+
+            Permissions permissions = Permissions.CreateOwner(null, newStore);
+            newStore.addOwner(loggedInUser.Name(), permissions);
+            _userManagement.addPermission(loggedInUser, permissions, newStore.Name);
+
             _stores.Add(newStore);
-            _userManagement.addOwnStore(newStore, loggedInUser);
             return true;
         }
 
-        internal void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
+        internal void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
         {
-            var purchasedProducts = storeBoughtProducts.Select(prod =>
-                new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
             store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
         }
 
@@ -82,7 +85,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user is subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string catName, List<string> keywords)
+        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             if (!EnumMethods.GetValues(typeof(Category)).Contains(catName.ToUpper())) 
             {
@@ -95,8 +98,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            Store store = getStoreByName(storeName);
-            return store == null ? new Guid() : store.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, Guid.NewGuid());
         }
 
         //@pre - logged in user is subscribed
@@ -109,8 +117,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            Store store = getStoreByName(storeName);
-            return store == null ? Guid.Empty : store.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
         }
 
         //@pre - logged in user is subscribed
@@ -122,8 +135,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.deleteProductInventory(loggedInUser.Name(), productInvName);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.deleteProductInventory(loggedInUser.Name(), productInvName);
         }
 
         //@pre - logged in user is subscribed
@@ -135,8 +153,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.deleteProduct(loggedInUser.Name(), productInvName, productID);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.deleteProduct(loggedInUser.Name(), productInvName, productID);
         }
 
         //@pre - logged in user is subscribed
@@ -147,8 +170,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductName(loggedInUser.Name(), newProductName, oldProductName);
+
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.modifyProductName(loggedInUser.Name(), newProductName, oldProductName);
         }
 
         //@pre - logged in user is subscribed
@@ -159,8 +188,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductPrice(loggedInUser.Name(), productInvName, newPrice);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.modifyProductPrice(loggedInUser.Name(), productInvName, newPrice);
         }
 
         //@pre - logged in user is subscribed
@@ -171,8 +205,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductQuantity(loggedInUser.Name(), productInvName, productID, newQuantity);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.modifyProductQuantity(loggedInUser.Name(), productInvName, productID, newQuantity);
         }
 
         //@pre - logged in user is subscribed
@@ -183,8 +222,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductDiscountType(loggedInUser.Name(), productInvName, productID, newDiscount);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.modifyProductDiscountType(loggedInUser.Name(), productInvName, productID, newDiscount);
         }
 
         //@pre - logged in user is subscribed
@@ -195,8 +239,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Store store = getStoreByName(storeName);
-            return store == null ? false : store.modifyProductPurchaseType(loggedInUser.Name(), productInvName, productID, purchaseType);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            return permission.modifyProductPurchaseType(loggedInUser.Name(), productInvName, productID, purchaseType);
         }
 
         //*********Assign*********
@@ -214,13 +263,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
+            Permissions loggedInUserPermission = loggedInUser.getPermission(storeName);
 
-            Store store = getStoreByName(storeName);
-            bool isSuccess = store == null ? false : store.assignOwner(loggedInUser, newOwneruserName);
-            if (isSuccess)
+            if (loggedInUserPermission == null)
             {
-                User assignedUser = _userManagement.getUserByName(newOwneruserName);
-                _userManagement.addOwnStore(store, assignedUser);
+                return false;
+            }
+            Permissions newOwmerPer = loggedInUserPermission.assignOwner(loggedInUser, newOwneruserName);
+            if (newOwmerPer != null)
+            {
+                User assigneeUser = _userManagement.getUserByName(newOwneruserName);
+                _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
                 return true;
             }
             else
@@ -241,13 +294,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store store = getStoreByName(storeName);
-            bool isSuccess = store == null ? false : store.assignManager(loggedInUser, newManageruserName);
-            if (isSuccess)
+            Permissions loggedInUserPermission = loggedInUser.getPermission(storeName);
+            if (loggedInUserPermission == null)
             {
-                // Add the store to the list of the stores that the user manage
-                User assignedUser = _userManagement.getUserByName(newManageruserName);
-                _userManagement.addManagerStore(store, assignedUser);
+                return false;
+            }
+
+            if(loggedInUserPermission == null)
+            {
+                return false; 
+            }
+
+            Permissions newManagerPer =  loggedInUserPermission.assignManager(loggedInUser, newManageruserName);
+
+            if (newManagerPer != null)
+            {
+                // Add the permission to the new manager
+                User assigneeUser = _userManagement.getUserByName(newManageruserName);
+                _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
                 return true;
             }
             else
@@ -263,13 +327,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store store = getStoreByName(storeName);
-            bool isSuccess = store == null ? false : store.removeManager(loggedInUser, managerUserName);
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+
+            bool isSuccess = permission == null ? false : permission.removeManager(loggedInUser, managerUserName);
             if (isSuccess)
             {
-                // Remove the store from the list of the stores that the user manage
-                User assignedUser = _userManagement.getUserByName(managerUserName);
-                _userManagement.removeManagerStore(store, assignedUser);
+                // Remove the permission from the user
+                User toRemoveUser = _userManagement.getUserByName(managerUserName);
+                _userManagement.removePermissions(storeName, toRemoveUser);
                 return true;
             }
             else
@@ -292,13 +362,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store store = getStoreByName(storeName);
-            if (store == null)
+            Permissions permission = loggedInUser.getPermission(storeName);
+            if (permission == null)
             {
                 return false;
             }
 
-            return store.editPermissions(managerUserName, permissions, loggedInUser.Name());
+            return permission.editPermissions(managerUserName, permissions, loggedInUser.Name());
         }
 
         public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
@@ -342,17 +412,36 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public List<StorePurchaseModel> purchaseHistory(string storeName)
         {
-            Store store = getStoreByName(storeName);
-            if (store == null) //storeName isn`t exist
-            {
-                return null;
-            }
             User loggedInUser = _userManagement.getLoggedInUser();
             if (loggedInUser == null)
             {
                 return null;
             }
-            return store.purchaseHistory(loggedInUser).Select(s => ModelFactory.CreateStorePurchase(s)).ToList();
+
+            if (loggedInUser.isSystemAdmin())
+            {
+                Store store = getStoreByName(storeName);
+                return store.purchaseHistory();
+            }
+            else
+            {
+                Permissions permission = loggedInUser.getPermission(storeName);
+                if (permission == null)
+                {
+                    return null;
+                }
+
+                return permission.purchaseHistory();
+            }
+
         }
+
+        public void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
+        {
+            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id, prod.Key.Name, prod.Key.Description)).ToList();
+            store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
+        }
+
     }
+
 }

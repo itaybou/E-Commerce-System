@@ -12,8 +12,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public UserDetails _details { get; set; }
         public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
 
-        private List<Store> _storesOwned;
-        private List<Store> _storesManaged;
+
+        private Dictionary<string, Permissions> _permisions;  //store name --> permission
+
 
         public Subscribed(string uname, string pswd, string fname, string lname, string email)
         {
@@ -21,8 +22,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _pswd = pswd;
             _details = new UserDetails(fname, lname, email);
             _purchaseHistory = new List<UserPurchase>();
-            _storesOwned = new List<Store>();
-            _storesManaged = new List<Store>();
+            _permisions = new Dictionary<string, Permissions>();
         }
 
         public bool isSubscribed()
@@ -30,19 +30,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return true;
         }
 
-        public void addOwnStore(Store store)
+        public void addPermission(Permissions permissions, string storeName)
         {
-            _storesOwned.Add(store);
+            _permisions.Add(storeName, permissions);
         }
 
-        public void addManagerStore(Store store)
+        public void removePermissions(string storeName)
         {
-            _storesManaged.Add(store);
-        }
-
-        public void removeManagerStore(Store store)
-        {
-            _storesManaged.Remove(store);
+            _permisions.Remove(storeName);
         }
 
         public string Name()
@@ -77,6 +72,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _lname = lname;
                 _email = email;
             }
+        }
+
+
+        public Permissions getPermission(string storeName)
+        {
+            if (_permisions.ContainsKey(storeName))
+            {
+                return _permisions[storeName];
+            }
+            else return null;
         }
     }
 }

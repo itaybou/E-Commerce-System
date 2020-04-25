@@ -25,24 +25,24 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
-            //Discount discount = null;
-            //PurchaseType purchase = null;
-            //if (discountType.Equals("visible"))
-            //{
-            //    discount = new VisibleDiscount(discountPercentage, new DiscountPolicy());
-            //}
-            //else
-            //{
-            //    return -1;
-            //}
-            //if (purchaseType.Equals("immediate"))
-            //{
-            //    purchase = new ImmediatePurchase();
-            //}
-            //else
-            //{
-            //    return -1;
-            //}
+            Discount discount = null;
+            PurchaseType purchase = null;
+            if (discountType.Equals("visible"))
+            {
+                discount = new VisibleDiscount(discountPercentage, new DiscountPolicy());
+            }
+            else
+            {
+                return Guid.Empty;
+            }
+            if (purchaseType.Equals("immediate"))
+            {
+                purchase = new ImmediatePurchase();
+            }
+            else
+            {
+                return Guid.Empty;
+            }
 
             //return _storeService.addProduct(storeName, productInvName, discount, purchase, quantity);
             return Guid.NewGuid();
@@ -51,25 +51,25 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
-            //Discount discount = null;
-            //PurchaseType purchase = null;
-            //var cat = (Category)Enum.Parse(typeof(Category), category);
-            //if (discountType.Equals("visible"))
-            //{
-            //    discount = new VisibleDiscount(discountPercentage, new DiscountPolicy());
-            //}
-            //else
-            //{
-            //    return -1;
-            //}
-            //if (purchaseType.Equals("immediate"))
-            //{
-            //    purchase = new ImmediatePurchase();
-            //}
-            //else
-            //{
-            //    return -1;
-            //}
+            Discount discount = null;
+            PurchaseType purchase = null;
+            var cat = (Category)Enum.Parse(typeof(Category), category);
+            if (discountType.Equals("visible"))
+            {
+                discount = new VisibleDiscount(discountPercentage, new DiscountPolicy());
+            }
+            else
+            {
+                return Guid.Empty;
+            }
+            if (purchaseType.Equals("immediate"))
+            {
+                purchase = new ImmediatePurchase();
+            }
+            else
+            {
+                return Guid.Empty;
+            }
 
             //return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
             return Guid.NewGuid();
@@ -164,10 +164,10 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return null;
             }
             
-            var purchases = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
+            List<Tuple<string, List<Tuple<Guid, int>>, double>> purchases = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
             foreach(StorePurchase s in history)
             {
-                var products = new List<Tuple<Guid, int>>();
+                List<Tuple<Guid, int>> products = new List<Tuple<Guid, int>>();
                 foreach(Product p in s.ProductsPurchased)
                 {
                     products.Add(Tuple.Create(p.Id, p.Quantity));
@@ -334,7 +334,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         }
 
 
-        public bool RemoveFromCart(Guid prodId) // 2.7.1
+        public bool RemoveFromCart(Guid prodID) // 2.7.1
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();

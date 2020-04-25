@@ -20,8 +20,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         int _quantity = 5;
         Category _category = Category.CELLPHONES;
         List<string> _keywords = new List<string>();
-        long _productID = 1;
-        long _productInvID = 0;
+        Guid _productID = Guid.NewGuid();
+        Guid _productInvID = Guid.NewGuid();
 
         SystemManager _systemManagement;
 
@@ -102,15 +102,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductInvTest()
         {
-            Assert.AreEqual(-1, _store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, 2), "Add productInv successed while the user isn`t owner/manager");
-            Assert.AreEqual(-1, _store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                        _category, _keywords, 2), "Add productInv successed while the user is manager without permission");
+            Assert.AreEqual(Guid.Empty, _store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
+                         _category, _keywords, Guid.NewGuid()), "Add productInv successed while the user isn`t owner/manager");
+            Assert.AreEqual(Guid.Empty, _store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
+                        _category, _keywords, Guid.NewGuid()), "Add productInv successed while the user is manager without permission");
 
-            Assert.AreNotEqual(-1, _store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, 2), "Fail to add productInv by the owner"); 
-            Assert.AreNotEqual(-1, _store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, 3), "Fail to add productInv by permited manager");
+            Assert.AreNotEqual(Guid.Empty, _store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
+                         _category, _keywords, Guid.NewGuid()), "Fail to add productInv by the owner"); 
+            Assert.AreNotEqual(Guid.Empty, _store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
+                         _category, _keywords, Guid.NewGuid()), "Fail to add productInv by permited manager");
         }
 
         [Test()]
@@ -157,11 +157,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //    Assert.True(_store.deleteProduct("permitManager", _productName, _productID),
         //            "Fail to delete group of products by permited manager");
 
-        //    //re add the deleted product
-        //    _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-        //    Assert.True(_store.deleteProduct("owner", _productName, 2),
-        //            "Fail to delete group of products by the owner");
-        //}
+            //re add the deleted product
+            Guid guid = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+            Assert.True(_store.deleteProduct("owner", _productName, guid),
+                    "Fail to delete group of products by the owner");
+        }
 
         [Test()]
         public void modifyProductPriceTest()
@@ -244,26 +244,26 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             User newOwner = new User(new Subscribed("newOwner", "123456", "fname", "lname", "email@gmail.com"));
             _userManagement.register("newOwner", "123456", "fname", "lname", "email@gmail.com");
 
-            Assert.False(_store.assignOwner(_regularUser, "newOwner"), "Assign regular user as owner by another regular user successed");
-            Assert.False(_store.assignOwner(_nonPermitManager, "newOwner"), "Assign regular user as owner by manager with default permissions successed");
-            Assert.False(_store.assignOwner(_permitManager, "newOwner"), "Assign regular user as owner by manager with full permissions successed");
+            Assert.Null(_store.assignOwner(_regularUser, "newOwner"), "Assign regular user as owner by another regular user successed");
+            Assert.Null(_store.assignOwner(_nonPermitManager, "newOwner"), "Assign regular user as owner by manager with default permissions successed");
+            Assert.Null(_store.assignOwner(_permitManager, "newOwner"), "Assign regular user as owner by manager with full permissions successed");
            
-            Assert.True(_store.assignOwner(_owner, "newOwner"), "Fail to assign regular user as new owner");
-            Assert.True(_store.getPermissionByName("newOwner").isOwner(), "Fail to assign regular user as new owner");
+            Assert.NotNull(_store.assignOwner(_owner, "newOwner"), "Fail to assign regular user as new owner");
+            Assert.NotNull(_store.getPermissionByName("newOwner").isOwner(), "Fail to assign regular user as new owner");
             Assert.AreEqual(_owner, _store.getPermissionByName("newOwner").AssignedBy, "The user who assign the reg user as owner isn`t the assignee ");
 
-            Assert.False(_store.assignOwner(_anotherOwner, "newOwner"), "Assign already owner user as owner by another owner successed");
+            Assert.Null(_store.assignOwner(_anotherOwner, "newOwner"), "Assign already owner user as owner by another owner successed");
         }
 
         [Test()]
         public void assignManagerTest()
         {
-            Assert.False(_store.assignManager(_regularUser, "newManager"), "Assign regular user as manager by another regular user successed");
-            Assert.False(_store.assignManager(_nonPermitManager, "newManager"), "Assign regular user as manager by manager with default permissions successed");
-            Assert.False(_store.assignManager(_permitManager, "newManager"), "Assign regular user as manager by manager with full permissions successed");
+            Assert.Null(_store.assignManager(_regularUser, "newManager"), "Assign regular user as manager by another regular user successed");
+            Assert.Null(_store.assignManager(_nonPermitManager, "newManager"), "Assign regular user as manager by manager with default permissions successed");
+            Assert.Null(_store.assignManager(_permitManager, "newManager"), "Assign regular user as manager by manager with full permissions successed");
 
 
-            Assert.True(_store.assignManager(_owner, "newManager"), "Fail to assign regular user as new owner");
+            Assert.NotNull(_store.assignManager(_owner, "newManager"), "Fail to assign regular user as new owner");
             //check defult permissions:
             Assert.True(_store.getPermissionByName("newManager").canWatchAndomment(), "Assign new manager successed, but the manager dont have permission to watch and comment");
             Assert.True(_store.getPermissionByName("newManager").canWatchPurchaseHistory(), "Assign new manager successed, but the manager dont have permission to watch purchase history");
@@ -272,8 +272,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.False(_store.getPermissionByName("newManager").canModifyProduct(), "Assign new manager successed, but the manager have permission to modify product");
             Assert.AreEqual(_owner, _store.getPermissionByName("newManager").AssignedBy, "The user who assign the reg user as manager isn`t the assignee");
 
-            Assert.False(_store.assignManager(_owner, "newManager"), "Assign already manager user as new manager successed");
-            Assert.False(_store.assignManager(_anotherOwner, "newManager"), "Assign already manager as manager by another owner successed");
+            Assert.Null(_store.assignManager(_owner, "newManager"), "Assign already manager user as new manager successed");
+            Assert.Null(_store.assignManager(_anotherOwner, "newManager"), "Assign already manager as manager by another owner successed");
         }
 
         [Test()]
@@ -324,27 +324,27 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 
         }
 
-        //[Test()]
-        //public void purchaseHistory()
-        //{
-        //    StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price, 1) });
-        //    _store.PurchaseHistory.Add(purchase);
+        [Test()]
+        public void purchaseHistory()
+        {
+            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price, _productID, _productName, _description) });
+            _store.PurchaseHistory.Add(purchase);
 
         //    List<StorePurchase> expected = new List<StorePurchase>();
         //    expected.Add(purchase);
 
-        //    //succcess:
-        //    Assert.AreEqual(expected, _store.purchaseHistory(_owner), "fail to view store history");
-        //    Assert.AreEqual(expected, _store.purchaseHistory(_permitManager), "fail to view store history");
+            //succcess:
+            //Assert.AreEqual(expected, _store.purchaseHistory(_owner), "fail to view store history");
+            //Assert.AreEqual(expected, _store.purchaseHistory(_permitManager), "fail to view store history");
 
-        //    User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
-        //    Assert.AreEqual(expected, _store.purchaseHistory(admin), "fail to view store history");
+            //User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
+            //Assert.AreEqual(expected, _store.purchaseHistory(admin), "fail to view store history");
 
         //    //fail:
 
-        //    Assert.Null(_store.purchaseHistory(_regularUser), "view history of a store successed with regular user");
-        //    Assert.Null(_store.purchaseHistory(new User(new Guest())), "view history of a store successed with guest");
-        //}
+            //Assert.Null(_store.purchaseHistory(_regularUser), "view history of a store successed with regular user");
+            //Assert.Null(_store.purchaseHistory(new User(new Guest())), "view history of a store successed with guest");
+        }
 
 
         [Test()]

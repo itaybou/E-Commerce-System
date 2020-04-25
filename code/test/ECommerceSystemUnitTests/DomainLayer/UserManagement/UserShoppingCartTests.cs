@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using System;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using NUnit.Framework;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.Tests
@@ -27,8 +28,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void getTotalACartPriceTest()
         {
-            var product1 = new Product(null, null, 10, 30.0, 5);
-            var product2 = new Product(null, null, 10, 20.0, 2);
+            var product1 = new Product(null, null, 10, 30.0, Guid.NewGuid(), "", "");
+            var product2 = new Product(null, null, 10, 20.0, Guid.NewGuid(), "", "");
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 0.0);       //check the total price of empty shopping cart
             _storeShoppingCart1.AddToCart(product1, 5);
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 150.0);     //check the total price after adding a product to cart

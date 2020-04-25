@@ -11,5 +11,13 @@
         void logPurchase(UserPurchase userPurchase);
 
         bool isSystemAdmin();
+
+        void addPermission(Permissions permissions, string storeName);
+
+        void removePermissions(string storeName);
+
+        Permissions getPermission(string storeName);
+
+
     }
 }

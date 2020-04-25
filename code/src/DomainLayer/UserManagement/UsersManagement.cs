@@ -162,19 +162,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _users.Remove(user);
         }
 
-        public void addOwnStore(Store store, User user)
+        public void addPermission(User user, Permissions permissions, string storeName)
         {
-            user.addOwnStore(store);
+            user.addPermission(permissions, storeName);
         }
 
-        public void addManagerStore(Store store, User assignedUser)
+        public void removePermissions(string storeName, User user)
         {
-            assignedUser.addManagerStore(store);
-        }
-
-        public void removeManagerStore(Store store, User assignedUser)
-        {
-            assignedUser.removeManagerStore(store);
+            user.removePermissions(storeName);
         }
 
         public User getUserByName(string managerUserName)

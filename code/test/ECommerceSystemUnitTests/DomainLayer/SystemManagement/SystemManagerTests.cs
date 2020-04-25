@@ -22,6 +22,11 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private string _firstName = "fname", _lastName = "lname", _address = "address 1", _creditCardNumber = "413-547";
         private int _id = 54362432, _CVV = 300;
         private DateTime _expirationCreditCard = DateTime.Now;
+        private Guid guid1;
+        private Guid guid2;
+        private Guid guid3;
+        private Guid guid4;
+
 
         [SetUp]
         public void setUp()
@@ -32,10 +37,15 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement.login("user1", "pA55word");
             _store1 = new Store(null, null, "owner1", "store1");
             _store2 = new Store(null, null, "owner2", "store2");
-            var product1 = new Product("", "", null, null, 20, 25.0);
-            var product2 = new Product("", "", null, null, 10, 10.0);
-            var product3 = new Product("", "", null, null, 15, 12.5);
-            var product4 = new Product("", "", null, null, 25, 50.0);
+            guid1 = Guid.NewGuid();
+            guid2 = Guid.NewGuid();
+            guid3 = Guid.NewGuid();
+            guid4 = Guid.NewGuid();
+
+            var product1 = new Product(null, null, 20, 25.0, guid1, "", "");
+            var product2 = new Product(null, null, 10, 10.0, guid2, "", "");
+            var product3 = new Product(null, null, 15, 12.5, guid3, "", "");
+            var product4 = new Product(null, null, 25, 50.0, guid4, "", "");
             var store1_products = new Dictionary<Product, int>()
             {
                 {product1, 5 },
@@ -87,10 +97,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             }
             //Test for user purchase log
             var logged_purchase_history = ((Subscribed)(_userManagement.getLoggedInUser()._state)).PurchaseHistory.First();
-            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(1)));
-            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(2)));
-            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(3)));
-            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(4)));
+            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(guid1)));
+            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(guid2)));
+            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(guid3)));
+            Assert.True(logged_purchase_history.ProductsPurchased.Exists(p => p.Id.Equals(guid4)));
             Assert.AreEqual(logged_purchase_history.ProductsPurchased.Count, 4);
             Assert.AreEqual(logged_purchase_history.TotalPrice, _totalPrice);
             Assert.AreEqual(logged_purchase_history.PaymentShippingMethod.FirstName, _firstName);
@@ -111,7 +121,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store2_cart);
             store1_cart.AddToCart(_storeProducts[_store1].Keys.First(), 26);
             Assert.IsNotEmpty(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-            Assert.True(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address).First().Id.Equals(1));
+            Assert.True(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address).First().Id.Equals(guid1));
             store1_cart.ChangeProductQuantity(_storeProducts[_store1].Keys.First(), 20);
             Assert.IsNull(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
             store1_cart = new StoreShoppingCart(_store1);
@@ -135,10 +145,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void purchaseProductsTest()
         {
-            var product1 = new Product("", "", null, null, 20, 25.0);
-            var product2 = new Product("", "", null, null, 10, 10.0);
-            var product3 = new Product("", "", null, null, 15, 12.5);
-            var product4 = new Product("", "", null, null, 25, 50.0);
+            var product1 = new Product(null, null, 20, 25.0, Guid.NewGuid(), "", "");
+            var product2 = new Product(null, null, 10, 10.0, Guid.NewGuid(), "", "");
+            var product3 = new Product(null, null, 15, 12.5, Guid.NewGuid(), "", "");
+            var product4 = new Product(null, null, 25, 50.0, Guid.NewGuid(), "", "");
             var productsToPurchase = new List<Tuple<Store, (Product, int)>>()
             {
                 {Tuple.Create(_store1, (product1, 15) )},
@@ -162,7 +172,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void purchaseProductTest()
         {
-            var product1 = new Product("", "", null, null, 20, 25.0);
+            var product1 = new Product(null, null, 20, 25.0, Guid.NewGuid(), "", "");
 
             var purchase = Tuple.Create(_store1, (product1, 25));
             Assert.False(_systemManager.purchaseProduct(purchase, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));

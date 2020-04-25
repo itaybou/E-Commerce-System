@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using System;
 using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
@@ -30,22 +31,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _state.Name();
         }
 
-        //Assume _state is subsbcribed
-        public void addOwnStore(Store store)
+        public void addPermission(Permissions permissions, string storeName)
         {
-            ((Subscribed)_state).addOwnStore(store);
+            _state.addPermission(permissions, storeName);
         }
 
-        //Assume _state is subsbcribed
-        public void addManagerStore(Store store)
+        public void removePermissions(string storeName)
         {
-            ((Subscribed)_state).addManagerStore(store);
-        }
-
-        //Assume _state is subsbcribed
-        public void removeManagerStore(Store store)
-        {
-            ((Subscribed)_state).removeManagerStore(store);
+            _state.removePermissions(storeName);
         }
 
         public bool isSystemAdmin()
@@ -57,6 +50,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public List<UserPurchase> getHistoryPurchase()
         {
             return ((Subscribed)_state).PurchaseHistory;
+        }
+
+        public Permissions getPermission(string storeName)
+        {
+            return _state.getPermission(storeName);
         }
     }
 }
