@@ -1,0 +1,42 @@
+﻿@model PresentationLayer.Models.Auth.RegisterModel
+@using PresentationLayer.Controllers.Auth
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="register-page">
+    <h1>Register</h1>
+    <div class="form" method="post">
+        <form class="login-form">
+            <div class="form-group">
+                <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Username)</label>
+                <input type="text" placeholder="@Html.DisplayNameFor(m => m.Username)" asp-for="Username" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Password)</label>
+                <input type="password" placeholder="@Html.DisplayNameFor(m => m.Password)" asp-for="Password" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.PasswordValidation)</label>
+                <input type="password" placeholder="@Html.DisplayNameFor(m => m.PasswordValidation)" asp-for="PasswordValidation" />
+            </div>
+            <div class="row">
+                <div class="form-group name1 col-md-6">
+                    <label class="row-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.FirstName)</label>
+                    <input type="password" placeholder="@Html.DisplayNameFor(m => m.FirstName)" asp-for="FirstName" />
+                </div>
+
+                <div class="form-group name1 col-md-6">
+                    <label class="row-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.LastName)</label>
+                    <input type="password" placeholder="@Html.DisplayNameFor(m => m.LastName)" asp-for="LastName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Email)</label>
+                <input type="text" placeholder="@Html.DisplayNameFor(m => m.Email)" asp-for="Email" />
+            </div>
+            <button>register</button>
+            <p class="message" style="text-align: left; font-size: 16px">Already registered? <a href="#">Sign In</a></p>
+        </form>
+    </div>
+</div>

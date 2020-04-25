@@ -92,6 +92,12 @@
   <ItemGroup>
     <Compile Include="DomainLayer\SystemManagement\logger\Logger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\SearchResultModel.cs" />
+    <Compile Include="Models\ShoppingCartModel.cs" />
+    <Compile Include="Models\StoreModel.cs" />
+    <Compile Include="Models\StorePurchaseModel.cs" />
+    <Compile Include="Models\UserPurchaseModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainLayer\StoresManagement\Category.cs" />
@@ -104,8 +110,8 @@
     <Compile Include="DomainLayer\StoresManagement\ProductInventory.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagemet.cs" />
-	<Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
-	<Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
+    <Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\StorePurchase.cs" />
     <Compile Include="DomainLayer\SystemManagement\Filters.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilter.cs" />

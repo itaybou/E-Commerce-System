@@ -1,0 +1,80 @@
+﻿@model PresentationLayer.Models.User.CartModel
+@{
+    ViewData["Title"] = "User Cart";
+}
+
+<h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col"> </th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Available</th>
+                            <th scope="col" class="text-center">Quantity</th>
+                            <th scope="col" class="text-right">Price</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var storeProducts in Model.UserCart.Cart)
+                    {
+                        @foreach (var productQuantity in storeProducts.Value)
+                        {
+                        <tr>
+                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                            <td>@productQuantity.Item1.Name</td>
+                            @if (productQuantity.Item1.Quantity >= productQuantity.Item2) { <td>In stock</td> } else { <td style="color: red">Out of stock</td> }
+                            <td>
+                                <input class="form-control" style="margin-left: auto; margin-right: auto; width: 30%; text-align: center" type="text" value="@productQuantity.Item2" />
+                            </td>
+                            <td class="text-right">@productQuantity.Item1.BasePrice $</td>
+                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                        </tr>
+                        }
+                    }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Sub-Total</td>
+                            <td class="text-right">@Model.UserCart.Cart.Aggregate(0.0, (sum, curr) =>
+                                                    curr.Value.Aggregate(0.0, (sum, prod) => sum += prod.Item1.PriceWithDiscount * prod.Item2)) $</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Shipping</td>
+                            <td class="text-right">6,90 €</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total</strong></td>
+                            <td class="text-right"><strong>346,90 €</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <a class="btn btn-block btn-light" asp-controller="Home" asp-action="Index">Continue Shopping</a>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystem", "src\ECommerceSystem.csproj", "{B9101BD1-CB28-4900-8716-E0818A1DEC74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "src\PresentationLayer\PresentationLayer.csproj", "{2FF67853-463B-4D70-BE84-F8E42D725F05}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D5684307-33C8-446E-9039-EC8550300B1D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C6E24739-5C32-4B69-A885-0E9F39FA0629}"
@@ -14,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemAcceptanceTests", "test\ECommerceSystemAcceptanceTests\ECommerceSystemAcceptanceTests.csproj", "{48FD6AE1-735C-4A0F-970E-A6A2A33C3507}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceSystemRegressionTests", "test\ECommerceSystemRegressionTests\ECommerceSystemRegressionTests.csproj", "{071854DF-1173-4954-960C-8B77884543C3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{2FF67853-463B-4D70-BE84-F8E42D725F05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,68 @@
+﻿.navbar-colors {
+    background-color: #f5f5f5;
+}
+
+.navbar-picture {
+    height: 10vh;
+    min-height: 200px;
+    background-image: url('https://source.unsplash.com/BtbjCFUvBXs/1920x1080');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.search-input:focus {
+    outline: none !important;
+    border: 1px solid #00a77b;
+    box-shadow: 0 0 10px #d4e6e2;
+}
+
+.bttn {
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 0 4px #999;
+    outline: none;
+    border: none;
+    display: block;
+    text-decoration: none;
+}
+
+.search-btn {
+    background: #00a75c;
+}
+
+.login-btn {
+    background: #00a75c;
+    border-radius: 10px;
+    height: 30px;
+    justify-content: center;
+}
+
+/* Ripple effect */
+.btn-ripple {
+    background-position: center;
+    transition: background 0.8s;
+    text-decoration: none;
+}
+
+    .btn-ripple:hover {
+        background: #00d576 radial-gradient(circle, transparent 1%, #00d576 1%) center/15000%;
+    }
+
+    .btn-ripple:active {
+        background-color: #038149;
+        background-size: 100%;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        transition: background 0s;
+    }
+
+    .btn-ripple:focus {
+        border: none;
+        outline: none;
+    }
