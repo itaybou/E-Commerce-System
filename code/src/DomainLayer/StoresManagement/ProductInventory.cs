@@ -44,7 +44,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
 
-        private ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid)
+        public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid)
         {
             this._name = name;
             this._category = category;
@@ -121,7 +121,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public Guid addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, Guid prodInvId)
+        public Guid addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price)
         {
             if(quantity <= 0 || discount == null || purchaseType == null || price <= 0)
             {

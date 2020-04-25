@@ -20,34 +20,34 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _spellChecker = new SpellChecker();
         }
 
-        private List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)
+        public virtual List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)
         {
             return storeRatingFilter != null ?_storeManagement.getAllStoreInventoryWithRating(storeRatingFilter) : _storeManagement.getAllStoresProdcutInventories();
         }
 
-       private (List<ProductInventory>, List<string>) getAllProducts(Range<double> storeRatingFilter)
+       public (List<ProductInventory>, List<string>) getAllProducts(Range<double> storeRatingFilter)
         {
             return (getProductInventories(storeRatingFilter), new List<string>());
         }
 
-        private (List<ProductInventory>, List<string>) searchProductsByCategory(string category, Range<double> storeRatingFilter)
+        public (List<ProductInventory>, List<string>) searchProductsByCategory(string category, Range<double> storeRatingFilter)
         {
             if(!EnumMethods.GetValues(typeof(Category)).Contains(category.ToUpper()))
             {
                 return (new List<ProductInventory>(), new List<string>());
             }
             var cat = (Category)Enum.Parse(typeof(Category), category.ToUpper());
-            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Category.Equals(category));
+            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Category.ToString().Equals(category));
             return (result, new List<string>());
         }
 
-        private (List<ProductInventory>, List<string>) searchProductsByName(string prodName, Range<double> storeRatingFilter)
+        public (List<ProductInventory>, List<string>) searchProductsByName(string prodName, Range<double> storeRatingFilter)
         {
             var result = getProductInventories(storeRatingFilter).FindAll(p => p.Name.Equals(prodName));
             return (result, _spellChecker.Correct(prodName));
         }
 
-        private (List<ProductInventory>, List<string>) searchProductsByKeyword(List<string> keywords, Range<double> storeRatingFilter)
+        public (List<ProductInventory>, List<string>) searchProductsByKeyword(List<string> keywords, Range<double> storeRatingFilter)
         {
             var corrected = keywords.Select(word => _spellChecker.Correct(word)).SelectMany(correct => correct).ToList();
             var result = getProductInventories(storeRatingFilter).FindAll(p => p.Keywords.Intersect(keywords).Any());
@@ -57,7 +57,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public List<ProductInventory> filterProducts(List<ProductInventory> products, 
             Range<double> priceRangeFilter, Range<double> productRatingFilter, string categoryFilter)
         {
-            var category = EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            var category = categoryFilter == null ? null : EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
             Func<ProductInventory, bool> priceRangeFilterPred = p => (priceRangeFilter != null && priceRangeFilter.inRange(p.Price)) || priceRangeFilter == null;
             Func<ProductInventory, bool> productRangeFilterPred = p => (productRatingFilter != null && productRatingFilter.inRange(p.Rating)) || productRatingFilter == null;
             Func<ProductInventory, bool> categoryFilterPred = p => (category != null && p.Category.Equals(category)) || category == null;

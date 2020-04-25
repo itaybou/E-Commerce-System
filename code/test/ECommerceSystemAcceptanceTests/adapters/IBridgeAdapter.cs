@@ -27,7 +27,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address); // Requirment 2.8
 
         bool logout(); // Requirment 3.1
-        List<Guid> UserPurchaseHistory(); // Requirment 3.7
+        List<Guid> UserPurchaseHistory(string uname); // Requirment 3.7
 
         bool openStore(string name, string discountPolicy, string purchasePolicy); // Requirment 3.2
 

@@ -13,6 +13,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public static void initLogger()
         {
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             var logPath = Directory.GetParent(Environment.CurrentDirectory).ToString() + "\\Log\\";
             var eventLogPath = logPath + EVENT_LOG_FILE;
             var errorLogPath = logPath + ERROR_LOG_FILE;

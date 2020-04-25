@@ -63,10 +63,6 @@ C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptan
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\PostSharp.dll
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\ECommerceSystem.pdb
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\ECommerceSystem.exe.config
-C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
-C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\nunit.framework.pdb
-C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\nunit.framework.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\System.ValueTuple.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\NLog.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\bin\Debug\PostSharp.xml

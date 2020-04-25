@@ -70,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void setUp()
         {
             _store = new Store(new DiscountPolicy(), new PurchasePolicy(), "owner", "store");
-            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords, _productInvID);
+            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords);
 
 
             _store.assignOwner(_owner, "anotherOwner");
@@ -103,14 +103,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void addProductInvTest()
         {
             Assert.AreEqual(Guid.Empty, _store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, Guid.NewGuid()), "Add productInv successed while the user isn`t owner/manager");
+                         _category, _keywords), "Add productInv successed while the user isn`t owner/manager");
             Assert.AreEqual(Guid.Empty, _store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                        _category, _keywords, Guid.NewGuid()), "Add productInv successed while the user is manager without permission");
+                        _category, _keywords), "Add productInv successed while the user is manager without permission");
 
             Assert.AreNotEqual(Guid.Empty, _store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, Guid.NewGuid()), "Fail to add productInv by the owner"); 
+                         _category, _keywords), "Fail to add productInv by the owner"); 
             Assert.AreNotEqual(Guid.Empty, _store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords, Guid.NewGuid()), "Fail to add productInv by permited manager");
+                         _category, _keywords), "Fail to add productInv by permited manager");
         }
 
         [Test()]
@@ -327,7 +327,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void purchaseHistory()
         {
-            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price,  _productName, _description, _productID) });
+            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_productName,_description,_discount, _purchaseType, _quantity, _price, _productID) });
             _store.PurchaseHistory.Add(purchase);
 
         //    List<StorePurchase> expected = new List<StorePurchase>();

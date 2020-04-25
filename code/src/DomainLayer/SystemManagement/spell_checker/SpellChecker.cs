@@ -52,7 +52,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             word = word.ToLower();
             // no spelling error
             if (_dictionary.Contains(word))
-                return null;
+                return new List<string>();
 
             var variations = Variations(word);
             var candidates = new HashSet<string>();

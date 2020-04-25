@@ -299,11 +299,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public List<Guid> UserPurchaseHistory()
+        public List<Guid> UserPurchaseHistory(string uname)
         {
             if (_real != null)
             {
-                return _real.UserPurchaseHistory();
+                return _real.UserPurchaseHistory(uname);
             }
             else return new List<Guid>();
         }

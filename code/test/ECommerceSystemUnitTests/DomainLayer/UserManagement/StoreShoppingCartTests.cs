@@ -27,8 +27,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void AddToCartTest()
         {
-            var product = new Product(null, null, 10, 25.5, Guid.NewGuid(), "", "");
-            var product2 = new Product(null, null, 10, 15.5, Guid.NewGuid(), "", "");
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
             Assert.AreEqual(_storeShoppingCart.Products[product], 5);   //check if the product added to cart with requested quantity
             Assert.AreEqual(_storeShoppingCart.Products.Count(), 1);    //check if only 1 product added to cart
@@ -43,8 +43,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void ChangeProductQuantityTest()
         {
-            var product = new Product(null, null, 10, 25.5, Guid.NewGuid(), "", "");
-            var product2 = new Product(null, null, 10, 25.5, Guid.NewGuid(), "", "");
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
             Assert.AreEqual(_storeShoppingCart.Products[product], 5);
             _storeShoppingCart.ChangeProductQuantity(product, 2);               //check the quantity of existing product in the cart
@@ -60,8 +60,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void RemoveFromCartTest()
         {
-            var product = new Product(null, null, 10, 25.5, Guid.NewGuid(), "", "");
-            var product2 = new Product(null, null, 10, 15.5, Guid.NewGuid(), "", "");
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.RemoveFromCart(product);         //remove a product from the shopping cart 
             Assert.IsEmpty(_storeShoppingCart.Products);        //check if the shopping cart is empty after the remove 
@@ -74,22 +74,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void getTotalCartPriceTest()
         {
-            var product = new Product(null, null, 10, 25.5, Guid.NewGuid(), "", "");
-            var product2 = new Product(null, null, 10, 15.5, Guid.NewGuid(), "", "");
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
             Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 0.0);       //check the total price of empty shopping cart
             _storeShoppingCart.AddToCart(product, 5);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 127.5);     //check the total price after adding a new product to cart 
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 80.0);     //check the total price after adding a new product to cart 
             _storeShoppingCart.AddToCart(product2, 2);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 158.5);     //check the total price after adding second product to cart
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 116.0);     //check the total price after adding second product to cart
             _storeShoppingCart.ChangeProductQuantity(product, 1);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 56.5);      //check the total price after changing the quantity of a product
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 52.0);      //check the total price after changing the quantity of a product
             _storeShoppingCart.RemoveFromCart(product2);
             _storeShoppingCart.RemoveFromCart(product);
             Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 0.0);       //check the total price after removing all the products to zero
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.AddToCart(product2, 2);
             _storeShoppingCart.RemoveFromCart(product2);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 127.5);     //check the total price after removing only 1 product
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 80.0);     //check the total price after removing only 1 product
 
 
 

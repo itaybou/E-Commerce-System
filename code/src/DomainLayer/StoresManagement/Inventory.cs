@@ -10,7 +10,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     public class Inventory : IEnumerable<ProductInventory>
     {
         private List<ProductInventory> _products;
-        public List<ProductInventory> Products { get => _products;}
+        public List<ProductInventory> Products { get => _products; set => _products = value;
+        }
 
         public Inventory()
         {
@@ -36,7 +37,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 foreach (Product prod in p)
                 {
-                    if (p.ID.Equals(id))
+                    if (prod.Id.Equals(id))
                     {
                         return prod;
                     }

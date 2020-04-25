@@ -18,9 +18,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         int quantity = 5;
         Category category = Category.CELLPHONES;
         List<string> keywords = new List<string>();
-        Guid productID = Guid.NewGuid();
-        Guid productInvID = Guid.NewGuid();
+        private Guid productID;
+        private Guid productInvID;
         Inventory inventory;
+        private ProductInventory pInv;
 
         [OneTimeSetUp]
         public void setUpFixture()
@@ -31,8 +32,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [SetUp]
         public void setUp()
         {
-            //inventory = new Inventory();
-            //inventory.Products.Add(ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords, productID, productInvID));
+            inventory = new Inventory();
+            pInv = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords);
+            productInvID = pInv.ID;
+            productID = pInv.ProductList.First().Id;
+            inventory.Products.Add(pInv);
         }
 
         [TearDown]
@@ -44,13 +48,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductInvTest()
         {
-            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Failed to add productInv to inventory");
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", null, new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Add productInv with null discount to inventory successed"); //discount null 
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), null, 100, 100, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Add productInv with null purchase type to inventory successed"); //purchase type null
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -5, 100, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Add productInv with negative price to inventory successed"); //negative price
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, -5, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Add productInv with negative quantity to inventory successed"); //negative quantity
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv(productName, "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, Guid.NewGuid()), "Add productInv with already exist name to inventory successed"); //exist name
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords, productInvID), "Add productInv with already exist id to inventory successed"); //exist name
+            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords), "Failed to add productInv to inventory");
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", null, new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords), "Add productInv with null discount to inventory successed"); //discount null 
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), null, 100, 100, Category.ELECTRONICS, keywords), "Add productInv with null purchase type to inventory successed"); //purchase type null
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), -5, 100, Category.ELECTRONICS, keywords), "Add productInv with negative price to inventory successed"); //negative price
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, -5, Category.ELECTRONICS, keywords), "Add productInv with negative quantity to inventory successed"); //negative quantity
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv(productName, "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords), "Add productInv with already exist name to inventory successed"); //exist name
+            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", new VisibleDiscount(10, new DiscountPolicy()), new ImmediatePurchase(), 100, 100, Category.ELECTRONICS, keywords), "Add productInv with already exist id to inventory successed"); //exist name
         }
 
         [Test()]
