@@ -140,7 +140,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
                     "Fail to delete product inventory by permited manager");
 
             //re add the deleted product
-            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords, _productInvID);
+            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords);
 
             Assert.True(_store.deleteProductInventory("owner", _productName),
                     "Fail to delete product inventory by the owner");
@@ -327,7 +327,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void purchaseHistory()
         {
-            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price, _productID, _productName, _description) });
+            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price,  _productName, _description, _productID) });
             _store.PurchaseHistory.Add(purchase);
 
         //    List<StorePurchase> expected = new List<StorePurchase>();

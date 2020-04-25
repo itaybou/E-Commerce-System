@@ -105,7 +105,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
         }
 
-
         //public bool purchaseProduct(Tuple<string, (Guid, int)> product, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         //{
         //    var store = _storeManagement.getStoreByName(product.Item1);

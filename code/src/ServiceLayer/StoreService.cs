@@ -129,7 +129,7 @@ namespace ECommerceSystem.ServiceLayer
         [Trace("Info")]
         //Usecase - 4.10
         //Usecase - 6.4.2
-        public ICollection<StorePurchaseModel> purchaseHistory(string storeName)
+        public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
         {
             return _storeManagement.purchaseHistory(storeName);
         }

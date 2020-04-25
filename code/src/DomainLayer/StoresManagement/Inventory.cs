@@ -56,14 +56,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            var guid = Guid.NewGuid();
-            ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords, guid);
+            ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords);
             if(productInventory == null)
             {
                 return Guid.Empty;
             }
             _products.Add(productInventory);
-            return guid;
+            return productInventory.ID;
         }
 
         public bool deleteProductInventory(string productName)
@@ -141,7 +140,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                var id = productInventory.addProduct(productInventory.Name, productInventory.Description, discount, purchaseType, quantity, productInventory.Price);
+                var id = productInventory.addProduct(discount, purchaseType, quantity, productInventory.Price);
                 if (id != Guid.Empty){
                     return id;
                 }

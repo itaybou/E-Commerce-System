@@ -7,11 +7,11 @@ using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    interface StoreInterface
+    interface IStoreInterface
     {
 
         Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
-            int quantity, Category category, List<string> keywords, Guid productInvID);
+            int quantity, Category category, List<string> keywords);
 
         Guid addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity);
 

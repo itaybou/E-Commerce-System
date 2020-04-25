@@ -26,7 +26,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var result = new List<(Store, double, IDictionary<Product, int>)>();
             foreach(var storeCart in StoreCarts)
             {
-                result.Add((OriginStore: storeCart.store, TotalStorePrice: storeCart.getTotalCartPrice(), StoreProdcutQuantities: storeCart.Products));
+                result.Add((storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products));
             }
             return result;
         }

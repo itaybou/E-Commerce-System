@@ -75,23 +75,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        internal void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
-        {
-            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
-            store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
-        }
-
         //*********Add, Delete, Modify Products*********
 
         //@pre - logged in user is subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string categoryName, List<string> keywords)
         {
-            if (!EnumMethods.GetValues(typeof(Category)).Contains(catName.ToUpper())) 
+            if (!EnumMethods.GetValues(typeof(Category)).Contains(categoryName.ToUpper())) 
             {
-                SystemLogger.LogError("Invalid category name provided " + catName);
+                SystemLogger.LogError("Invalid category name provided " + categoryName);
             }
-            var category = (Category)Enum.Parse(typeof(Category), catName.ToUpper());
+            var category = (Category)Enum.Parse(typeof(Category), categoryName.ToUpper());
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
@@ -104,7 +98,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, Guid.NewGuid());
+            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords);
         }
 
         //@pre - logged in user is subscribed
@@ -410,7 +404,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProducts;
         }
 
-        public List<StorePurchaseModel> purchaseHistory(string storeName)
+        public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
         {
             User loggedInUser = _userManagement.getLoggedInUser();
             if (loggedInUser == null)
@@ -421,7 +415,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (loggedInUser.isSystemAdmin())
             {
                 Store store = getStoreByName(storeName);
-                return store.purchaseHistory();
+                return store.purchaseHistory().Select(h => ModelFactory.CreateStorePurchase(h));
             }
             else
             {
@@ -431,14 +425,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     return null;
                 }
 
-                return permission.purchaseHistory();
+                return permission.purchaseHistory().Select(h => ModelFactory.CreateStorePurchase(h));
             }
-
         }
 
-        public void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
+        public void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
-            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id, prod.Key.Name, prod.Key.Description)).ToList();
+            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
             store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
         }
 

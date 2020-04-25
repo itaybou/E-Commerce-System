@@ -14,7 +14,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         WatchPurchaseHistory,
     }
 
-    public class Permissions : StoreInterface
+    public class Permissions : IStoreInterface
     {
         private User _assignedBy;
         private Dictionary<PermissionType, bool> _permissions;
@@ -123,11 +123,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[PermissionType.WatchPurchaseHistory];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, Guid productInvID)
+        public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             if (this.canAddProduct())
             {
-                return _store.addProductInv(activeUserName, productName, description, discount, purchaseType, price, quantity, category, keywords, productInvID);
+                return _store.addProductInv(activeUserName, productName, description, discount, purchaseType, price, quantity, category, keywords);
             }
             else return Guid.Empty;
         }

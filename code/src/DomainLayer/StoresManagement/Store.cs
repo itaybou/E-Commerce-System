@@ -8,7 +8,7 @@ using ECommerceSystem.DomainLayer.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    public class Store : StoreInterface
+    public class Store : IStoreInterface
     {
 
         private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
@@ -54,7 +54,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to add product
         //return product(not product inventory!) id, return -1 in case of fail
         public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
-            int quantity, Category category, List<string> keywords, Guid productInvID)
+            int quantity, Category category, List<string> keywords)
         {
             return _inventory.addProductInv(productName, description, discount, purchaseType, price, quantity, category, keywords);
         }
