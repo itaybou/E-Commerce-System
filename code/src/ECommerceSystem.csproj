@@ -108,6 +108,7 @@
     <Compile Include="DomainLayer\StoresManagement\Discount.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchasePolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\DiscountPolicy.cs" />
+	    <Compile Include="DomainLayer\StoresManagement\StoreInterface.cs" />
     <Compile Include="DomainLayer\StoresManagement\Product.cs" />
     <Compile Include="DomainLayer\StoresManagement\Store.cs" />
     <Compile Include="DomainLayer\StoresManagement\Inventory.cs" />

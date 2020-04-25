@@ -75,3 +75,5 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_5\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CopyComplete
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_5\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V1_5\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb

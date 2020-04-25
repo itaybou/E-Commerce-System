@@ -90,34 +90,34 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //{
         //    Discount newDiscount = new VisibleDiscount(10, new DiscountPolicy());
 
-            Assert.False(productInv.modifyProductDiscountType(productIDCounter, null), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the discount didnt changed
-            Assert.False(productInv.modifyProductDiscountType(Guid.NewGuid(), newDiscount), "Modify discount to non exist id product successed");
-            Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to non exist id product successed"); // check that the discount didnt changed
-            Assert.True(productInv.modifyProductDiscountType(productIDCounter, newDiscount), "Fail to modify discount type");
-            Assert.AreEqual(newDiscount, productInv.getProducByID(productIDCounter).Discount, "Fail to modify discount type");
-        }
+        //    Assert.False(productInv.modifyProductDiscountType(productIDCounter, null), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the discount didnt changed
+        //    Assert.False(productInv.modifyProductDiscountType(Guid.NewGuid(), newDiscount), "Modify discount to non exist id product successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to non exist id product successed"); // check that the discount didnt changed
+        //    Assert.True(productInv.modifyProductDiscountType(productIDCounter, newDiscount), "Fail to modify discount type");
+        //    Assert.AreEqual(newDiscount, productInv.getProducByID(productIDCounter).Discount, "Fail to modify discount type");
+        //}
 
-        [Test()]
-        public void modifyProductPurchaseTypeTest()
-        {
-            PurchaseType newPurchase = new ImmediatePurchase();
-            Assert.False(productInv.modifyProductPurchaseType(productIDCounter, null), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
-            Assert.False(productInv.modifyProductPurchaseType(Guid.NewGuid(), newPurchase), "Modify discount to null discount successed");
-            Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
-            Assert.True(productInv.modifyProductPurchaseType(productIDCounter, newPurchase), "Fail to modify discount type");
-            Assert.AreEqual(newPurchase, productInv.getProducByID(productIDCounter).PurchaseType, "Fail to modify discount type");
-        }
+        //[Test()]
+        //public void modifyProductPurchaseTypeTest()
+        //{
+        //    PurchaseType newPurchase = new ImmediatePurchase();
+        //    Assert.False(productInv.modifyProductPurchaseType(productIDCounter, null), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
+        //    Assert.False(productInv.modifyProductPurchaseType(Guid.NewGuid(), newPurchase), "Modify discount to null discount successed");
+        //    Assert.AreEqual(discount, productInv.getProducByID(productIDCounter).Discount, "Modify discount to null discount successed");// check that the purchase type didnt changed
+        //    Assert.True(productInv.modifyProductPurchaseType(productIDCounter, newPurchase), "Fail to modify discount type");
+        //    Assert.AreEqual(newPurchase, productInv.getProducByID(productIDCounter).PurchaseType, "Fail to modify discount type");
+        //}
 
-        [Test()]
-        public void rateProductTest()
-        {
-            productInv.rateProduct(5.0);
-            Assert.AreEqual(5.0, productInv.Rating);
-            productInv.rateProduct(2.0);
-            Assert.AreEqual(3.5, productInv.Rating);
-        }
+        //[Test()]
+        //public void rateProductTest()
+        //{
+        //    productInv.rateProduct(5.0);
+        //    Assert.AreEqual(5.0, productInv.Rating);
+        //    productInv.rateProduct(2.0);
+        //    Assert.AreEqual(3.5, productInv.Rating);
+        //}
 
     }
 }

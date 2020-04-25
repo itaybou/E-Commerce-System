@@ -118,9 +118,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //{
         //    Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
 
-            Assert.False(inventory.modifyProductDiscountType(productName, productID, new VisibleDiscount(-5, new DiscountPolicy())), "Modify discount to negative percent successed");
-            Assert.False(inventory.modifyProductDiscountType("Samsung", productID, newDis), "Modify discount for nonexist productInv name successed");
-            Assert.False(inventory.modifyProductDiscountType(productName, Guid.NewGuid(), newDis), "Modify discount for nonexist group of products id successed");
+            //Assert.False(inventory.modifyProductDiscountType(productName, productID, new VisibleDiscount(-5, new DiscountPolicy())), "Modify discount to negative percent successed");
+            //Assert.False(inventory.modifyProductDiscountType("Samsung", productID, newDis), "Modify discount for nonexist productInv name successed");
+            //Assert.False(inventory.modifyProductDiscountType(productName, Guid.NewGuid(), newDis), "Modify discount for nonexist group of products id successed");
 
         //    Assert.True(inventory.modifyProductDiscountType(productName, productID, newDis), "Fail to modify discount of product group");
         //    Assert.AreEqual(newDis, inventory.getProductByName(productName).getProducByID(productID).Discount, "Discount type didnt modified when its supposed to");
@@ -133,8 +133,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //{
         //    PurchaseType newPurchase = new ImmediatePurchase();
 
-            Assert.False(inventory.modifyProductPurchaseType("Samsung", productID, newPurchase), "Modify purchase type for nonexist productInv name successed");
-            Assert.False(inventory.modifyProductPurchaseType(productName, Guid.NewGuid(), newPurchase), "Modify purchase type for nonexist group of products id successed");
+            //Assert.False(inventory.modifyProductPurchaseType("Samsung", productID, newPurchase), "Modify purchase type for nonexist productInv name successed");
+            //Assert.False(inventory.modifyProductPurchaseType(productName, Guid.NewGuid(), newPurchase), "Modify purchase type for nonexist group of products id successed");
 
         //    Assert.True(inventory.modifyProductPurchaseType(productName, productID, newPurchase), "Fail to modify purchase type of product group");
         //    Assert.AreEqual(newPurchase, inventory.getProductByName(productName).getProducByID(productID).PurchaseType, "Purchase type didnt modified when its supposed to");

@@ -35,7 +35,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         bool removeManager(User loggedInUser, string managerUserName);
 
-        bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName);
+        bool editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName);
 
         void rateStore(double rating);
 

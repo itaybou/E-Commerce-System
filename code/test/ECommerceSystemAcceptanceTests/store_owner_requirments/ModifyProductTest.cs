@@ -113,8 +113,8 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         //    _bridge.login(_ownerUserName, _pswd);
 
             //add product
-            Assert.AreNotEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
-            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
+            //Assert.AreNotEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
+            //Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
 
         //    //delete product:
         //    Assert.True(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "fail to delete product group ");

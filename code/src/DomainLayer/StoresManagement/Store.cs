@@ -56,7 +56,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
             int quantity, Category category, List<string> keywords, Guid productInvID)
         {
-            return _inventory.addProductInv(productName, description, discount, purchaseType, price, quantity, category, keywords, productInvID);
+            return _inventory.addProductInv(productName, description, discount, purchaseType, price, quantity, category, keywords);
         }
 
         internal void reduceProductQuantity(Product prod, int reduceBy)

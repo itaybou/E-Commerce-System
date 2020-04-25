@@ -158,25 +158,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //            "Fail to delete group of products by permited manager");
 
             //re add the deleted product
-            Guid guid = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-            Assert.True(_store.deleteProduct("owner", _productName, guid),
-                    "Fail to delete group of products by the owner");
-        }
+        //    Guid guid = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+        //    Assert.True(_store.deleteProduct("owner", _productName, guid),
+        //            "Fail to delete group of products by the owner");
+        //}
 
-        [Test()]
-        public void modifyProductPriceTest()
-        {
-            Assert.False(_store.modifyProductPrice("regularUser", _productName, 200),
-                    "Modify price of product inventory successed while the user isn`t owner/manager");
-            Assert.False(_store.modifyProductPrice("nonPermitManager", _productName, 200),
-                    "Modify price of product inventory successed while the user is manager without permission");
+        //[Test()]
+        //public void modifyProductPriceTest()
+        //{
+        //    Assert.False(_store.modifyProductPrice("regularUser", _productName, 200),
+        //            "Modify price of product inventory successed while the user isn`t owner/manager");
+        //    Assert.False(_store.modifyProductPrice("nonPermitManager", _productName, 200),
+        //            "Modify price of product inventory successed while the user is manager without permission");
 
-            Assert.True(_store.modifyProductPrice("permitManager", _productName, 200),
-                    "Fail to modify price of product inventory by permited manager");
+        //    Assert.True(_store.modifyProductPrice("permitManager", _productName, 200),
+        //            "Fail to modify price of product inventory by permited manager");
 
-            Assert.True(_store.modifyProductPrice("owner", _productName, 300),
-                    "Fail to modify price of product inventory by the owner");
-        }
+        //    Assert.True(_store.modifyProductPrice("owner", _productName, 300),
+        //            "Fail to modify price of product inventory by the owner");
+        //}
 
         //[Test()]
         //public void modifyProductDiscountTypeTest()

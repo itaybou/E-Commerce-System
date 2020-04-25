@@ -5,7 +5,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public enum permissionType 
+    public enum PermissionType 
     {
         AddProductInv,
         DeleteProductInv,
@@ -232,7 +232,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName)
+        public bool editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
         {
             if (this.isOwner())
             {
