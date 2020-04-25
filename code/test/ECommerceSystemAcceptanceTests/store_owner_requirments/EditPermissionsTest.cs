@@ -24,13 +24,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _permissions.Add("DeleteProductInv");
         }
 
-        [OneTimeTearDown]
-        public new void tearDown()
-        {
-            _bridge.storesCleanUp();
-            _bridge.usersCleanUp();
-        }
-
         [TestCase()]
         public void editPermissionsSuccess()
         {

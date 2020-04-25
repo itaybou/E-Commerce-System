@@ -29,15 +29,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         bool modifyProductName(string loggedInUserName, string newProductName, string oldProductName);
 
-        bool assignOwner(User loggedInUser, string newOwneruserName);
+        Permissions assignOwner(User loggedInUser, string newOwneruserName);
 
-        bool assignManager(User loggedInUser, string newManageruserName);
+        Permissions assignManager(User loggedInUser, string newManageruserName);
 
         bool removeManager(User loggedInUser, string managerUserName);
 
         bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName);
-
-        Tuple<Store, List<Product>> getStoreInfo();
 
         void rateStore(double rating);
 
@@ -45,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         Permissions getPermissionByName(string userName);
 
-        List<StorePurchase> purchaseHistory(User loggedInUser);
+        List<StorePurchase> purchaseHistory();
 
 
 

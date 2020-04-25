@@ -31,7 +31,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._purchasePolicy = purchasePolicy;
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
-            this._premmisions.Add(ownerUserName, Permissions.CreateOwner(null)); 
             this.Name = name;
             this._purchaseHistory = new List<StorePurchase>();
         }
@@ -42,6 +41,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
         public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
 
+
+        public void addOwner(string userName, Permissions permissions)
+        {
+            _premmisions.Add(userName, permissions);
+        }
 
         //*********Add, Delete, Modify Products*********
 
@@ -110,12 +114,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Assign*********
 
-        public bool assignOwner(User loggedInUser, string newOwneruserName)
+        public Permissions assignOwner(User loggedInUser, string newOwneruserName)
         {
-
-            if(_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner() ) // The user of userName is already owner of this store
+            Permissions per = null;
+            if (_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner() ) // The user of userName is already owner of this store
             {
-                return false;
+                return null;
             }
 
             if (_premmisions.ContainsKey(newOwneruserName))
@@ -124,26 +128,26 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                Permissions per = Permissions.CreateOwner(loggedInUser);
-                if (per == null) return false;
+                per = Permissions.CreateOwner(loggedInUser, this);
+                if (per == null) return null;
                 _premmisions.Add(newOwneruserName, per);
             }
-            return true;
+            return per;
         }
 
-        public bool assignManager(User loggedInUser, string newManageruserName)
+        public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
 
             if (_premmisions.ContainsKey(newManageruserName)) // The user of userName is already owner/manager of this store
             {
-                return false;
+                return null;
             }
 
-            Permissions per = Permissions.CreateManager(loggedInUser);
-            if (per == null) return false; // loggedInUser isn`t subscribed
+            Permissions per = Permissions.CreateManager(loggedInUser, this);
+            if (per == null) return null; 
             _premmisions.Add(newManageruserName, per);
-            
-            return true;
+
+            return per;
         }
 
         public bool removeManager(User loggedInUser, string managerUserName)
@@ -210,13 +214,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else return null;
         }
 
-        public List<StorePurchase> purchaseHistory(User loggedInUser)
+        public List<StorePurchase> purchaseHistory()
         {
-            if(loggedInUser.isSystemAdmin() || (_premmisions.ContainsKey(loggedInUser.Name()) && _premmisions[loggedInUser.Name()].canWatchHistory()))
-            {
-                return this.PurchaseHistory;
-            }
-            return null;          
+            return this.PurchaseHistory;        
         }
     }
 }

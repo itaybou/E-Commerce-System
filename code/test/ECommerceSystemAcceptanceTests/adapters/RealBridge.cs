@@ -5,7 +5,6 @@ using System.Text;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.ServiceLayer;
-using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystemAcceptanceTests.adapters

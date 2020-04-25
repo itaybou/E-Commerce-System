@@ -28,5 +28,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return false;
         }
+
+        public void addPermission(Permissions permissions, string storeName)
+        {
+            return; // guest dont have permissions
+        }
+
+
+        public void removePermissions(string storeName)
+        {
+            return;  // guest dont have permissions
+        }
+
+        public Permissions getPermission(string storeName)
+        {
+            return null;  // guest dont have permissions
+        }
     }
 }

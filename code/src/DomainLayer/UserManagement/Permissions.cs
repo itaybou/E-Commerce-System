@@ -25,18 +25,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public User AssignedBy { get => _assignedBy; }
 
 
-        private Permissions(User assignedBy, bool isOwner)
+        private Permissions(User assignedBy, bool isOwner, Store store)
         {
             this._assignedBy = assignedBy;
             initPermmisionsDict(isOwner);
             this._isOwner = isOwner;
+            this._store = store;
         }
 
-        public static Permissions CreateOwner(User assignedBy)
+        public static Permissions CreateOwner(User assignedBy, Store store)
         {
-            if (assignedBy == null || assignedBy.isSubscribed())
+            if (assignedBy == null || assignedBy.isSubscribed()) //null if this is the user who open the store
             {
-                Permissions permissions = new Permissions(assignedBy, true);
+                Permissions permissions = new Permissions(assignedBy, true, store);
                 return permissions;
             }
             else
@@ -45,11 +46,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
-        public static Permissions CreateManager(User assignedBy)
+        public static Permissions CreateManager(User assignedBy, Store store)
         {
             if (assignedBy.isSubscribed())
             {
-                Permissions permissions = new Permissions(assignedBy, false);
+                Permissions permissions = new Permissions(assignedBy, false, store);
                 return permissions;
             }
             else
@@ -204,22 +205,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool assignOwner(User loggedInUser, string newOwneruserName)
+        public Permissions assignOwner(User loggedInUser, string newOwneruserName)
         {
             if (this.isOwner())
             {
                 return _store.assignOwner(loggedInUser, newOwneruserName);
             }
-            else return false;
+            else return null;
         }
 
-        public bool assignManager(User loggedInUser, string newManageruserName)
+        public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
             if (this.isOwner())
             {
                 return _store.assignManager(loggedInUser, newManageruserName);
             }
-            else return false;
+            else return null;
         }
 
         public bool removeManager(User loggedInUser, string managerUserName)
@@ -233,13 +234,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool editPermissions(string managerUserName, List<permissionType> permissions, string loggedInUserName)
         {
-            throw new NotImplementedException();
+            if (this.isOwner())
+            {
+                return _store.editPermissions(managerUserName, permissions, loggedInUserName);
+            }
+            else return false;
         }
 
-        public Tuple<Store, List<Product>> getStoreInfo()
-        {
-            return _store.getStoreInfo();
-        }
 
         public void rateStore(double rating)
         {
@@ -256,11 +257,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             throw new NotImplementedException();
         }
 
-        public List<StorePurchase> purchaseHistory(User loggedInUser)
+        public List<StorePurchase> purchaseHistory()
         {
-            if (loggedInUser.isSystemAdmin() || this.canWatchHistory())
+            if (this.canWatchHistory())
             {
-                return _store.purchaseHistory(loggedInUser);
+                return _store.purchaseHistory();
             }
             else return null;
         }

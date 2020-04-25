@@ -25,13 +25,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _purchasePolicy = "purchase policy";
         }
 
-        [OneTimeTearDown]
-        public new void tearDown()
-        {
-            _bridge.storesCleanUp();
-            _bridge.usersCleanUp();
-        }
-
         [TestCase()]
         public void openStoreSuccess()
         {
