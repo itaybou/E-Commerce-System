@@ -42,7 +42,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public long addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             return _storeManagement.addProductInv(storeName, description, productInvName, discount, purchaseType, price, quantity, category, keywords);
         }
@@ -56,13 +56,13 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public long addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             return _storeManagement.addProduct(storeName, productInvName, discount, purchaseType, quantity);
         }
 
         [Trace("Info")]
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             return _storeManagement.deleteProduct(storeName, productInvName, productID);
         }
@@ -80,19 +80,19 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             return _storeManagement.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
         }
 
         [Trace("Info")]
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
         {
             return _storeManagement.modifyProductDiscountType(storeName, productInvName, productID, newDiscount);
         }
 
         [Trace("Info")]
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
             return _storeManagement.modifyProductPurchaseType(storeName, productInvName, productID, purchaseType);
         }

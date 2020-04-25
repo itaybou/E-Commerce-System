@@ -37,7 +37,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
-
+        /*
         [TestCase()]
         public void TestRemoveFromCart()
         {
@@ -51,5 +51,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
 
 
         }
+        */
     }
 }

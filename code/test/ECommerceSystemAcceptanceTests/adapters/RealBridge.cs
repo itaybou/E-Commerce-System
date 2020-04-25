@@ -22,7 +22,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _systemService = new SystemServices();
         }
 
-        public long addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -32,7 +32,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
             if (purchaseType.Equals("immediate"))
             {
@@ -40,14 +40,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
 
             return _storeService.addProduct(storeName, productInvName, discount, purchase, quantity);
 
         }
 
-        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
+        public Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -58,7 +58,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
             if (purchaseType.Equals("immediate"))
             {
@@ -66,7 +66,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
 
             return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
@@ -82,7 +82,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.assignOwner(newOwneruserName, storeName);
         }
 
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             return _storeService.deleteProduct(storeName, productInvName, productID);
         }
@@ -98,7 +98,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.editPermissions(storeName, managerUserName, permissionTypes);
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, string newDiscount, int discountPercentage)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage)
         {
             Discount discount = null;
             if (newDiscount.Equals("visible"))
@@ -123,7 +123,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.modifyProductPrice(storeName, productInvName, newPrice);
         }
 
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, string purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, string purchaseType)
         {
             PurchaseType newPurchase = null;
             if (purchaseType.Equals("immediate"))
@@ -138,7 +138,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.modifyProductPurchaseType(storeName, productInvName, productID, newPurchase);
         }
 
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             return _storeService.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
 
@@ -152,7 +152,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.openStore(name, discount, purchase);
         }
 
-        public List<Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(string storeName)
         {
             List<StorePurchase> history = _storeService.purchaseHistory(storeName);
 
@@ -161,10 +161,10 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return null;
             }
             
-            List<Tuple<string, List<Tuple<long, int>>, double>> purchases = new List<Tuple<string, List<Tuple<long, int>>, double>>();
+            List<Tuple<string, List<Tuple<Guid, int>>, double>> purchases = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
             foreach(StorePurchase s in history)
             {
-                List<Tuple<long, int>> products = new List<Tuple<long, int>>();
+                List<Tuple<Guid, int>> products = new List<Tuple<Guid, int>>();
                 foreach(Product p in s.ProductsPurchased)
                 {
                     products.Add(Tuple.Create(p.Id, p.Quantity));
@@ -205,13 +205,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             });
         }
 
-        public Dictionary<string, Dictionary<long, int>> getUserCartDetails()
+        public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()
         {
-            var dict = new Dictionary<string, Dictionary<long, int>>();
+            var dict = new Dictionary<string, Dictionary<Guid, int>>();
             var cart = _userServices.ShoppingCartDetails();
             cart.StoreCarts.ForEach(storeCart =>
             {
-                var storeDict = new Dictionary<long, int>();
+                var storeDict = new Dictionary<Guid, int>();
                 storeCart.Products.ToList().ForEach(p =>
                 {
                     if (storeDict.ContainsKey(p.Key.Id))
@@ -317,7 +317,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         }
 
 
-        public Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity) //2.6
+        public Dictionary<string, Dictionary<Guid, int>> AddTocart(Guid prodID, int quantity) //2.6
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
@@ -325,13 +325,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return getUserCartDetails();
         }
 
-        public Dictionary<string, Dictionary<long, int>> ViewUserCart() // 2.7
+        public Dictionary<string, Dictionary<Guid, int>> ViewUserCart() // 2.7
         {
             return getUserCartDetails(); //uses User service function
         }
 
 
-        public bool RemoveFromCart(long prodID) // 2.7.1
+        public bool RemoveFromCart(Guid prodID) // 2.7.1
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
@@ -339,14 +339,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         }
 
-        public bool ChangeProductCartQuantity(long prodID, int quantity)    // 2.7.2
+        public bool ChangeProductCartQuantity(Guid prodID, int quantity)    // 2.7.2
         {
             var info = _storeService.getAllStoresInfo();
             var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
             return _userServices.ChangeProductQunatity(prod, quantity);
         }
 
-        public bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
+        public bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
         {
             var idNum = Int32.Parse(id);
             var cvvNum = Int32.Parse(CVV);
@@ -380,7 +380,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _userServices.logout();
         }
 
-        public List<long> UserPurchaseHistory() // 3.7
+        public List<Guid> UserPurchaseHistory() // 3.7
         {
             var history = _userServices.loggedUserPurchaseHistory();
             return history.Select(h => h.ProductsPurchased.Select(p => p.Id)).SelectMany(p => p).ToList();

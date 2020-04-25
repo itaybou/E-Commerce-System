@@ -12,7 +12,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
 
-        private long _ID;
+        private Guid _ID;
         private string _name;
         private string _description;
         private Category _category;
@@ -26,7 +26,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<string> Keywords { get => _keywords.ToList(); }
         public double Rating { get => _rating; }
         public List<Product> ProductList{ get => _products;}
-        public long ID { get => _ID; }
+        public Guid ID { get => _ID; }
         public string Description { get => _description; }
         public double Price1 { get => _price; }
         public long RaterCount { get => _raterCount; }
@@ -44,7 +44,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
 
-        private ProductInventory(string name, string description, double price, Category category, long ID, List<string> keywords)
+        private ProductInventory(string name, string description, double price, Category category, Guid ID, List<string> keywords)
         {
             this._name = name;
             this._category = category;
@@ -59,7 +59,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 
-            double price, int quantity, Category category, List<string> keywords, long productIDCounter, long productInvID)
+            double price, int quantity, Category category, List<string> keywords, Guid productIDCounter, Guid productInvID)
         {
             if(price < 0 || quantity < 0 || discount == null || purchaseType == null)
             {
@@ -72,11 +72,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return productInventory;
         }
 
-        public Product getProducByID(long id)
+        public Product getProducByID(Guid id)
         {
             foreach(Product p in _products)
             {
-                if(p.Id == id)
+                if(p.Id.Equals(id))
                 {
                     return p;
                 }
@@ -93,7 +93,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool modifyProductQuantity(long productID, int newQuantity)
+        public bool modifyProductQuantity(Guid productID, int newQuantity)
         {
             if(newQuantity <= 0)
             {
@@ -109,7 +109,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool deleteProduct(long productID)
+        public bool deleteProduct(Guid productID)
         {
             Product product = getProducByID(productID);
             if (product == null)
@@ -120,9 +120,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, long id)
+        public bool addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price, Guid id)
         {
-            if(quantity <= 0 || discount == null || purchaseType == null || price <= 0 || id < 0 || getProducByID(id) != null)
+            if(quantity <= 0 || discount == null || purchaseType == null || price <= 0 || getProducByID(id) != null)
             {
                 return false;
             }
@@ -130,7 +130,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductDiscountType(long productID, Discount newDiscount)
+        public bool modifyProductDiscountType(Guid productID, Discount newDiscount)
         {
             if(newDiscount == null)
             {
@@ -146,7 +146,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public bool modifyProductPurchaseType(long productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(Guid productID, PurchaseType purchaseType)
         {
             if (purchaseType == null )
             {

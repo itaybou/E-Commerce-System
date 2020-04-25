@@ -10,7 +10,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<Store> _stores;
         private UsersManagement _userManagement;
-        private long _productInvID;
 
         private static readonly Lazy<StoreManagement> lazy = new Lazy<StoreManagement>(() => new StoreManagement());
 
@@ -22,7 +21,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             this._userManagement = UsersManagement.Instance;
             this._stores = new List<Store>();
-            this._productInvID = 0;
         }
 
         // Return the user that logged in to the system if the user is subscribed
@@ -80,37 +78,37 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user is subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public long addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return -1;
+                return Guid.Empty;
             }
 
             Permissions permission = loggedInUser.getPermission(storeName);
             if (permission == null)
             {
-                return -1;
+                return Guid.Empty;
             }
 
-            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, ++_productInvID);
+            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords, Guid.NewGuid());
         }
 
         //@pre - logged in user is subscribed
         //return the new product id or -1 in case of fail
-        public long addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
-                return -1;
+                return Guid.Empty;
             }
 
             Permissions permission = loggedInUser.getPermission(storeName);
             if (permission == null)
             {
-                return -1;
+                return Guid.Empty;
             }
 
             return permission.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
@@ -135,7 +133,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -188,7 +186,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -205,7 +203,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed
@@ -222,7 +220,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
             User loggedInUser = isLoggedInUserSubscribed();
             if (loggedInUser == null) //The logged in user isn`t subscribed

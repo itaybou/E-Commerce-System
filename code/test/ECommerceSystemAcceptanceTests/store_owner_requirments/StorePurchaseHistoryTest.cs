@@ -12,7 +12,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
     class StorePurchaseHistoryTest : StoreOwnerTests
     {
 
-        long _productID;
+        Guid _productID;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -23,7 +23,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
 
             _bridge.login(_userName, _pswd);
-            bool susccess =_bridge.PurchaseProducts(new Dictionary<long, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
+            bool susccess =_bridge.PurchaseProducts(new Dictionary<Guid, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
             _bridge.logout();
         }
 
@@ -31,9 +31,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void storePurchaseHistorySuccess()
         {
 
-            List<Tuple<long, int>> products = new List<Tuple<long, int>>(); // product id --> quantity
+            List<Tuple<Guid, int>> products = new List<Tuple<Guid, int>>(); // product id --> quantity
             products.Add(Tuple.Create(_productID, 1));
-            List<Tuple<string, List<Tuple<long, int>>, double>> expectedHistory = new List<Tuple<string, List<Tuple<long, int>>, double>>();
+            List<Tuple<string, List<Tuple<Guid, int>>, double>> expectedHistory = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
             expectedHistory.Add(Tuple.Create(_userName, products, 80.0)); //user, product list, price
 
             //owner

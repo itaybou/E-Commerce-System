@@ -123,23 +123,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[permissionType.WatchPurchaseHistory];
         }
 
-        public long addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, long productInvID)
+        public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, Guid productInvID)
         {
             if (this.canAddProduct())
             {
                 return _store.addProductInv(activeUserName, productName, description, discount, purchaseType, price, quantity, category, keywords, productInvID);
             }
-            else return -1;
+            else return Guid.Empty;
         }
 
 
-        public long addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
             if (this.canModifyProduct())
             {
                 return _store.addProduct(loggedInUserName, productInvName, discount, purchaseType, quantity);
             }
-            else return -1;
+            else return Guid.Empty;
         }
 
         public bool deleteProductInventory(string loggedInUserName, string productInvName)
@@ -151,7 +151,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool deleteProduct(string loggedInUserName, string productInvName, long productID)
+        public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
         {
             if (this.canModifyProduct())
             {
@@ -169,7 +169,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, long productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, Discount newDiscount)
         {
             if (this.canModifyProduct())
             {
@@ -178,7 +178,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, long productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
             if (this.canModifyProduct())
             {
@@ -187,7 +187,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductQuantity(string loggedInUserName, string productName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {
             if (this.canModifyProduct())
             {

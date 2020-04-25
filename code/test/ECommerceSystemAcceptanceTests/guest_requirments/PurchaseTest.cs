@@ -47,7 +47,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
-
+        /*
         [TestCase()]
         public void TestPurchaseCart()
         {
@@ -82,5 +82,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
             Assert.True(_bridge.PurchaseProducts(new Dictionary<long, int>() { { 4, 10 } }, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address));
         }
+        */
     }
 }
