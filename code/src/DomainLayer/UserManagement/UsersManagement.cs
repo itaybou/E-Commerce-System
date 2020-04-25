@@ -130,7 +130,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (getLoggedInUser() != null && getLoggedInUser().isSubscribed())
             {
-                var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+                var productsPurchased = allProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id, prod.Key.Name, prod.Key.Description)).ToList();
                 getLoggedInUser()._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }

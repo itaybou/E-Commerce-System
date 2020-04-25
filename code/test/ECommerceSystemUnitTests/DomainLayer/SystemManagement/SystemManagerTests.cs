@@ -32,10 +32,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement.login("user1", "pA55word");
             _store1 = new Store(null, null, "owner1", "store1");
             _store2 = new Store(null, null, "owner2", "store2");
-            var product1 = new Product(null, null, 20, 25.0, 1);
-            var product2 = new Product(null, null, 10, 10.0, 2);
-            var product3 = new Product(null, null, 15, 12.5, 3);
-            var product4 = new Product(null, null, 25, 50.0, 4);
+            var product1 = new Product(null, null, 20, 25.0, 1, "", "");
+            var product2 = new Product(null, null, 10, 10.0, 2, "", "");
+            var product3 = new Product(null, null, 15, 12.5, 3, "", "");
+            var product4 = new Product(null, null, 25, 50.0, 4, "", "");
             var store1_products = new Dictionary<Product, int>()
             {
                 {product1, 5 },
@@ -135,10 +135,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void purchaseProductsTest()
         {
-            var product1 = new Product(null, null, 20, 25.0, 1);
-            var product2 = new Product(null, null, 10, 10.0, 2);
-            var product3 = new Product(null, null, 15, 12.5, 3);
-            var product4 = new Product(null, null, 25, 50.0, 4);
+            var product1 = new Product(null, null, 20, 25.0, 1, "", "");
+            var product2 = new Product(null, null, 10, 10.0, 2, "", "");
+            var product3 = new Product(null, null, 15, 12.5, 3, "", "");
+            var product4 = new Product(null, null, 25, 50.0, 4, "", "");
             var productsToPurchase = new List<Tuple<Store, (Product, int)>>()
             {
                 {Tuple.Create(_store1, (product1, 15) )},
@@ -162,7 +162,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void purchaseProductTest()
         {
-            var product1 = new Product(null, null, 20, 25.0, 1);
+            var product1 = new Product(null, null, 20, 25.0, 1, "", "");
 
             var purchase = Tuple.Create(_store1, (product1, 25));
             Assert.False(_systemManager.purchaseProduct(purchase, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));

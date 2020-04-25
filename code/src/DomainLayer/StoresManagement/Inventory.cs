@@ -80,7 +80,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                oldproductInventory.Name = newProductName;
+                oldproductInventory.modifyName(newProductName);
                 return true;
             }
         }

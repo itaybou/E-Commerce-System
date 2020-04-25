@@ -420,7 +420,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void logStorePurchase(Store store, User user, double totalPrice, Dictionary<Product, int> storeBoughtProducts)
         {
-            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id, prod.Key.Name, prod.Key.Description)).ToList();
             store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
         }
 

@@ -327,7 +327,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void purchaseHistory()
         {
-            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price, 1) });
+            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_discount, _purchaseType, _quantity, _price, 1, _productName, _description) });
             _store.PurchaseHistory.Add(purchase);
 
             List<StorePurchase> expected = new List<StorePurchase>();

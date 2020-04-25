@@ -89,7 +89,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var notRegistered = new User(new Guest());
             var registered = _userManagement.Users.First();
             var storeCart = new StoreShoppingCart(null);
-            storeCart.AddToCart(new StoresManagement.Product(null, null, 2, 2.0, 4), 1);
+            storeCart.AddToCart(new StoresManagement.Product(null, null, 2, 2.0, 4, "", ""), 1);
             registered.Value.StoreCarts.Add(storeCart);
             Assert.IsNotEmpty(registered.Value);        // Test current user cart is not empty
             Assert.AreEqual(_userManagement.getUserCart(registered.Key).Count(), 1); // Test getting registered user cart contains the added product
@@ -99,8 +99,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void addProductToCartTest()
         {
-            var product = new Product(null, null, 10, 25.5, 5);
-            var product2 = new Product(null, null, 10, 15.5, 2);
+            var product = new Product(null, null, 10, 25.5, 5, "", "");
+            var product2 = new Product(null, null, 10, 15.5, 2, "", "");
             var store = new Store(null, null, "owner", "store1");
             var store2 = new Store(null, null, "owner", "store2");
             _userManagement.register(uname, good_pswd, fname, lname, email);
@@ -140,8 +140,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void changeProductQuantityTest()
         {
-            var product = new Product(null, null, 10, 25.5, 5);
-            var product2 = new Product(null, null, 10, 15.5, 2);
+            var product = new Product(null, null, 10, 25.5, 5, "", "");
+            var product2 = new Product(null, null, 10, 15.5, 2, "", "");
             var store = new Store(null, null, "owner", "store1");
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
@@ -158,8 +158,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void removeProdcutFromCartTest()
         {
-            var product = new Product(null, null, 10, 25.5, 5);
-            var product2 = new Product(null, null, 10, 15.5, 2);
+            var product = new Product(null, null, 10, 25.5, 5, "", "");
+            var product2 = new Product(null, null, 10, 15.5, 2, "", "");
             var store = new Store(null, null, "owner", "store1");
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
@@ -186,8 +186,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void logUserPurchaseTest()
         {
-            var product = new Product(null, null, 10, 25.5, 5);
-            var product2 = new Product(null, null, 10, 15.5, 2);
+            var product = new Product(null, null, 10, 25.5, 5, "", "");
+            var product2 = new Product(null, null, 10, 15.5, 2, "", "");
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
             var prodcutQunatities = new Dictionary<Product, int>() { { product, 1 }, { product2, 2 } };
