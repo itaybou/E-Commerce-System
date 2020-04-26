@@ -5,12 +5,12 @@ namespace PresentationLayer.Models.Auth
 {
     public class LoginModel
     {
-        [Required]
         [DisplayName("Username")]
+        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
         public string Username { get; set; }
 
-        [Required]
         [DisplayName("Password")]
+        [Required(ErrorMessage = "Please Provide Password", AllowEmptyStrings = false)]
         public string Password { get; set; }
     }
 }

@@ -1,0 +1,187 @@
+﻿@model PresentationLayer.Models.Products.ProductListingModel
+@{
+    ViewData["Title"] = "Product Listing";
+    var Products = Model.VisibleProducts.ProductResults;
+    var MaxProductsPerPage = Model.MAX_PRODUCTS_PER_PAGE;
+    var Pages = Model.Pages;
+    var CurrentPage = Model.CurrentPage;
+    var SearchInput = Model.SearchInput;
+    var SearchType = Model.SearchType;
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <span>Viewing <b>@Products.Count</b> products</span>
+            <nav aria-label="breadcrumb">
+                @if (Model.VisibleProducts.Corrected)
+                {
+                    <span class="alert-primary"><b>Maybe did you mean:</b></span>
+                    foreach (var suggestion in Model.VisibleProducts.AdditionalKeywords)
+                    {
+                        <span>-<a asp-controller="Product" asp-action="ProductListing" asp-route-searchInput="@suggestion"> @suggestion</a></span>
+                    }
+                }
+            <ol class="breadcrumb">
+                @if (!String.IsNullOrWhiteSpace(SearchType))
+                {
+                    <li class="breadcrumb-item"><strong>Search By:</strong> @SearchType</li>
+                }
+                @if (!String.IsNullOrWhiteSpace(SearchInput))
+                {
+                    <li class="breadcrumb-item"><strong>Search Input:</strong> @SearchInput</li>
+                }
+                @if (Model.PriceRangeFrom > 0)
+                {
+                    <li class="breadcrumb-item"><strong>Price Range:</strong> From @Model.PriceRangeFrom $ To @Model.PriceRangeTo $</li>
+                }
+            </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+                <ul class="list-group category_block">
+                    <li class="list-group-item"><a href="category.html">Cras justo odio</a></li>
+                    <li class="list-group-item"><a href="category.html">Dapibus ac facilisis in</a></li>
+                    <li class="list-group-item"><a href="category.html">Morbi leo risus</a></li>
+                    <li class="list-group-item"><a href="category.html">Porta ac consectetur ac</a></li>
+                    <li class="list-group-item"><a href="category.html">Vestibulum at eros</a></li>
+                </ul>
+                <div class="category_block bg-white">
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Product Rating</h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    var stars = i;
+                                    <form asp-action="ProductListing" asp-controller="Product" class="login-form" method="post">
+                                        <button method="post" type="submit">
+                                            <div class="stars">
+                                                @for (var j = stars; j > 0; j--)
+                                                {
+                                                    <span class="fa fa-star checked"></span>
+                                                }
+                                                @for (var k = 5 - stars; k > 0; k--)
+                                                {
+                                                    <span class="fa fa-star" style="color: black !important"></span>
+                                                }
+                                            </div>
+                                        </button>
+                                    </form>
+                                }
+                                    <div class="custom-control custom-checkbox">
+                                        <span class="float-right badge badge-light round">132</span>
+                                        <input type="checkbox" class="custom-control-input" id="Check2">
+                                        <label class="custom-control-label" for="Check2">Product Rating</label>
+                                    </div> <!-- form-check.// -->
+
+                                    <div class="custom-control custom-checkbox">
+                                        <span class="float-right badge badge-light round">17</span>
+                                        <input type="checkbox" class="custom-control-input" id="Check3">
+                                        <label class="custom-control-label" for="Check3">Store Rating</label>
+                                    </div> <!-- form-check.// -->
+                            </div> <!-- card-body.// -->
+                        </div>
+                    </article> <!-- card-group-item.// -->
+                    <article class="card-group-item">
+                        <header class="card-header">
+                            <h6 class="title">Range input </h6>
+                        </header>
+                        <div class="filter-content">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="Check1">
+                                        <label class="custom-control-label" for="Check1">Price Range</label>
+                                    </div> <!-- form-check.// -->
+                                    <div class="form-group col-md-6">
+                                        <label>Min</label>
+                                        <input type="number" id="PriceRangeFrom" name="PriceRangeFrom" class="form-control" placeholder="@Model.PriceRangeFrom" asp-for="PriceRangeFrom" />
+                                    </div>
+                                    <div class="form-group col-md-6 text-right">
+                                        <label>Max</label>
+
+                                        <input type="number" name="PriceRangeTo" class="form-control" placeholder="@Model.PriceRangeTo" asp-for="PriceRangeTo" />
+                                    </div>
+                                    <a type="submit" asp-action="ProductListing" asp-controller="Product" asp-route-searchInput="@Model.SearchInput"
+                                        asp-route-searchType="@Model.SearchType" asp-route-from="@Model.PriceRangeFrom" asp-route-to="@Model.PriceRangeTo"
+                                        asp-route-prodRating="@Model.ProductRatingFilter" asp-route-storeRating="@Model.StoreRatingFilter" class="btn btn-success btn-block w-50">
+                                        <i class="fas fa-funnel-dollar"></i> Apply
+                                    </a>
+                                </div>
+                            </div> <!-- card-body.// -->
+                        </div>
+                    </article> <!-- card-group-item.// -->
+                </div> <!-- card.// -->
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                @for (var i = CurrentPage * MaxProductsPerPage; i < Products.Count && i < MaxProductsPerPage * (CurrentPage + 1); i++)
+                {
+                    var product = Products.ElementAt(i);
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <img class="card-img-top" src="https://picsum.photos/600/400/" alt="Product image"> <!--Random Image-->
+                            <div class="card-body">
+                                <h4 class="card-title"><a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.Id" title="View Product">@product.Name</a></h4>
+                                <p class="card-text">@product.Description</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="btn btn-warning btn-block">@product.PriceWithDiscount $</p>
+                                    </div>
+                                    <div class="col">
+                                        <a href="#" class="btn btn-success btn-block">
+                                            <i class="fas fa-cart-plus"></i> Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-12">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            @for (var i = 1; i < Pages + 1; i++)
+                            {
+                                if (CurrentPage + 1 == i)
+                                {
+                                    <li class="page-item active page-">
+                                        <a class="page-link">@i<span class="sr-only">(current)</span></a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="ProductListing" asp-controller="Product" asp-route-searchInput="@Model.SearchInput"
+                                           asp-route-searchType="@Model.SearchType" asp-route-from="@Model.PriceRangeFrom" asp-route-to="@Model.PriceRangeTo" 
+                                           asp-route-prodRating="@Model.ProductRatingFilter" asp-route-storeRating="@Model.StoreRatingFilter" asp-route-page="@(i-1) ">@i</a>
+                                    </li>
+                                }
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -132,7 +132,7 @@
     <Compile Include="DomainLayer\UserManagement\User.cs" />
     <Compile Include="DomainLayer\UserManagement\UserShoppingCart.cs" />
     <Compile Include="DomainLayer\UserManagement\IUserState.cs" />
-    <Compile Include="DomainLayer\Utilities\Range.cs" />
+    <Compile Include="Utilities\Range.cs" />
     <Compile Include="ServiceLayer\SystemServices.cs" />
     <Compile Include="ServiceLayer\IDataManager.cs" />
     <Compile Include="ServiceLayer\UserServices.cs" />

@@ -7,7 +7,13 @@
 <div class="register-page">
     <h1>Register</h1>
     <div class="form" method="post">
-        <form class="login-form">
+        @if (!ViewContext.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        }
+        <form class="login-form" method="post">
             <div class="form-group">
                 <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Username)</label>
                 <input type="text" placeholder="@Html.DisplayNameFor(m => m.Username)" asp-for="Username" />
@@ -35,8 +41,8 @@
                 <label class="col-form-label" style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Email)</label>
                 <input type="text" placeholder="@Html.DisplayNameFor(m => m.Email)" asp-for="Email" />
             </div>
-            <button>register</button>
-            <p class="message" style="text-align: left; font-size: 16px">Already registered? <a href="#">Sign In</a></p>
+            <button type="submit">register</button>
+            <p class="message" style="text-align: left; font-size: 16px">Already registered? <a asp-action="Login">Sign In</a></p>
         </form>
     </div>
 </div>

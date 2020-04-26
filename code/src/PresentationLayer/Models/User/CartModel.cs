@@ -13,7 +13,7 @@ namespace PresentationLayer.Models.User
     {
         public ShoppingCartModel UserCart { get; set; }
 
-        //public CartModel(IEnumerable<ShoppingCartModel> cart)
+        //public CartModel(ShoppingCartModel cart)
         //{
         //    _userCart = cart;
         //}
@@ -23,7 +23,7 @@ namespace PresentationLayer.Models.User
             var dict = new Dictionary<StoreModel, ICollection<(ProductModel, int)>>();
             dict.Add(new StoreModel("My Store", 5.0, 30), new List<(ProductModel, int)>
             {
-                { (new ProductModel(new Guid(), "Product1", "this is a long description", 5, 30.5, 25.5), 5) },
+                { (new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5), 5) },
                 { (new ProductModel(new Guid(), "Product2", "this is a long description", 5, 30.5, 25.5), 5) },
                 { (new ProductModel(new Guid(), "Product3", "this is a long description", 5, 30.5, 25.5), 5) },
                 { (new ProductModel(new Guid(), "Product4", "this is a long description", 5, 30.5, 25.5), 5) },

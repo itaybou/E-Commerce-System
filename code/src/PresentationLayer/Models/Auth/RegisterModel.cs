@@ -5,29 +5,29 @@ namespace PresentationLayer.Models.Auth
 {
     public class RegisterModel
     {
-        [Required]
         [DisplayName("Username")]
+        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
         public string Username { get; set; }
 
-        [Required]
         [DisplayName("Password")]
+        
         public string Password { get; set; }
 
-        [Required]
         [DisplayName("Password Validation")]
+        [Required(ErrorMessage = "Please Provide Password Validation", AllowEmptyStrings = false)]
         [Compare("Password", ErrorMessage = "Passwords entered does not match.")]
         public string PasswordValidation { get; set; }
 
-        [Required]
         [DisplayName("First Name")]
+        [Required(ErrorMessage = "Please Provide First Name", AllowEmptyStrings = false)]
         public string FirstName { get; set; }
 
-        [Required]
         [DisplayName("Last Name")]
+        [Required(ErrorMessage = "Please Provide Last Name", AllowEmptyStrings = false)]
         public string LastName { get; set; }
 
-        [Required]
         [DisplayName("Email")]
+        [Required(ErrorMessage = "Please Provide Email", AllowEmptyStrings = false)]
         public string Email { get; set; }
     }
 }
