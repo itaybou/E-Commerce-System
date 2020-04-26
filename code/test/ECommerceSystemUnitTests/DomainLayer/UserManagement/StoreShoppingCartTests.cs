@@ -49,13 +49,28 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             Assert.AreEqual(_storeShoppingCart.Products[product], 5);
             _storeShoppingCart.ChangeProductQuantity(product, 2);               //check the quantity of existing product in the cart
             Assert.AreEqual(_storeShoppingCart.Products[product], 2);     //check that the quantity of the product was updated
-            _storeShoppingCart.ChangeProductQuantity(product, 0);               //change the quantity of the product to 0
-            Assert.IsEmpty(_storeShoppingCart.Products);                               // check that the product was removed from the shopping cart 
             _storeShoppingCart.ChangeProductQuantity(product2, 3);              //changing the quantity of a product that does not exist in the shopping cart 
-            Assert.IsEmpty(_storeShoppingCart.Products);                               //check that the shopping cart remain empty
             _storeShoppingCart.AddToCart(product2, 5);
             Assert.AreEqual(_storeShoppingCart.Products[product2], 5);
         }
+
+        [Test()]
+        public void CheckProductRemovedFromCartAfterChangeQuantityToZero()
+        {
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            _storeShoppingCart.AddToCart(product, 5);
+            _storeShoppingCart.ChangeProductQuantity(product, 0);
+            Assert.IsEmpty(_storeShoppingCart.Products);            //check that the shopping cart remain empty
+        }
+
+        [Test()]
+        public void CheckChangeQuantityToProductDoesntExistInCart()
+        {
+            var product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            _storeShoppingCart.ChangeProductQuantity(product, 5);
+            Assert.IsEmpty(_storeShoppingCart.Products);
+        }
+
 
         [Test()]
         public void RemoveFromCartTest()
@@ -90,9 +105,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _storeShoppingCart.AddToCart(product2, 2);
             _storeShoppingCart.RemoveFromCart(product2);
             Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 80.0);     //check the total price after removing only 1 product
-
-
-
 
 
         }

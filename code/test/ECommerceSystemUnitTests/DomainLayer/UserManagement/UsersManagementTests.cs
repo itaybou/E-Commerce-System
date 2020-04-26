@@ -77,12 +77,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void loginTest()
         {
-            Assert.False(_userManagement.login(uname, good_pswd)); // Check unable to login with unregistered user
             _userManagement.register(uname, good_pswd, fname, lname, email);
             Assert.True(_userManagement.login(uname, good_pswd)); // Check able to login registered user
             var activeUser = _userManagement._activeUser;
             Assert.AreEqual(activeUser.Name(), uname);                      // check that login changed current active user
-            Assert.AreNotEqual(activeUser._state.Password(), good_pswd);    // check password is encrypted
             Assert.IsEmpty(activeUser._cart);                               // Test user cart is empty
             _userManagement.logout();
             _userManagement.register(uname + "2", good_pswd, fname, lname, "1" + email);
@@ -91,6 +89,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             Assert.True(_userManagement.login(uname, good_pswd));       // Check able to login again registered user
             _userManagement.logout();
             Assert.False(_userManagement.login(uname, "1Apassword"));       // Check unable to login with different password
+        }
+
+        [Test()]
+        public void checkUnableToLoginBeforeRegister()
+        {
+            Assert.False(_userManagement.login(uname, good_pswd)); // Check unable to login with unregistered user
+        }
+
+        [TestCase()]
+        public void checkLoginedUserPasswordIsEncrypted()
+        {
+            _userManagement.register(uname, good_pswd, fname, lname, email);
+            _userManagement.login(uname, good_pswd);
+            var activeUser = _userManagement._activeUser;
+            Assert.AreNotEqual(activeUser._state.Password(), good_pswd);    // check password is encrypted
+
+
         }
 
         [Test()]
@@ -111,14 +126,20 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void getUserCartTest()
         {
             _userManagement.register(uname, good_pswd, fname, lname, email);
-            var notRegistered = new User(new Guest());
             var registered = _userManagement.Users.First();
             var storeCart = new StoreShoppingCart(null);
             storeCart.AddToCart(new Product(null, null,new VisibleDiscount(20.0f,new DiscountPolicy()) , new ImmediatePurchase(), 20, 20, Guid.NewGuid()), 5);
             registered.Value.StoreCarts.Add(storeCart);
             Assert.IsNotEmpty(registered.Value);        // Test current user cart is not empty
             Assert.AreEqual(_userManagement.getUserCart(registered.Key).Count(), 1); // Test getting registered user cart contains the added product
+        }
+
+        [Test()]
+        public void getNotRegisteredUserCartIsEmpty()
+        {
+            var notRegistered = new User(new Guest());
             Assert.IsEmpty(_userManagement.getUserCart(notRegistered)); // Test cart for unregistered user is empty
+
         }
 
         [Test()]
@@ -157,14 +178,28 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
-            Assert.False(_userManagement.changeProductQuantity(product.Id, -1));       // Test change to negative quantity fails
             _userManagement.addProductToCart(product.Id, store.Name, 1);
-            Assert.False(_userManagement.changeProductQuantity(product2.Id, 2));       // Tests fails on trying to change product quantity that does not exists in cart
-            Assert.False(_userManagement.changeProductQuantity(product.Id, 21));       // Test trying to change to quantity above available
             Assert.True(_userManagement.changeProductQuantity(product.Id, 8));         // Test returns true after changing to available amount
             Assert.AreEqual(_userManagement.getActiveUserShoppingCart().StoreCarts.First().Products.First().Value, 8);   // Test product quantity changed to 8 (available amount)
             Assert.True(_userManagement.changeProductQuantity(product.Id, 0));         // Test returns true after changing to zero amount
             Assert.IsEmpty(_userManagement.getActiveUserShoppingCart());            // Test product removed after changing qunatity to 0
+        }
+
+        [Test()]
+        public void CheckCantChangeToNegativeQuantityTest()
+        {
+            _userManagement.register(uname, good_pswd, fname, lname, email);
+            _userManagement.login(uname, good_pswd);
+            Assert.False(_userManagement.changeProductQuantity(product.Id, -1));       // Test change to negative quantity fails
+        }
+
+        [Test()]
+        public void CheckCantChangeMoreThenQuantityOrProductNotExistTest()
+        {
+            _userManagement.register(uname, good_pswd, fname, lname, email);
+            _userManagement.login(uname, good_pswd);
+            Assert.False(_userManagement.changeProductQuantity(product.Id, 21));       // Test trying to change to quantity above available
+            Assert.False(_userManagement.changeProductQuantity(product2.Id, 2));       // Tests fails on trying to change product quantity that does not exists in cart
         }
 
         [Test()]
@@ -174,7 +209,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _userManagement.register(uname, good_pswd, fname, lname, email);
             _userManagement.login(uname, good_pswd);
             _userManagement.addProductToCart(product.Id, store.Name, 1);
-            Assert.False(_userManagement.removeProdcutFromCart(product2.Id));  // Test fail on trying to remove non existing product
             Assert.True(_userManagement.removeProdcutFromCart(product.Id));    // Test passed on trying to remove existing product
             Assert.IsEmpty(_userManagement.getActiveUserShoppingCart());    // Test prodcut was removed
             _userManagement.addProductToCart(product.Id, store.Name, 1);
@@ -182,6 +216,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             Assert.True(_userManagement.removeProdcutFromCart(product.Id));    // Test passed on trying to remove existing product
             Assert.AreEqual(_userManagement.getActiveUserShoppingCart().Count(), 1);    // Test only one product was removed
             Assert.AreEqual(_userManagement.getActiveUserShoppingCart().First(), product2); // Test remaining product is the one that was not removed
+        }
+
+        [Test()]
+        public void removeProductNotExistInCartTest()
+        {
+            _userManagement.register(uname, good_pswd, fname, lname, email);
+            _userManagement.login(uname, good_pswd);
+            Assert.False(_userManagement.removeProdcutFromCart(product2.Id));  // Test fail on trying to remove non existing product
         }
 
         [Test()]

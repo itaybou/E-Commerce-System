@@ -44,6 +44,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             store = new Store(null, null, "owner", "store1");
             store.Inventory.Products = _products;
             StoreManagement.Instance.Stores.Add(store);
+            
 
         }
 
@@ -81,7 +82,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         }
 
         [Test()]
-        public void filterProductsTest()
+        public void filterProductsCheckNumberOfReturnedProductsTest()
         {
             var prodRatingRange = new Range<double>(4.0, 5.0);
             Assert.AreEqual(_mock.Object.filterProducts(_products,null,prodRatingRange,null).Count, 6);   // Test returned filtered products as expected
@@ -90,22 +91,41 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             var priceRangeFilter = new Range<double>(105.0, 1500.0);
             Assert.AreEqual(_mock.Object.filterProducts(_products, priceRangeFilter, prodRatingRange, catFilter).Count, 1);
             var filtered = _mock.Object.filterProducts(_products, priceRangeFilter, prodRatingRange, null);
-            Assert.AreEqual(filtered.Count, 3);
-            Assert.AreEqual(filtered.First().Name, "Dyson V11");
-            Assert.AreEqual(filtered.ElementAt(1).Name, "Logitech MX Master 3");
-            Assert.AreEqual(filtered.ElementAt(2).Name, "iPhone 11 XL");
             Assert.AreEqual(_mock.Object.filterProducts(_products, null, prodRatingRange, null).Count, 6);   // Test returned filtered products as expected
             Assert.AreEqual(_mock.Object.filterProducts(_products, null, null, null).Count, 10);   // Test returned filtered products as expected
             Assert.AreEqual(_mock.Object.filterProducts(_mock.Object.searchProductsByCategory("ELECTRONICS",null).Item1,null,null,null).Count, 4);   // Test returned filtered products as expected
             prodRatingRange = new Range<double>(0.0, 4.0);
             Assert.AreEqual(_mock.Object.filterProducts(_mock.Object.searchProductsByCategory("ELECTRONICS",null).Item1,null, prodRatingRange,null).Count, 3);   // Test returned filtered products as expected
-
             prodRatingRange = new Range<double>(7.0, 200.0);
             Assert.IsEmpty(_mock.Object.filterProducts(_products,null, prodRatingRange,null));   // Test returned filtered products as expected
             catFilter = "TOYS";
             Assert.IsEmpty(_mock.Object.filterProducts(_products,null,null,catFilter));   // Test returned filtered products as expected
         }
 
+        [Test()]
+        public void filterProductsCheckReturnedProductsCorrectTest()
+        {
+            var prodRatingRange = new Range<double>(4.0, 5.0);
+            var priceRangeFilter = new Range<double>(105.0, 1500.0);
+            var filtered = _mock.Object.filterProducts(_products, priceRangeFilter, prodRatingRange, null);
+            Assert.AreEqual(filtered.Count, 3);
+            Assert.AreEqual(filtered.First().Name, "Dyson V11");
+            Assert.AreEqual(filtered.ElementAt(1).Name, "Logitech MX Master 3");
+            Assert.AreEqual(filtered.ElementAt(2).Name, "iPhone 11 XL");
+            var catFilter = "HOMEGARDEN";
+            filtered = _mock.Object.filterProducts(_products, priceRangeFilter, prodRatingRange, catFilter);
+            Assert.AreEqual(filtered.First().Name, "Dyson V11");
+        }
+
+        [Test()]
+        public void searchProductByCategoryWithStoreRatingDoesntExistTest()
+        {
+            store.rateStore(3.0);
+            var storeRating = new Range<double>(4.0,5.0);
+            _mock.Setup(s => s.getProductInventories(storeRating)).Returns(new List<ProductInventory>());
+            var cellphoneProducts = _mock.Object.searchProductsByCategory("CELLPHONES", storeRating);
+            Assert.AreEqual(cellphoneProducts.Item1.Count, 0);
+        }
 
     }
 }

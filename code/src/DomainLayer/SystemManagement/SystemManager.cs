@@ -67,7 +67,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <param name="CVV"></param>
         /// <param name="address"></param>
         /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
-        public List<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public  List<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
             var shoppingCart = _userManagement.getActiveUserShoppingCart();                                                                                         // User shopping cart
@@ -90,7 +90,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 : purchased ? new List<ProductModel>() : null; // if purchased return null else return empty lost indicating that payment process/supply was not successful
         }
 
-        private void ProductPurchaseLock(ICollection<Product> locks, WaitCallback pFunc, int index = 0)
+        private async void ProductPurchaseLock(ICollection<Product> locks, WaitCallback pFunc, int index = 0)
         {
             if (index < locks.Count())
             {
@@ -101,7 +101,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
             else
             {
-                ThreadPool.QueueUserWorkItem(pFunc);
+                 ThreadPool.QueueUserWorkItem(pFunc);
             }
         }
 

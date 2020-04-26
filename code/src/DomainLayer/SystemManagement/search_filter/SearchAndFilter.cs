@@ -37,7 +37,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 return (new List<ProductInventory>(), new List<string>());
             }
             var cat = (Category)Enum.Parse(typeof(Category), category.ToUpper());
-            var result = getProductInventories(storeRatingFilter).FindAll(p => p.Category.ToString().Equals(category));
+            var test = getProductInventories(storeRatingFilter);
+            var result = test.FindAll(p => p.Category.ToString().Equals(category));
             return (result, new List<string>());
         }
 

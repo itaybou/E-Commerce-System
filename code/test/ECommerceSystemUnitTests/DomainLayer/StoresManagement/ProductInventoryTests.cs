@@ -55,12 +55,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void modifyProductQuantityTest()
         {
-            Assert.False(productInv.modifyProductQuantity(productID, -2), "modify product to negative quantity successed"); // negative quantity
             Assert.AreEqual(5, productInv.getProducByID(productID).Quantity, "modify product to negative quantity successed");
-            Assert.False(productInv.modifyProductQuantity(Guid.NewGuid(), 3), "modify non exist id product"); // Id procuct isn`t exist
             Assert.AreEqual(5, productInv.getProducByID(productID).Quantity, "modify non exist id product");
             Assert.True(productInv.modifyProductQuantity(productID, 3));
             Assert.AreEqual(3, productInv.getProducByID(productID).Quantity);
+        }
+
+        [Test()]
+        public void modifyProductQuantityFailingTest()
+        {
+            Assert.False(productInv.modifyProductQuantity(productID, -2), "modify product to negative quantity successed"); // negative quantity
+            Assert.False(productInv.modifyProductQuantity(Guid.NewGuid(), 3), "modify non exist id product"); // Id procuct isn`t exist
         }
 
         [Test()]
@@ -70,6 +75,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Guid guid = productInv.addProduct(discount, purchaseType, 10, 50);
             Assert.True(productInv.deleteProduct(guid), "Fail to delete exist product");
             Assert.Null(productInv.getProducByID(guid), "Fail to delete exist product");
+        }
+
+        [Test()]
+        public void deleteProductThatDoesntExistTest()
+        {
+            Assert.False(productInv.deleteProduct(Guid.NewGuid()), "delete non exist id product"); // non exist id product
         }
 
         [Test()]
