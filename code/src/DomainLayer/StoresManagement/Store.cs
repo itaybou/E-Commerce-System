@@ -38,7 +38,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string Name { get => _name; set => _name = value; }
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; }
+        public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
         public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
         public long RaterCount { get => _raterCount; set => _raterCount = value; }
 
@@ -133,12 +133,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (_premmisions.ContainsKey(newOwneruserName))
             {
                 _premmisions[newOwneruserName].makeOwner();
+                
             }
             else
             {
                 per = Permissions.CreateOwner(loggedInUser, this);
                 if (per == null) return null;
                 _premmisions.Add(newOwneruserName, per);
+                
+
+
             }
             return per;
         }
@@ -172,6 +176,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             _premmisions.Remove(managerUserName);
+            
             return true;
         }
 
