@@ -43,22 +43,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             // nonPermitManager - manager with the default permissions
             // permitManager - manager with the default permissions, add, delete and modify productInv a
             // regularUser - not owner/manager of the store
-            _regularUser = new User(new Subscribed("regularUser", "123456", "fname", "lname", "owner@gmail.com"));
-            _permitManager = new User(new Subscribed("permitManager", "123456", "fname", "lname", "owner@gmail.com"));
-            _nonPermitManager = new User(new Subscribed("nonPermitManager", "123456", "fname", "lname", "owner@gmail.com"));
-            _owner = new User(new Subscribed("owner", "123456", "fname", "lname", "owner@gmail.com"));
-            _anotherOwner = new User(new Subscribed("anotherOwner", "123456", "fname", "lname", "email@gmail.com"));
-            _newManager = new User(new Subscribed("newManager", "123456", "fname", "lname", "email@gmail.com"));
+            _regularUser = new User(new Subscribed("regularUser", "pA55word", "fname", "lname", "owner@gmail.com"));
+            _permitManager = new User(new Subscribed("permitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
+            _nonPermitManager = new User(new Subscribed("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
+            _owner = new User(new Subscribed("owner", "pA55word", "fname", "lname", "owner@gmail.com"));
+            _anotherOwner = new User(new Subscribed("anotherOwner", "pA55word", "fname", "lname", "email@gmail.com"));
+            _newManager = new User(new Subscribed("newManager", "pA55word", "fname", "lname", "email@gmail.com"));
 
 
 
             _userManagement = UsersManagement.Instance;
             _systemManagement = SystemManager.Instance; 
-            _userManagement.register("owner", "123456", "fname", "lname", "owner@gmail.com");
-            _userManagement.register("nonPermitManager", "123456", "fname", "lname", "owner@gmail.com");
-            _userManagement.register("permitManager", "123456", "fname", "lname", "owner@gmail.com");
-            _userManagement.register("regularUser", "123456", "fname", "lname", "owner@gmail.com");
-            _userManagement.login("owner", "123456");
+            _userManagement.register("owner", "pA55word", "fname", "lname", "owner@gmail.com");
+            _userManagement.register("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com");
+            _userManagement.register("permitManager", "pA55word", "fname", "lname", "owner@gmail.com");
+            _userManagement.register("regularUser", "pA55word", "fname", "lname", "owner@gmail.com");
+            _userManagement.login("owner", "pA55word");
 
             // make the managers permissions
 
@@ -99,182 +99,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         }
 
 
-        [Test()]
-        public void addProductInvTest()
-        {
-            Assert.AreEqual(Guid.Empty, _store.addProductInv("regularUser" ,"Galaxy" , _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords), "Add productInv successed while the user isn`t owner/manager");
-            Assert.AreEqual(Guid.Empty, _store.addProductInv("nonPermitManager", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                        _category, _keywords), "Add productInv successed while the user is manager without permission");
+       
 
-            Assert.AreNotEqual(Guid.Empty, _store.addProductInv("owner", "Galaxy", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords), "Fail to add productInv by the owner"); 
-            Assert.AreNotEqual(Guid.Empty, _store.addProductInv("permitManager", "Galaxy2", _description, _discount, _purchaseType, _price, _quantity,
-                         _category, _keywords), "Fail to add productInv by permited manager");
-        }
-
-        [Test()]
-        public void addProductTest()
-        {
-            Assert.AreEqual(-1, _store.addProduct("regularUser", _productName, _discount, _purchaseType, 20),
-                                "Add group of products successed while the user isn`t owner/manager");
-            Assert.AreEqual(-1, _store.addProduct("nonPermitManager", _productName, _discount, _purchaseType, 20),
-                    "Add group of products successed while the user is manager without permission");
-
-            Assert.AreNotEqual(-1, _store.addProduct("permitManager", _productName, _discount, _purchaseType, 20),
-                    "Fail to add group of products by permited manager");
-            Assert.AreNotEqual(-1, _store.addProduct("owner", _productName, _discount, _purchaseType, 20),
-                    "Fail to add group of products by the owner");
-
-        }
-
-        [Test()]
-        public void deleteProductInventoryTest()
-        {
-            Assert.False(_store.deleteProductInventory("regularUser", _productName),
-                    "Delete product inventory successed while the user isn`t owner/manager");
-            Assert.False(_store.deleteProductInventory("nonPermitManager", _productName),
-                    "Delete product inventory successed while the user is manager without permission");
-
-            Assert.True(_store.deleteProductInventory("permitManager", _productName),
-                    "Fail to delete product inventory by permited manager");
-
-            //re add the deleted product
-            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords);
-
-            Assert.True(_store.deleteProductInventory("owner", _productName),
-                    "Fail to delete product inventory by the owner");
-        }
-
-        //[Test()]
-        //public void deleteProductTest()
-        //{
-        //    Assert.False(_store.deleteProduct("regularUser", _productName, _productID),
-        //            "Delete group of products successed while the user isn`t owner/manager");
-        //    Assert.False(_store.deleteProduct("nonPermitManager", _productName, _productID),
-        //            "Delete group of products successed while the user is manager without permission");
-
-        //    Assert.True(_store.deleteProduct("permitManager", _productName, _productID),
-        //            "Fail to delete group of products by permited manager");
-
-            //re add the deleted product
-        //    Guid guid = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-        //    Assert.True(_store.deleteProduct("owner", _productName, guid),
-        //            "Fail to delete group of products by the owner");
-        //}
-
-        //[Test()]
-        //public void modifyProductPriceTest()
-        //{
-        //    Assert.False(_store.modifyProductPrice("regularUser", _productName, 200),
-        //            "Modify price of product inventory successed while the user isn`t owner/manager");
-        //    Assert.False(_store.modifyProductPrice("nonPermitManager", _productName, 200),
-        //            "Modify price of product inventory successed while the user is manager without permission");
-
-        //    Assert.True(_store.modifyProductPrice("permitManager", _productName, 200),
-        //            "Fail to modify price of product inventory by permited manager");
-
-        //    Assert.True(_store.modifyProductPrice("owner", _productName, 300),
-        //            "Fail to modify price of product inventory by the owner");
-        //}
-
-        //[Test()]
-        //public void modifyProductDiscountTypeTest()
-        //{
-        //    Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
-
-        //    Assert.False(_store.modifyProductDiscountType("regularUser", _productName, _productID, newDis),
-        //            "Modify discount of group of products successed while the user isn`t owner/manager");
-        //    Assert.False(_store.modifyProductDiscountType("nonPermitManager", _productName, _productID, newDis),
-        //            "Modify discount of group of products successed while the user is manager without permission");
-
-        //    Assert.True(_store.modifyProductDiscountType("permitManager", _productName, _productID, newDis),
-        //            "Fail to modify discount of group of products by permited manager");
-        //    Assert.True(_store.modifyProductDiscountType("owner", _productName, _productID, newDis),
-        //            "Fail to modify discount of group of products by the owner");
-        //}
-
-        //[Test()]
-        //public void modifyProductPurchaseTypeTest()
-        //{
-        //    PurchaseType newPurchaseType = new ImmediatePurchase();
-
-        //    Assert.False(_store.modifyProductPurchaseType("regularUser", _productName, _productID, newPurchaseType),
-        //            "Modify purchase type of group of products successed while the user isn`t owner/manager");
-        //    Assert.False(_store.modifyProductPurchaseType("nonPermitManager", _productName, _productID, newPurchaseType),
-        //            "Modify purchase type of group of products successed while the user is manager without permission");
-
-        //    Assert.True(_store.modifyProductPurchaseType("permitManager", _productName, _productID, newPurchaseType),
-        //            "Fail to modify purchase type of group of products by permited manager");
-        //    Assert.True(_store.modifyProductPurchaseType("owner", _productName, _productID, newPurchaseType),
-        //            "Fail to modify purchase type of group of products by the owner");
-        //}
-
-        //[Test()]
-        //public void modifyProductQuantityTest()
-        //{
-        //    Assert.False(_store.modifyProductQuantity("regularUser", _productName, _productID, 20),
-        //            "Modify quantity of group of products successed while the user isn`t owner/manager");
-        //    Assert.False(_store.modifyProductQuantity("nonPermitManager", _productName, _productID, 20),
-        //            "Modify quantity of group of products successed while the user is manager without permission");
-
-        //    Assert.True(_store.modifyProductQuantity("permitManager", _productName, _productID, 20),
-        //            "Fail to modify quantity of group of products by permited manager");
-        //    Assert.True(_store.modifyProductQuantity("owner", _productName, _productID, 30),
-        //            "Fail to modify quantity of group of products by the owner");
-        //}
-
-        [Test()]
-        public void modifyProductNameTest()
-        {
-            Assert.False(_store.modifyProductName("regularUser", "Galaxy", _productName),
-                    "Modify name of product inventory successed while the user isn`t owner/manager");
-            Assert.False(_store.modifyProductName("nonPermitManager", "Galaxy", _productName),
-                    "Modify name of product inventory successed while the user is manager without permission");
-
-            Assert.True(_store.modifyProductName("permitManager", "Galaxy", _productName),
-                    "Fail to modify name of product inventory by permited manager");
-            Assert.True(_store.modifyProductName("owner", "Galaxy2", "Galaxy"),
-                    "Fail to modify name of product inventory by the owner");
-        }
-
-        [Test()]
-        public void assignOwnerTest()
-        {
-            User newOwner = new User(new Subscribed("newOwner", "123456", "fname", "lname", "email@gmail.com"));
-            _userManagement.register("newOwner", "123456", "fname", "lname", "email@gmail.com");
-
-            Assert.Null(_store.assignOwner(_regularUser, "newOwner"), "Assign regular user as owner by another regular user successed");
-            Assert.Null(_store.assignOwner(_nonPermitManager, "newOwner"), "Assign regular user as owner by manager with default permissions successed");
-            Assert.Null(_store.assignOwner(_permitManager, "newOwner"), "Assign regular user as owner by manager with full permissions successed");
-           
-            Assert.NotNull(_store.assignOwner(_owner, "newOwner"), "Fail to assign regular user as new owner");
-            Assert.NotNull(_store.getPermissionByName("newOwner").isOwner(), "Fail to assign regular user as new owner");
-            Assert.AreEqual(_owner, _store.getPermissionByName("newOwner").AssignedBy, "The user who assign the reg user as owner isn`t the assignee ");
-
-            Assert.Null(_store.assignOwner(_anotherOwner, "newOwner"), "Assign already owner user as owner by another owner successed");
-        }
-
-        [Test()]
-        public void assignManagerTest()
-        {
-            Assert.Null(_store.assignManager(_regularUser, "newManager"), "Assign regular user as manager by another regular user successed");
-            Assert.Null(_store.assignManager(_nonPermitManager, "newManager"), "Assign regular user as manager by manager with default permissions successed");
-            Assert.Null(_store.assignManager(_permitManager, "newManager"), "Assign regular user as manager by manager with full permissions successed");
-
-
-            Assert.NotNull(_store.assignManager(_owner, "newManager"), "Fail to assign regular user as new owner");
-            //check defult permissions:
-            Assert.True(_store.getPermissionByName("newManager").canWatchAndomment(), "Assign new manager successed, but the manager dont have permission to watch and comment");
-            Assert.True(_store.getPermissionByName("newManager").canWatchPurchaseHistory(), "Assign new manager successed, but the manager dont have permission to watch purchase history");
-            Assert.False(_store.getPermissionByName("newManager").canAddProduct(), "Assign new manager successed, but the manager have permission to add product");
-            Assert.False(_store.getPermissionByName("newManager").canDeleteProduct(), "Assign new manager successed, but the manager have permission to delete product");
-            Assert.False(_store.getPermissionByName("newManager").canModifyProduct(), "Assign new manager successed, but the manager have permission to modify product");
-            Assert.AreEqual(_owner, _store.getPermissionByName("newManager").AssignedBy, "The user who assign the reg user as manager isn`t the assignee");
-
-            Assert.Null(_store.assignManager(_owner, "newManager"), "Assign already manager user as new manager successed");
-            Assert.Null(_store.assignManager(_anotherOwner, "newManager"), "Assign already manager as manager by another owner successed");
-        }
+        
 
         [Test()]
         public void removeManagerTest()
@@ -324,27 +151,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 
         }
 
-        [Test()]
-        public void purchaseHistory()
-        {
-            StorePurchase purchase = new StorePurchase(_regularUser, 80.0, new List<Product>(){ new Product(_productName,_description,_discount, _purchaseType, _quantity, _price, _productID) });
-            _store.PurchaseHistory.Add(purchase);
-
-        //    List<StorePurchase> expected = new List<StorePurchase>();
-        //    expected.Add(purchase);
-
-            //succcess:
-            //Assert.AreEqual(expected, _store.purchaseHistory(_owner), "fail to view store history");
-            //Assert.AreEqual(expected, _store.purchaseHistory(_permitManager), "fail to view store history");
-
-            //User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
-            //Assert.AreEqual(expected, _store.purchaseHistory(admin), "fail to view store history");
-
-        //    //fail:
-
-            //Assert.Null(_store.purchaseHistory(_regularUser), "view history of a store successed with regular user");
-            //Assert.Null(_store.purchaseHistory(new User(new Guest())), "view history of a store successed with guest");
-        }
+       
 
 
         [Test()]
