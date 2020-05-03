@@ -62,7 +62,7 @@ body {
 #scrollPageTop {
     width: 55px;
     height: 55px;
-    line-height: 55px; /* <-- this is what you must define */
+    line-height: 55px;
     z-index: 999;
     overflow: hidden;
     display: none;
@@ -102,3 +102,32 @@ footer {
         color: #f8f9fa !important
     }
 
+
+tbody > tr {
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.hovertr {
+
+}
+
+    .hovertr:hover .edit-icon {
+        display: block;
+    }
+
+.edit-icon {
+    padding-top: 7px;
+    padding-right: 7px;
+    position: relative;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+    .edit-icon a {
+        color: #000;
+    }

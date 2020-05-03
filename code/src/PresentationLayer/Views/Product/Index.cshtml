@@ -3,48 +3,53 @@
     ViewData["Title"] = "Product";
 }
 
-<h1>@ViewData["Name"]</h1>
 
-<a href="javascript:void(0);" id="backLink">
-    <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 12%">
-        <i class="fas fa-arrow-circle-left"></i>
-        Go Back
-    </div>
-</a>
 
-<div class="product-card">
-    <div class="container-fliud">
-        <div class="wrapper row">
-            <div class="preview col-md-6">
-                <div class="preview-pic tab-content">
-                    <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-                </div>
+
+    <div class="container">
+        <h1>@ViewData["Name"]</h1>
+        <a href="javascript:void(0);" id="backLink">
+            <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 12%">
+                <i class="fas fa-arrow-circle-left"></i>
+                Go Back
             </div>
-            <div class="details col-md-6">
-                <h3 class="product-title">@Model.Name</h3>
-                <div class="rating">
-                    <div class="stars">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
-                        <span style="left: 3px;">@Model.PriceWithDiscount</span> <!--Suppose to be rating-->
+        </a>
+        <div class="product-card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
+                        </div>
                     </div>
-                    <span class="review-no">41 reviews</span>
-                </div>
-                <p class="product-description">@Model.Description</p>
-                <h4 class="price">
-                    current price:
-                    @if (Model.BasePrice != Model.PriceWithDiscount)
-                    {<span style="color: orangered"><del>@Model.BasePrice $</del></span> <span>@Model.PriceWithDiscount $</span>} else { <span>@Model.BasePrice $</span>}
-                </h4>
-                <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
-                <div class="action">
-                    <button class="add-to-cart btn btn-default" type="button">add to cart</button>
-                    <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">@Model.Name</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                                <span style="left: 3px;">@Model.PriceWithDiscount</span> <!--Suppose to be rating-->
+                            </div>
+                            <span class="review-no">41 reviews</span>
+                        </div>
+                        <p class="product-description">@Model.Description</p>
+                        <h4 class="price">
+                            current price:
+                            @if (Model.BasePrice != Model.PriceWithDiscount)
+                            {<span style="color: orangered"><del>@Model.BasePrice $</del></span> <span>@Model.PriceWithDiscount $</span>}
+                        else
+                        { <span>@Model.BasePrice $</span>}
+                        </h4>
+                        <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+                        <div class="action">
+                            <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+                            <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

@@ -44,5 +44,10 @@ namespace PresentationLayer.Controllers.Auth
         {
             return View(model);
         }
+
+        public IActionResult Logout()
+        {
+            return Redirect("~/");
+        }
     }
 }

@@ -28,7 +28,8 @@ namespace PresentationLayer.Models.Products
         //    VisibleProducts = visibleProducts;
         //}
 
-        public ProductListingModel(string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page)
+
+        public ProductListingModel(SearchResultModel products, string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page)
         {
             SearchInput = searchInput;
             SearchType = searchType;
@@ -37,7 +38,8 @@ namespace PresentationLayer.Models.Products
             PriceRangeTo = to;
             ProductRatingFilter = prodRating;
             StoreRatingFilter = storeRating;
-            var products = new List<ProductModel>()
+
+            var dummyProducts = new List<ProductModel>()
             {
                 { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
                 { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
@@ -86,8 +88,11 @@ namespace PresentationLayer.Models.Products
             {
                 {"SomeWords" }, {"SomeOtherWords" }, {"ThirdWord" }
             };
-
-            VisibleProducts = new SearchResultModel(products, keywords);
+            if (products.ProductResults != null)
+            {
+                VisibleProducts = products;
+            }
+            else VisibleProducts = new SearchResultModel(dummyProducts, keywords);
             Pages = (int)Math.Ceiling(VisibleProducts.ProductResults.Count / (double)MAX_PRODUCTS_PER_PAGE);
         }
     }

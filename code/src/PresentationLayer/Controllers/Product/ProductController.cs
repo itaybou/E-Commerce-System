@@ -11,6 +11,7 @@ namespace PresentationLayer.Controllers.Products
 {
     public class ProductController : Controller
     {
+      
 
         [AllowAnonymous]
         [Route("Product/ViewProduct/{id}")]
@@ -28,8 +29,28 @@ namespace PresentationLayer.Controllers.Products
         [Route("ProductListing")]
         public IActionResult ProductListing(string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page = 0)
         {
-            var productResults = new ProductListingModel(searchInput, searchType, from, to, prodRating, storeRating, page);
+            from = from > to ? to : from;
+            //var prodcuts = GetHashCode products from domain;
+            var products = new SearchResultModel(null, null);
+            var productResults = new ProductListingModel(products, searchInput, searchType, from, to, prodRating, storeRating, page);
             return View("ProductListing", productResults);
+        }
+
+        [AllowAnonymous]
+        [Route("StoreProductListing")]
+        public IActionResult StoreProductListing(string storeName)
+        {
+            ViewData["StoreName"] = storeName;
+            // get from domain product by store
+            var products = new SearchResultModel(new List<ProductModel>()
+            {
+                { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
+                { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
+                { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
+                { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
+            }, new List<string>());
+            var model = new ProductListingModel(products, "", "", 0, 0, 0, 0, 0);
+            return View("ProductListing", model);
         }
 
     }

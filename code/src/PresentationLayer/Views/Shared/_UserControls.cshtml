@@ -15,6 +15,12 @@
             Dashboard
         </a>
         <!--/User Dashboard Controls-->
+        <!--Purchase History-->
+        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="UserPurchases" asp-action="Index">
+            <i class="fas fa-shopping-bag" aria-label="false"></i>
+            Purchases
+        </a>
+        <!--/Purchase History-->
         <!--Cart Controls-->
         <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Cart" asp-action="Index">
             <i class="fas fa-shopping-cart" aria-label="false"></i>
@@ -29,6 +35,10 @@
         <a class="bttn btn-ripple login-btn px-lg-4 m-1" asp-controller="Auth" asp-action="Login">
             <i class="fas fa-sign-in-alt" aria-label="true"></i>
             Sign In
+        </a>
+        <a class="bttn btn-ripple login-btn bg-danger px-lg-4 m-1" asp-controller="Auth" asp-action="Logout">
+            <i class="fas fa-sign-in-alt" aria-label="true"></i>
+            Logout
         </a>
     </div>
 <!--/Navbar Auth Section-->

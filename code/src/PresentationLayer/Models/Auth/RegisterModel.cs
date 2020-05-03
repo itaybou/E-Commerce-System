@@ -10,12 +10,12 @@ namespace PresentationLayer.Models.Auth
         public string Username { get; set; }
 
         [DisplayName("Password")]
-        
+        [StringLength(15, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters long")]
         public string Password { get; set; }
 
         [DisplayName("Password Validation")]
         [Required(ErrorMessage = "Please Provide Password Validation", AllowEmptyStrings = false)]
-        [Compare("Password", ErrorMessage = "Passwords entered does not match.")]
+        [Compare("Password", ErrorMessage = "Password and Password Validation entered does not match.")]
         public string PasswordValidation { get; set; }
 
         [DisplayName("First Name")]
