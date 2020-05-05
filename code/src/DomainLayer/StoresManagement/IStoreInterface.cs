@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -39,11 +40,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         void rateStore(double rating);
 
-        void logPurchase(StorePurchase purchase);
+        void logPurchase(StorePurchaseModel purchase);
 
         Permissions getPermissionByName(string userName);
 
-        List<StorePurchase> purchaseHistory();
+        List <StorePurchaseModel> purchaseHistory();
 
 
 

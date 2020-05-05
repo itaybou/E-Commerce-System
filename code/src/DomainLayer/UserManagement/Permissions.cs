@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -247,7 +248,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _store.rateStore(rating);
         }
 
-        public void logPurchase(StorePurchase purchase)
+        public void logPurchase(StorePurchaseModel purchase)
         {
             _store.logPurchase(purchase);
         }
@@ -257,7 +258,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             throw new NotImplementedException();
         }
 
-        public List<StorePurchase> purchaseHistory()
+        public List<StorePurchaseModel> purchaseHistory()
         {
             if (this.canWatchHistory())
             {

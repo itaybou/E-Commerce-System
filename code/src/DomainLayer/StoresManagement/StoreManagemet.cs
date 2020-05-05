@@ -2,6 +2,7 @@
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.Notifications;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
@@ -264,6 +265,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
+
+                List<User> notificationsUsers = new List<User>();
+                notificationsUsers.Add(assigneeUser);
+                this.sendNotification(new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName), notificationsUsers);
                 return true;
             }
             else
@@ -302,6 +307,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Add the permission to the new manager
                 User assigneeUser = _userManagement.getUserByName(newManageruserName);
                 _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
+
+                List<User> notificationsUsers = new List<User>();
+                notificationsUsers.Add(assigneeUser);
+                this.sendNotification(new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName), notificationsUsers);
                 return true;
             }
             else
@@ -330,6 +339,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Remove the permission from the user
                 User toRemoveUser = _userManagement.getUserByName(managerUserName);
                 _userManagement.removePermissions(storeName, toRemoveUser);
+
+                List<User> notificationsUsers = new List<User>();
+                notificationsUsers.Add(toRemoveUser);
+                this.sendNotification(new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName), notificationsUsers);
                 return true;
             }
             else
@@ -405,7 +418,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (activeUser.isSystemAdmin())
             {
                 Store store = getStoreByName(storeName);
-                return store.purchaseHistory().Select(h => ModelFactory.CreateStorePurchase(h));
+                return store.purchaseHistory();
             }
             else
             {
@@ -415,16 +428,39 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     return null;
                 }
 
-                return permission.purchaseHistory().Select(h => ModelFactory.CreateStorePurchase(h));
+                return permission.purchaseHistory();
             }
         }
 
         public void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
-            var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
-            store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
+            List<ProductModel> products = storeBoughtProducts.Select(prod => new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount())).ToList();
+            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name(), totalPrice, products);
+
+            store.logPurchase(storePurchaseModel);
+
+            List<User> notificationsUsers = new List<User>();
+            foreach (string username in store.Premmisions.Keys)
+            {
+                notificationsUsers.Add(_userManagement.getUserByName(username));
+            }
+            this.sendNotification(new PurchaseNotification(storePurchaseModel, store.Name), notificationsUsers);
         }
 
+        public void sendNotification(Notification notification, List <User> recipients)
+        {
+            foreach(User u in recipients)
+            {
+                if (_userManagement.isLoggedIn(u.Guid))
+                {
+                    _communication.sendNotification(notification);
+                }
+                else
+                {
+                    u.addNotification(notification);
+                }
+            }
+        }
     }
 
 }

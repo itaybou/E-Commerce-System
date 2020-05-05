@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
 
@@ -59,6 +60,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public Permissions getPermission(string storeName)
         {
             return _state.getPermission(storeName);
+        }
+
+        public void addNotification(Notification notification)
+        {
+            _state.addNotification(notification);
         }
     }
 }

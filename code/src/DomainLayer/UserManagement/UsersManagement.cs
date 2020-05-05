@@ -204,5 +204,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
             return historyUser.getHistoryPurchase().Select(h => ModelFactory.CreateUserPurchase(h)).ToList();
         }
+
+        public bool isLoggedIn(Guid guid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -22,7 +23,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private Dictionary<string, Permissions> _premmisions; // username => permissions
         private Inventory _inventory;
 
-        private List<StorePurchase> _purchaseHistory;
+        private List<StorePurchaseModel> _purchaseHistory;
 
 
         public Store(DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy, string ownerUserName, string name)
@@ -32,13 +33,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
             this.Name = name;
-            this._purchaseHistory = new List<StorePurchase>();
+            this._purchaseHistory = new List<StorePurchaseModel>();
         }
 
         public string Name { get => _name; set => _name = value; }
         public double Rating { get => _rating; }
         public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        public List<StorePurchase> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
+        public List<StorePurchaseModel> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
         public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
         public long RaterCount { get => _raterCount; set => _raterCount = value; }
 
@@ -140,9 +141,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 per = Permissions.CreateOwner(loggedInUser, this);
                 if (per == null) return null;
                 _premmisions.Add(newOwneruserName, per);
-                
-
-
             }
             return per;
         }
@@ -213,7 +211,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _rating = ((_rating * (_raterCount - 1)) + rating) / _raterCount;
         }
 
-        public void logPurchase(StorePurchase purchase)
+        public void logPurchase(StorePurchaseModel purchase)
         {
             _purchaseHistory.Add(purchase);
         }
@@ -227,7 +225,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else return null;
         }
 
-        public List<StorePurchase> purchaseHistory()
+        public List<StorePurchaseModel> purchaseHistory()
         {
             return this.PurchaseHistory;        
         }

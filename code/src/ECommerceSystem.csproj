@@ -94,6 +94,12 @@
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
+    <Compile Include="Models\Notifications\AssignManagerNotification.cs" />
+    <Compile Include="Models\Notifications\PurchaseNotification.cs" />
+    <Compile Include="Models\Notifications\RemoveManagerNotification.cs" />
+    <Compile Include="Models\Notifications\RemoveOwnerNotification.cs" />
+    <Compile Include="Models\Notifications\AssignOwnerNotification.cs" />
+    <Compile Include="Models\Notifications\Notification.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
     <Compile Include="DomainLayer\SystemManagement\ModelFactory.cs" />
