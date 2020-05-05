@@ -26,16 +26,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._stores = new List<Store>();
         }
 
-        // Return the user that logged in to the system if the user is subscribed
-        // If the user isn`t subscribed return null
-        private User isLoggedInUserSubscribed()
+        // Return the user with userID if the user is subscribed
+        // If the user isn`t subscribed or isn`t exist return null
+        private User isUserIDSubscribed(Guid userID)
         {
-            User loggedInUser = _userManagement.getLoggedInUser(); //sync
-            if (!loggedInUser.isSubscribed()) // sync
+            User activeUser = _userManagement.getUserByGUID(userID); 
+            if (activeUser == null || !activeUser.isSubscribed()) 
             {
                 return null;
             }
-            return loggedInUser;
+            return activeUser;
         }
 
         // Return null if the name isn`t exist
@@ -51,25 +51,26 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return null;
         }
 
-        //@pre - logged in user is subscribed
-        public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
+        //@pre - userID exist and subscribed
+        public bool openStore(Guid userID, string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID); //check if if exist and subscribed
+            if (activeUser == null) //userID isn`t exist or the user isn`t subscribed
             {
                 return false;
             }
+
 
             if (getStoreByName(name) != null) //name already exist
             {
                 return false;
             }
 
-            Store newStore = new Store(discountPolicy, purchasePolicy, loggedInUser.Name(), name); //sync - make user.name property
+            Store newStore = new Store(discountPolicy, purchasePolicy, activeUser.Name(), name); //sync - make user.name property
 
             Permissions permissions = Permissions.CreateOwner(null, newStore);
-            newStore.addOwner(loggedInUser.Name(), permissions);
-            _userManagement.addPermission(loggedInUser, permissions, newStore.Name);
+            newStore.addOwner(activeUser.Name(), permissions);
+            _userManagement.addPermission(activeUser, permissions, newStore.Name);
 
             _stores.Add(newStore);
             return true;
@@ -77,178 +78,173 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Add, Delete, Modify Products*********
 
-        //@pre - logged in user is subscribed
+        //@pre - userID exist and subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string categoryName, List<string> keywords)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category categoryName, List<string> keywords)
         {
-            if (!EnumMethods.GetValues(typeof(Category)).Contains(categoryName.ToUpper())) 
-            {
-                SystemLogger.LogError("Invalid category name provided " + categoryName);
-            }
-            var category = (Category)Enum.Parse(typeof(Category), categoryName.ToUpper());
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return Guid.Empty;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(loggedInUser.Name(), productInvName, description, discount, purchaseType, price, quantity, category, keywords);
+            return permission.addProductInv(activeUser.Name(), productInvName, description, discount, purchaseType, price, quantity, categoryName, keywords);
         }
 
-        //@pre - logged in user is subscribed
+        //@pre - userID exist and subscribed
         //return the new product id or -1 in case of fail
-        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid userID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return Guid.Empty;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return Guid.Empty;
             }
 
-            return permission.addProduct(loggedInUser.Name(), productInvName, discount, purchaseType, quantity);
+            return permission.addProduct(activeUser.Name(), productInvName, discount, purchaseType, quantity);
         }
 
-        //@pre - logged in user is subscribed
-        public bool deleteProductInventory(string storeName, string productInvName)
+        //@pre - userID exist and subscribed
+        public bool deleteProductInventory(Guid userID, string storeName, string productInvName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.deleteProductInventory(loggedInUser.Name(), productInvName);
+            return permission.deleteProductInventory(activeUser.Name(), productInvName);
         }
 
-        //@pre - logged in user is subscribed
-        public bool deleteProduct(string storeName, string productInvName, Guid productID)
+        //@pre - userID exist and subscribed
+        public bool deleteProduct(Guid userID, string storeName, string productInvName, Guid productID)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.deleteProduct(loggedInUser.Name(), productInvName, productID);
+            return permission.deleteProduct(activeUser.Name(), productInvName, productID);
         }
 
-        //@pre - logged in user is subscribed
-        public bool modifyProductName(string storeName, string newProductName, string oldProductName)
+        //@pre - userID exist and subscribed
+        public bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.modifyProductName(loggedInUser.Name(), newProductName, oldProductName);
+            return permission.modifyProductName(activeUser.Name(), newProductName, oldProductName);
         }
 
-        //@pre - logged in user is subscribed
-        public bool modifyProductPrice(string storeName, string productInvName, int newPrice)
+        //@pre - userID exist and subscribed
+        public bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.modifyProductPrice(loggedInUser.Name(), productInvName, newPrice);
+            return permission.modifyProductPrice(activeUser.Name(), productInvName, newPrice);
         }
 
-        //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
+        //@pre - userID exist and subscribed
+        public bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.modifyProductQuantity(loggedInUser.Name(), productInvName, productID, newQuantity);
+            return permission.modifyProductQuantity(activeUser.Name(), productInvName, productID, newQuantity);
         }
 
-        //@pre - logged in user is subscribed
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
+        //@pre - userID exist and subscribed
+        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, Discount newDiscount)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.modifyProductDiscountType(loggedInUser.Name(), productInvName, productID, newDiscount);
+            return permission.modifyProductDiscountType(activeUser.Name(), productInvName, productID, newDiscount);
         }
 
-        //@pre - logged in user is subscribed
-        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //@pre - userID exist and subscribed
+        public bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.modifyProductPurchaseType(loggedInUser.Name(), productInvName, productID, purchaseType);
+            return permission.modifyProductPurchaseType(activeUser.Name(), productInvName, productID, purchaseType);
         }
 
         //*********Assign*********
 
-        //@pre - logged in user is subscribed
-        public bool assignOwner(string newOwneruserName, string storeName)
+        //@pre - userID exist and subscribed
+        public bool assignOwner(Guid userID, string newOwneruserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
@@ -257,13 +253,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            Permissions loggedInUserPermission = loggedInUser.getPermission(storeName);
+            Permissions activeUserPermissions = activeUser.getPermission(storeName);
 
-            if (loggedInUserPermission == null)
+            if (activeUserPermissions == null)
             {
                 return false;
             }
-            Permissions newOwmerPer = loggedInUserPermission.assignOwner(loggedInUser, newOwneruserName);
+            Permissions newOwmerPer = activeUserPermissions.assignOwner(activeUser, newOwneruserName);
             if (newOwmerPer != null)
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
@@ -274,11 +270,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
-        //@pre - logged in user is subscribed
-        public bool assignManager(string newManageruserName, string storeName)
+        //@pre - userID exist and subscribed
+        public bool assignManager(Guid userID, string newManageruserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
@@ -288,18 +284,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Permissions loggedInUserPermission = loggedInUser.getPermission(storeName);
-            if (loggedInUserPermission == null)
+            Permissions activeUserPermissions = activeUser.getPermission(storeName);
+            if (activeUserPermissions == null)
             {
                 return false;
             }
 
-            if(loggedInUserPermission == null)
+            if(activeUserPermissions == null)
             {
                 return false; 
             }
 
-            Permissions newManagerPer =  loggedInUserPermission.assignManager(loggedInUser, newManageruserName);
+            Permissions newManagerPer =  activeUserPermissions.assignManager(activeUser, newManageruserName);
 
             if (newManagerPer != null)
             {
@@ -312,23 +308,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
-        //@pre - logged in user is subscribed
-        public bool removeManager(string managerUserName, string storeName)
+        //@pre - userID exist and subscribed
+        public bool removeManager(Guid userID, string managerUserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
 
-            bool isSuccess = permission == null ? false : permission.removeManager(loggedInUser, managerUserName);
+            bool isSuccess = permission == null ? false : permission.removeManager(activeUser, managerUserName);
             if (isSuccess)
             {
                 // Remove the permission from the user
@@ -342,27 +338,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Edit permmiossions*********
 
-        public bool editPermissions(string storeName, string managerUserName, List<string> permissiosnNames)
+        public bool editPermissions(Guid userID, string storeName, string managerUserName, List<PermissionType> permissiosnNames)
         {
-            var permissionValues = EnumMethods.GetValues(typeof(PermissionType));
-            if(!permissiosnNames.Any(p => permissionValues.Contains(p.ToUpper()))) {
-                SystemLogger.LogError("Invalid permission type provided in permission list " + permissiosnNames.ToString());
-                throw new ArgumentException();
-            }
-            var permissions = permissiosnNames.Select(p => (PermissionType)Enum.Parse(typeof(PermissionType), p.ToUpper())).ToList();
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
             }
 
-            Permissions permission = loggedInUser.getPermission(storeName);
+            Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
 
-            return permission.editPermissions(managerUserName, permissions, loggedInUser.Name());
+            return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name());
         }
 
         public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
@@ -404,22 +394,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProducts;
         }
 
-        public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
+        public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User loggedInUser = _userManagement.getLoggedInUser();
-            if (loggedInUser == null)
+            User activeUser = _userManagement.getUserByGUID(userID);
+            if (activeUser == null)
             {
                 return null;
             }
 
-            if (loggedInUser.isSystemAdmin())
+            if (activeUser.isSystemAdmin())
             {
                 Store store = getStoreByName(storeName);
                 return store.purchaseHistory().Select(h => ModelFactory.CreateStorePurchase(h));
             }
             else
             {
-                Permissions permission = loggedInUser.getPermission(storeName);
+                Permissions permission = activeUser.getPermission(storeName);
                 if (permission == null)
                 {
                     return null;

@@ -30,7 +30,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _searchAndFilter = new SearchAndFilter();
         }
 
-        public bool makePurchase(double totalPrice, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, IDictionary<Product, int> allProducts,
+        public bool makePurchase(Guid userID, double totalPrice, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, IDictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
@@ -42,7 +42,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     {
                         storeBoughtProducts.ToList().ForEach(prod => store.reduceProductQuantity(prod.Key, prod.Value));
                         _transactionManager.sendPayment(store, storePayment);
-                        _storeManagement.logStorePurchase(store, _userManagement.getLoggedInUser(), storePayment, storeBoughtProducts);
+                        _storeManagement.logStorePurchase(store, _userManagement.getUserByGUID(userID), storePayment, storeBoughtProducts);
                     }
                     purchased = true;
                 }
@@ -52,7 +52,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 }
             }
             if (purchased)
-                _userManagement.logUserPurchase(totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                _userManagement.logUserPurchase(userID, totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             return purchased;
         }
 
@@ -67,10 +67,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <param name="CVV"></param>
         /// <param name="address"></param>
         /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
-        public  List<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public  List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
-            var shoppingCart = _userManagement.getActiveUserShoppingCart();                                                                                         // User shopping cart
+            var shoppingCart = _userManagement.getActiveUserShoppingCart(userID);                                                                                         // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
             var productsToPurchase = shoppingCart.getAllCartProductsAndQunatities(); // Product ==> Cart Quantity
             var unavailableProducts = new List<Product>();
@@ -80,9 +80,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 if (!unavailableProducts.Any())
                 {
                     var totalPrice = shoppingCart.getTotalACartPrice();                                                         // total user cart price
-                    purchased = makePurchase(totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                    purchased = makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
                     if (purchased)
-                        _userManagement.resetActiveUserShoppingCart();
+                        _userManagement.resetActiveUserShoppingCart(userID);
                 }
             };
             ProductPurchaseLock(productsToPurchase.Keys.OrderBy(p => p.Id).ToList(), pFunc);    // sort products to lock in the same order

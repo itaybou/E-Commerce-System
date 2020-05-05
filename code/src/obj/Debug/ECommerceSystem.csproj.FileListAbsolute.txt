@@ -145,3 +145,32 @@ C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-C
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.pdb
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\src\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\ECommerceSystem.pssym
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\ECommerceSystem.pspdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\NUnit3.TestAdapter.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\NUnit3.TestAdapter.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\nunit.engine.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\nunit.engine.api.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\NLog.config
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\ECommerceSystem.exe.config
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\ECommerceSystem.exe
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\ECommerceSystem.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\NLog.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\nunit.framework.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\PostSharp.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\Should.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\System.Diagnostics.TraceSource.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\System.ValueTuple.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\NLog.xml
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\nunit.framework.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\nunit.framework.xml
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\PostSharp.xml
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\bin\Debug\System.ValueTuple.xml
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csprojAssemblyReference.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csproj.CoreCompileInputs.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\PostSharp\touch
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\PostSharp\dependencies.txt
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csproj.CopyComplete
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\src\obj\Debug\PostSharp\postsharp.app.config

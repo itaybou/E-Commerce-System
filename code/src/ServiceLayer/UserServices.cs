@@ -22,15 +22,14 @@ namespace ECommerceSystem.ServiceLayer
             return _management.Users.Keys.ToList().Any(u => u.Name().Equals(username));
         }
 
-        public bool isUserLogged(string username)
-        {
-            return _management.getLoggedInUser().isSubscribed() && _management.getLoggedInUser().Name().Equals(username);
-        }
+        //public bool isUserLogged(string username)
+        //{
+        //    return _management.getLoggedInUser().isSubscribed() && _management.getLoggedInUser().Name().Equals(username);
+        //}
 
         public void removeAllUsers()
         {
             _management.Users = _management.Users.Where(u => u.Key.Name().Equals("admin")).ToDictionary(pair => pair.Key, pair => pair.Value);
-            _management._activeUser = new User(new Guest());
         }
 
         [Trace("Info")]
@@ -66,9 +65,9 @@ namespace ECommerceSystem.ServiceLayer
         /// Change current active user to guest state.
         /// </summary>
         /// <returns>true if successful</returns>
-        public bool logout()
+        public bool logout(Guid userID)
         {
-            return _management.logout();
+            return _management.logout(userID);
         }
 
         [Trace("Info")]
@@ -79,9 +78,9 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="s">store to add product from</param>
         /// <param name="quantity">the quantity to add</param>
         /// <returns>true if addition was successful</returns>
-        public bool addProductToCart(Guid productId, string storeName, int quantity)
+        public bool addProductToCart(Guid userID, Guid productId, string storeName, int quantity)
         {
-            return _management.addProductToCart(productId, storeName, quantity);
+            return _management.addProductToCart(userID, productId, storeName, quantity);
         }
 
         [Trace("Info")]
@@ -89,9 +88,9 @@ namespace ECommerceSystem.ServiceLayer
         /// Retrieves user shopping cart details.
         /// </summary>
         /// <returns>the users shopping cart</returns>
-        public ShoppingCartModel ShoppingCartDetails()
+        public ShoppingCartModel ShoppingCartDetails(Guid userID)
         {
-            return _management.ShoppingCartDetails();
+            return _management.ShoppingCartDetails(userID);
         }
 
         [Trace("Info")]
@@ -100,9 +99,9 @@ namespace ECommerceSystem.ServiceLayer
         /// </summary>
         /// <param name="p">product to remove</param>
         /// <returns>true if product was removed</returns>
-        public bool RemoveFromCart(Guid productId)
+        public bool RemoveFromCart(Guid userID, Guid productId)
         {
-            return _management.removeProdcutFromCart(productId);
+            return _management.removeProdcutFromCart(userID, productId);
         }
 
         [Trace("Info")]
@@ -112,18 +111,18 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="p">product to change quantity for</param>
         /// <param name="quantity">the new quantity</param>
         /// <returns>true if change was successful</returns>
-        public bool ChangeProductQunatity(Guid productId, int quantity)
+        public bool ChangeProductQunatity(Guid userID, Guid productId, int quantity)
         {
-            return _management.changeProductQuantity(productId, quantity);
+            return _management.changeProductQuantity(userID, productId, quantity);
         }
 
         [Trace("Info")]
         /// <param userName>user to watch his history</param>
         /// <returns>List of the purchase history of userName</returns>
         /// @pre - The logged in user is system admin
-        public ICollection<UserPurchaseModel> userPurchaseHistory(string userName)
+        public ICollection<UserPurchaseModel> userPurchaseHistory(Guid userID, string userName)
         {
-            return _management.userPurchaseHistory(userName);
+            return _management.userPurchaseHistory(userID, userName);
         }
     }
 }
