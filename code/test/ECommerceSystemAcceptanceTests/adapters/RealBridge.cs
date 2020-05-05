@@ -5,8 +5,8 @@ using System.Text;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.ServiceLayer;
-using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Utilities;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
@@ -23,7 +23,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _systemService = new SystemServices();
         }
 
-        public long addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -33,7 +33,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
             if (purchaseType.Equals("immediate"))
             {
@@ -41,14 +41,15 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
 
-            return _storeService.addProduct(storeName, productInvName, discount, purchase, quantity);
+            //return _storeService.addProduct(storeName, productInvName, discount, purchase, quantity);
+            return Guid.NewGuid();
 
         }
 
-        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
+        public Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -59,7 +60,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
             if (purchaseType.Equals("immediate"))
             {
@@ -67,10 +68,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
             else
             {
-                return -1;
+                return Guid.Empty;
             }
 
-            return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
+            //return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
+            return Guid.NewGuid();
         }
 
         public bool assignManager(string newManageruserName, string storeName)
@@ -83,7 +85,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.assignOwner(newOwneruserName, storeName);
         }
 
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             return _storeService.deleteProduct(storeName, productInvName, productID);
         }
@@ -95,11 +97,12 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
         {
-            var permissionTypes = permissions.Select(p => (permissionType)Enum.Parse(typeof(permissionType), p)).ToList();
-            return _storeService.editPermissions(storeName, managerUserName, permissionTypes);
+            //var PermissionTypes = permissions.Select(p => (PermissionType)Enum.Parse(typeof(PermissionType), p)).ToList();
+            //return _storeService.editPermissions(storeName, managerUserName, PermissionTypes);
+            return true;
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, string newDiscount, int discountPercentage)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage)
         {
             Discount discount = null;
             if (newDiscount.Equals("visible"))
@@ -124,7 +127,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.modifyProductPrice(storeName, productInvName, newPrice);
         }
 
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, string purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, string purchaseType)
         {
             PurchaseType newPurchase = null;
             if (purchaseType.Equals("immediate"))
@@ -139,7 +142,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.modifyProductPurchaseType(storeName, productInvName, productID, newPurchase);
         }
 
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             return _storeService.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
 
@@ -153,26 +156,27 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.openStore(name, discount, purchase);
         }
 
-        public List<Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(string storeName)
         {
-            List<StorePurchase> history = _storeService.purchaseHistory(storeName);
+            //List<StorePurchase> history = _storeService.purchaseHistory(storeName);
 
-            if(history == null)
-            {
-                return null;
-            }
+            //if(history == null)
+            //{
+            //    return null;
+            //}
             
-            List<Tuple<string, List<Tuple<long, int>>, double>> purchases = new List<Tuple<string, List<Tuple<long, int>>, double>>();
-            foreach(StorePurchase s in history)
-            {
-                List<Tuple<long, int>> products = new List<Tuple<long, int>>();
-                foreach(Product p in s.ProductsPurchased)
-                {
-                    products.Add(Tuple.Create(p.Id, p.Quantity));
-                }
-                purchases.Add(Tuple.Create(s.User.Name(), products, s.TotalPrice));
-            }
-            return purchases;
+            //List<Tuple<string, List<Tuple<Guid, int>>, double>> purchases = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
+            //foreach(StorePurchase s in history)
+            //{
+            //    List<Tuple<Guid, int>> products = new List<Tuple<Guid, int>>();
+            //    foreach(Product p in s.ProductsPurchased)
+            //    {
+            //        products.Add(Tuple.Create(p.Id, p.Quantity));
+            //    }
+            //    purchases.Add(Tuple.Create(s.User.Name(), products, s.TotalPrice));
+            //}
+            //return purchases;
+            return null;
         }
 
         // Utility methods
@@ -198,35 +202,35 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public void cancelSearchFilters()
         {
-            var filters = CategoryMethods.GetValues(typeof(Filters)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper()).ToList();
-            filters.ForEach(filter =>
-            {
-                var f = (Filters)Enum.Parse(typeof(Filters), filter);
-                _systemService.cancelFilter(f);
-            });
+            //var filters = EnumMethods.GetValues(typeof(Filters)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper()).ToList();
+            //filters.ForEach(filter =>
+            //{
+            //    var f = (Filters)Enum.Parse(typeof(Filters), filter);
+            //    _systemService.cancelFilter(f);
+            //});
         }
 
-        public Dictionary<string, Dictionary<long, int>> getUserCartDetails()
+        public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()
         {
-            var dict = new Dictionary<string, Dictionary<long, int>>();
-            var cart = _userServices.ShoppingCartDetails();
-            cart.StoreCarts.ForEach(storeCart =>
-            {
-                var storeDict = new Dictionary<long, int>();
-                storeCart.Products.ToList().ForEach(p =>
-                {
-                    if (storeDict.ContainsKey(p.Key.Id))
-                    {
-                        storeDict[p.Key.Id] += p.Value;
-                    }
-                    else storeDict.Add(p.Key.Id, p.Value);
-                });
-                if (dict.ContainsKey(storeCart.store.Name))
-                {
-                    dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
-                }
-                else dict.Add(storeCart.store.Name, storeDict);
-            });
+            var dict = new Dictionary<string, Dictionary<Guid, int>>();
+            //var cart = _userServices.ShoppingCartDetails();
+            //cart.StoreCarts.ForEach(storeCart =>
+            //{
+            //    var storeDict = new Dictionary<Guid, int>();
+            //    storeCart.Products.ToList().ForEach(p =>
+            //    {
+            //        if (storeDict.ContainsKey(p.Key.Id))
+            //        {
+            //            storeDict[p.Key.Id] += p.Value;
+            //        }
+            //        else storeDict.Add(p.Key.Id, p.Value);
+            //    });
+            //    if (dict.ContainsKey(storeCart.store.Name))
+            //    {
+            //        dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //    }
+            //    else dict.Add(storeCart.store.Name, storeDict);
+            //});
 
             return dict;
         }
@@ -240,7 +244,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             var keywords = new List<string>() { { "hello" }, { "world" }, { "pokemon" } };
             products.ForEach(p =>
             {
-                _storeService.addProductInv(storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat, keywords);
+                _storeService.addProductInv(storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat.ToString(), keywords);
                 i += 0.2;
                 cat = Category.ELECTRONICS;
                 keywords = new List<string>() { { "hello" }, { "my" }, { "name" }, { "is" }, { "inigo" }, { "montoya" } };
@@ -276,104 +280,109 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to) // 2.5
         {
-            catName = catName != null? catName.ToUpper() : catName;
-            var categories = CategoryMethods.GetValues(typeof(Category)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper());
-            if (catName != null && !categories.Contains(catName))
-            {
-                return new List<string>();
-            }
-            Category cat = catName != null? (Category)Enum.Parse(typeof(Category), catName) : Category.HEALTH;
-            filters.ForEach(filter =>
-            {
-                switch (filter)
-                {
-                    case "price":
-                        _systemService.applyPriceRangeFilter(from, to);
-                        break;
-                    case "product_rating":
-                        _systemService.applyProductRatingFilter(from, to);
-                        break;
-                    case "store_rating":
-                        _systemService.applyStoreRatingFilter(from, to);
-                        break;
-                    case "category":
-                        _systemService.applyCategoryFilter(cat);
-                        break;
-                }
-            });
+            //catName = catName != null? catName.ToUpper() : catName;
+            //var categories = EnumMethods.GetValues(typeof(Category)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper());
+            //if (catName != null && !categories.Contains(catName))
+            //{
+            //    return new List<string>();
+            //}
+            //Category cat = catName != null? (Category)Enum.Parse(typeof(Category), catName) : Category.HEALTH;
+            //filters.ForEach(filter =>
+            //{
+            //    switch (filter)
+            //    {
+            //        case "price":
+            //            _systemService.applyPriceRangeFilter(from, to);
+            //            break;
+            //        case "product_rating":
+            //            _systemService.applyProductRatingFilter(from, to);
+            //            break;
+            //        case "store_rating":
+            //            _systemService.applyStoreRatingFilter(from, to);
+            //            break;
+            //        case "category":
+            //            _systemService.applyCategoryFilter(cat);
+            //            break;
+            //    }
+            //});
 
-            if (prodName != null)
-            {
-                return _systemService.searchProductsByName(prodName).Select(p => p.Name).ToList();
-            }
-            else if (catName != null)
-            {
-                return _systemService.searchProductsByCategory(cat).Select(p => p.Name).ToList();
-            }
-            else if (keywords != null)
-            {
-                return _systemService.searchProductsByKeyword(keywords).Select(p => p.Name).ToList();
-            }
-            else return _systemService.getAllProducts().Select(p => p.Name).ToList();
+            //if (prodName != null)
+            //{
+            //    return _systemService.searchProductsByName(prodName).Select(p => p.Name).ToList();
+            //}
+            //else if (catName != null)
+            //{
+            //    return _systemService.searchProductsByCategory(cat).Select(p => p.Name).ToList();
+            //}
+            //else if (keywords != null)
+            //{
+            //    return _systemService.searchProductsByKeyword(keywords).Select(p => p.Name).ToList();
+            //}
+            //else return _systemService.getAllProducts().Select(p => p.Name).ToList();
+            return null;
         }
 
 
-        public Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity) //2.6
+        public Dictionary<string, Dictionary<Guid, int>> AddTocart(Guid prodID, int quantity) //2.6
         {
-            var info = _storeService.getAllStoresInfo();
-            var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
-            prod.ForEach(pair => _userServices.addProductToCart(pair.Item2, pair.Item1, quantity));
-            return getUserCartDetails();
+            //var info = _storeService.getAllStoresInfo();
+            //var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
+            //prod.ForEach(pair => _userServices.addProductToCart(pair.Item2, pair.Item1, quantity));
+            //return getUserCartDetails();
+            return null;
         }
 
-        public Dictionary<string, Dictionary<long, int>> ViewUserCart() // 2.7
+        public Dictionary<string, Dictionary<Guid, int>> ViewUserCart() // 2.7
         {
             return getUserCartDetails(); //uses User service function
         }
 
 
-        public bool RemoveFromCart(long prodID) // 2.7.1
+        public bool RemoveFromCart(Guid prodID) // 2.7.1
         {
-            var info = _storeService.getAllStoresInfo();
-            var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
-            return _userServices.RemoveFromCart(prod);
+            //var info = _storeService.getAllStoresInfo();
+            //var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
+            //return _userServices.RemoveFromCart(prodId);
+            return true;
 
         }
 
-        public bool ChangeProductCartQuantity(long prodID, int quantity)    // 2.7.2
+        public bool ChangeProductCartQuantity(Guid prodID, int quantity)    // 2.7.2
         {
-            var info = _storeService.getAllStoresInfo();
-            var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
-            return _userServices.ChangeProductQunatity(prod, quantity);
+            //var info = _storeService.getAllStoresInfo();
+            //var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
+            //return _userServices.ChangeProductQunatity(prod, quantity);
+            return true;
         }
 
-        public bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
+        public bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
         {
-            var idNum = Int32.Parse(id);
-            var cvvNum = Int32.Parse(CVV);
-            List<Product> missingProducts;
-            if (products == null)
-            {
-                missingProducts = _systemService.purchaseUserShoppingCart(firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
-                return missingProducts == null ? true : false;
-            }
-            var storesProducts = _storeService.getAllStoresInfo().ToList().Select(item => Tuple.Create(item.Key, item.Value)).ToList()
-                .Select(pair => Tuple.Create(pair.Item1, pair.Item2.FindAll(p => products.ContainsKey(p.Id)))).ToList();
+            //var idNum = Int32.Parse(id);
+            //var cvvNum = Int32.Parse(CVV);
+            //List<Product> missingProducts;
+            //if (products == null)
+            //{
+            //    missingProducts = _systemService.purchaseUserShoppingCart(firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+            //    return missingProducts == null ? true : false;
+            //}
+            //var storesProducts = _storeService.getAllStoresInfo().ToList().Select(item => Tuple.Create(item.Key, item.Value)).ToList()
+            //    .Select(pair => Tuple.Create(pair.Item1, pair.Item2.FindAll(p => products.ContainsKey(p.Id)))).ToList();
 
-            var purchaseProducts = new List<Tuple<Store, (Product, int)>>();
-            foreach (Tuple<Store, List<Product>> s in storesProducts)
-            {
-                foreach(Product p in s.Item2)
-                {
-                    purchaseProducts.Add(Tuple.Create(s.Item1, (p, products[p.Id])));
-                }
-            }
-            if(purchaseProducts.Count == 1)
-            {
-                return _systemService.purchaseProduct(purchaseProducts.First(), firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
-            }
-            missingProducts = _systemService.purchaseProducts(purchaseProducts, firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
-            return missingProducts == null ? true : false;
+            //var purchaseProducts = new List<Tuple<Store, (Product, int)>>();
+            //foreach (Tuple<Store, List<Product>> s in storesProducts)
+            //{
+            //    foreach(Product p in s.Item2)
+            //    {
+            //        purchaseProducts.Add(Tuple.Create(s.Item1, (p, products[p.Id])));
+            //    }
+            //}
+            //if(purchaseProducts.Count == 1)
+            //{
+            //    return _systemService.purchaseProduct(purchaseProducts.First(), firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+            //}
+            //missingProducts = _systemService.purchaseProducts(purchaseProducts, firstName, lastName, idNum, creditCardNumber, DateTime.Parse(creditExpiration), cvvNum, address);
+            //return missingProducts == null ? true : false;
+            return true;
         }
 
         public bool logout()    // 3.1
@@ -381,9 +390,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _userServices.logout();
         }
 
-        public List<long> UserPurchaseHistory() // 3.7
+        public List<Guid> UserPurchaseHistory(string uname) // 3.7
         {
-            var history = _userServices.loggedUserPurchaseHistory();
+            var history = _userServices.userPurchaseHistory(uname);
             return history.Select(h => h.ProductsPurchased.Select(p => p.Id)).SelectMany(p => p).ToList();
         }
     }

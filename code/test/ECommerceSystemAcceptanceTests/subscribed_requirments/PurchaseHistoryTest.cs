@@ -51,7 +51,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
-
+        /*
         [TestCase()]
         public void TestViewPurchaseHistory()
         {
@@ -71,5 +71,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.PurchaseProducts(null, firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address);
             Assert.True(_bridge.UserPurchaseHistory().SequenceEqual(new List<long>() { { 1 }, { 2 }, { 3 }, { 1 }, { 2 }, { 4 } }));
         }
+        */
     }
 }

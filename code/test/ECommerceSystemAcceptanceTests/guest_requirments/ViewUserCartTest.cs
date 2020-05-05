@@ -37,7 +37,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
-
+        /*
         [TestCase()]
         public void TestViewUserCartTest()
         {
@@ -54,5 +54,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             Assert.True(_bridge.ViewUserCart().ContainsKey("store2"));
             Assert.AreEqual(_bridge.ViewUserCart()["store2"].Count(), 1);
         }
+        */
     }
 }

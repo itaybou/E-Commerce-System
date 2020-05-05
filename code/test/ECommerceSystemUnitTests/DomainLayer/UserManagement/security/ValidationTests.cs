@@ -25,22 +25,34 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
         private string invalid_email3 = "@email";
 
         [Test()]
-        public void IsValidEmailTest()
+        public void ISValidCorrectEmailTest()
         {
             string error;
             Assert.True(Validation.IsValidEmail(valid_email1, out error));
             Assert.True(Validation.IsValidEmail(valid_email2, out error));
+        }
+
+        [Test()]
+        public void ISValidNotCorrectEmailTest()
+        {
+            string error;
             Assert.False(Validation.IsValidEmail(invalid_email1, out error));
             Assert.False(Validation.IsValidEmail(invalid_email2, out error));
             Assert.False(Validation.IsValidEmail(invalid_email3, out error));
         }
 
         [Test()]
-        public void isValidPasswordTest()
+        public void isValidCorrectPasswordTest()
         {
             string error;
             Assert.True(Validation.isValidPassword(valid_pswd1, out error));
             Assert.True(Validation.isValidPassword(valid_pswd2, out error));
+        }
+
+        [Test()]
+        public void isValidNotCorrectPasswordTest()
+        {
+            string error;
             Assert.False(Validation.isValidPassword(invalid_pswd1, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd2, out error));
             Assert.False(Validation.isValidPassword(invalid_pswd3, out error));

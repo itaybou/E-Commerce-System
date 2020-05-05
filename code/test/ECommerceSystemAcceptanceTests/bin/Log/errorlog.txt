@@ -1,0 +1,6 @@
+###################################################################
+# ERROR LOG
+#  format: <time-stamp> | ERROR: <error details>\n<stack-trace>
+#  stack-trace format: (at <stack-trace-method>\n)*
+###################################################################
+2020-04-26 20:21:50.1650 | ERROR: Missing spell checker dictionary file!

@@ -37,9 +37,11 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.storesCleanUp();
         }
 
+        /*
         [TestCase()]
         public void TestAddToCart()
         {
+
             var prod = _bridge.AddTocart(1, 20);
             Assert.AreEqual(prod["store1"][1], 20);
             _bridge.login(uname, pswd);
@@ -58,5 +60,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             Assert.AreEqual(prod["store1"][3], 20);
             Assert.AreEqual(prod["store2"][3], 20);
         }
+        */
     }
 }

@@ -18,15 +18,8 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         {
             base.oneTimeSetup();
             _bridge.login(_ownerUserName, _pswd);
-            long success = _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
+            Guid success = _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
             _bridge.logout();
-        }
-
-        [OneTimeTearDown]
-        public new void tearDown()
-        {
-            _bridge.storesCleanUp();
-            _bridge.usersCleanUp();
         }
 
         [TestCase()]

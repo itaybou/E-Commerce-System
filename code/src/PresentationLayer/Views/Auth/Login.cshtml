@@ -1,0 +1,31 @@
+﻿@model PresentationLayer.Models.Auth.LoginModel
+@using PresentationLayer.Controllers.Auth
+@{
+    ViewData["Title"] = "Login";
+}
+
+    <div class="container">
+        <div class="login-page">
+            <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+            <div class="form" method="post">
+                <form asp-controller="Auth" asp-action="Login" class="login-form" method="post">
+                    @if (!ViewContext.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label style="text-align: left" for="username">@Html.DisplayNameFor(m => m.Username)</label>
+                        <input type="text" class="form-control" placeholder="@Html.NameFor(m => m.Username)" asp-for="Username" />
+                    </div>
+                    <div class="form-group">
+                        <label style="text-align: left" for="password">@Html.DisplayNameFor(m => m.Password)</label>
+                        <input type="password" class="form-control" placeholder="@Html.NameFor(m => m.Password)" asp-for="Password" />
+                    </div>
+                    <button type="submit">login</button>
+                    <p class="message" style="text-align: left; font-size: 16px">Not registered? <a asp-action="Register">Create an account</a></p>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -12,22 +12,22 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         internal IBridgeAdapter RealBridge { get => _real; set => _real = value; }
 
-        public long addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
+        public Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
             if (_real != null)
             {
                 return _real.addProduct(storeName, productInvName, discountType, discountPercentage, purchaseType, quantity);
             }
-            else return 1;
+            else return Guid.NewGuid();
         }
 
-        public long addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List<string> keys)
+        public Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List<string> keys)
         {
             if (_real != null)
             {
                 return _real.addProductInv(storeName, productName, description, discountType, discountPercentage, purchaseType, price, quantity, category, keys);
             }
-            else return 1;
+            else return Guid.NewGuid();
         }
 
         public bool assignManager(string newManageruserName, string storeName)
@@ -48,7 +48,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return false;
         }
 
-        public bool deleteProduct(string storeName, string productInvName, long productID)
+        public bool deleteProduct(string storeName, string productInvName, Guid productID)
         {
             if (_real != null)
             {
@@ -75,7 +75,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return false;
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, long productID, string newDiscount, int discountPercentage)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage)
         {
             if (_real != null)
             {
@@ -102,7 +102,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public bool modifyProductPurchaseType(string storeName, string productInvName, long productID, string purchaseType)
+        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, string purchaseType)
         {
             if (_real != null)
             {
@@ -111,7 +111,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public bool modifyProductQuantity(string storeName, string productInvName, long productID, int newQuantity)
+        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
         {
             if (_real != null)
             {
@@ -129,7 +129,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public List<Tuple<string, List<Tuple<long, int>>, double>> StorePurchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(string storeName)
         {
             if (_real != null)
             {
@@ -190,13 +190,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         }
 
-        public Dictionary<string, Dictionary<long, int>> getUserCartDetails()
+        public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()
         {
             if (_real != null)
             {
                 return _real.getUserCartDetails();
             }
-            else return new Dictionary<string, Dictionary<long, int>>();
+            else return new Dictionary<string, Dictionary<Guid, int>>();
         }
 
         // Requirments
@@ -245,25 +245,25 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new List<string>();
         }
 
-        public Dictionary<string, Dictionary<long, int>> AddTocart(long prodID, int quantity) //2.6
+        public Dictionary<string, Dictionary<Guid, int>> AddTocart(Guid prodID, int quantity) //2.6
         {
             if (_real != null)
             {
                 return _real.AddTocart(prodID, quantity);
             }
-            else return new Dictionary<string, Dictionary<long, int>>();
+            else return new Dictionary<string, Dictionary<Guid, int>>();
         }
 
-        public Dictionary<string, Dictionary<long, int>> ViewUserCart() //2.7
+        public Dictionary<string, Dictionary<Guid, int>> ViewUserCart() //2.7
         {
             if (_real != null)
             {
                 return _real.ViewUserCart();
             }
-            else return new Dictionary<string, Dictionary<long, int>>();
+            else return new Dictionary<string, Dictionary<Guid, int>>();
         }
 
-        public bool RemoveFromCart(long prodID)
+        public bool RemoveFromCart(Guid prodID)
         {
             if (_real != null)
             {
@@ -272,7 +272,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return false;
         }
 
-        public bool ChangeProductCartQuantity(long prodID, int quantity)
+        public bool ChangeProductCartQuantity(Guid prodID, int quantity)
         {
             if (_real != null)
             {
@@ -290,7 +290,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public bool PurchaseProducts(Dictionary<long, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address)
+        public bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address)
         {
             if (_real != null)
             {
@@ -299,13 +299,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public List<long> UserPurchaseHistory()
+        public List<Guid> UserPurchaseHistory(string uname)
         {
             if (_real != null)
             {
-                return _real.UserPurchaseHistory();
+                return _real.UserPurchaseHistory(uname);
             }
-            else return new List<long>();
+            else return new List<Guid>();
         }
     }
 }

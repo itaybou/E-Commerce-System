@@ -1,6 +1,7 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
+using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
 
@@ -17,22 +18,22 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         // Use-case 2.5 - search and filter services
-        public List<ProductInventory> getAllProducts()
+        public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            return _systemManager.SearchAndFilterSystem.getAllProdcuts();
+            return _systemManager.SearchAndFilterSystem.getProductSearchResults(null, null, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         [Trace("Info")]
         // Use-case 2.5 - search and filter services
-        public List<ProductInventory> searchProductsByCategory(Category category)
+        public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByCategory(category);
+            return _systemManager.SearchAndFilterSystem.getProductSearchResults(null, null, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         [Trace("Info")]
-        public List<ProductInventory> searchProductsByName(string prodName)
+        public SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByName(prodName);
+            return _systemManager.SearchAndFilterSystem.getProductSearchResults(prodName, null, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         /// <summary>
@@ -41,68 +42,11 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="keywords"> List of keywords for searching</param>
         /// <returns>List of all the product matching the keywords</returns>
         [Trace("Info")]
-        public List<ProductInventory> searchProductsByKeyword(List<string> keywords)
+        public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            return _systemManager.SearchAndFilterSystem.searchProductsByKeyword(keywords);
+            return _systemManager.SearchAndFilterSystem.getProductSearchResults(null, keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-        /// <summary>
-        /// apply price range filter 
-        /// </summary>
-        /// <param name="from"> the requested price to filter from </param>
-        /// <param name="to">the requested price to filter to</param>
-        /// <returns>List of all the product matching the filter</returns>
-        [Trace("Info")]
-        public List<ProductInventory> applyPriceRangeFilter(double from, double to)
-        {
-            return _systemManager.SearchAndFilterSystem.applyPriceRangeFilter(from, to);
-        }
-
-        /// <summary>
-        /// apply store rating filter 
-        /// </summary>
-        /// <param name="from">the requested store rating to filter from</param>
-        /// <param name="to">the requested store rating to filter to</param>
-        /// <returns>List of all the product matching the filter</returns>
-        [Trace("Info")]
-        public List<ProductInventory> applyStoreRatingFilter(double from, double to)
-        {
-            return _systemManager.SearchAndFilterSystem.applyStoreRatingFilter(from, to);
-        }
-
-        /// <summary>
-        /// apply product rating filter
-        /// </summary>
-        /// <param name="from">the requested product rating to filter from</param>
-        /// <param name="to">the requested product rating to filter to</param>
-        /// <returns>List of all the product matching the filter</returns>
-        [Trace("Info")]
-        public List<ProductInventory> applyProductRatingFilter(double from, double to)
-        {
-            return _systemManager.SearchAndFilterSystem.applyProductRatingFilter(from, to);
-        }
-
-        /// <summary>
-        /// apply category filter
-        /// </summary>
-        /// <param name="category">the requested category to filter </param>
-        /// <returns>List of all the product matching the filter</returns>
-        [Trace("Info")]
-        public List<ProductInventory> applyCategoryFilter(Category category)
-        {
-            return _systemManager.SearchAndFilterSystem.applyCategoryFilter(category);
-        }
-
-        /// <summary>
-        /// cancel existing filter
-        /// </summary>
-        /// <param name="filter"> which filter to cancel </param>
-        /// <returns>List of all the product matching after cancelling the filter</returns>
-        [Trace("Info")]
-        public List<ProductInventory> cancelFilter(Filters filter)
-        {
-            return _systemManager.SearchAndFilterSystem.cancelFilter(filter);
-        }
 
         /// <summary>
         /// purchase process of user shopping cart 
@@ -116,45 +60,46 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="address"> user address for delivery </param>
         /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         [Trace("Info")]
-        public List<Product> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public ICollection<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             return _systemManager.purchaseUserShoppingCart(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
-        /// <summary>
-        /// purchase process of specific products 
-        /// </summary>
-        /// <param name="products"> all the products the user want to buy and the stores that own the products</param>
-        /// <param name="firstName">first name of the user</param>
-        /// <param name="lastName">last name of the user</param>
-        /// <param name="id">user id</param>
-        /// <param name="creditCardNumber">user credit card number</param>
-        /// <param name="expirationCreditCard">expiration date of credit card</param>
-        /// <param name="CVV">credit card CVV number</param>
-        /// <param name="address">user address for delivery</param>
-        /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
-        [Trace("Info")]
-        public List<Product> purchaseProducts(List<Tuple<Store, (Product, int)>> products, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
-        {
-            return _systemManager.purchaseProducts(products, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-        }
+        ///// <summary>
+        ///// purchase process of specific product 
+        ///// </summary>
+        ///// <param name="product"> the product the user want to buy and the store that own the product</param>
+        ///// <param name="firstName">first name of the user</param>
+        ///// <param name="lastName">last name of the user</param>
+        ///// <param name="id">user id</param>
+        ///// <param name="creditCardNumber">user credit card number</param>
+        ///// <param name="expirationCreditCard">expiration date of credit card</param>
+        ///// <param name="CVV">credit card CVV number</param>
+        ///// <param name="address">user address for delivery</param>
+        ///// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
+        //[Trace("Info")]
+        //public bool purchaseProduct(Tuple<string, (Guid, int)> product, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        //{
+        //    return _systemManager.purchaseProduct(product, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+        //}
 
-        /// <summary>
-        /// purchase process of specific product 
-        /// </summary>
-        /// <param name="product"> the product the user want to buy and the store that own the product</param>
-        /// <param name="firstName">first name of the user</param>
-        /// <param name="lastName">last name of the user</param>
-        /// <param name="id">user id</param>
-        /// <param name="creditCardNumber">user credit card number</param>
-        /// <param name="expirationCreditCard">expiration date of credit card</param>
-        /// <param name="CVV">credit card CVV number</param>
-        /// <param name="address">user address for delivery</param>
-        /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
-        [Trace("Info")]
-        public bool purchaseProduct(Tuple<Store, (Product, int)> product, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
-        {
-            return _systemManager.purchaseProduct(product, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-        }
+
+        ///// <summary>
+        ///// purchase process of specific products 
+        ///// </summary>
+        ///// <param name="products"> all the products the user want to buy and the stores that own the products</param>
+        ///// <param name="firstName">first name of the user</param>
+        ///// <param name="lastName">last name of the user</param>
+        ///// <param name="id">user id</param>
+        ///// <param name="creditCardNumber">user credit card number</param>
+        ///// <param name="expirationCreditCard">expiration date of credit card</param>
+        ///// <param name="CVV">credit card CVV number</param>
+        ///// <param name="address">user address for delivery</param>
+        ///// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
+        //[Trace("Info")]
+        //public List<Product> purchaseProducts(List<Tuple<Store, (Product, int)>> products, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        //{
+        //    return _systemManager.purchaseProducts(products, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+        //}
     }
 }

@@ -1,6 +1,8 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -77,9 +79,9 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="s">store to add product from</param>
         /// <param name="quantity">the quantity to add</param>
         /// <returns>true if addition was successful</returns>
-        public bool addProductToCart(Product p, Store s, int quantity)
+        public bool addProductToCart(Guid productId, string storeName, int quantity)
         {
-            return _management.addProductToCart(p, s, quantity);
+            return _management.addProductToCart(productId, storeName, quantity);
         }
 
         [Trace("Info")]
@@ -87,7 +89,7 @@ namespace ECommerceSystem.ServiceLayer
         /// Retrieves user shopping cart details.
         /// </summary>
         /// <returns>the users shopping cart</returns>
-        public UserShoppingCart ShoppingCartDetails()
+        public ShoppingCartModel ShoppingCartDetails()
         {
             return _management.ShoppingCartDetails();
         }
@@ -98,9 +100,9 @@ namespace ECommerceSystem.ServiceLayer
         /// </summary>
         /// <param name="p">product to remove</param>
         /// <returns>true if product was removed</returns>
-        public bool RemoveFromCart(Product p)
+        public bool RemoveFromCart(Guid productId)
         {
-            return _management.removeProdcutFromCart(p);
+            return _management.removeProdcutFromCart(productId);
         }
 
         [Trace("Info")]
@@ -110,28 +112,18 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="p">product to change quantity for</param>
         /// <param name="quantity">the new quantity</param>
         /// <returns>true if change was successful</returns>
-        public bool ChangeProductQunatity(Product p, int quantity)
+        public bool ChangeProductQunatity(Guid productId, int quantity)
         {
-            return _management.changeProductQuantity(p, quantity);
+            return _management.changeProductQuantity(productId, quantity);
         }
 
         [Trace("Info")]
         /// <param userName>user to watch his history</param>
         /// <returns>List of the purchase history of userName</returns>
         /// @pre - The logged in user is system admin
-        public List<UserPurchase> userPurchaseHistory(string userName)
+        public ICollection<UserPurchaseModel> userPurchaseHistory(string userName)
         {
             return _management.userPurchaseHistory(userName);
-        }
-
-        [Trace("Info")]
-        /// <summary>
-        /// Returns the current logged in user purchase history
-        /// </summary>
-        /// <returns>logged user purchase history</returns>
-        public List<UserPurchase> loggedUserPurchaseHistory()
-        {
-            return _management.loggedUserPurchaseHistory();
         }
     }
 }

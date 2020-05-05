@@ -26,6 +26,11 @@ namespace ECommerceSystem.DomainLayer.Utilities.Tests
             _range = new Range<double>(2.0, 5.0);
             Assert.AreEqual(_range.min, 2.0);
             Assert.AreEqual(_range.max, 5.0);
+        }
+
+        [Test()]
+        public void BadRangeTest()
+        {
             Assert.Throws<ArgumentException>(() => _range = new Range<double>(5.0, 2.0));
             Assert.Throws<ArgumentException>(() => _range = new Range<double>(1.0, 0.0));
             Assert.Throws<ArgumentException>(() => _range = new Range<double>(1.0, 0.99));
@@ -41,6 +46,13 @@ namespace ECommerceSystem.DomainLayer.Utilities.Tests
             Assert.True(_range.inRange(2.1));
             Assert.True(_range.inRange(2.0));
             Assert.True(_range.inRange(5.0));
+
+        }
+
+        [Test()]
+        public void NotInRangeTest()
+        {
+            _range = new Range<double>(2.0, 5.0);
             Assert.False(_range.inRange(1.999));
             Assert.False(_range.inRange(0.0));
             Assert.False(_range.inRange(5.000001));
