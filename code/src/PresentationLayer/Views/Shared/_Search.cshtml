@@ -1,0 +1,20 @@
+﻿<!-- Search form -->
+    <div style="width: 50%" >
+        <form style="width: 100%" class="form-inline" asp-controller="Product" asp-action="ProductListing" method="post">
+            <div class="col md-form form-sm pl-0 input-group">
+                <div class="col input-group">
+                    <span class="text-center">Search by:</span>
+                    <select type="button" name="searchType" class="dropdown-menu form-control" role="menu">
+                        <option value="Name" class="dropdown-item">Name</option>
+                        <option value="Category" class="dropdown-item">Category</option>
+                        <option value="Keywords" class="dropdown-item">Keywords</option>
+                    </select>
+                </div>
+                <input name="searchInput" class="search-input form-control my-0 py-1" type="text" placeholder="Search Products" aria-label="Search">
+                <button type="submit" class="bttn search-btn btn-ripple px-3 btn-default">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+<!--/ Search form-->
