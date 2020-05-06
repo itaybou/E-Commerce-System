@@ -19,7 +19,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             var errorLogPath = logPath + ERROR_LOG_FILE;
             if (!File.Exists(eventLogPath))
             {
-                File.WriteAllLines(eventLogPath, new string[] {
+                FileInfo file = new FileInfo(eventLogPath);
+                file.Directory.Create();
+                File.WriteAllLines(file.FullName, new string[] {
                      "###################################################################\n" +
                     "# EVENT LOG\n" +
                     "#  format: <time-stamp> | <method name>, (<param info>)\\n\n" +
@@ -30,7 +32,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
             if (!File.Exists(errorLogPath))
             {
-                File.WriteAllLines(errorLogPath, new string[] {
+                FileInfo file = new FileInfo(eventLogPath);
+                file.Directory.Create();
+                File.WriteAllLines(file.FullName, new string[] {
                      "###################################################################\n" +
                     "# ERROR LOG\n" +
                     "#  format: <time-stamp> | ERROR: <error details>\\n<stack-trace>\n" +

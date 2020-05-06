@@ -60,9 +60,9 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="address"> user address for delivery </param>
         /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         [Trace("Info")]
-        public ICollection<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            return _systemManager.purchaseUserShoppingCart(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            return _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
         ///// <summary>

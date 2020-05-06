@@ -25,6 +25,7 @@ namespace PresentationLayer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<IService, ServiceFacade>();
             //RegisterTransients(services);
         }
 

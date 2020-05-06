@@ -137,6 +137,8 @@
     <Compile Include="DomainLayer\UserManagement\User.cs" />
     <Compile Include="DomainLayer\UserManagement\UserShoppingCart.cs" />
     <Compile Include="DomainLayer\UserManagement\IUserState.cs" />
+    <Compile Include="ServiceLayer\IService.cs" />
+    <Compile Include="ServiceLayer\ServiceFacade.cs" />
     <Compile Include="Utilities\EnumMethods.cs" />
     <Compile Include="Utilities\Range.cs" />
     <Compile Include="ServiceLayer\SystemServices.cs" />

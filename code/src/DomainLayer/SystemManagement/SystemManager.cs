@@ -67,7 +67,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <param name="CVV"></param>
         /// <param name="address"></param>
         /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
-        public  List<ProductModel> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public  List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
             var shoppingCart = _userManagement.getActiveUserShoppingCart();                                                                                         // User shopping cart

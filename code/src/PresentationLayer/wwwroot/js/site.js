@@ -59,5 +59,8 @@ $(function () {
         $('.open_info').toggleClass("hide");
     })
 
+});
 
+$(window).load(function () {
+    $('#messageModal').modal('show');
 });

@@ -1,0 +1,8 @@
+###################################################################
+# ERROR LOG
+#  format: <time-stamp> | ERROR: <error details>\n<stack-trace>
+#  stack-trace format: (at <stack-trace-method>\n)*
+###################################################################
+2020-05-06 13:24:27.9991 | register, (0, String, uname, itay, 1, String, pswd, E52B3E47E5C2961ECE0D2FCDA58D9DC6D053307770064ADEE182D101E94115EB, 2, String, fname, itay, 3, String, lname, b, 4, String, email, itay@gmail.com)
+2020-05-06 13:37:59.6976 | register, (0, String, uname, itay, 1, String, pswd, F81311D28296F01F5A8527629486F7F53CF87C57C4B8F23152CEA1C1AFA11932, 2, String, fname, itay, 3, String, lname, dasdsad, 4, String, email, asdasd@fadsad)
+2020-05-06 13:38:56.9637 | register, (0, String, uname, itay, 1, String, pswd, F81311D28296F01F5A8527629486F7F53CF87C57C4B8F23152CEA1C1AFA11932, 2, String, fname, hello, 3, String, lname, b, 4, String, email, adasd@ddd)
