@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.Utilities;
+﻿using ECommerceSystem.Utilities;
+using ECommerceSystem.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;

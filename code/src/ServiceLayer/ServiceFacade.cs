@@ -1,5 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -22,19 +22,19 @@ namespace ECommerceSystem.ServiceLayer
             _storeServices = new StoreService();
         }
 
-        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
-            return _storeServices.addProduct(storeName, productInvName, discount, purchaseType, quantity);
+            return _storeServices.addProduct(sessionID, storeName, productInvName, discount, purchaseType, quantity);
         }
 
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
         {
             throw new NotImplementedException();
         }
 
-        public bool addProductToCart(Guid productId, string storeName, int quantity)
+        public bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity)
         {
-            throw new NotImplementedException();
+            return _userServices.addProductToCart(sessionID, productId, storeName, quantity);
         }
 
         public bool assignManager(string newManageruserName, string storeName)
@@ -69,17 +69,22 @@ namespace ECommerceSystem.ServiceLayer
 
         public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
         {
-            throw new NotImplementedException();
+            return _storeServices.getAllStoresInfo();
         }
 
         public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.getStoreInfo(storeName);
+        }
+
+        public IDictionary<string, PermissionModel> getUserPermissions(Guid sessionId)
+        {
+            return _storeServices.getUserPermissions(sessionId);
         }
 
         public bool isUserLogged(string username)
@@ -92,14 +97,14 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool login(string uname, string pswd)
+        public (bool, Guid) login(Guid sessionID, string uname, string pswd)
         {
-            throw new NotImplementedException();
+            return _userServices.login(sessionID, uname, pswd);
         }
 
-        public bool logout()
+        public bool logout(Guid userId)
         {
-            throw new NotImplementedException();
+            return _userServices.logout(userId);
         }
 
         public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
@@ -127,9 +132,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
+        public bool openStore(Guid sessionID, string name, string discountPolicy, string purchasePolicy)
         {
-            throw new NotImplementedException();
+            return _storeServices.openStore(sessionID, name, new DiscountPolicy(), new PurchasePolicy());
         }
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
@@ -137,12 +142,12 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             throw new NotImplementedException();
         }
 
-        public bool register(string uname, string pswd, string fname, string lname, string email)
+        public (bool, string) register(string uname, string pswd, string fname, string lname, string email)
         {
             return _userServices.register(uname, pswd, fname, lname, email);
         }
@@ -164,27 +169,32 @@ namespace ECommerceSystem.ServiceLayer
 
         public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByCategory(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByName(prodName, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-        public ShoppingCartModel ShoppingCartDetails()
+        public ShoppingCartModel ShoppingCartDetails(Guid sessionID)
         {
-            throw new NotImplementedException();
+            return _userServices.ShoppingCartDetails(sessionID);
         }
 
         public ICollection<UserPurchaseModel> userPurchaseHistory(string userName)
         {
             throw new NotImplementedException();
+        }
+
+        public UserModel userDetails(Guid sessionID)
+        {
+            return _userServices.userDetails(sessionID);
         }
     }
 }

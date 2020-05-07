@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public enum PermissionType 
-    {
-        AddProductInv,
-        DeleteProductInv,
-        ModifyProduct,
-        WatchAndComment,
-        WatchPurchaseHistory,
-    }
 
     public class Permissions : IStoreInterface
     {
@@ -23,14 +16,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
 
         public User AssignedBy { get => _assignedBy; }
+        public Store Store { get => _store; set => _store = value; }
+        public Dictionary<PermissionType, bool> PermissionTypes { get => _permissions; set => _permissions = value; }
 
-
-        private Permissions(User assignedBy, bool isOwner, Store store)
+        private Permissions(User assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
         {
             this._assignedBy = assignedBy;
             initPermmisionsDict(isOwner);
             this._isOwner = isOwner;
             this._store = store;
+            _permissions = permissions;
         }
 
         public static Permissions CreateOwner(User assignedBy, Store store)

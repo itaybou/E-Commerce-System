@@ -22,14 +22,19 @@
                     <i class="fas fa-store-alt"></i> Stores
                 </button>
             </li>
-            <li class="nav-item">
-                <button style="width: 150px" type="button" class="btn btn-outline-primary m-1" onclick="location.href='@Url.Action("UserStoreList", "Store")'">
-                    <i class="fas fa-house-user"></i> My Stores
-                </button>
-            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <button style="width: 150px" type="button" class="btn btn-outline-primary m-1" onclick="location.href='@Url.Action("UserStoreList", "Store")'">
+                        <i class="fas fa-house-user"></i> My Stores
+                    </button>
+                </li>
+            }
         </ul>
         <!--/Links-->
-        <partial name="_Search" />
+        <div class="justify-content-between">
+            <partial name="_Search" />
+        </div>
     </nav>
 </div>
 <!--/.Navbar-->

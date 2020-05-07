@@ -8,17 +8,28 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         public IUserState _state { get; set; }
         public UserShoppingCart _cart { get; set; }
+        private Guid _guid;
+        public Guid Guid { get => _guid; set => _guid = value; }
 
         public User()
         {
             _state = new Guest();
             _cart = new UserShoppingCart();
+            _guid = Guid.NewGuid();
         }
 
         public User(IUserState state)
         {
             _state = state;
             _cart = new UserShoppingCart();
+            _guid = Guid.NewGuid();
+        }
+
+        public User(IUserState state, Guid guid)
+        {
+            _state = state;
+            _cart = new UserShoppingCart();
+            _guid = guid;
         }
 
         public bool isSubscribed()

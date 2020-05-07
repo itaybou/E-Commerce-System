@@ -1,19 +1,22 @@
 ﻿using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
+using ECommerceSystem.ServiceLayer.sessions;
 
 namespace ECommerceSystem.ServiceLayer
 {
     public class SystemServices
     {
         private SystemManager _systemManager;
+        private ISessionController _sessions;
 
         public SystemServices()
         {
             _systemManager = SystemManager.Instance;
+            _sessions = SessionController.Instance;
         }
 
         [Trace("Info")]
@@ -60,8 +63,9 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="address"> user address for delivery </param>
         /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         [Trace("Info")]
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 

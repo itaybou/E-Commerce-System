@@ -62,9 +62,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public class UserDetails
         {
-            private string _fname { get; set; }
-            private string _lname { get; set; }
-            private string _email { get; set; }
+            private string _fname;
+            private string _lname;
+            private string _email;
 
             public UserDetails(string fname, string lname, string email)
             {
@@ -72,6 +72,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _lname = lname;
                 _email = email;
             }
+
+            public string Fname { get => _fname; set => _fname = value; }
+            public string Lname { get => _lname; set => _lname = value; }
+            public string Email { get => _email; set => _email = value; }
         }
 
 

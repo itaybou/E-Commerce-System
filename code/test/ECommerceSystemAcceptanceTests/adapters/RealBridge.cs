@@ -7,6 +7,7 @@ using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.ServiceLayer;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Utilities;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {

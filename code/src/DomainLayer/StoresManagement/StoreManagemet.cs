@@ -1,8 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.Utilities;
-using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
+using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +27,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
-        private User isLoggedInUserSubscribed()
+        private User isLoggedInUserSubscribed(Guid userID)
         {
-            User loggedInUser = _userManagement.getLoggedInUser(); //sync
+            User loggedInUser = _userManagement.getUserByGUID(userID); //sync
             if (!loggedInUser.isSubscribed()) // sync
             {
                 return null;
@@ -52,9 +51,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
+        public bool openStore(Guid userID, string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -79,14 +78,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user is subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string categoryName, List<string> keywords)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string categoryName, List<string> keywords)
         {
             if (!EnumMethods.GetValues(typeof(Category)).Contains(categoryName.ToUpper())) 
             {
                 SystemLogger.LogError("Invalid category name provided " + categoryName);
             }
             var category = (Category)Enum.Parse(typeof(Category), categoryName.ToUpper());
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return Guid.Empty;
@@ -103,9 +102,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user is subscribed
         //return the new product id or -1 in case of fail
-        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid userID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return Guid.Empty;
@@ -121,9 +120,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool deleteProductInventory(string storeName, string productInvName)
+        public bool deleteProductInventory(Guid userID, string storeName, string productInvName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -139,9 +138,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool deleteProduct(string storeName, string productInvName, Guid productID)
+        public bool deleteProduct(Guid userID, string storeName, string productInvName, Guid productID)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -157,9 +156,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductName(string storeName, string newProductName, string oldProductName)
+        public bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -175,9 +174,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductPrice(string storeName, string productInvName, int newPrice)
+        public bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -192,9 +191,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
+        public bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -209,9 +208,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, Discount newDiscount)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -226,9 +225,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
+        public bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -245,9 +244,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Assign*********
 
         //@pre - logged in user is subscribed
-        public bool assignOwner(string newOwneruserName, string storeName)
+        public bool assignOwner(Guid userID, string newOwneruserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -275,9 +274,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool assignManager(string newManageruserName, string storeName)
+        public bool assignManager(Guid userID, string newManageruserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -313,9 +312,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user is subscribed
-        public bool removeManager(string managerUserName, string storeName)
+        public bool removeManager(Guid userID, string managerUserName, string storeName)
         {
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -342,7 +341,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Edit permmiossions*********
 
-        public bool editPermissions(string storeName, string managerUserName, List<string> permissiosnNames)
+        public bool editPermissions(Guid userID, string storeName, string managerUserName, List<string> permissiosnNames)
         {
             var permissionValues = EnumMethods.GetValues(typeof(PermissionType));
             if(!permissiosnNames.Any(p => permissionValues.Contains(p.ToUpper()))) {
@@ -350,7 +349,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 throw new ArgumentException();
             }
             var permissions = permissiosnNames.Select(p => (PermissionType)Enum.Parse(typeof(PermissionType), p.ToUpper())).ToList();
-            User loggedInUser = isLoggedInUserSubscribed();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -404,9 +403,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProducts;
         }
 
-        public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
+        public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User loggedInUser = _userManagement.getLoggedInUser();
+            User loggedInUser = isLoggedInUserSubscribed(userID);
             if (loggedInUser == null)
             {
                 return null;
@@ -433,6 +432,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             var purchasedProducts = storeBoughtProducts.Select(prod => new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
             store.logPurchase(new StorePurchase(user, totalPrice, purchasedProducts));
+        }
+
+        public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
+        {
+            var user = _userManagement.getUserByGUID(userID);
+            var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name())).
+                Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
+            return dict;
         }
 
     }

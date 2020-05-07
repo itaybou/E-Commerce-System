@@ -1,5 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -11,30 +11,32 @@ namespace ECommerceSystem.ServiceLayer
 {
     public interface IService
     {
-        Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
-        Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
-
         // User Services
         bool isUserSubscribed(string username);
         bool isUserLogged(string username);
         void removeAllUsers();
-        bool register(string uname, string pswd, string fname, string lname, string email);
-        bool login(string uname, string pswd);
-        bool logout();
-        bool addProductToCart(Guid productId, string storeName, int quantity);
-        ShoppingCartModel ShoppingCartDetails();
+        (bool, string) register(string uname, string pswd, string fname, string lname, string email);
+        (bool, Guid) login(Guid sessionID, string uname, string pswd);
+        bool logout(Guid guid);
+        bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity);
+        ShoppingCartModel ShoppingCartDetails(Guid sessionID);
         bool RemoveFromCart(Guid productId);
         bool ChangeProductQunatity(Guid productId, int quantity);
         ICollection<UserPurchaseModel> userPurchaseHistory(string userName);
+        UserModel userDetails(Guid sessionID);
+
+        IDictionary<string, PermissionModel> getUserPermissions(Guid sessionID);
 
         // Store Services
-        bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy);
+        Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
+        Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
+        bool openStore(Guid sessionID, string name, string discountPolicy, string purchasePolicy);
 
-        Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords);
+        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords);
 
         bool deleteProductInv(string storeName, string productInvName);
 
-        Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity);
+        Guid addProduct(Guid sessionID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity);
 
         bool deleteProduct(string storeName, string productInvName, Guid productID);
 

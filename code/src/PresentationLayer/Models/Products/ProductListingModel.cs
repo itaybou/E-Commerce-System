@@ -1,5 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.Utilities;
-using ECommerceSystem.Models;
+﻿using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,8 @@ namespace PresentationLayer.Models.Products
         public int CurrentPage { get; set; }
         public string SearchInput { get; set; }
         public string SearchType { get; set; }
-
+        public string Category { get; set; }
+        public IEnumerable<string> Categories { get; set; }
 
 
         public double PriceRangeFrom { get; set; }
@@ -29,7 +30,7 @@ namespace PresentationLayer.Models.Products
         //}
 
 
-        public ProductListingModel(SearchResultModel products, string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page)
+        public ProductListingModel(SearchResultModel products, string category, string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page)
         {
             SearchInput = searchInput;
             SearchType = searchType;
@@ -38,6 +39,8 @@ namespace PresentationLayer.Models.Products
             PriceRangeTo = to;
             ProductRatingFilter = prodRating;
             StoreRatingFilter = storeRating;
+            Category = category;
+            Categories = EnumMethods.GetValues(typeof(Category));
 
             var dummyProducts = new List<ProductModel>()
             {

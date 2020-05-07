@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -230,6 +231,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<StorePurchase> purchaseHistory()
         {
             return this.PurchaseHistory;        
+        }
+
+        public Permissions getUsernamePermissions(string name)
+        {
+            return _premmisions.ContainsKey(name) ? _premmisions[name] : null;
         }
     }
 }

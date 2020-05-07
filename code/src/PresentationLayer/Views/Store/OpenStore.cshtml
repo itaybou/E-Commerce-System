@@ -1,0 +1,36 @@
+﻿@model PresentationLayer.Models.OpenStoreModel
+@{
+    ViewData["Title"] = "Open Store";
+}
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"]</h2>
+        <div class="form" style="text-shadow" method="post">
+            <form asp-controller="Store" asp-action="OpenStore" class="login-form" method="post">
+                @if (!ViewContext.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                }
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Name</label>
+                    <input type="text" class="form-control" placeholder="Store Name" asp-for="StoreName" />
+                </div>
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Discount Policy</label>
+                    <input type="text" class="form-control" placeholder="Discount Policy" asp-for="DiscountPolicy" />
+                </div>
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Purchase Policy</label>
+                    <input type="text" class="form-control" placeholder="Purchase Policy" asp-for="PurchasePolicy" />
+                </div>
+                <button type="submit" class="w-50">Open Store</button>
+            </form>
+        </div>
+    </div>
+</div>
