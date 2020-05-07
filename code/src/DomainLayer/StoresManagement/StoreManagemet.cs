@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
 using ECommerceSystem.Models;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
 using ECommerceSystem.Models;
@@ -228,6 +229,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<StorePurchaseModel> purchaseHistory()
         {
             return this.PurchaseHistory;        
+        }
+
+        public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
+        {
+            return this._purchasePolicy.canBuy(products, totalPrice, address);
         }
     }
 }

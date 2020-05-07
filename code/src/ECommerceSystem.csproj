@@ -90,6 +90,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\DaysOffPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\LocationPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\MinPricePerStorePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\ProductQuantityPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\ProductsQuantityPerStorePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\XORPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\OrPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\AndPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\CompositePurchasePolicy.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\SystemLogger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
@@ -112,7 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainLayer\StoresManagement\Category.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount.cs" />
-    <Compile Include="DomainLayer\StoresManagement\PurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\PurchasePolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\DiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\IStoreInterface.cs" />
     <Compile Include="DomainLayer\StoresManagement\Product.cs" />
