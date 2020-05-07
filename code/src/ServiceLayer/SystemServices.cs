@@ -4,7 +4,7 @@ using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
-using ECommerceSystem.ServiceLayer.sessions;
+using ECommerceSystem.CommunicationLayer.sessions;
 
 namespace ECommerceSystem.ServiceLayer
 {
