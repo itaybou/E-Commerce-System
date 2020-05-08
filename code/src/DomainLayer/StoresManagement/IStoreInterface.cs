@@ -12,10 +12,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     interface IStoreInterface
     {
 
-        Guid addProductInv(string activeUserName, string productName, string description, DiscountType discount, PurchaseType purchaseType, double price,
+        Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
 
-        Guid addProduct(string loggedInUserName, string productInvName, DiscountType discount, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity);
+        Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity);
 
         bool deleteProductInventory(string loggedInUserName, string productInvName);
 
@@ -47,7 +47,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         List <StorePurchaseModel> purchaseHistory();
 
-
+        //Manage purchase policy
         Guid addDayOffPolicy(List<DayOfWeek> daysOff);
         void removePurchasePolicy(Guid policyID);
         Guid addLocationPolicy(List<string> banLocations);
@@ -55,5 +55,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         Guid addAndPurchasePolicy(Guid iD1, Guid iD2);
         Guid addOrPurchasePolicy(Guid iD1, Guid iD2);
         Guid addXorPurchasePolicy(Guid iD1, Guid iD2);
+
+        //Manage discounts
+        Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate);
+        Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+        Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount);
+        Guid addAndDiscountPolicy(List<Guid> IDs);
+        Guid addOrDiscountPolicy(List<Guid> IDs);
+        Guid addXorDiscountPolicy(List<Guid> IDs);
+        bool removeProductDiscount(Guid discountID, Guid productID);
+        bool removeCompositeDiscount(Guid discountID);
+        bool removeStoreLevelDiscount(Guid discountID);
     }
 }

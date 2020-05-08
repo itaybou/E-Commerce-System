@@ -11,7 +11,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         private double _reauiredPrice;
 
-        public ConditionalStoreDiscount(Guid productID, double reauiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
+        public ConditionalStoreDiscount(double reauiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
         {
             _reauiredPrice = reauiredPrice;
         }

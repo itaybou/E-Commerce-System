@@ -18,6 +18,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
         public override bool canBuy(IDictionary <Guid, int> products, double totalPrice, string address)
         {
+
+            if(base.Children.Count == 0)
+            {
+                return true;
+            }
+
             int counter = 0;
             foreach(PurchasePolicy p in base.Children)
             {

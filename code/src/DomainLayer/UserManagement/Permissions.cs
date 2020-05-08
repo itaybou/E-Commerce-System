@@ -15,6 +15,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         WatchAndComment,
         WatchPurchaseHistory,
         ManagePurchasePolicy,
+        ManageDiscounts,
     }
 
     public class Permissions : IStoreInterface
@@ -69,6 +70,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions[PermissionType.DeleteProductInv] = isOwner;
             _permissions[PermissionType.ModifyProduct] = isOwner;
             _permissions[PermissionType.ManagePurchasePolicy] = isOwner;
+            _permissions[PermissionType.ManageDiscounts] = isOwner;
             _permissions[PermissionType.WatchPurchaseHistory] = true;   // defualt for manager
             _permissions[PermissionType.WatchAndComment] = true;     // default for manager
         }
@@ -132,21 +134,26 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[PermissionType.ManagePurchasePolicy];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description, DiscountType discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public bool canManageDiscounts()
+        {
+            return _permissions[PermissionType.ManageDiscounts];
+        }
+
+        public Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
             if (this.canAddProduct())
             {
-                return _store.addProductInv(activeUserName, productName, description, discount, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
+                return _store.addProductInv(activeUserName, productName, description, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
 
 
-        public Guid addProduct(string loggedInUserName, string productInvName, DiscountType discount, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
         {
             if (this.canModifyProduct())
             {
-                return _store.addProduct(loggedInUserName, productInvName, discount, purchaseType, quantity, minQuantity, maxQuantity);
+                return _store.addProduct(loggedInUserName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
@@ -338,6 +345,87 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return _store.addXorPurchasePolicy(iD1, iD2);
             }
             else return Guid.Empty;
+        }
+
+        public Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addVisibleDiscount(productID, percentage, expDate);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addAndDiscountPolicy(List<Guid> IDS)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addAndDiscountPolicy(IDS);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addOrDiscountPolicy(List<Guid> IDs)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addOrDiscountPolicy(IDs);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addXorDiscountPolicy(List<Guid> IDs)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addXorDiscountPolicy(IDs);
+            }
+            else return Guid.Empty;
+        }
+
+        public bool removeProductDiscount(Guid discountID, Guid productID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeProductDiscount(discountID, productID);
+            }
+            else return false;
+        }
+
+        public bool removeCompositeDiscount(Guid discountID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeCompositeDiscount(discountID);
+            }
+            else return false;
+        }
+
+        public bool removeStoreLevelDiscount(Guid discountID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeCompositeDiscount(discountID);
+            }
+            else return false;
         }
     }
 }

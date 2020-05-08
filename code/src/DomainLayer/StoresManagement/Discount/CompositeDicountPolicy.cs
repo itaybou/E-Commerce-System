@@ -8,18 +8,76 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     public abstract class CompositeDicountPolicy : DiscountPolicy
     {
-        protected DiscountPolicy _left;
-        protected DiscountPolicy _right;
+        private List<DiscountPolicy> _children;
         protected Guid _ID;
 
-        protected CompositeDicountPolicy(DiscountPolicy left, DiscountPolicy right, Guid ID)
+        public List<DiscountPolicy> Children { get => _children; set => _children = value; }
+
+        protected CompositeDicountPolicy(Guid ID)
         {
-            _left = left;
-            _right = right;
             _ID = ID;
         }
 
+        protected CompositeDicountPolicy(Guid ID, List<DiscountPolicy> children)
+        {
+            _ID = ID;
+            _children = children;
+        }
+
         public abstract void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
+
+        public Guid getID()
+        {
+            return _ID;
+        }
+
         public abstract bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
+
+
+        public void Remove(Guid discountPolicyID)
+        {
+            List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
+            foreach (DiscountPolicy d in _children)
+            {
+                if (!d.getID().Equals(discountPolicyID))
+                {
+                    newChildren.Add(d);
+
+                    //remove from the children
+                    if (d is CompositeDicountPolicy)
+                    {
+                        ((CompositeDicountPolicy)d).Remove(discountPolicyID);
+                    }
+                }
+            }
+            _children = newChildren;
+        }
+
+        public DiscountPolicy getByID(Guid id)
+        {
+            //check if this contains id
+            foreach (DiscountPolicy d in _children)
+            {
+                if (d.getID().Equals(id))
+                {
+                    return d;
+                }
+            }
+
+            //if this isn`t contains id then check recursively
+            foreach (DiscountPolicy d in _children)
+            {
+                if (d is CompositeDicountPolicy)
+                {
+                    DiscountPolicy wanted = ((CompositeDicountPolicy)d).getByID(id);
+                    if (wanted != null)
+                    {
+                        return wanted;
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

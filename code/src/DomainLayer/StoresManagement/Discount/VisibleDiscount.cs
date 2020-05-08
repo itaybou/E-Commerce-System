@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    public class VisibleDiscount : DiscountType
+    public class VisibleDiscount : ProductDiscount
     {
-
-        Guid _productID;
-
-
-        public VisibleDiscount(float percentage, DateTime expDate, Guid productID, Guid ID) : base(percentage, expDate, ID)
+        public VisibleDiscount(float percentage, DateTime expDate, Guid ID, Guid productID) : base(percentage, expDate, ID, productID)
         {
-            _productID = productID;
         }
 
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)

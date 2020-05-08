@@ -15,12 +15,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private PurchaseType _purchaseType;
         private ProductQuantityPolicy purchasePolicy;
 
-        public Product(string name, string description, DiscountType discount, PurchaseType purchaseType, int quantity, double price, Guid guid)
+        public Product(string name, string description, PurchaseType purchaseType, int quantity, double price, Guid guid)
         {
             this._name = name;
             this._description = description;
             this._quantity = quantity;
-            this._discount = discount;
+            this._discount = null;
             this._purchaseType = purchaseType;
             this._basePrice = price;
             this._id = guid;

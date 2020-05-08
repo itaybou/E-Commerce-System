@@ -38,16 +38,16 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 3.2
-        public bool openStore(Guid userID, string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy) // TODO: fix service types version 1
+        public bool openStore(Guid userID, string name) 
         {
-            return _storeManagement.openStore(userID, name, discountPolicy, purchasePolicy);
+            return _storeManagement.openStore(userID, name);
         }
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, DiscountType discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName, discount, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -59,9 +59,9 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public Guid addProduct(Guid userID, string storeName, string productInvName, DiscountType discount, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity) // TODO: fix service types version 1
+        public Guid addProduct(Guid userID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity) // TODO: fix service types version 1
         {
-            return _storeManagement.addProduct(userID, storeName, productInvName, discount, purchaseType, quantity, minQuantity, maxQuantity);
+            return _storeManagement.addProduct(userID, storeName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -177,6 +177,64 @@ namespace ECommerceSystem.ServiceLayer
             return _storeManagement.removePurchasePolicy(userID, storeName, policyID);
         }
 
+
+        //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
+
+
+        //*********ADD*********
+
+        //if the product already have discount, the new discount override the old
+        public Guid addVisibleDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate)
+        {
+            return _storeManagement.addVisibleDiscount(userID, storeName, productID, percentage, expDate);
+        }
+
+        public Guid addCondiotionalProcuctDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            return _storeManagement.addCondiotionalProcuctDiscount(userID, storeName, productID, percentage, expDate, minQuantityForDiscount);
+        }
+
+        public Guid addConditionalStoreDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            return _storeManagement.addConditionalStoreDiscount(userID, storeName, percentage, expDate, minPriceForDiscount);
+        }
+
+        //cant compose store level discount
+        //@pre - IDs doesn`t contain store level discount id
+        public Guid addAndDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        {
+            return _storeManagement.addAndDiscountPolicy(userID, storeName, IDs);
+        }
+
+        //cant compose store level discount
+        //@pre - IDs doesn`t contain store level discount id
+        public Guid addOrDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        {
+            return _storeManagement.addOrDiscountPolicy(userID, storeName, IDs);
+        }
+
+        //cant compose store level discount
+        //@pre - IDs doesn`t contain store level discount id
+        public Guid addXorDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        {
+            return _storeManagement.addXorDiscountPolicy(userID, storeName, IDs);
+        }
+
+        //*********REMOVE*********
+        public bool removeProductDiscount(Guid userID, string storeName, Guid discountID, Guid productID)
+        {
+            return _storeManagement.removeProductDiscount(userID, storeName, discountID, productID);
+        }
+
+        public bool removeCompositeDiscount(Guid userID, string storeName, Guid discountID)
+        {
+            return _storeManagement.removeCompositeDiscount(userID, storeName, discountID);
+        }
+
+        public bool removeStoreLevelDiscount(Guid userID, string storeName, Guid discountID)
+        {
+            return _storeManagement.removeStoreLevelDiscount(userID, storeName, discountID);
+        }
 
     }
 }

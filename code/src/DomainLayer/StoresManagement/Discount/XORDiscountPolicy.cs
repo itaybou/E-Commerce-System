@@ -8,7 +8,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     class XORDiscountPolicy : CompositeDicountPolicy
     {
-        public XORDiscountPolicy(DiscountPolicy left, DiscountPolicy right, Guid ID) : base(left, right, ID)
+        public XORDiscountPolicy(Guid ID) : base(ID)
+        {
+        }
+
+        public XORDiscountPolicy(Guid ID, List<DiscountPolicy> children) : base(ID, children)
         {
         }
 
@@ -35,29 +39,42 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> cloneProductsLeft = this.clone(products);
-            Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> cloneProductsRight = this.clone(products);
 
-            _left.calculateTotalPrice(cloneProductsLeft);
-            _right.calculateTotalPrice(cloneProductsRight);
-
-            double totalPriceLeft = this.sumPrice(cloneProductsLeft);
-            double totalPriceRight = this.sumPrice(cloneProductsRight);
-
-            if(totalPriceLeft < totalPriceRight)
+            if (_children.Count == 0)
             {
-                _left.calculateTotalPrice(products);
-            }
-            else
-            {
-                _right.calculateTotalPrice(products);
+                return;
             }
 
+            List<double> totalPricesChildren = new List<double>();
+            List<Dictionary<Guid, (double basePrice, int quantity, double totalPrice)>> productsClones = new List<Dictionary<Guid, (double basePrice, int quantity, double totalPrice)>>();
+
+            //find the best children discount:
+            foreach (DiscountPolicy d in _children)
+            {
+                Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> cloned = this.clone(products);
+                d.calculateTotalPrice(cloned);
+                productsClones.Add(cloned);
+                totalPricesChildren.Add(this.sumPrice(cloned));
+            }
+
+            //find the index of the best children discount
+            double minChildPrice = totalPricesChildren.Min();
+            int minChildPriceIndex = totalPricesChildren.IndexOf(minChildPrice);
+
+            //use the best children discount to update the prices in the products data structure
+            _children.ElementAt(minChildPriceIndex).calculateTotalPrice(products);
         }
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            return _left.isSatisfied(products) || _right.isSatisfied(products); // OR - beacuse if 1/2 satisfied its good, but also if 2/2 satisfied we choose the best of them
+
+            foreach(DiscountPolicy d in _children)
+            {
+                if (d.isSatisfied(products))
+                    return true;
+            }
+
+            return false; // OR - beacuse if 1/2 satisfied its good, but also if 2/2 satisfied we choose the best of them
         }
     }
 }

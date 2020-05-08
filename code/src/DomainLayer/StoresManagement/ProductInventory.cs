@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.Utilities;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.DomainLayer.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,17 +59,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _rating = 0;
         }
 
-        public static ProductInventory Create(string productName, string description, Discount discount, PurchaseType purchaseType, 
+        public static ProductInventory Create(string productName, string description, PurchaseType purchaseType, 
             double price, int quantity, Category category, List<string> keywords)
         {
-            if(price < 0 || quantity < 0 || discount == null || purchaseType == null)
+            if(price < 0 || quantity < 0 || purchaseType == null)
             {
                 return null;
             }
             var productInvGuid = GenerateId();
             var productGuid = GenerateId();
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid);
-            Product newProduct = new Product(productName, description, discount, purchaseType, quantity, price, productGuid);
+            Product newProduct = new Product(productName, description, purchaseType, quantity, price, productGuid);
             productInventory._productInventory.Add(newProduct);
             return productInventory;
         }
@@ -121,18 +122,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public Guid addProduct(Discount discount, PurchaseType purchaseType, int quantity, double price)
+        public Guid addProduct(PurchaseType purchaseType, int quantity, double price)
         {
-            if(quantity <= 0 || discount == null || purchaseType == null || price <= 0)
+            if(quantity <= 0 ||purchaseType == null || price <= 0)
             {
                 return Guid.Empty;
             }
             var guid = GenerateId();
-            _productInventory.Add(new Product(Name, Description, discount, purchaseType, quantity, price, guid));
+            _productInventory.Add(new Product(Name, Description, purchaseType, quantity, price, guid));
             return guid;
         }
 
-        public bool modifyProductDiscountType(Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(Guid productID, DiscountType newDiscount)
         {
             if(newDiscount == null)
             {

@@ -95,6 +95,7 @@
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalProductDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\OrDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ProductDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\XORDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\DaysOffPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\LocationPolicy.cs" />

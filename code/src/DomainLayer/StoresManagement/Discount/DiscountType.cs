@@ -22,6 +22,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         public bool IsInComposite { get => _isInComposite; set => _isInComposite = value; }
 
         public abstract void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
+
+        public Guid getID()
+        {
+            return _ID;
+        }
+
         public abstract bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
     }
 }
