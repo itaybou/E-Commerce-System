@@ -107,7 +107,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            product.Quantity = newQuantity;
+            lock (product)
+            {
+                product.Quantity = newQuantity;
+            }
             return true;
         }
 

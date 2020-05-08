@@ -111,11 +111,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return productID;
         }
 
-        public void reduceProductQuantity(Product prod, int reduceBy)
+        public void reduceProductQuantity(Product prod, int reduceBy) // lock
         {
-            prod.Quantity -= reduceBy;  // Store reduce product quantity
-            if (prod.Quantity.Equals(0))
-                Inventory.deleteProduct(prod.Name, prod.Id);
+            lock (prod)
+            {
+                prod.Quantity -= reduceBy;  // Store reduce product quantity
+                if (prod.Quantity.Equals(0))
+                    Inventory.deleteProduct(prod.Name, prod.Id);
+            }
         }
 
         //@pre - logged in user have permission to modify product
@@ -168,7 +171,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Modify Products*********
 
 
-        //@pre - logged in user have permission to modify product
+        //@pre - logged in user have permission to  product
         public bool modifyProductPrice(string loggedInUserName, string productName, int newPrice)
         {
             return _inventory.modifyProductPrice(productName, newPrice);
