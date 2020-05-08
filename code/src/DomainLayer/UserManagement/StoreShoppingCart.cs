@@ -41,7 +41,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public double getTotalCartPrice()
         {
-            return _productQuantities.Aggregate(0.0, (total, product) => total + (product.Key.CalculateDiscount() * product.Value));
+            return _store.getTotalPrice(_productQuantities);
         }
     }
 }

@@ -72,6 +72,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             var purchased = false;
             var shoppingCart = _userManagement.getActiveUserShoppingCart(userID);                                                                                         // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
+
+            //check that the cart satisfy the stores purchase policy
+            foreach(var s in storeProducts)
+            {
+                IDictionary<Guid, int> products = s.Item3.ToDictionary(pair => pair.Key.Id, pair => pair.Value); // product => quantity
+                if(!s.Item1.canBuy(products, s.Item2, address))
+                {
+                    return new List<ProductModel>(); //cant buy the products by the store policy
+                }
+            }
+
             var productsToPurchase = shoppingCart.getAllCartProductsAndQunatities(); // Product ==> Cart Quantity
             var unavailableProducts = new List<Product>();
             WaitCallback pFunc = delegate   // Lock purchased products untill purchase is completed
