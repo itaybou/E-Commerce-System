@@ -9,10 +9,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
     class LocationPolicy : PurchasePolicy
     {
         List<string> _bannedLocation;
+        Guid _ID;
 
-        public LocationPolicy(List<string> bannedLocation)
+        public LocationPolicy(List<string> bannedLocation, Guid ID)
         {
             this._bannedLocation = bannedLocation;
+            this._ID = ID;
         }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
@@ -25,6 +27,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                 }
             }
             return true;
+        }
+
+        public Guid getID()
+        {
+            return _ID;
         }
     }
 }

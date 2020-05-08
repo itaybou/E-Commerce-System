@@ -1,4 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
@@ -43,9 +45,9 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords) // TODO: fix service types version 1
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, DiscountType discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName, discount, purchaseType, price, quantity, category, keywords);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName, discount, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -57,9 +59,9 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public Guid addProduct(Guid userID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity) // TODO: fix service types version 1
+        public Guid addProduct(Guid userID, string storeName, string productInvName, DiscountType discount, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity) // TODO: fix service types version 1
         {
-            return _storeManagement.addProduct(userID, storeName, productInvName, discount, purchaseType, quantity);
+            return _storeManagement.addProduct(userID, storeName, productInvName, discount, purchaseType, quantity, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -87,7 +89,7 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, Discount newDiscount) // TODO: fix service types version 1
+        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount) // TODO: fix service types version 1
         {
             return _storeManagement.modifyProductDiscountType(userID, storeName, productInvName, productID, newDiscount);
         }
@@ -133,5 +135,48 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _storeManagement.purchaseHistory(userID, storeName);
         }
+
+        //*********Manage Purchase Policy  --   REQUIREMENT 4.2*********
+
+        //*********ADD*********
+
+        public Guid addDayOffPolicy(Guid userID, string storeName, List <DayOfWeek> daysOff)
+        {
+            return _storeManagement.AddDayOffPolicy(userID, storeName, daysOff);
+        }
+
+        public Guid addLocationPolicy(Guid userID, string storeName, List<string> banLocations)
+        {
+            return _storeManagement.addLocationPolicy(userID, storeName, banLocations);
+        }
+
+        public Guid addMinPriceStorePolicy(Guid userID, string storeName, double minPrice)
+        {
+            return _storeManagement.addMinPriceStorePolicy(userID, storeName, minPrice);
+        }
+
+        public Guid addAndPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeManagement.addAndPurchasePolicy(userID, storeName, ID1, ID2);
+        }
+
+        public Guid addOrPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeManagement.addOrPurchasePolicy(userID, storeName, ID1, ID2);
+        }
+
+        public Guid addXorPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeManagement.addXorPurchasePolicy(userID, storeName, ID1, ID2);
+        }
+
+        //*********REMOVE*********
+
+        public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
+        {
+            return _storeManagement.removePurchasePolicy(userID, storeName, policyID);
+        }
+
+
     }
 }

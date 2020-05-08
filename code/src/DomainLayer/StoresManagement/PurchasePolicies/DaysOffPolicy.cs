@@ -10,16 +10,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
     class DaysOffPolicy : PurchasePolicy
     {
         List<DayOfWeek> daysOff;
+        Guid _ID;
 
-        public DaysOffPolicy(List<DayOfWeek> daysOff)
+        public DaysOffPolicy(List<DayOfWeek> daysOff, Guid ID)
         {
             this.daysOff = daysOff;
+            this._ID = ID;
         }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             DayOfWeek today = DateTime.Today.DayOfWeek;
             return !daysOff.Contains(today);
+        }
+
+        public Guid getID()
+        {
+            return _ID;
         }
     }
 }

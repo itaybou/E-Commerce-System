@@ -8,16 +8,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public class MinPricePerStorePolicy : PurchasePolicy
     {
-        int _minPrice;
+        double _minPrice;
+        Guid _ID;
 
-        public MinPricePerStorePolicy(int min, int max)
+
+        public MinPricePerStorePolicy(double min, Guid ID)
         {
             this._minPrice = min;
+            this._ID = ID;
         }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             return _minPrice <= totalPrice;
+        }
+
+        public Guid getID()
+        {
+            return _ID;
         }
     }
 }

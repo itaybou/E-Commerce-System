@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.Utilities;
@@ -82,7 +83,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - userID exist and subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, Category categoryName, List<string> keywords)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, DiscountType discount, PurchaseType purchaseType, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -96,12 +97,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name(), productInvName, description, discount, purchaseType, price, quantity, categoryName, keywords);
+            return permission.addProductInv(activeUser.Name(), productInvName, description, discount, purchaseType, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
         //return the new product id or -1 in case of fail
-        public Guid addProduct(Guid userID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid userID, string storeName, string productInvName, DiscountType discount, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -115,7 +116,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProduct(activeUser.Name(), productInvName, discount, purchaseType, quantity);
+            return permission.addProduct(activeUser.Name(), productInvName, discount, purchaseType, quantity, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -207,7 +208,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - userID exist and subscribed
-        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -461,6 +462,124 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     u.addNotification(notification);
                 }
             }
+        }
+
+        //*********Manage Purchase Policy  --   REQUIREMENT 4.2*********
+
+        //*********ADD*********
+
+        public Guid AddDayOffPolicy(Guid userID, string storeName, List<DayOfWeek> daysOff)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addDayOffPolicy(daysOff);
+        }
+
+        public Guid addLocationPolicy(Guid userID, string storeName, List<string> banLocations)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addLocationPolicy(banLocations);
+        }
+
+        public Guid addMinPriceStorePolicy(Guid userID, string storeName, double minPrice)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addMinPriceStorePolicy(minPrice);
+        }
+
+        public Guid addAndPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addAndPurchasePolicy(ID1, ID2);
+        }
+
+        public Guid addOrPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addOrPurchasePolicy(ID1, ID2);
+        }
+
+        public Guid addXorPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+            return permission.addXorPurchasePolicy(ID1, ID2);
+        }
+        //*********REMOVE*********
+
+        public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return false;
+            }
+
+            permission.removePurchasePolicy(policyID);
+            return true;
         }
     }
 

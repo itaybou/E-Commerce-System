@@ -1,4 +1,6 @@
 ﻿using System;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -9,10 +11,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private string _description;
         private int _quantity;
         private double _basePrice;
-        private Discount _discount;
+        private DiscountType _discount;
         private PurchaseType _purchaseType;
+        private ProductQuantityPolicy purchasePolicy;
 
-        public Product(string name, string description, Discount discount, PurchaseType purchaseType, int quantity, double price, Guid guid)
+        public Product(string name, string description, DiscountType discount, PurchaseType purchaseType, int quantity, double price, Guid guid)
         {
             this._name = name;
             this._description = description;
@@ -35,9 +38,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Guid Id { get => _id;}
         public double BasePrice { get => _basePrice; set => _basePrice = value; }
         public int Quantity { get => _quantity; set => _quantity = value; }
-        public Discount Discount { get => _discount; set => _discount = value; }
+        public DiscountType Discount { get => _discount; set => _discount = value; }
         public PurchaseType PurchaseType { get => _purchaseType; set => _purchaseType = value; }
         public string Name { get => _name; set => _name = value; }
         public string Description { get => _description; set => _description = value; }
+        public ProductQuantityPolicy PurchasePolicy { get => purchasePolicy; set => purchasePolicy = value; }
     }
 }
