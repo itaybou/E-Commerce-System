@@ -269,3 +269,4 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\bin\Debug\System.Text.Encodings.Web.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe.config
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe.config

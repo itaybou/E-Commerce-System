@@ -13,3 +13,4 @@
 2020-05-05 11:59:10.1523 | ERROR: Missing spell checker dictionary file!
 2020-05-05 11:59:59.0363 | ERROR: Missing spell checker dictionary file!
 2020-05-05 12:00:39.8192 | ERROR: Missing spell checker dictionary file!
+2020-05-09 19:39:09.0667 | ERROR: Missing spell checker dictionary file!

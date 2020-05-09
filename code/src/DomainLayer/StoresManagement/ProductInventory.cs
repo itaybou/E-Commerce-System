@@ -60,17 +60,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _rating = 0;
         }
 
-        public static ProductInventory Create(string productName, string description, PurchaseType purchaseType, 
+        public static ProductInventory Create(string productName, string description, 
             double price, int quantity, Category category, List<string> keywords)
         {
-            if(price < 0 || quantity < 0 || purchaseType == null)
+            if(price < 0 || quantity < 0 )
             {
                 return null;
             }
             var productInvGuid = GenerateId();
             var productGuid = GenerateId();
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid);
-            Product newProduct = new Product(productName, description, purchaseType, quantity, price, productGuid);
+            Product newProduct = new Product(productName, description, quantity, price, productGuid);
             productInventory._productInventory.Add(newProduct);
             return productInventory;
         }
@@ -126,14 +126,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public Guid addProduct(PurchaseType purchaseType, int quantity, double price)
+        public Guid addProduct( int quantity, double price)
         {
-            if(quantity <= 0 ||purchaseType == null || price <= 0)
+            if(quantity <= 0  || price <= 0)
             {
                 return Guid.Empty;
             }
             var guid = GenerateId();
-            _productInventory.Add(new Product(Name, Description, purchaseType, quantity, price, guid));
+            _productInventory.Add(new Product(Name, Description,  quantity, price, guid));
             return guid;
         }
 

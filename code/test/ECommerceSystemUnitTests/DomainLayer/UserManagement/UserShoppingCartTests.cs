@@ -16,8 +16,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [SetUp]
         public void setUp()
         {
-            _store1 = new Store(null, null, "owner", "store1");
-            _store2 = new Store(null, null, "owner", "store2");
+            _store1 = new Store( "owner", "store1");
+            _store2 = new Store( "owner", "store2");
             _storeShoppingCart1 = new StoreShoppingCart(_store1);
             _storeShoppingCart2 = new StoreShoppingCart(_store2);
             _userShoppingCart = new UserShoppingCart();
@@ -29,8 +29,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void getTotalACartPriceTest()
         {
-            var product1 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            var product2 = new Product(null, null, new VisibleDiscount(0.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product1 = new Product(null, null, 20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart1.AddToCart(product1, 5);
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 80.0);     //check the total price after adding a product to cart
             _storeShoppingCart2.AddToCart(product2, 2);
@@ -51,8 +51,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void getTotalCartPriceOfEmptyCart()
         {
-            var product1 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            var product2 = new Product(null, null, new VisibleDiscount(0.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            var product1 = new Product(null, null,  20, 20, Guid.NewGuid());
+            var product2 = new Product(null, null,  20, 20, Guid.NewGuid());
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 0.0);      //check the total price of empty shopping cart
             _storeShoppingCart1.AddToCart(product1, 4);
             _storeShoppingCart1.ChangeProductQuantity(product1, 0);
