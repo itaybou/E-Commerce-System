@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
 
@@ -8,8 +9,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         public IUserState _state { get; set; }
         public UserShoppingCart _cart { get; set; }
-        private Guid _guid;
         public Guid Guid { get => _guid; set => _guid = value; }
+
+        Guid _guid;
 
         public User()
         {
@@ -66,6 +68,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public Permissions getPermission(string storeName)
         {
             return _state.getPermission(storeName);
+        }
+
+        public void addNotification(Notification notification)
+        {
+            _state.addNotification(notification);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -44,5 +45,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return null;  // guest dont have permissions
         }
+
+        public void addNotification(Notification notification) { }
     }
 }

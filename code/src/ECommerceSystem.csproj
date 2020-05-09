@@ -138,6 +138,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalProductDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\OrDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ProductDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\XORDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\DaysOffPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\LocationPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\MinPricePerStorePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\ProductQuantityPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\XORPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\OrPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\AndPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\CompositePurchasePolicy.cs" />
     <Compile Include="CommunicationLayer\Communication.cs" />
     <Compile Include="CommunicationLayer\ICommunication.cs" />
     <Compile Include="CommunicationLayer\notifications\INotification.cs" />
@@ -150,6 +165,12 @@
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
+    <Compile Include="Models\Notifications\AssignManagerNotification.cs" />
+    <Compile Include="Models\Notifications\PurchaseNotification.cs" />
+    <Compile Include="Models\Notifications\RemoveManagerNotification.cs" />
+    <Compile Include="Models\Notifications\RemoveOwnerNotification.cs" />
+    <Compile Include="Models\Notifications\AssignOwnerNotification.cs" />
+    <Compile Include="Models\Notifications\Notification.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
     <Compile Include="DomainLayer\SystemManagement\ModelFactory.cs" />
@@ -161,6 +182,10 @@
     <Compile Include="Models\UserPurchaseModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Category.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\DiscountType.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\PurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\DiscountPolicy.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount.cs" />
     <Compile Include="DomainLayer\StoresManagement\PurchasePolicy.cs" />
@@ -173,7 +198,7 @@
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagemet.cs" />
     <Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
-    <Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\VisibleDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\StorePurchase.cs" />
     <Compile Include="DomainLayer\SystemManagement\search_filter\Filters.cs" />
     <Compile Include="DomainLayer\SystemManagement\search_filter\SearchAndFilter.cs" />

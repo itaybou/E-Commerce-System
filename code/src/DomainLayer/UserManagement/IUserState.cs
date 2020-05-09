@@ -1,4 +1,6 @@
-﻿namespace ECommerceSystem.DomainLayer.UserManagement
+﻿using ECommerceSystem.Models;
+
+namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {
@@ -18,6 +20,6 @@
 
         Permissions getPermission(string storeName);
 
-
+        void addNotification(Notification notification);
     }
 }

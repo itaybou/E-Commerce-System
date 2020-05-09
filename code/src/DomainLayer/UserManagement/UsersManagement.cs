@@ -223,9 +223,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public List<UserPurchaseModel> userPurchaseHistory(Guid userID, string userName)
         {
             User historyUser = getUserByName(userName);
-            User loggedInUser = getUserByGUID(userID);
+            User user = getUserByGUID(userID);
 
-            if (!loggedInUser.isSystemAdmin())
+            if (!user.isSystemAdmin())
             {
                 return null;
             }

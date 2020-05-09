@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
@@ -10,7 +11,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool IsUserLogged(string username);
         void usersCleanUp();
         void storesCleanUp();
-        void openStoreWithProducts(string storeName, string ownerName, List<string> products);
+        void openStoreWithProducts(Guid userID, string storeName, string ownerName, List<string> products);
         void cancelSearchFilters();
         Dictionary<string, Dictionary<Guid, int>> getUserCartDetails();
 
@@ -29,31 +30,31 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool logout(); // Requirment 3.1
         List<Guid> UserPurchaseHistory(string uname); // Requirment 3.7
 
-        bool openStore(string name, string discountPolicy, string purchasePolicy); // Requirment 3.2
+        bool openStore(Guid userID, string name, string discountPolicy, string purchasePolicy); // Requirment 3.2
 
-        Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys); // Requirment 4.1.1
+        Guid addProductInv(Guid userID, string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys); // Requirment 4.1.1
 
-        bool deleteProductInv(string storeName, string productName); // Requirment 4.1.2
+        bool deleteProductInv(Guid userID, string storeName, string productName); // Requirment 4.1.2
 
         //Requirment 4.1.3 modify product:
-        Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity);
-        bool deleteProduct(string storeName, string productInvName, Guid productID);
-        bool modifyProductName(string storeName, string newProductName, string oldProductName);
-        bool modifyProductPrice(string storeName, string productInvName, int newPrice);
-        bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
-        bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage);
-        bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, string purchaseType);
+        Guid addProduct(Guid userID, string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity);
+        bool deleteProduct(Guid userID, string storeName, string productInvName, Guid productID);
+        bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName);
+        bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice);
+        bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity);
+        bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage);
+        bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, string purchaseType);
 
 
-        bool assignOwner(string newOwneruserName, string storeName); // Requirment 4.3
+        bool assignOwner(Guid userID, string newOwneruserName, string storeName); // Requirment 4.3
 
-        bool assignManager(string newManageruserName, string storeName); // Requirment 4.5
+        bool assignManager(Guid userID, string newManageruserName, string storeName); // Requirment 4.5
 
-        bool editPermissions(string storeName, string managerUserName, List<string> permissions); //Requirement 4.6
+        bool editPermissions(Guid userID, string storeName, string managerUserName, List<PermissionType> permissions); //Requirement 4.6
 
-        bool removeManager(string managerUserName, string storeName); //Requirement 4.7
+        bool removeManager(Guid userID, string managerUserName, string storeName); //Requirement 4.7
 
-        List <Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(string storeName); // Requirements 4.10 and 6.4.2
+        List <Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(Guid userID, string storeName); // Requirements 4.10 and 6.4.2
 
 
     }

@@ -37,7 +37,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         Permissions _permissions;
         User _anotherOwner;
         User _newManager;
-        
+
+
+        Guid _regularUserGUID;
+        Guid _permitManagerGUID;
+        Guid _nonPermitManagerGUID;
+        Guid _ownerGUID;
+        Guid _anotherOwnerGUID;
+        Guid _newManagerGUID;
 
         [OneTimeSetUp]
         public void setUpFixture()
@@ -64,8 +71,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _userManagement.register("regularUser", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("newManager", "pA55word", "fname", "lname", "owner@gmail.com");
 
+            _regularUserGUID = _regularUser.Guid;
+            _permitManagerGUID = _permitManager.Guid;
+            _nonPermitManagerGUID = _nonPermitManager.Guid;
+            _ownerGUID = _owner.Guid;
+            _anotherOwnerGUID = _anotherOwner.Guid;
+            _newManagerGUID = _newManager.Guid;
+
+
             _userManagement.login("owner", "pA55word");
-            _storeManagement.openStore("store", new DiscountPolicy(), new PurchasePolicy());
+            _storeManagement.openStore(_ownerGUID, "store", new DiscountPolicy(), new PurchasePolicy());
             _owner = _userManagement.getUserByName("owner");
             _store = _storeManagement.getStoreByName("store");
             _permissions = _owner.getPermission("store");
@@ -102,10 +117,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void tearDown()
         {
             _storeManagement.getStoreByName("store").Inventory.Products.Clear();
-            _storeManagement.removeManager( "newManager","store");
-            _storeManagement.removeManager("permitManager", "store");
-            _storeManagement.removeManager("nonPermitManager", "store");
-            _storeManagement.removeManager("anotherOwner", "store");
+            _storeManagement.removeManager(_ownerGUID, "newManager","store");
+            _storeManagement.removeManager(_ownerGUID, "permitManager", "store");
+            _storeManagement.removeManager(_ownerGUID, "nonPermitManager", "store");
+            _storeManagement.removeManager(_ownerGUID, "anotherOwner", "store");
             
         }
 
@@ -210,7 +225,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             
             _userManagement.login("owner", "pA55word");
-            Assert.NotNull(_storeManagement.assignOwner("anotherOwner", "store"), "Fail to assign regular user as new owner");
+            Assert.NotNull(_storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
             Assert.AreEqual(_userManagement.getUserByName("anotherOwner").getPermission("store").AssignedBy, _owner, "The user who assign the reg user as manager isn`t the assignee");
             //check defult permissions:
             _newManager = _userManagement.getUserByName("anotherOwner");
@@ -226,7 +241,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void assighManagerdefaltPermissionsTest()
         {
             _userManagement.login("owner", "pA55word");
-            Assert.NotNull(_storeManagement.assignManager("newManager", "store"), "Fail to assign regular user as new owner");
+            Assert.NotNull(_storeManagement.assignManager(_ownerGUID, "newManager", "store"), "Fail to assign regular user as new owner");
             Assert.AreEqual(_userManagement.getUserByName("newManager").getPermission("store").AssignedBy,_owner, "The user who assign the reg user as manager isn`t the assignee");
             //check defult permissions:
             _newManager = _userManagement.getUserByName("newManager");

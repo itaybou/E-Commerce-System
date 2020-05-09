@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
 
@@ -11,10 +12,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     interface IStoreInterface
     {
 
-        Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price,
-            int quantity, Category category, List<string> keywords);
+        Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price,
+            int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
 
-        Guid addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity);
+        Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity);
 
         bool deleteProductInventory(string loggedInUserName, string productInvName);
 
@@ -22,7 +23,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         bool modifyProductPrice(string loggedInUserName, string productName, int newPrice);
 
-        bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, Discount newDiscount);
+        bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount);
 
         bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType);
 
@@ -40,16 +41,30 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         void rateStore(double rating);
 
-        void logPurchase(StorePurchase purchase);
+        void logPurchase(StorePurchaseModel purchase);
 
         Permissions getPermissionByName(string userName);
 
-        List<StorePurchase> purchaseHistory();
+        List <StorePurchaseModel> purchaseHistory();
 
+        //Manage purchase policy
+        Guid addDayOffPolicy(List<DayOfWeek> daysOff);
+        void removePurchasePolicy(Guid policyID);
+        Guid addLocationPolicy(List<string> banLocations);
+        Guid addMinPriceStorePolicy(double minPrice);
+        Guid addAndPurchasePolicy(Guid iD1, Guid iD2);
+        Guid addOrPurchasePolicy(Guid iD1, Guid iD2);
+        Guid addXorPurchasePolicy(Guid iD1, Guid iD2);
 
-
-
-
-
+        //Manage discounts
+        Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate);
+        Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+        Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount);
+        Guid addAndDiscountPolicy(List<Guid> IDs);
+        Guid addOrDiscountPolicy(List<Guid> IDs);
+        Guid addXorDiscountPolicy(List<Guid> IDs);
+        bool removeProductDiscount(Guid discountID, Guid productID);
+        bool removeCompositeDiscount(Guid discountID);
+        bool removeStoreLevelDiscount(Guid discountID);
     }
 }

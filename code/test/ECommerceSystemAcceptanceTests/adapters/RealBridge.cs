@@ -24,7 +24,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _systemService = new SystemServices();
         }
 
-        public Guid addProduct(string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
+        public Guid addProduct(Guid userID, string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -45,12 +45,11 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return Guid.Empty;
             }
 
-            //return _storeService.addProduct(storeName, productInvName, discount, purchase, quantity);
-            return Guid.NewGuid();
+            return _storeService.addProduct(userID, storeName, productInvName, discount, purchase, quantity);
 
         }
 
-        public Guid addProductInv(string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
+        public Guid addProductInv(Guid userID, string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -72,38 +71,35 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return Guid.Empty;
             }
 
-            //return _storeService.addProductInv(storeName, description, productName, discount, purchase, price, quantity, cat, keys);
-            return Guid.NewGuid();
+            return _storeService.addProductInv(userID, storeName, description, productName, discount, purchase, price, quantity, cat, keys);
         }
 
-        public bool assignManager(string newManageruserName, string storeName)
+        public bool assignManager(Guid userID, string newManageruserName, string storeName)
         {
-            return _storeService.assignManager(newManageruserName, storeName);
+            return _storeService.assignManager(userID, newManageruserName, storeName);
         }
 
-        public bool assignOwner(string newOwneruserName, string storeName)
+        public bool assignOwner(Guid userID, string newOwneruserName, string storeName)
         {
-            return _storeService.assignOwner(newOwneruserName, storeName);
+            return _storeService.assignOwner(userID, newOwneruserName, storeName);
         }
 
-        public bool deleteProduct(string storeName, string productInvName, Guid productID)
+        public bool deleteProduct(Guid userID, string storeName, string productInvName, Guid productID)
         {
-            return _storeService.deleteProduct(storeName, productInvName, productID);
+            return _storeService.deleteProduct(userID, storeName, productInvName, productID);
         }
 
-        public bool deleteProductInv(string storeName, string productName)
+        public bool deleteProductInv(Guid userID, string storeName, string productName)
         {
-            return _storeService.deleteProductInv(storeName, productName);
+            return _storeService.deleteProductInv(userID, storeName, productName);
         }
 
-        public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
+        public bool editPermissions(Guid userID, string storeName, string managerUserName, List<PermissionType> permissions)
         {
-            //var PermissionTypes = permissions.Select(p => (PermissionType)Enum.Parse(typeof(PermissionType), p)).ToList();
-            //return _storeService.editPermissions(storeName, managerUserName, PermissionTypes);
-            return true;
+            return _storeService.editPermissions(userID, storeName, managerUserName, permissions);
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage)
+        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage)
         {
             Discount discount = null;
             if (newDiscount.Equals("visible"))
@@ -115,20 +111,20 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return false;
             }
 
-            return _storeService.modifyProductDiscountType(storeName, productInvName, productID, discount);
+            return _storeService.modifyProductDiscountType(userID, storeName, productInvName, productID, discount);
         }
 
-        public bool modifyProductName(string storeName, string newProductName, string oldProductName)
+        public bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName)
         {
-            return _storeService.modifyProductName(storeName, newProductName, oldProductName);
+            return _storeService.modifyProductName(userID, storeName, newProductName, oldProductName);
         }
 
-        public bool modifyProductPrice(string storeName, string productInvName, int newPrice)
+        public bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice)
         {
-            return _storeService.modifyProductPrice(storeName, productInvName, newPrice);
+            return _storeService.modifyProductPrice(userID, storeName, productInvName, newPrice);
         }
 
-        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, string purchaseType)
+        public bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, string purchaseType)
         {
             PurchaseType newPurchase = null;
             if (purchaseType.Equals("immediate"))
@@ -140,24 +136,24 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return false;
             }
 
-            return _storeService.modifyProductPurchaseType(storeName, productInvName, productID, newPurchase);
+            return _storeService.modifyProductPurchaseType(userID, storeName, productInvName, productID, newPurchase);
         }
 
-        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
+        public bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity)
         {
-            return _storeService.modifyProductQuantity(storeName, productInvName, productID, newQuantity);
+            return _storeService.modifyProductQuantity(userID, storeName, productInvName, productID, newQuantity);
 
         }
 
-        public bool openStore(string name, string discountPolicy, string purchasePolicy)
+        public bool openStore(Guid userID, string name, string discountPolicy, string purchasePolicy)
         {
             DiscountPolicy discount = new DiscountPolicy();
             PurchasePolicy purchase = new PurchasePolicy();
 
-            return _storeService.openStore(name, discount, purchase);
+            return _storeService.openStore(userID, name, discount, purchase);
         }
 
-        public List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(string storeName)
+        public List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(Guid userID, string storeName)
         {
             //List<StorePurchase> history = _storeService.purchaseHistory(storeName);
 
@@ -236,16 +232,16 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return dict;
         }
 
-        public void openStoreWithProducts(string storeName, string ownerName, List<string> products)
+        public void openStoreWithProducts(Guid userID, string storeName, string ownerName, List<string> products)
         {
-            _storeService.openStore(storeName, new DiscountPolicy(), new PurchasePolicy());
-            _storeService.assignOwner(ownerName, storeName);
+            _storeService.openStore(userID, storeName, new DiscountPolicy(), new PurchasePolicy());
+            _storeService.assignOwner(userID, ownerName, storeName);
             var i = 0.2;
             var cat = Category.BABIES;
             var keywords = new List<string>() { { "hello" }, { "world" }, { "pokemon" } };
             products.ForEach(p =>
             {
-                _storeService.addProductInv(storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat.ToString(), keywords);
+                _storeService.addProductInv(userID, storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat , keywords);
                 i += 0.2;
                 cat = Category.ELECTRONICS;
                 keywords = new List<string>() { { "hello" }, { "my" }, { "name" }, { "is" }, { "inigo" }, { "montoya" } };
@@ -258,9 +254,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _userServices.register(uname, pswd, fname, lname, email);
         }
 
-        public bool removeManager(string managerUserName, string storeName)
+        public bool removeManager(Guid userID, string managerUserName, string storeName)
         {
-            return _storeService.removeManager(managerUserName, storeName);
+            return _storeService.removeManager(userID, managerUserName, storeName);
         }
 
         public bool login(string uname, string pswd) // 2.3
