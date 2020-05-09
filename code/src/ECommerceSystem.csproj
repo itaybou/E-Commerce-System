@@ -138,7 +138,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommunicationLayer\notifications\INotifications.cs" />
+    <Compile Include="CommunicationLayer\Communication.cs" />
+    <Compile Include="CommunicationLayer\ICommunication.cs" />
+    <Compile Include="CommunicationLayer\notifications\INotification.cs" />
+    <Compile Include="CommunicationLayer\notifications\Notification.cs" />
+    <Compile Include="CommunicationLayer\notifications\NotificationCenter.cs" />
     <Compile Include="CommunicationLayer\WebsocketManager.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\SystemLogger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />

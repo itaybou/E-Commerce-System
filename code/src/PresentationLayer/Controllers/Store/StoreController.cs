@@ -82,7 +82,7 @@ namespace PresentationLayer.Controllers.Store
             return View("StoreList", storeInfo);
         }
 
-        [Authorize(Roles = "Subscribed")]
+        [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult UserStoreList()
         {
             var permissions = _service.getUserPermissions(new Guid(HttpContext.Session.Id));
@@ -151,7 +151,7 @@ namespace PresentationLayer.Controllers.Store
             return View("UserStoreList", (stores, permissions));
         }
 
-        [Authorize(Roles = "Subscribed")]
+        [Authorize(Roles = "Admin, Subscribed")]
         [Route("OpenStore")]
         public IActionResult OpenStore()
         {
@@ -159,7 +159,7 @@ namespace PresentationLayer.Controllers.Store
         }
 
         [HttpPost]
-        [Authorize(Roles = "Subscribed")]
+        [Authorize(Roles = "Admin, Subscribed")]
         [Route("OpenStore")]
         public IActionResult OpenStore(OpenStoreModel model)
         {

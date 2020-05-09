@@ -820,7 +820,10 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ActionMessage.cshtml.g.cs
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Store\AddProduct.cshtml.g.cs
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Store\OpenStore.cshtml.g.cs
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Users\Dashboard.cshtml.g.cs
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.csproj.CoreCompileInputs.cache
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cs
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cache
-C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Users\Dashboard.cshtml.g.cs
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Notifications\Notifications.cshtml.g.cs
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_AdminControls.cshtml.g.cs
+C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Users.cshtml.g.cs

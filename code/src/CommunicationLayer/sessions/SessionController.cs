@@ -51,8 +51,14 @@ namespace ECommerceSystem.CommunicationLayer.sessions
         public Guid GetLoggesUserIDBySession(Guid sessionID)
         {
             if (Get(LoggedSessions, sessionID) == Guid.Empty)
-                throw new ArgumentException("Session ID does not exist");
+                return Guid.Empty;
             else return LoggedSessions[sessionID];
+        }
+
+        public Guid SessionIDByUserID(Guid userID)
+        {
+            var result = LoggedSessions.FirstOrDefault(s => s.Value.Equals(userID));
+            return result.Key;
         }
             
         private static Guid Get(IDictionary<Guid, Guid> dict, Guid sessionID)

@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model IDictionary<Guid, (string, DateTime)>
+@{
+    ViewData["Title"] = "Notifications";
+    var notificationCount = Context.Session.GetString("NotificationCount");
+}
+
+<div class="container">
+    <div class="row justify-content-between">
+        <h2>Recent Notifications:</h2>
+        <div class="justify-content-center">
+            @if (notificationCount == null)
+            {
+                <h4 class="text-info">You have no notifications currently.</h4>
+            }
+            else
+            {
+                <button class="btn btn-danger" onclick="location.href='@Url.Action("RemoveAllNotifications", "Notification")'">
+                    Clear All
+                </button>
+            }
+        </div>
+            <table class="w-100">
+                @foreach (var notification in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="alert alert-warning">
+                                <div class="row justify-content-between">
+                                    <h5><b>Notification:</b></h5>
+                                    <button class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("RemoveNotification", "Notification", new { id = notification.Key })'">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @notification.Value.Item1
+                                    </div>
+                                    <div class="col-md-12">
+                                        <strong>Recieved at:</strong> @notification.Value.Item2
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+</div>
+
+

@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.CommunicationLayer.notifications
 {
-    interface INotification
+    public interface INotification
     {
-        Guid Sender { get; }
+        (Guid, string) SenderMessage { get; }
         IDictionary<ICollection<Guid>, string> Messages { get; } // { user list => message }
+
+        void AddGroupMessage(ICollection<Guid> group, string message);
+        void AddPrivateMessage(Guid userID, string message);
     }
 }

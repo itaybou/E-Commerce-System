@@ -21,8 +21,6 @@ namespace PresentationLayer.Controllers.Auth
     {
         private IService _service;
 
-        public object FormsAuthentication { get; private set; }
-
         public AuthController(IService service)
         {
             _service = service;
@@ -77,13 +75,8 @@ namespace PresentationLayer.Controllers.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, guid.ToString()),
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, "Subscribed"),
+                new Claim(ClaimTypes.Role, _service.isUserAdmin(guid) ? "Admin" : "Subscribed"),
             };
-            var isAdmin = true; // if is admin, check with service
-            if (isAdmin)
-            {
-                claims.Add(new Claim("Admin", "Admin"));
-            }
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(principal, properties);
@@ -116,7 +109,7 @@ namespace PresentationLayer.Controllers.Auth
             return View(model);
         }
 
-        [Authorize(Roles = "Subscribed")]
+        [Authorize(Roles = "Admin, Subscribed")]
         public async Task<IActionResult> Logout()
         {
             if (User.Identity.IsAuthenticated)
@@ -126,6 +119,7 @@ namespace PresentationLayer.Controllers.Auth
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 var sessionId = new Guid(HttpContext.Session.Id);
                 _service.logout(sessionId);
+                HttpContext.Session.Clear();
                 var message = new ActionMessageModel("Logged out successfully.\nSee you later!", Url.Action("Index", "Home"));
                 return View("_ActionMessage", message);
                 //}

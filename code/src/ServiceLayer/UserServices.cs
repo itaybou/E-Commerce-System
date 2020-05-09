@@ -150,5 +150,18 @@ namespace ECommerceSystem.ServiceLayer
             var userID = _sessions.ResolveSession(sessionID);
             return _management.userDetails(userID);
         }
+
+        [Trace("Info")]
+        public bool isUserAdmin(Guid sessionID)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.isUserAdmin(userID);
+        }
+
+        internal IEnumerable<UserModel> allUsers(Guid sessionID)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.allUsers(userID);
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace ECommerceSystem.CommunicationLayer.notifications
     {
         readonly ISessionController SessionManager;
         readonly static Dictionary<Guid, ConcurrentQueue<string>> NotificationQueues = new Dictionary<Guid, ConcurrentQueue<string>>();
-
         public NotificationCenter(ISessionController sessionManager)
         {
             SessionManager = sessionManager;
@@ -29,11 +28,50 @@ namespace ECommerceSystem.CommunicationLayer.notifications
 
         public async Task Notify(INotification notification)
         {
+            var (sender, senderNotif) = notification.SenderMessage;
+            if(sender != Guid.Empty) 
+                notification.AddPrivateMessage(sender, senderNotif);
+            var notificationGroups = notification.Messages;
+            foreach(var group in notificationGroups.Keys)
+            {
+                var notif = notificationGroups[group];
+                foreach(var userID in group)
+                {
+                    var sessionID = SessionManager.SessionIDByUserID(userID);
+                    if(!sessionID.Equals(Guid.Empty))
+                    {
+                        if(WebsocketManager.SessionSockets.ContainsKey(sessionID))
+                        {
+                            var socket = WebsocketManager.SessionSockets[sessionID];
+                            await SendNotificationAsync(socket, notif);
+                        }
+                    } 
+                    else
+                    {
+                        if(!NotificationQueues.ContainsKey(userID))
+                            NotificationQueues.Add(userID, new ConcurrentQueue<string>());
+                        NotificationQueues[userID].Enqueue(notif);
+                    }
+                }
+            }
         }
 
-        async Task NotifyPastNotifications(WebSocket webSocket, Guid sessionID)
+        internal async Task NotifyPastNotifications(WebSocket webSocket, Guid sessionID)
         {
-
+            var userID = SessionManager.GetLoggesUserIDBySession(sessionID);
+            if(userID != Guid.Empty)
+            {
+                if(NotificationQueues.ContainsKey(userID))
+                {
+                    var notificationQueue = NotificationQueues[userID];
+                    while(!notificationQueue.IsEmpty)
+                    {
+                        notificationQueue.TryDequeue(out var notification);
+                        await SendNotificationAsync(webSocket, notification);
+                    }
+                }
+            }
         }
+
     }
 }

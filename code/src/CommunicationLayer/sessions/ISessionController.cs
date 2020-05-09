@@ -15,5 +15,7 @@ namespace ECommerceSystem.CommunicationLayer.sessions
         Guid LogoutSession(Guid sessionID);
 
         Guid GetLoggesUserIDBySession(Guid sessionID);
+
+        Guid SessionIDByUserID(Guid userID);
     }
 }

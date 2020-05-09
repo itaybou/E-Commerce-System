@@ -196,5 +196,15 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _userServices.userDetails(sessionID);
         }
+
+        public bool isUserAdmin(Guid sessionID)
+        {
+            return _userServices.isUserAdmin(sessionID);
+        }
+
+        public IEnumerable<UserModel> allUsers(Guid sessionID)
+        {
+            return _userServices.allUsers(sessionID);
+        }
     }
 }

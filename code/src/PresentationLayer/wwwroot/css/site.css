@@ -102,23 +102,6 @@ footer {
         color: #f8f9fa !important
     }
 
-
-tbody > tr {
-    cursor: pointer;
-}
-
-.result {
-    margin-top: 20px;
-}
-
-.hovertr {
-
-}
-
-    .hovertr:hover .edit-icon {
-        display: block;
-    }
-
 .edit-icon {
     padding-top: 7px;
     padding-right: 7px;
