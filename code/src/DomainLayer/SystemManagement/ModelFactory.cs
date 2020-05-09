@@ -53,9 +53,12 @@ namespace ECommerceSystem.Models
             return new PermissionModel(permissions.isOwner(), permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
         }
 
-        public static UserModel CreateUser(Subscribed state)
+        public static UserModel CreateUser(User user)
         {
-            return new UserModel(state._uname, state._details.Fname, state._details.Lname, state._details.Email);
+            if (!user.isSubscribed())
+                return null;
+            var state = (Subscribed)user._state;
+            return new UserModel(user.Guid, state._uname, state._details.Fname, state._details.Lname, state._details.Email);
         }
     }
 }

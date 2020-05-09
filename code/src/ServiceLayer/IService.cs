@@ -27,6 +27,7 @@ namespace ECommerceSystem.ServiceLayer
         UserModel userDetails(Guid sessionID);
         IEnumerable<UserModel> allUsers(Guid sessionID);
 
+        IEnumerable<UserModel> searchUsers(string username);
         IDictionary<string, PermissionModel> getUserPermissions(Guid sessionID);
 
         // Store Services
@@ -52,15 +53,17 @@ namespace ECommerceSystem.ServiceLayer
 
         bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
 
-        bool assignOwner(string newOwneruserName, string storeName);
+        bool assignOwner(Guid sessionID, string newOwneruserName, string storeName);
 
-        bool assignManager(string newManageruserName, string storeName);
+        bool assignManager(Guid sessionID, string newManageruserName, string storeName);
 
         bool editPermissions(string storeName, string managerUserName, List<string> permissions);
 
         bool removeManager(string managerUserName, string storeName);
 
         IEnumerable<StorePurchaseModel> purchaseHistory(string storeName);
+
+        IEnumerable<UserModel> getStoreOwners(string storeName);
 
         // System Services
         SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);

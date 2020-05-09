@@ -31,6 +31,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._stores = new List<Store>();
         }
 
+        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        {
+            var owners = new List<User>();
+            var permissions = Stores.Select(store => {
+                if (store.Name.Equals(storeName)) {
+                    return store.Premmisions;
+                } return null;
+            });
+            foreach(var permission in permissions)
+            {
+                foreach(var user in permission.Keys)
+                {
+                    if (permission[user].isOwner())
+                        owners.Add(_userManagement.getUserByName(user));
+                }
+            }
+            return owners.Select(owner => ModelFactory.CreateUser(owner));
+        }
+
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
         private User isUserIDSubscribed(Guid userID)

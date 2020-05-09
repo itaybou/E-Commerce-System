@@ -171,7 +171,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var user = getUserByGUID(userID);
             if (!user.isSystemAdmin())
                 return new List<UserModel>();
-            else return UserCarts.Keys.Where(u => u.isSubscribed()).Select(u => ModelFactory.CreateUser((Subscribed)u._state));
+            else return UserCarts.Keys.Where(u => u.isSubscribed()).Select(u => ModelFactory.CreateUser(u));
+        }
+
+        internal IEnumerable<UserModel> searchUsers(string username)
+        {
+            var users = UserCarts.Keys.Where(user => user.isSubscribed() && user.Name().ToLower().StartsWith(username.ToLower()));
+            return users.OrderBy(user => user.Name().Length).Select(user => ModelFactory.CreateUser(user));
         }
 
         //public UserShoppingCart getActiveUserShoppingCart()
@@ -240,7 +246,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var user = getUserByGUID(userID);
             if (!user.isSubscribed())
                 return null;
-            return ModelFactory.CreateUser((Subscribed)user._state);
+            return ModelFactory.CreateUser(user);
         }
     }
 }

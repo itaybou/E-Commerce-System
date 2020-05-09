@@ -115,7 +115,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.3
-        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName) // TODO: fix service types version 1
+        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.assignOwner(userID, newOwneruserName, storeName);
@@ -123,7 +123,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.5
-        public bool assignManager(Guid sessionID, string newManageruserName, string storeName) // TODO: fix service types version 1
+        public bool assignManager(Guid sessionID, string newManageruserName, string storeName)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.assignManager(userID, newManageruserName, storeName);
@@ -254,12 +254,17 @@ namespace ECommerceSystem.ServiceLayer
             return _storeManagement.removeStoreLevelDiscount(userID, storeName, discountID);
         }
 
-
         [Trace("Info")]
         public IDictionary<string, PermissionModel> getUserPermissions(Guid sessionID)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.getUserPermissions(userID);
+        }
+
+        [Trace("Info")]
+        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        {
+            return _storeManagement.getStoreOwners(storeName);
         }
     }
 }

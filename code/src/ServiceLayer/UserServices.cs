@@ -158,10 +158,16 @@ namespace ECommerceSystem.ServiceLayer
             return _management.isUserAdmin(userID);
         }
 
+        [Trace("Info")]
         internal IEnumerable<UserModel> allUsers(Guid sessionID)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _management.allUsers(userID);
+        }
+
+        internal IEnumerable<UserModel> searchUsers(string username)
+        {
+            return _management.searchUsers(username);
         }
     }
 }

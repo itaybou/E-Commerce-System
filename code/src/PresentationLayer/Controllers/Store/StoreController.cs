@@ -86,7 +86,7 @@ namespace PresentationLayer.Controllers.Store
         public IActionResult UserStoreList()
         {
             var permissions = _service.getUserPermissions(new Guid(HttpContext.Session.Id));
-            Dictionary<StoreModel, List<ProductModel>> stores = new Dictionary<StoreModel, List<ProductModel>>();
+            var stores = new Dictionary<StoreModel, List<ProductModel>>();
             permissions.Keys.ToList().ForEach(storeName =>
             {
                 var store = _service.getStoreInfo(storeName);

@@ -37,14 +37,14 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.addProductToCart(sessionID, productId, storeName, quantity);
         }
 
-        public bool assignManager(string newManageruserName, string storeName)
+        public bool assignManager(Guid sessionID, string newManageruserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.assignManager(sessionID, newManageruserName, storeName);
         }
 
-        public bool assignOwner(string newOwneruserName, string storeName)
+        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.assignOwner(sessionID, newOwneruserName, storeName);
         }
 
         public bool ChangeProductQunatity(Guid productId, int quantity)
@@ -205,6 +205,16 @@ namespace ECommerceSystem.ServiceLayer
         public IEnumerable<UserModel> allUsers(Guid sessionID)
         {
             return _userServices.allUsers(sessionID);
+        }
+
+        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        {
+            return _storeServices.getStoreOwners(storeName);
+        }
+
+        public IEnumerable<UserModel> searchUsers(string username)
+        {
+            return _userServices.searchUsers(username);
         }
     }
 }
