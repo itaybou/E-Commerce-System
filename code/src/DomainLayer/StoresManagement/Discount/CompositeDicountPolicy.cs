@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    public abstract class CompositeDicountPolicy : DiscountPolicy
+    public abstract class CompositeDiscountPolicy : DiscountPolicy
     {
         private List<DiscountPolicy> _children;
         protected Guid _ID;
 
         public List<DiscountPolicy> Children { get => _children; set => _children = value; }
 
-        protected CompositeDicountPolicy(Guid ID)
+        protected CompositeDiscountPolicy(Guid ID)
         {
             _ID = ID;
         }
 
-        protected CompositeDicountPolicy(Guid ID, List<DiscountPolicy> children)
+        protected CompositeDiscountPolicy(Guid ID, List<DiscountPolicy> children)
         {
             _ID = ID;
             _children = children;
@@ -44,9 +44,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                     newChildren.Add(d);
 
                     //remove from the children
-                    if (d is CompositeDicountPolicy)
+                    if (d is CompositeDiscountPolicy)
                     {
-                        ((CompositeDicountPolicy)d).Remove(discountPolicyID);
+                        ((CompositeDiscountPolicy)d).Remove(discountPolicyID);
                     }
                 }
             }
@@ -67,9 +67,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             //if this isn`t contains id then check recursively
             foreach (DiscountPolicy d in _children)
             {
-                if (d is CompositeDicountPolicy)
+                if (d is CompositeDiscountPolicy)
                 {
-                    DiscountPolicy wanted = ((CompositeDicountPolicy)d).getByID(id);
+                    DiscountPolicy wanted = ((CompositeDiscountPolicy)d).getByID(id);
                     if (wanted != null)
                     {
                         return wanted;

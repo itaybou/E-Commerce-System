@@ -7,16 +7,6 @@ using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public enum PermissionType 
-    {
-        AddProductInv,
-        DeleteProductInv,
-        ModifyProduct,
-        WatchAndComment,
-        WatchPurchaseHistory,
-        ManagePurchasePolicy,
-        ManageDiscounts,
-    }
 
     public class Permissions : IStoreInterface
     {
@@ -27,16 +17,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
 
         public User AssignedBy { get => _assignedBy; }
-        public Store Store { get => _store; set => _store = value; }
+        public IStoreInterface Store { get => _store; set => _store = value; }
         public Dictionary<PermissionType, bool> PermissionTypes { get => _permissions; set => _permissions = value; }
 
         private Permissions(User assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
         {
             this._assignedBy = assignedBy;
+            this._permissions = permissions;
             initPermmisionsDict(isOwner);
             this._isOwner = isOwner;
             this._store = store;
-            _permissions = permissions;
         }
 
         public static Permissions CreateOwner(User assignedBy, Store store)
@@ -428,6 +418,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return _store.removeCompositeDiscount(discountID);
             }
             else return false;
+        }
+
+        public string StoreName()
+        {
+            if (_store is Store)
+            {
+                return _store.StoreName();
+            } return null;
         }
     }
 }

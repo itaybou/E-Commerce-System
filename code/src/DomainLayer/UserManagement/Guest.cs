@@ -45,7 +45,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return null;  // guest dont have permissions
         }
-
-        public void addNotification(Notification notification) { }
     }
 }

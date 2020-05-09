@@ -1,7 +1,10 @@
 ﻿using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.CommunicationLayer.sessions;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.CommunicationLayer
@@ -23,7 +26,7 @@ namespace ECommerceSystem.CommunicationLayer
             WebSockets = new WebsocketManager(NotificationsCenter);
         }
 
-        public void SendNotification(INotification notification)
+        private void SendNotification(INotification notification)
         {
             NotificationSubscribers?.Invoke(notification);
         }
@@ -38,6 +41,34 @@ namespace ECommerceSystem.CommunicationLayer
             if (httpContext.WebSockets.IsWebSocketRequest)
                 await WebSockets.HandleConnection(httpContext);
             else await next();
+        }
+
+        public void SendPrivateNotification(Guid userID, string notification)
+        {
+            var notif = new Notification();
+            notif.AddPrivateMessage(userID, notification);
+            SendNotification(notif);
+        }
+
+        public void SendPrivateNotification(Guid userID, INotitficationType notification)
+        {
+            var notif = new Notification();
+            notif.AddPrivateMessage(userID, notification.getMessage());
+            SendNotification(notif);
+        }
+
+        public void SendGroupNotification(List<Guid> userIds, INotitficationType notification)
+        {
+            var notif = new Notification();
+            notif.AddGroupMessage(userIds, notification.getMessage());
+            SendNotification(notif);
+        }
+
+        public void SendGroupNotification(List<Guid> userIds, string notification)
+        {
+            var notif = new Notification();
+            notif.AddGroupMessage(userIds, notification);
+            SendNotification(notif);
         }
     }
 }

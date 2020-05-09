@@ -9,10 +9,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string _uname;
         public string _pswd;
         private List<UserPurchase> _purchaseHistory;
-        private List<Notification> _pendingNotifications;
         public UserDetails _details { get; set; }
         public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
-        public List<Notification> PendingNotifications { get => _pendingNotifications; set => _pendingNotifications = value; }
 
         private Dictionary<string, Permissions> _permisions;  //store name --> permission
 
@@ -24,7 +22,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _details = new UserDetails(fname, lname, email);
             _purchaseHistory = new List<UserPurchase>();
             _permisions = new Dictionary<string, Permissions>();
-            _pendingNotifications = new List<Notification>();
         }
 
         public bool isSubscribed()
@@ -90,9 +87,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return null;
         }
 
-        public void addNotification(Notification notification)
-        {
-            _pendingNotifications.Add(notification);
-        }
     }
 }

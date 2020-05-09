@@ -22,12 +22,12 @@ namespace ECommerceSystem.ServiceLayer
             _storeServices = new StoreService();
         }
 
-        public Guid addProduct(Guid sessionID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
         {
-            return _storeServices.addProduct(sessionID, storeName, productInvName, discount, purchaseType, quantity);
+            return _storeServices.addProduct(sessionID, storeName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
         }
 
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
         {
             throw new NotImplementedException();
         }
@@ -107,7 +107,7 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.logout(userId);
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID)
         {
             throw new NotImplementedException();
         }
@@ -132,9 +132,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool openStore(Guid sessionID, string name, string discountPolicy, string purchasePolicy)
+        public bool openStore(Guid sessionID, string name)
         {
-            return _storeServices.openStore(sessionID, name, new DiscountPolicy(), new PurchasePolicy());
+            return _storeServices.openStore(sessionID, name);
         }
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)

@@ -32,13 +32,13 @@ namespace ECommerceSystem.ServiceLayer
         // Store Services
         Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
         Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
-        bool openStore(Guid sessionID, string name, string discountPolicy, string purchasePolicy);
+        bool openStore(Guid sessionID, string name);
 
-        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords);
+        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords);
 
         bool deleteProductInv(string storeName, string productInvName);
 
-        Guid addProduct(Guid sessionID, string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity);
+        Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity);
 
         bool deleteProduct(string storeName, string productInvName, Guid productID);
 
@@ -48,7 +48,7 @@ namespace ECommerceSystem.ServiceLayer
 
         bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
 
-        bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount);
+        bool modifyProductDiscountType(string storeName, string productInvName, Guid productID);
 
         bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
 

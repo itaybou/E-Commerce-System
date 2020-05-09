@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerceSystem.Models.Notifications
+namespace ECommerceSystem.Models
 {
-    class RemoveManagerNotification : Notification
+    class RemoveManagerNotification : INotitficationType
     {
         string _revmovedManager;
         string _revmover;
         string _storeName;
 
-        public RemoveManagerNotification(string revmovedManager, string revmover, string storeName) : base()
+        public RemoveManagerNotification(string revmovedManager, string revmover, string storeName)
         {
             _revmovedManager = revmovedManager;
             _revmover = revmover;
             _storeName = storeName;
         }
 
-        public override string getMessage()
+        public string getMessage()
         {
-            return _time.ToString() + ": you have been removed by " + _revmover + "from being manager of the store " + _storeName;
+            return "You have been removed by " + _revmover + "from being manager of the store " + _storeName;
         }
     }
 }

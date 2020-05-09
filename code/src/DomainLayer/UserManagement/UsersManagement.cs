@@ -128,10 +128,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private static Timer aTimer;
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e, Guid userID)
         {
-            INotification notif = new Notification();
-            notif.AddPrivateMessage(userID, "hello world");
             var comm = Communication.Instance;
-            comm.SendNotification(notif);
+            comm.SendPrivateNotification(userID, "hello world");
         }
 
         public UserShoppingCart userShoppingCart(Guid userID) => _users.Keys.ToList().Find(u => u.Guid.Equals(userID))._cart;
@@ -188,7 +186,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (user != null && user.isSubscribed())
             {
                 var productsPurchased = allProducts.Select(prod => 
-                    new Product(prod.Key.Name, prod.Key.Description, prod.Key.Discount, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+                    new Product(prod.Key.Name, prod.Key.Description, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
                     user._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }

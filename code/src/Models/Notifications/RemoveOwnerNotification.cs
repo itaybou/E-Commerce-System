@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerceSystem.Models.Notifications
+namespace ECommerceSystem.Models
 {
-    class RemoveOwnerNotification : Notification
+    class RemoveOwnerNotification : INotitficationType
     {
         string _revmovedOwner;
         string _revmover;
         string _storeName;
 
-        public RemoveOwnerNotification(string revmovedOwner, string revmover, string storeName) : base()
+        public RemoveOwnerNotification(string revmovedOwner, string revmover, string storeName)
         {
             _revmovedOwner = revmovedOwner;
             _revmover = revmover;
             _storeName = storeName;
         }
 
-        public override string getMessage()
+        public string getMessage()
         {
-            return _time.ToString() + ": you have been removed by " + _revmover + "from being owner of the store " + _storeName;
+            return "You have been removed by " + _revmover + "from being owner of the store " + _storeName;
         }
     }
 }

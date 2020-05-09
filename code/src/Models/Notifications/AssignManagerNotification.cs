@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerceSystem.Models.Notifications
+namespace ECommerceSystem.Models
 {
-    class AssignManagerNotification : Notification
+    class AssignManagerNotification : INotitficationType
     {
         string _assigned;
         string _assignee;
         string _storeName;
 
-        public AssignManagerNotification(string assigned, string assignee, string storeName) : base()
+        public AssignManagerNotification(string assigned, string assignee, string storeName)
         {
             _assigned = assigned;
             _assignee = assignee;
             _storeName = storeName;
         }
 
-        public override string getMessage()
+        public string getMessage()
         {
-            return _time.ToString() + ": " + _assignee + " assigned you as a manager of the store " + _storeName;
+            return _assignee + " assigned you as a manager of the store " + _storeName;
         }
     }
 }

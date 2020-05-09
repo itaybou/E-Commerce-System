@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerceSystem.Models.Notifications
+namespace ECommerceSystem.Models
 {
-    class PurchaseNotification : Notification
+    class PurchaseNotification : INotitficationType
     {
-        StorePurchaseModel _storePurchaseModel;
+        string _username;
         string _storeName;
 
-        public PurchaseNotification(StorePurchaseModel storePurchaseModel, string storeName)
+        public PurchaseNotification(string username, string storeName)
         {
-            this._storePurchaseModel = storePurchaseModel;
+            _username = username;
             _storeName = storeName;
         }
 
-        public override string getMessage()
+        public string getMessage()
         {
-            return _time + ": " + _storePurchaseModel.Username + " bought products in the " + _storeName + " store";
+            return _username + " bought products in the " + _storeName + " store";
         }
     }
 }

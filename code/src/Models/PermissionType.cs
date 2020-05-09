@@ -13,5 +13,7 @@ namespace ECommerceSystem.Models
         ModifyProduct,
         WatchAndComment,
         WatchPurchaseHistory,
+        ManagePurchasePolicy,
+        ManageDiscounts,
     }
 }

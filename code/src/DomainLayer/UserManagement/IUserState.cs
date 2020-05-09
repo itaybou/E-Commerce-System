@@ -19,7 +19,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         void removePermissions(string storeName);
 
         Permissions getPermission(string storeName);
-
-        void addNotification(Notification notification);
     }
 }

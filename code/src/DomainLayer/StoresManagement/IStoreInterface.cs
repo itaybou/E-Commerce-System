@@ -9,8 +9,10 @@ using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    interface IStoreInterface
+    public interface IStoreInterface
     {
+
+        string StoreName();
 
         Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);

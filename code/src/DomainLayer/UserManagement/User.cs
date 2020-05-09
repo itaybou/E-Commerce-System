@@ -69,10 +69,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return _state.getPermission(storeName);
         }
-
-        public void addNotification(Notification notification)
-        {
-            _state.addNotification(notification);
-        }
     }
 }

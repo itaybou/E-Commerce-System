@@ -32,7 +32,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         /// <returns>Price after discount</returns>
         public double CalculateDiscount()
         {
-            return _discount == null ? _basePrice : _discount.CalculateDiscount(_basePrice);
+            return _discount == null ? _basePrice : _basePrice; // TODO: update return value of the calaulated discount or percentage
+            //_discount.CalculateDiscount(_basePrice);
         }
 
         public Guid Id { get => _id;}

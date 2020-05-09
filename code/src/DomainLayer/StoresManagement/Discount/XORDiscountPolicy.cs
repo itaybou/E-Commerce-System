@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    class XORDiscountPolicy : CompositeDicountPolicy
+    class XORDiscountPolicy : CompositeDiscountPolicy
     {
         public XORDiscountPolicy(Guid ID) : base(ID)
         {
@@ -40,7 +40,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
 
-            if (_children.Count == 0)
+            if (Children.Count == 0)
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             List<Dictionary<Guid, (double basePrice, int quantity, double totalPrice)>> productsClones = new List<Dictionary<Guid, (double basePrice, int quantity, double totalPrice)>>();
 
             //find the best children discount:
-            foreach (DiscountPolicy d in _children)
+            foreach (DiscountPolicy d in Children)
             {
                 Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> cloned = this.clone(products);
                 d.calculateTotalPrice(cloned);
@@ -62,13 +62,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             int minChildPriceIndex = totalPricesChildren.IndexOf(minChildPrice);
 
             //use the best children discount to update the prices in the products data structure
-            _children.ElementAt(minChildPriceIndex).calculateTotalPrice(products);
+            Children.ElementAt(minChildPriceIndex).calculateTotalPrice(products);
         }
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
 
-            foreach(DiscountPolicy d in _children)
+            foreach(DiscountPolicy d in Children)
             {
                 if (d.isSatisfied(products))
                     return true;

@@ -1,6 +1,6 @@
 using ECommerceSystem.Models;
 ﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

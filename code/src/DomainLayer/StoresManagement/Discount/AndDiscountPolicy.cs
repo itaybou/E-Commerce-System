@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    public class AndDiscountPolicy : CompositeDicountPolicy
+    public class AndDiscountPolicy : CompositeDiscountPolicy
     {
         public AndDiscountPolicy(Guid ID) : base(ID)
         {
@@ -20,7 +20,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         {
             if (this.isSatisfied(products))
             {
-                foreach (DiscountPolicy d in _children)
+                foreach (DiscountPolicy d in Children)
                 {
                     d.calculateTotalPrice(products);
                 }
@@ -29,7 +29,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            foreach(DiscountPolicy d in _children)
+            foreach(DiscountPolicy d in Children)
             {
                 if (!d.isSatisfied(products))
                 {

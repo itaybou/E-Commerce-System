@@ -4,11 +4,11 @@ using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
-using ECommerceSystem.Models.Notifications;
-using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.CommunicationLayer.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -16,6 +16,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private List<Store> _stores;
         private UsersManagement _userManagement;
+        private Communication _communication;
 
         private static readonly Lazy<StoreManagement> lazy = new Lazy<StoreManagement>(() => new StoreManagement());
 
@@ -25,20 +26,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private StoreManagement()
         {
+            _communication = Communication.Instance;
             this._userManagement = UsersManagement.Instance;
             this._stores = new List<Store>();
         }
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
-        private User isLoggedInUserSubscribed()
+        private User isUserIDSubscribed(Guid userID)
         {
-            User loggedInUser = _userManagement.getLoggedInUser(); //sync
-            if (!loggedInUser.isSubscribed()) // sync
-            {
-                return null;
-            }
-            return activeUser;
+            var user = _userManagement.getUserByGUID(userID);
+            return user.isSubscribed() ? user : null;
         }
 
         // Return null if the name isn`t exist
@@ -88,15 +86,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
-                SystemLogger.LogError("Invalid category name provided " + categoryName);
-            }
-            var category = (Category)Enum.Parse(typeof(Category), categoryName.ToUpper());
-            User loggedInUser = isLoggedInUserSubscribed();
-            if (loggedInUser == null) //The logged in user isn`t subscribed
-            {
                 return Guid.Empty;
             }
-
             Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
@@ -274,9 +265,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
 
-                List<User> notificationsUsers = new List<User>();
-                notificationsUsers.Add(assigneeUser);
-                this.sendNotification(new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName), notificationsUsers);
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName));
                 return true;
             }
             else
@@ -316,9 +305,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User assigneeUser = _userManagement.getUserByName(newManageruserName);
                 _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
 
-                List<User> notificationsUsers = new List<User>();
-                notificationsUsers.Add(assigneeUser);
-                this.sendNotification(new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName), notificationsUsers);
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName));
                 return true;
             }
             else
@@ -348,9 +335,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User toRemoveUser = _userManagement.getUserByName(managerUserName);
                 _userManagement.removePermissions(storeName, toRemoveUser);
 
-                List<User> notificationsUsers = new List<User>();
-                notificationsUsers.Add(toRemoveUser);
-                this.sendNotification(new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName), notificationsUsers);
+                _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName));
                 return true;
             }
             else
@@ -447,12 +432,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             store.logPurchase(storePurchaseModel);
 
-            List<User> notificationsUsers = new List<User>();
+            List<Guid> notificationsUsers = new List<Guid>();
             foreach (string username in store.Premmisions.Keys)
             {
-                notificationsUsers.Add(_userManagement.getUserByName(username));
+                notificationsUsers.Add(_userManagement.getUserByName(username).Guid);
             }
-            this.sendNotification(new PurchaseNotification(storePurchaseModel, store.Name), notificationsUsers);
+           _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
         }
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
@@ -461,21 +446,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name())).
                 Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
             return dict;
-        }
-
-        public void sendNotification(Notification notification, List <User> recipients)
-        {
-            foreach(User u in recipients)
-            {
-                if (_userManagement.isLoggedIn(u.Guid))
-                {
-                    _communication.sendNotification(notification);
-                }
-                else
-                {
-                    u.addNotification(notification);
-                }
-            }
         }
 
         //*********Manage Purchase Policy  --   REQUIREMENT 4.2*********

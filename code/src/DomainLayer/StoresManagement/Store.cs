@@ -591,7 +591,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        private void deepRemoveCompositeDiscount(CompositeDicountPolicy discount)
+        private void deepRemoveCompositeDiscount(CompositeDiscountPolicy discount)
         {
             foreach(DiscountPolicy d in discount.Children)
             {
@@ -602,7 +602,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 else //d is composite
                 {
                     this._discountsMap.Remove(d.getID());
-                    deepRemoveCompositeDiscount((CompositeDicountPolicy)d);
+                    deepRemoveCompositeDiscount((CompositeDiscountPolicy)d);
                 }
             }
 
@@ -610,7 +610,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool removeCompositeDiscount(Guid discountID)
         {
-            CompositeDicountPolicy toRemove = (CompositeDicountPolicy)(_discountPolicy.getByID(discountID));
+            CompositeDiscountPolicy toRemove = (CompositeDiscountPolicy)(_discountPolicy.getByID(discountID));
 
             if (toRemove == null) //discount id isn`t exist
             {
@@ -632,6 +632,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._discountsMap.Remove(discountID);
             this._storeLevelDiscounts.Remove(discountID);
             return true;
+        }
+
+        public string StoreName()
+        {
+            return Name;
         }
     }
 }

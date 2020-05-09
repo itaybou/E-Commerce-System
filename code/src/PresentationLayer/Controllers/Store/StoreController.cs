@@ -166,7 +166,7 @@ namespace PresentationLayer.Controllers.Store
             if(ModelState.IsValid)
             {
                 var session = new Guid(HttpContext.Session.Id);
-                var valid = _service.openStore(session, model.StoreName, model.DiscountPolicy, model.PurchasePolicy);
+                var valid = _service.openStore(session, model.StoreName);
                 if(valid)
                 {
                     return RedirectToAction("UserStoreList", "Store");
