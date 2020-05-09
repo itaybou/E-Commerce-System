@@ -81,7 +81,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - userID exist and subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -94,12 +94,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name(), productInvName, description, purchaseType, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            return permission.addProductInv(activeUser.Name(), productInvName, description,  price, quantity, categoryName, keywords, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
         //return the new product id or -1 in case of fail
-        public Guid addProduct(Guid userID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(Guid userID, string storeName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -113,7 +113,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProduct(activeUser.Name(), productInvName, purchaseType, quantity, minQuantity, maxQuantity);
+            return permission.addProduct(activeUser.Name(), productInvName, quantity, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed

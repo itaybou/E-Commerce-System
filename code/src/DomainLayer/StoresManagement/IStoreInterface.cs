@@ -14,10 +14,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         string StoreName();
 
-        Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price,
+        Guid addProductInv(string activeUserName, string productName, string description, double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
 
-        Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity);
+        Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity);
 
         bool deleteProductInventory(string loggedInUserName, string productInvName);
 
