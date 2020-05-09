@@ -20,15 +20,18 @@ namespace PresentationLayer.Controllers.Users
 
         public IActionResult Index()
         {
-            var guid = new Guid(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var cart = _service.ShoppingCartDetails(guid);
+            var sessionID = new Guid(HttpContext.Session.Id);
+            var cart = _service.ShoppingCartDetails(sessionID);
             return View(new CartModel(cart));
         }
 
         [HttpPost]
         [Route("Checkout")]
-        public IActionResult Checkout(CartModel cartModel)
+        public IActionResult Checkout()
         {
+            var session = new Guid(HttpContext.Session.Id);
+            var cart = _service.ShoppingCartDetails(session);
+            var cartModel = new CartModel(cart);
             var model = new CheckoutModel(cartModel);
             return View(model);
         }

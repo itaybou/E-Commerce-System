@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="~/css/auth/auth.css">
     <link rel="stylesheet" type="text/css" href="~/css/listing/product_page.css">
-    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <header class="navbar-expand">
@@ -31,7 +32,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notification.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

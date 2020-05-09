@@ -11,11 +11,14 @@ using Microsoft.Extensions.Hosting;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using ECommerceSystem.CommunicationLayer;
 
 namespace PresentationLayer
 {
     public class Startup
     {
+        private ICommunication communication;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,7 +31,10 @@ namespace PresentationLayer
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IService, ServiceFacade>();
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+            });
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -41,19 +47,13 @@ namespace PresentationLayer
                 options.LogoutPath = "/auth/logout";
             });
             services.AddSession();
-            //RegisterTransients(services);
+            services.AddHttpContextAccessor();
         }
-
-        //private void RegisterTransients(this IServiceCollection services)
-        //{
-        //    //services.AddTransient<IUserServiceLayer, UserServices>();
-        //    //services.AddTransient<IStoreServiceLayer, StoreService>();
-        //    //services.AddTransient<IStoreServiceLayer, StoreService>();
-        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            communication = Communication.Instance;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,6 +71,7 @@ namespace PresentationLayer
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseSession();
 
             app.UseEndpoints(endpoints =>
@@ -87,12 +88,11 @@ namespace PresentationLayer
             };
 
             app.UseWebSockets(webSocketOptions);
-
-
-            /* app.Use(async (context, next) =>
+            communication.Subscribe();
+            app.Use(async (context, next) =>
              {
-                 await _pipelineManager.HandleHttpRequest(context, next);
-             });*/
+                 await communication.HandleHttpRequest(context, next);
+             });
         }
     }
 }

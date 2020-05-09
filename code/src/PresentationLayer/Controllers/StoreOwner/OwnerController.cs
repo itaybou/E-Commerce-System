@@ -10,6 +10,7 @@ using PresentationLayer.Models;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
+    [Authorize(Roles = "Admin, Subscribed")]
     public class OwnerController : Controller
     {
 

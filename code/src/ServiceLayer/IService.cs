@@ -12,6 +12,7 @@ namespace ECommerceSystem.ServiceLayer
     public interface IService
     {
         // User Services
+        bool isUserAdmin(Guid sessionID);
         bool isUserSubscribed(string username);
         bool isUserLogged(string username);
         void removeAllUsers();
@@ -24,6 +25,7 @@ namespace ECommerceSystem.ServiceLayer
         bool ChangeProductQunatity(Guid productId, int quantity);
         ICollection<UserPurchaseModel> userPurchaseHistory(string userName);
         UserModel userDetails(Guid sessionID);
+        IEnumerable<UserModel> allUsers(Guid sessionID);
 
         IDictionary<string, PermissionModel> getUserPermissions(Guid sessionID);
 

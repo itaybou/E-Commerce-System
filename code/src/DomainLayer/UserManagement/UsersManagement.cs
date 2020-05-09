@@ -1,10 +1,13 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.CommunicationLayer.notifications;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -107,7 +110,28 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             User user = getUserByGUID(userID);
             var cart = user._cart;
+            //REMOVE
+            aTimer = new System.Timers.Timer();
+            aTimer.Interval = 2000;
+
+            // Hook up the Elapsed event for the timer. 
+            aTimer.Elapsed += (sender, e) => OnTimedEvent(sender, e, userID);
+
+            // Have the timer fire repeated events (true is the default)
+            aTimer.AutoReset = true;
+
+            // Start the timer
+            aTimer.Enabled = true;
+            //REMOVE
             return ModelFactory.CreateShoppingCart(cart);
+        }
+        private static Timer aTimer;
+        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e, Guid userID)
+        {
+            INotification notif = new Notification();
+            notif.AddPrivateMessage(userID, "hello world");
+            var comm = Communication.Instance;
+            comm.SendNotification(notif);
         }
 
         public UserShoppingCart userShoppingCart(Guid userID) => _users.Keys.ToList().Find(u => u.Guid.Equals(userID))._cart;
@@ -136,6 +160,20 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return false;
             userShoppingCart(userID).StoreCarts.Find(cart => cart.Products.ContainsKey(productToRemove)).RemoveFromCart(productToRemove);
             return true;
+        }
+
+        internal bool isUserAdmin(Guid userID)
+        {
+            var user = getUserByGUID(userID);
+            return user.isSystemAdmin();
+        }
+
+        internal IEnumerable<UserModel> allUsers(Guid userID)
+        {
+            var user = getUserByGUID(userID);
+            if (!user.isSystemAdmin())
+                return new List<UserModel>();
+            else return UserCarts.Keys.Where(u => u.isSubscribed()).Select(u => ModelFactory.CreateUser((Subscribed)u._state));
         }
 
         //public UserShoppingCart getActiveUserShoppingCart()
