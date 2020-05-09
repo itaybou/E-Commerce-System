@@ -2,6 +2,8 @@
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Models;
+
 using System.Collections.Generic;
 using NUnit.Framework;
 using System;
@@ -15,7 +17,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 
 
         string _productName = "Iphone", _description = "description";
-        Discount _discount = new VisibleDiscount(10, new DiscountPolicy());
         PurchaseType _purchaseType = new ImmediatePurchase();
         double _price = 100;
         int _quantity = 5;
@@ -80,7 +81,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 
 
             _userManagement.login("owner", "pA55word");
-            _storeManagement.openStore(_ownerGUID, "store", new DiscountPolicy(), new PurchasePolicy());
+            _storeManagement.openStore(_ownerGUID, "store");
             _owner = _userManagement.getUserByName("owner");
             _store = _storeManagement.getStoreByName("store");
             _permissions = _owner.getPermission("store");
@@ -105,7 +106,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void setUp()
         {
            
-            _store.Inventory.addProductInv(_productName, _description, _discount, _purchaseType, _price, _quantity, _category, _keywords);
+            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords);
             
 
 
@@ -129,8 +130,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
 
             Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
-                _description, _discount, _purchaseType, _price, _quantity,
-                _category, _keywords), "fail to add productinv ");
+                _description, _price, _quantity,
+                _category, _keywords,0,5), "fail to add productinv ");
 
 
         }
@@ -140,8 +141,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
 
             Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
-                _description, _discount, _purchaseType, _price, _quantity,
-                _category, _keywords), "fail to add productinv ");
+                _description, _price, _quantity,
+                _category, _keywords,0,5), "fail to add productinv ");
 
 
         }
@@ -149,7 +150,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [Test()]
         public void addProductByPermitedUserTest()
         {
-            Assert.AreNotEqual(Guid.Empty, _permissions.addProduct("owner", _productName, _discount, _purchaseType, 20),
+            Assert.AreNotEqual(Guid.Empty, _permissions.addProduct("owner", _productName,  20, 0, 5),
                    "Fail to add group of products ");
         }
 
@@ -174,7 +175,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         public void deleteProductTestByPermitedUserTest()
         {
             
-            Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+            Guid guid1 = _store.Inventory.addProduct(_productName, _quantity);
             Assert.True(_permissions.deleteProduct("permitManager", _productName, guid1),
                     "Fail to delete group of products ");
 
@@ -187,35 +188,35 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
                     "Fail to modify price of product inventory by permited manager");
         }
 
-        [Test()]
-        public void modifyProductDiscountTypeByPermitedUserTest()
-        {
-            Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
+        //[Test()]
+        //public void modifyProductDiscountTypeByPermitedUserTest()
+        //{
+        //    Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
 
            
-            Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-            Assert.True(_permissions.modifyProductDiscountType("permitManager", _productName, guid1, newDis),
-                    "Fail to modify discount of group of products ");
+        //    Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+        //    Assert.True(_permissions.modifyProductDiscountType("permitManager", _productName, guid1, newDis),
+        //            "Fail to modify discount of group of products ");
 
-        }
+        //}
 
-        [Test()]
-        public void modifyProductPurchaseTypeByPermitedUserTest()
-        {
-            PurchaseType newPurchaseType = new ImmediatePurchase();
+        //[Test()]
+        //public void modifyProductPurchaseTypeByPermitedUserTest()
+        //{
+        //    PurchaseType newPurchaseType = new ImmediatePurchase();
 
            
-            Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-            Assert.True(_permissions.modifyProductPurchaseType("permitManager", _productName, guid1, newPurchaseType),
-                    "Fail to modify purchase type of group of products ");
+        //    Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+        //    Assert.True(_permissions.modifyProductPurchaseType("permitManager", _productName, guid1, newPurchaseType),
+        //            "Fail to modify purchase type of group of products ");
 
-        }
+        //}
 
         [Test()]
         public void modifyProductQuantityByPermitedUserTest()
         {
            
-            Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
+            Guid guid1 = _store.Inventory.addProduct(_productName,  _quantity);
             Assert.True(_permissions.modifyProductQuantity("permitManager", _productName, guid1, 20),
                     "Fail to modify quantity of group of products ");
         }

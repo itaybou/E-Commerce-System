@@ -16,7 +16,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
     public class StoreManagmentTests
     {
         string _productName = "Iphone", _description = "description";
-        Discount _discount = new VisibleDiscount(10, new DiscountPolicy());
         PurchaseType _purchaseType = new ImmediatePurchase();
         double _price = 100;
         int _quantity = 5;
@@ -88,7 +87,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         public void setUp()
         {
             _userManagement.login("owner", "pA55word");
-            _storeManagement.openStore(_ownerGUID ,"store", new DiscountPolicy(), new PurchasePolicy());
+            _storeManagement.openStore(_ownerGUID ,"store");
             _store = _storeManagement.getStoreByName("store");
         }
 
@@ -106,13 +105,13 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         {
             _userManagement.login("regularUser", "pA55word");
             Assert.False(_storeManagement.assignManager(_regularUserGUID, "newManager", "store"), "Assign regular user as manager by another regular user successed");
-            _userManagement.logout();
+            _userManagement.logout(_regularUser.Guid);
             _userManagement.login("nonPermitManager", "pA55word");
             Assert.False(_storeManagement.assignManager(_nonPermitManagerGUID, "newManager", "store"), "Assign regular user as manager by manager with default permissions successed");
-            _userManagement.logout();
+            _userManagement.logout(_nonPermitManager.Guid);
             _userManagement.login("permitManager", "pA55word");
             Assert.False(_storeManagement.assignManager(_permitManagerGUID, "newManager", "store"), "Assign regular user as manager by manager with full permissions successed");
-            _userManagement.logout();
+            _userManagement.logout(_permitManager.Guid);
 
 
 
@@ -124,7 +123,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             
             Assert.True(_storeManagement.assignManager(_ownerGUID, "newManager", "store"), "Fail to assign regular user as new manager");
             Assert.False(_storeManagement.assignManager(_ownerGUID, "newManager","store"), "Assign already manager user as new manager successed");
-            _userManagement.logout();
+            _userManagement.logout(_ownerGUID);
            
         }
 
@@ -133,13 +132,13 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         {
             _userManagement.login("regularUser", "pA55word");
             Assert.False(_storeManagement.assignOwner(_regularUserGUID, "anotherOwner", "store"), "Assign regular user as owner by another regular user successed");
-            _userManagement.logout();
+            _userManagement.logout(_regularUser.Guid);
             _userManagement.login("nonPermitManager", "pA55word");
             Assert.False(_storeManagement.assignOwner(_nonPermitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with default permissions successed");
-            _userManagement.logout();
+            _userManagement.logout(_nonPermitManager.Guid);
             _userManagement.login("permitManager", "pA55word");
             Assert.False(_storeManagement.assignOwner(_permitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with full permissions successed");
-            _userManagement.logout();
+            _userManagement.logout(_permitManager.Guid);
 
 
 
@@ -151,7 +150,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
 
             Assert.True(_storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
             Assert.False(_storeManagement.assignManager(_ownerGUID, "anotherOwner", "store"), "Assign already owner user as new manager successed");
-            _userManagement.logout();
+            _userManagement.logout(_ownerGUID);
             
         }
 

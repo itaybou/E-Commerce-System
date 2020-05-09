@@ -113,3 +113,7 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CopyComplete
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csprojAssemblyReference.cache
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CoreCompileInputs.cache
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb

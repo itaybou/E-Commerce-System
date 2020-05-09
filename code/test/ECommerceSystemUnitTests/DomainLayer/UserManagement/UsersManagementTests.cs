@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
-            product = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            product2 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            store = new Store(null, null, "owner", "store1");
-            store2 = new Store(null, null, "owner", "store2");
+            product = new Product(null, null,  20, 20, Guid.NewGuid());
+            product2 = new Product(null, null,  20, 20, Guid.NewGuid());
+            store = new Store( "owner", "store1");
+            store2 = new Store( "owner", "store2");
             store.Inventory.Products = new List<ProductInventory>()
             {
                 {new ProductInventory(null,null,20.0,Category.CELLPHONES,new List<string>(),Guid.NewGuid())}
