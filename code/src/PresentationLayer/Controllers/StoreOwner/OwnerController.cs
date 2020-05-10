@@ -43,7 +43,7 @@ namespace PresentationLayer.Controllers.StoreOwner
         public IActionResult AddProduct(string store)
         {
             ViewData["StoreName"] = store;
-            return View("../Store/AddProduct", new AddProductModel(Guid.Empty, null, null, null, 0, 0, 0));
+            return View("../Store/AddProduct");
         }
 
         [HttpPost]
@@ -51,8 +51,23 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddProduct")]
         public IActionResult AddProduct(AddProductModel model)
         {
-            var store = ViewData["StoreName"];
-            return View("../Store/AddProduct", new AddProductModel(Guid.Empty, null, null, null, 0, 0, 0));
+            var session = new Guid(HttpContext.Session.Id);
+            var storeName = Request.Form["storeName"].ToString();
+            if (ModelState.IsValid)
+            {
+                Category category = (Category)Enum.Parse(typeof(Category), model.Category);
+                var keywords = new List<string>();
+                model.Name.Split(" ").ToList().ForEach(word => keywords.Add(word));
+                model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
+                if (_service.addProductInv(session, storeName, model.Description, model.Name, model.BasePrice,
+                    model.Quantity, category, keywords, model.MinPurchaseQuantity, model.MaxPurchaseQuantity) != Guid.Empty)
+                {
+                    var products = _service.getStoreInfo(storeName);
+                    return View("../Store/StoreInventory", products);
+                }
+                ModelState.AddModelError("AddProductError", "Error occured while trying to add product. check that you paramters are valid.");
+            }
+            return View("../Store/AddProduct", model);
         }
 
         [Authorize(Roles = "Admin, Subscribed")]

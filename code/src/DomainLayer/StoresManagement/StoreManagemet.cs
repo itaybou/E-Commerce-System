@@ -433,6 +433,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProducts;
         }
 
+        public (ProductModel, string) getProductInventory(Guid prodID)
+        {
+            foreach (Store store in _stores)
+            {
+                foreach(var prodInv in store.Inventory)
+                {
+                    foreach(var prod in prodInv.ProductList)
+                    {
+                        if(prod.Id.Equals(prodID))
+                            return (ModelFactory.CreateProduct(prodInv.ProductList.First()), store.Name);
+                    }
+                }
+            }
+            return (null, null);
+        }
+
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProducts = new List<ProductInventory>();

@@ -53,7 +53,6 @@ namespace PresentationLayer.Controllers.Auth
                 if(valid)
                 {
                     await AuthenticateAsync(guid, model.Username);
-                    
                     var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
                 } else

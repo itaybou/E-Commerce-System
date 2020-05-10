@@ -25,8 +25,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.logger
             {
                 var paramValue = args.Arguments.GetArgument(i);
                 paramValue = args.Method.GetParameters()[i].Name.Equals(PSWD_PARAM_NAME) ? Encryption.encrypt((string)paramValue) : paramValue;
+                var argArguments = args.Arguments.GetArgument(i) == null ? "null" : args.Arguments.GetArgument(i);
                 stringBuilder.AppendFormat("{0}, {1}, {2}, {3}" + (i != args.Arguments.Count - 1 ? ", " : ""),
-                    i, args.Arguments.GetArgument(i).GetType().Name, args.Method.GetParameters()[i].Name, paramValue);
+                    i, argArguments.GetType().Name, args.Method.GetParameters()[i].Name, paramValue);
             }
             SystemLogger.LogMethodInfo(stringBuilder.ToString());
         }

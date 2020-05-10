@@ -24,61 +24,6 @@ namespace PresentationLayer.Controllers.Store
         public IActionResult Index()
         {
             var storeInfo = _service.getAllStoresInfo();
-            //var stores = new Dictionary<StoreModel, List<ProductModel>>()
-            //{
-            //    {new StoreModel("Store1", 4, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } },
-            //    {new StoreModel("Store1", 4.6, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 4.3, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 2.1, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 5, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 3.7, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 3.3, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }
-
-            //};
             return View("StoreList", storeInfo);
         }
 
@@ -92,62 +37,6 @@ namespace PresentationLayer.Controllers.Store
                 var store = _service.getStoreInfo(storeName);
                 stores.Add(store.Item1, store.Item2);
             });
-            //var stores = new Dictionary<StoreModel, List<ProductModel>>()
-            //{
-            //    {new StoreModel("Store1", 4, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } },
-            //    {new StoreModel("Store1", 4.6, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 4.3, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 2.1, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 5, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 3.7, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }, {new StoreModel("Store1", 3.3, 85), new List<ProductModel>() {
-            //         { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //        { new ProductModel(Guid.NewGuid(), "Product1", "this is a long description", 5, 30.5, 25.5) },
-            //    } }
-
-            //};
-            
             return View("UserStoreList", (stores, permissions));
         }
 

@@ -210,9 +210,11 @@
                                     <p class="btn btn-warning btn-block">@product.PriceWithDiscount $</p>
                                 </div>
                                 <div class="col">
-                                    <a asp-controller="Product" asp-action="AddProductToCart" asp-route-prodId="@product.Id" class="btn btn-success btn-block">
-                                        <i class="fas fa-cart-plus"></i> Add
-                                    </a>
+                                    <form type="hidden" asp-action="AddProductToCart" asp-controller="Cart" asp-route-prodID="@product.Id" method="post">
+                                        <button type="submit" class="btn btn-success btn-block">
+                                            <i class="fas fa-cart-plus"></i> Add
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,40 +11,32 @@ namespace PresentationLayer.Models
 {
     public class AddProductModel
     {
-        public Guid Id { get ; set; }
-
         [DisplayName("Username")]
         [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
-        public string Category { get; set; }
+        [DisplayName("Category")]
+        [Required(ErrorMessage = "Please Provide Category", AllowEmptyStrings = false)]
+        public string? Category { get; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
+        [DisplayName("Descrption")]
         public string Description { get ; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
+        [DisplayName("Quantity")]
+        [Required(ErrorMessage = "Please Provide Quantity", AllowEmptyStrings = false)]
         public int Quantity { get; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
+        [DisplayName("Price")]
+        [Required(ErrorMessage = "Please Provide Price", AllowEmptyStrings = false)]
         public double BasePrice { get; set; }
 
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
-        public double PriceWithDiscount { get; set; }
+        [DisplayName("Keywords")]
+        public string Keywords { get; set; }
 
-        public AddProductModel(Guid id, string name, string category, string description, int quantity, double basePrice, double priceWithDiscount)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            Quantity = quantity;
-            BasePrice = basePrice;
-            PriceWithDiscount = priceWithDiscount;
-        }
+        [DisplayName("MinPurchaseQuantity")]
+        public int MinPurchaseQuantity { get; set; }
+
+        [DisplayName("MaxPuchaesQuantity")]
+        public int MaxPurchaseQuantity { get; set; }
     }
 }

@@ -11,9 +11,5 @@ namespace PresentationLayer.Models
 
         [Required(ErrorMessage = "Please Provide Store Name", AllowEmptyStrings = false)]
         public string StoreName { get; set; }
-        [Required(ErrorMessage = "Please Provide A Valid Discount policy", AllowEmptyStrings = false)]
-        public string DiscountPolicy { get; set; }
-        [Required(ErrorMessage = "Please Provide A Valid Purchase policy", AllowEmptyStrings = false)]
-        public string PurchasePolicy { get; set; }
     }
 }

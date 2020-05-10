@@ -37,6 +37,16 @@ namespace PresentationLayer.Controllers.Users
         }
 
         [HttpPost]
+        public IActionResult AddProductToCart(string prodID)
+        {
+            var id = new Guid(prodID);
+            var session = new Guid(HttpContext.Session.Id);
+            var store = _service.getProductInventory(id).Item2;
+            var valid = _service.addProductToCart(session, id, store, 1);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Payment(CheckoutModel model)
         {
             //model.Products = Somthing     Get user cart from domain

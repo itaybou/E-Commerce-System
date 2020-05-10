@@ -27,9 +27,9 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.addProduct(sessionID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
 
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
-            throw new NotImplementedException();
+            return _storeServices.addProductInv(sessionID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity);
         }
 
         public bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity)
@@ -225,6 +225,11 @@ namespace ECommerceSystem.ServiceLayer
         public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
         {
             return _storeServices.getUsernamePermissionTypes(storeName, username);
+        }
+
+        public (ProductModel, string) getProductInventory(Guid prodID)
+        {
+            return _storeServices.getProductInventory(prodID);
         }
     }
 }

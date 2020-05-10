@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.Products;
 using ECommerceSystem.Utilities;
-using ECommerceSystem.Utilities;
 using System.Security.Claims;
 
 namespace PresentationLayer.Controllers.Products
@@ -24,19 +23,20 @@ namespace PresentationLayer.Controllers.Products
 
         [AllowAnonymous]
         [Route("Product/ViewProduct/{id}")]
-        public IActionResult ViewProduct(Guid prodId)
+        public IActionResult ViewProduct(string id)
         {
+            var prodId = new Guid(id);
             ViewData["prodId"] = prodId;
-            //TEST
-            var model = new ProductModel(prodId, "Test Product", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", 25, 30.5, 20.5);
+            var model = _service.getProductInventory(prodId).Item1;
+            if (model == null)
+                return RedirectToAction("ProductListing");
             ViewData["Name"] = model.Name;
-            //TEST
             return View("Index", model);
         }
 
         [AllowAnonymous]
         [Route("ProductListing")]
-        public IActionResult ProductListing(string searchInput, string category, string searchType, double from, double to, int prodRating, int storeRating, int page = 0)
+        public IActionResult ProductListing(string searchInput, string category, string searchType, double from = 0, double to = Int32.MaxValue, int prodRating = -1, int storeRating = -1, int page = 0)
         {
             SearchResultModel search;
             from = from > to ? to : from;
@@ -57,8 +57,9 @@ namespace PresentationLayer.Controllers.Products
                         new Range<double>(storeRating, storeRating + 1), new Range<double>(prodRating, prodRating + 1));
                     break;
                 default:
-                    search = _service.getAllProducts(category == null? "" : category, new Range<double>(from, to),
-                        new Range<double>(storeRating, storeRating + 1), new Range<double>(prodRating, prodRating + 1));
+                    search = _service.getAllProducts(category, new Range<double>(from, to),
+                        storeRating == -1? new Range<double>(0, 5) : new Range<double>(storeRating, storeRating + 1),
+                        prodRating == -1? new Range<double>(0, 5) : new Range<double>(prodRating, prodRating + 1));
                     break;
             }
             var model = new ProductListingModel(search, category, searchInput, searchType, from, to, prodRating, storeRating, page);
@@ -76,13 +77,5 @@ namespace PresentationLayer.Controllers.Products
             var model = new ProductListingModel(search, "", "", "", 0, 0, 0, 0, 0);
             return View("ProductListing", model);
         }
-
-        public IActionResult AddProductToCart(Guid prodID, string storeName)
-        {
-            var userId = new Guid(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var valid = _service.addProductToCart(userId, prodID, storeName, 1);
-            return View();
-        }
-
     }
 }

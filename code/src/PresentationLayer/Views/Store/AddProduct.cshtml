@@ -3,6 +3,8 @@
 @model PresentationLayer.Models.AddProductModel
 @{
     ViewData["Title"] = "Add Product";
+    var categories = EnumMethods.GetValues(typeof(Category));
+    var storeName = ViewData["StoreName"];
 }
 <div class="container">
     <div class="register-page">
@@ -10,8 +12,8 @@
             <i class="fas fa-arrow-circle-left"></i>
             Go Back
         </a>
-        <h2 style="font-family: Roboto">@ViewData["Title"] - @ViewData["StoreName"]</h2>
-        <div class="form" style="text-shadow" method="post">
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form">
             <form asp-controller="Owner" asp-action="AddProduct" class="login-form" method="post">
                 @if (!ViewContext.ModelState.IsValid)
                 {
@@ -25,32 +27,48 @@
                 </div>
                 <div class="form-group">
                     <label style="text-align: left" for="password">Description</label>
-                    <textarea type="text" class="form-control" rows="4" asp-for="Description"> </textarea>
+                    <textarea type="text" class="form-control" rows="4" asp-for="Description"></textarea>
                 </div>
-                <div class="row">
-                    <div class="form-group name1 col-md-6">
-                        <label class="row-form-label" style="text-align: left" for="password">Base Price</label>
-                        <input type="number" placeholder="Base Price" asp-for="BasePrice" />
-                    </div>
-                    <div class="form-group name1 col-md-6">
-                        <label class="row-form-label" style="text-align: left" for="password">Discounted Price</label>
-                        <input type="number" placeholder="Discounted Price" asp-for="PriceWithDiscount" />
-                    </div>
-                </div>
-                <div class="form-group w-50">
-                    <label style="text-align: left" for="password">Quantity</label>
-                    <input type="number" class="form-control" placeholder="Quantity" asp-for="Quantity" />
-                </div>
-                <div class="form-group w-50">
+                <div class="form-group">
                     <label style="text-align: left" for="password">Category</label>
-                    <select type="button" asp-for="Category" class="dropdown-menu form-control" role="menu">
-                        @foreach (var category in EnumMethods.GetValues(typeof(Category))) 
-                        { 
+                    <select class="form-control" asp-for="Category">
+                        @foreach (var category in categories)
+                        {
                             <option value="@category" class="dropdown-item">@category</option>
                         }
                     </select>
                 </div>
-
+                <div class="row">
+                    <div class="form-group w-50 col-md-6">
+                        <label class="row-form-label" style="text-align: left" for="password">Base Price</label>
+                        <input class="form-control" type="number" placeholder="Base Price" asp-for="BasePrice" />
+                    </div>
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="password">Quantity</label>
+                        <input type="number" class="form-control" placeholder="Quantity" asp-for="Quantity" />
+                    </div>
+                    <!-- <div class="form-group name1 col-md-6">
+            <label class="row-form-label" style="text-align: left" for="password">Discounted Price</label>
+            <input type="number" placeholder="Discounted Price" asp-for="PriceWithDiscount" />
+        </div>-->
+                </div>
+                <div class="row">
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="password">Minimum Quantity Per Purchase</label>
+                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MinPurchaseQuantity" />
+                    </div>
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="password">Maximum Quantity Per Purchase</label>
+                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MaxPurchaseQuantity" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group w-50 col-md-12">
+                        <label style="text-align: left" for="password">Keywords (Seperate with spaces)</label>
+                        <textarea rows="2" type="text" class="form-control" placeholder="Keyowrds" asp-for="Keywords"></textarea>
+                    </div>
+                </div>
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
                 <button type="submit" class="w-50">Add Product</button>
             </form>
         </div>

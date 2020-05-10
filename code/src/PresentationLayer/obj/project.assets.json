@@ -6314,23 +6314,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\סהר\\.nuget\\packages\\": {},
+    "C:\\Users\\Itay Bouganim\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+      "projectUniqueName": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
       "projectName": "PresentationLayer",
-      "projectPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
-      "packagesPath": "C:\\Users\\סהר\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
+      "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+      "packagesPath": "C:\\Users\\Itay Bouganim\\.nuget\\packages\\",
+      "outputPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\סהר\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Itay Bouganim\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6343,8 +6343,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
-              "projectPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+            "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+              "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
             }
           }
         }

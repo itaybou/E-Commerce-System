@@ -36,7 +36,7 @@ namespace ECommerceSystem.ServiceLayer
         Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
         bool openStore(Guid sessionID, string name);
 
-        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords);
+        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
 
         bool deleteProductInv(string storeName, string productInvName);
 
@@ -66,6 +66,8 @@ namespace ECommerceSystem.ServiceLayer
 
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName);
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName);
+
+        (ProductModel, string) getProductInventory(Guid prodID);
 
         // System Services
         SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);

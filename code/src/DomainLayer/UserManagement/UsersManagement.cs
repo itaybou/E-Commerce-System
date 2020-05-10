@@ -15,6 +15,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     {
         private IDictionary<User, UserShoppingCart> _users;
 
+        private Communication _communication;
+
         private static readonly Lazy<UsersManagement> lazy = new Lazy<UsersManagement>(() => new UsersManagement());
 
         public static UsersManagement Instance => lazy.Value;
@@ -24,6 +26,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private UsersManagement()
         {
             _users = new Dictionary<User, UserShoppingCart>();
+            _communication = Communication.Instance;
             _users.Add(new User(new SystemAdmin("admin", Encryption.encrypt("4dMinnn"), "admin", "admin", "admin@gmail.com")), new UserShoppingCart());
         }
 
@@ -101,6 +104,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 }
 
                 storeCart.AddToCart(product, quantity);
+                _communication.SendPrivateNotification(userID, "Product successfully added to cart!");
                 return true;
             }
             return false;
@@ -110,26 +114,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             User user = getUserByGUID(userID);
             var cart = user._cart;
-            //REMOVE
-            aTimer = new System.Timers.Timer();
-            aTimer.Interval = 2000;
 
-            // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += (sender, e) => OnTimedEvent(sender, e, userID);
-
-            // Have the timer fire repeated events (true is the default)
-            aTimer.AutoReset = true;
-
-            // Start the timer
-            aTimer.Enabled = true;
-            //REMOVE
             return ModelFactory.CreateShoppingCart(cart);
-        }
-        private static Timer aTimer;
-        private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e, Guid userID)
-        {
-            var comm = Communication.Instance;
-            comm.SendPrivateNotification(userID, "hello world");
         }
 
         public UserShoppingCart userShoppingCart(Guid userID) => _users.Keys.ToList().Find(u => u.Guid.Equals(userID))._cart;
