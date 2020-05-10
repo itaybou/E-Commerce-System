@@ -42,8 +42,8 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName);
         bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice);
         bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity);
-        bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage);
-        bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, string purchaseType);
+        //bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage);
+        //bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, string purchaseType);
 
 
         bool assignOwner(Guid userID, string newOwneruserName, string storeName); // Requirment 4.3

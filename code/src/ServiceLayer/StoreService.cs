@@ -49,10 +49,10 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity) // -1 if not needed in both
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName,  double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity) // -1 if not needed in both
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName,  price, quantity, category, keywords, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -65,10 +65,10 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName,  int quantity, int minQuantity, int maxQuantity)
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.addProduct(userID, storeName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
+            return _storeManagement.addProduct(userID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -99,19 +99,19 @@ namespace ECommerceSystem.ServiceLayer
             return _storeManagement.modifyProductQuantity(userID, storeName, productInvName, productID, newQuantity);
         }
 
-        [Trace("Info")]
-        public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID, DiscountType newDiscount) // TODO: fix service types version 1
-        {
-            var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.modifyProductDiscountType(userID, storeName, productInvName, productID, newDiscount);
-        }
+        //[Trace("Info")]
+        //public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID, DiscountType newDiscount) // TODO: fix service types version 1
+        //{
+        //    var userID = _sessions.ResolveSession(sessionID);
+        //    return _storeManagement.modifyProductDiscountType(userID, storeName, productInvName, productID, newDiscount);
+        //}
 
-        [Trace("Info")]
-        public bool modifyProductPurchaseType(Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
-        {
-            var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.modifyProductPurchaseType(userID, storeName, productInvName, productID, purchaseType);
-        }
+        //[Trace("Info")]
+        //public bool modifyProductPurchaseType(Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
+        //{
+        //    var userID = _sessions.ResolveSession(sessionID);
+        //    return _storeManagement.modifyProductPurchaseType(userID, storeName, productInvName, productID, purchaseType);
+        //}
 
         [Trace("Info")]
         //Usecase - 4.3

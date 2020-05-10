@@ -16,6 +16,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         protected CompositeDiscountPolicy(Guid ID)
         {
             _ID = ID;
+            _children = new List<DiscountPolicy>();
         }
 
         protected CompositeDiscountPolicy(Guid ID, List<DiscountPolicy> children)

@@ -1,5 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -20,20 +22,20 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         {
             //_prodIDCounter = 0;
             //_prodInvID = 0;
-            var discount = new VisibleDiscount(15.0f, new DiscountPolicy());
+
             var purchasePolicy = new ImmediatePurchase();
             _products = new List<ProductInventory>()
             {
-                { ProductInventory.Create("Dell XPS 15inch", "Laptop", discount, purchasePolicy, 1600.0, 30, Category.ELECTRONICS, new List<string>() { "Laptop", "Computer", "PC"})},
-                { ProductInventory.Create("Sony DSLR Camera", "Best camera", discount, purchasePolicy, 500.0, 20, Category.CAMERASPHOTOS, new List<string>() { "Camera", "DSLR", "Sony"})},
-                { ProductInventory.Create("Google Pixel 4", "New google phone", discount, purchasePolicy, 700.0, 10, Category.CELLPHONES, new List<string>() { "Google", "Pixel", "Phone"})},
-                { ProductInventory.Create("Google Pixel 4", "New google phone", discount, purchasePolicy, 700.0, 10, Category.ELECTRONICS, new List<string>() { "Google", "Pixel", "Phone"})},
-                { ProductInventory.Create("Western Digital 4TB HardDrive", "4TB Harddrive", discount, purchasePolicy, 100.0, 100, Category.ELECTRONICS, new List<string>() { "WD", "Harddrive"})},
-                { ProductInventory.Create("Dyson V11", "Vaccum cleaner", discount, purchasePolicy, 300.0, 5, Category.HOMEGARDEN, new List<string>() { "Dyson", "Vaccum"})},
-                { ProductInventory.Create("Logitech MX Master 3", "Computer mice", discount, purchasePolicy, 110.0, 300, Category.ELECTRONICS, new List<string>() { "Logitech", "Mice"})},
-                { ProductInventory.Create("Linkin Park - Meteora", "Nu-Metal music album", discount, purchasePolicy, 20.0, 2, Category.MUSIC, new List<string>() { "Music", "LP", "Nu-Metal"})},
-                { ProductInventory.Create("Windows 10 Home", "Microsoft Operatin system", discount, purchasePolicy, 25.0, 5000, Category.SOFTWARE, new List<string>() { "OS", "Microsoft", "Windows"})},
-                { ProductInventory.Create("iPhone 11 XL", "Apple new smartphone", discount, purchasePolicy, 800.0, 30, Category.CELLPHONES, new List<string>() { "Apple", "Smartphone", "Phone"})},
+                { ProductInventory.Create("Dell XPS 15inch", "Laptop", 1600.0, 30, Category.ELECTRONICS, new List<string>() { "Laptop", "Computer", "PC"})},
+                { ProductInventory.Create("Sony DSLR Camera", "Best camera",  500.0, 20, Category.CAMERASPHOTOS, new List<string>() { "Camera", "DSLR", "Sony"})},
+                { ProductInventory.Create("Google Pixel 4", "New google phone",  700.0, 10, Category.CELLPHONES, new List<string>() { "Google", "Pixel", "Phone"})},
+                { ProductInventory.Create("Google Pixel 4", "New google phone", 700.0, 10, Category.ELECTRONICS, new List<string>() { "Google", "Pixel", "Phone"})},
+                { ProductInventory.Create("Western Digital 4TB HardDrive", "4TB Harddrive",  100.0, 100, Category.ELECTRONICS, new List<string>() { "WD", "Harddrive"})},
+                { ProductInventory.Create("Dyson V11", "Vaccum cleaner",300.0, 5, Category.HOMEGARDEN, new List<string>() { "Dyson", "Vaccum"})},
+                { ProductInventory.Create("Logitech MX Master 3", "Computer mice",110.0, 300, Category.ELECTRONICS, new List<string>() { "Logitech", "Mice"})},
+                { ProductInventory.Create("Linkin Park - Meteora", "Nu-Metal music album", 20.0, 2, Category.MUSIC, new List<string>() { "Music", "LP", "Nu-Metal"})},
+                { ProductInventory.Create("Windows 10 Home", "Microsoft Operatin system", 25.0, 5000, Category.SOFTWARE, new List<string>() { "OS", "Microsoft", "Windows"})},
+                { ProductInventory.Create("iPhone 11 XL", "Apple new smartphone",  800.0, 30, Category.CELLPHONES, new List<string>() { "Apple", "Smartphone", "Phone"})},
             };
             for (var i = 0; i < _products.Count; ++i)
             {
@@ -41,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             }
             _mock = new Mock<SearchAndFilter>();
             _mock.Setup(s => s.getProductInventories(null)).Returns(_products);
-            store = new Store(null, null, "owner", "store1");
+            store = new Store( "owner", "store1");
             store.Inventory.Products = _products;
             StoreManagement.Instance.Stores.Add(store);
             

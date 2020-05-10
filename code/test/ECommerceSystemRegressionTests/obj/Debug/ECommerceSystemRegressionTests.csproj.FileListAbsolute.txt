@@ -113,3 +113,24 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CopyComplete
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csprojAssemblyReference.cache
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CoreCompileInputs.cache
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\ECommerceSystemRegressionTests.dll.config
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.Extensions.Primitives.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Memory.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Buffers.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\Microsoft.Extensions.Primitives.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Memory.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Buffers.xml

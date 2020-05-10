@@ -96,17 +96,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user have permission to add product
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price,
+        public Guid addProductInv(string activeUserName, string productName, string description,  double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
 
-            Guid productID = _inventory.addProductInv(productName, description, purchaseType, price, quantity, category, keywords);
+            Guid productID = _inventory.addProductInv(productName, description,  price, quantity, category, keywords);
 
             if (minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this._purchasePolicy.Add(productPurchasePolicy);
-                this.Inventory.getProductById(productID).PurchasePolicy = productPurchasePolicy;
+                this.Inventory.Products.First().ProductList.First().PurchasePolicy = productPurchasePolicy;
             }
             return productID;
         }
@@ -123,9 +123,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - logged in user have permission to modify product
         //return the new product id or -1 in case of fail
-        public Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
-            Guid productID = _inventory.addProduct(productInvName, purchaseType, quantity);
+            Guid productID = _inventory.addProduct(productInvName, quantity);
             if(minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
@@ -144,16 +144,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ProductInventory productInv = _inventory.getProductByName(productInvName);
             foreach(Product p in productInv.ProductList)
             {
-                _purchasePolicy.Remove(p.PurchasePolicy.ID);
+                if(p.PurchasePolicy != null)
+                     _purchasePolicy.Remove(p.PurchasePolicy.ID);
             }
 
             //remove all discounts of the products of the productInv
             foreach (Product p in productInv.ProductList)
             {
-                if (p.Discount.IsInComposite)
+                if(p.Discount != null)
                 {
-                    _discountPolicy.Remove(p.PurchasePolicy.ID);
+                    if (p.Discount.IsInComposite)
+                    {
+                        _discountPolicy.Remove(p.PurchasePolicy.ID);
+                    }
                 }
+
             }
 
             return _inventory.deleteProductInventory(productInvName);
@@ -162,8 +167,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
         {
             Product product = Inventory.getProductById(productID);
-            _purchasePolicy.Remove(product.PurchasePolicy.getID());
-            _discountPolicy.Remove(product.Discount.getID());
+            if(product.PurchasePolicy != null)
+                _purchasePolicy.Remove(product.PurchasePolicy.getID());
+            if(product.Discount != null)
+                _discountPolicy.Remove(product.Discount.getID());
             return _inventory.deleteProduct(productInvName, productID);
         }
 
@@ -178,16 +185,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - logged in user have permission to modify product
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
-        {
-            return _inventory.modifyProductDiscountType(productInvName, productID, newDiscount);
-        }
+        //public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
+        //{
+        //    return _inventory.modifyProductDiscountType(productInvName, productID, newDiscount);
+        //}
 
         //@pre - logged in user have permission to modify product
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
-        {
-            return _inventory.modifyProductPurchaseType(productInvName, productID, purchaseType);
-        }
+        //public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //{
+        //    return _inventory.modifyProductPurchaseType(productInvName, productID, purchaseType);
+        //}
 
         //@pre - logged in user have permission to modify product
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)

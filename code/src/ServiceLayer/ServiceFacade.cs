@@ -24,7 +24,7 @@ namespace ECommerceSystem.ServiceLayer
 
         public Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
         {
-            return _storeServices.addProduct(sessionID, storeName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
+            return _storeServices.addProduct(sessionID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
 
         public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)

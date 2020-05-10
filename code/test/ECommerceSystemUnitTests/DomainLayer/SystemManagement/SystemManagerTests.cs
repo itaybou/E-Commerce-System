@@ -25,6 +25,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private Product product2;
         private Product product3;
         private Product product4;
+        private Guid _userID;
 
 
         [SetUp]
@@ -34,12 +35,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement = UsersManagement.Instance;
             _userManagement.register("user1", "pA55word", "user", "last", "mail@mail");
             _userManagement.login("user1", "pA55word");
-            _store1 = new Store(null, null, "owner1", "store1");
-            _store2 = new Store(null, null, "owner2", "store2");
-            product1 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            product2 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            product3 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
-            product4 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            _store1 = new Store( "owner1", "store1");
+            _store2 = new Store( "owner2", "store2");
+            product1 = new Product(null, null,   20, 20, Guid.NewGuid());
+            product2 = new Product(null, null,  20, 20, Guid.NewGuid());
+            product3 = new Product(null, null,  20, 20, Guid.NewGuid());
+            product4 = new Product(null, null,  20, 20, Guid.NewGuid());
+            _userID= _userManagement.getUserByName("user1").Guid;
             var store1_products = new Dictionary<Product, int>()
             {
                 {product1, 5 },
@@ -68,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void makePurchaseSuccessTest()
         {
-            Assert.True(_systemManager.makePurchase(_totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
+            Assert.True(_systemManager.makePurchase(_userID,   _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
             Assert.AreEqual(product1.Quantity, 15); // First product quantity decreased (first store purchased from)
             Assert.AreEqual(product2.Quantity,10);
             Assert.AreEqual(product3.Quantity, 18);
@@ -78,31 +80,31 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void makePurchaseFaildBadCreditCardDetailsTest()
         {
-            Assert.False(_systemManager.makePurchase(_totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV /10, _address));
-            Assert.False(_systemManager.makePurchase(_totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
+            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV /10, _address));
+            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
         }
 
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryUpdateAfterPurchaseTest()
         {
-            _systemManager.makePurchase(_totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
+            _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
                 _creditCardNumber, _expirationCreditCard, _CVV, _address);
-            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product1.Id)));
-            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product2.Id)));
-            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product3.Id)));
-            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product4.Id)));
+            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
+            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
+            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
+            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
         }
 
 
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryCorrectAfterPurchaseTest()
         {
-            _systemManager.makePurchase(_totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
+            _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
                 _creditCardNumber, _expirationCreditCard, _CVV, _address);
-            Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product1.Id)));
-            Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product2.Id)));
-            Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product3.Id)));
-            Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.Exists(p => p.Id.Equals(product4.Id)));
+            Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
+            Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
+            Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
+            Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
         }
 
 

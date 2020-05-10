@@ -131,21 +131,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return _permissions[PermissionType.ManageDiscounts];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(string activeUserName, string productName, string description,  double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
             if (this.canAddProduct())
             {
-                return _store.addProductInv(activeUserName, productName, description, purchaseType, price, quantity, category, keywords, minQuantity, maxQuantity);
+                return _store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
 
 
-        public Guid addProduct(string loggedInUserName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             if (this.canModifyProduct())
             {
-                return _store.addProduct(loggedInUserName, productInvName, purchaseType, quantity, minQuantity, maxQuantity);
+                return _store.addProduct(loggedInUserName, productInvName, quantity, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
@@ -177,23 +177,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
-            }
-            else return false;
-        }
+        //public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
+        //    }
+        //    else return false;
+        //}
 
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
-            }
-            else return false;
-        }
+        //public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
+        //    }
+        //    else return false;
+        //}
 
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {
