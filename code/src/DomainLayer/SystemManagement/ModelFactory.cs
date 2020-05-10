@@ -47,5 +47,19 @@ namespace ECommerceSystem.Models
                 purcahse.PaymentShippingMethod.CreditCardNumber, purcahse.PaymentShippingMethod.ExpirationCreditCard,
                 purcahse.PaymentShippingMethod.CVV, purcahse.PaymentShippingMethod.Address);
         }
+
+        public static PermissionModel CreatePermissions(Permissions permissions)
+        {
+            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name(),
+                permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
+        }
+
+        public static UserModel CreateUser(User user)
+        {
+            if (!user.isSubscribed())
+                return null;
+            var state = (Subscribed)user._state;
+            return new UserModel(user.Guid, state._uname, state._details.Fname, state._details.Lname, state._details.Email);
+        }
     }
 }

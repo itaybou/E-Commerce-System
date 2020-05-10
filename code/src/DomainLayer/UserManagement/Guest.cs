@@ -1,4 +1,5 @@
 ﻿using System;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {

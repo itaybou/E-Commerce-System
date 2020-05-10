@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 {
@@ -13,7 +14,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
     {
 
         string productName = "Iphone", description = "description";
-        Discount discount = new VisibleDiscount(10, new DiscountPolicy());
         PurchaseType purchaseType = new ImmediatePurchase();
         double price = 100;
         int quantity = 5;
@@ -32,7 +32,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [SetUp]
         public void setUp()
         {
-            productInv = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords);
+            productInv = ProductInventory.Create(productName, description, price, quantity, category, keywords);
             productID = productInv.ProductList.First().Id;
         }
 
@@ -45,11 +45,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void CreateTest()
         {
-            Assert.NotNull(ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords));
-            Assert.Null(ProductInventory.Create(productName, description, null, purchaseType, price, quantity, category, keywords)); // discount null
-            Assert.Null(ProductInventory.Create(productName, description, discount, null, price, quantity, category, keywords)); // purchase typ null
-            Assert.Null(ProductInventory.Create(productName, description, discount, purchaseType, -5, quantity, category, keywords)); // price < 0 null
-            Assert.Null(ProductInventory.Create(productName, description, discount, purchaseType, price, -5, category, keywords)); // quantity > 0 null
+            Assert.NotNull(ProductInventory.Create(productName, description,  price, quantity, category, keywords));
+            Assert.Null(ProductInventory.Create(productName, description,-5, quantity, category, keywords)); // price < 0 null
+            Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords)); // quantity > 0 null
         }
 
         [Test()]
@@ -72,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void deleteProductTest()
         {
             Assert.False(productInv.deleteProduct(Guid.NewGuid()), "delete non exist id product"); // non exist id product
-            Guid guid = productInv.addProduct(discount, purchaseType, 10, 50);
+            Guid guid = productInv.addProduct( 10, 50);
             Assert.True(productInv.deleteProduct(guid), "Fail to delete exist product");
             Assert.Null(productInv.getProducByID(guid), "Fail to delete exist product");
         }
@@ -86,12 +84,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductTest()
         {
-            Assert.AreEqual(Guid.Empty,productInv.addProduct(null, purchaseType, 10, 50), "Add new product with null discount successed");
-            Assert.AreEqual(Guid.Empty, productInv.addProduct(discount, null, 10, 50), "Add new product with null purchaseType successed");
-            Assert.AreEqual(Guid.Empty, productInv.addProduct(discount, purchaseType, -1, 50), "Add new product with negative quantity successed");
-            Assert.AreEqual(Guid.Empty, productInv.addProduct(discount, purchaseType, 10, -2), "Add new product with negative price successed");
+            Assert.AreEqual(Guid.Empty, productInv.addProduct( -1, 50), "Add new product with negative quantity successed");
+            Assert.AreEqual(Guid.Empty, productInv.addProduct( 10, -2), "Add new product with negative price successed");
 
-            Guid guid = productInv.addProduct(discount, purchaseType, 10, 50);
+            Guid guid = productInv.addProduct( 10, 50);
             Assert.AreNotEqual(Guid.Empty, guid);
             Assert.NotNull(productInv.getProducByID(guid), "Fail to add a product");
         }

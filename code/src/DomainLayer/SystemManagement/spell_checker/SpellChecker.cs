@@ -48,7 +48,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public List<string> Correct(string word)
         {
             if (string.IsNullOrEmpty(word) || _dictionary == null)
-                return null;
+                return new List<string>();
             word = word.ToLower();
             // no spelling error
             if (_dictionary.Contains(word))

@@ -1,7 +1,9 @@
 ﻿@using ECommerceSystem.Models;
-@model Dictionary<StoreModel, List<ProductModel>>
+@model (Dictionary<StoreModel, List<ProductModel>>, IDictionary<string, PermissionModel>)
 @{
     ViewData["Title"] = "My Stores";
+    var StoreProducts = Model.Item1;
+    var Permissions = Model.Item2;
 }
 
 <div class="container py-2">
@@ -12,71 +14,84 @@
                     <h1>@ViewData["Title"]</h1>
                 </div>
                 <div class="col justify-content-center align-self-center text-right">
-                    <button type="submit" style="width: 200px" class="btn btn-lg btn-success">
+                    <a type="submit" style="width: 200px" class="btn btn-lg btn-success" asp-controller="Store" asp-action="OpenStore">
                         <i class="fas fa-plus"></i><i class="fas fa-store"></i> Open Store
-                    </button>
+                    </a>
                 </div>
             </div>
             <!-- List group-->
             <ul class="list-group shadow">
                 <!-- list group item-->
-                @foreach (var store in Model.Keys)
+                @foreach (var store in StoreProducts.Keys)
                 {
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="row">
-                        <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
-                            <div class="media-body order-2 order-lg-1">
-                                <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
-                                <ul class="list-inline small stars">
-                                    @for (var i = 0; i < Math.Round(store.Rating); i++)
-                                    {
-                                        <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
-                                    }
-                                    @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
-                                    {
-                                        <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
-                                    }
-                                </ul>
-                                <span><b>Rated by: </b>@store.RaterCount customers</span>
+                    <li class="list-group-item">
+                        <!-- Custom content-->
+                        <div class="row">
+                            <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
+                                <div class="media-body order-2 order-lg-1">
+                                    <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
+                                    <ul class="list-inline small stars">
+                                        @for (var i = 0; i < Math.Round(store.Rating); i++)
+                                        {
+                                            <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
+                                        }
+                                        @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
+                                        {
+                                            <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
+                                        }
+                                    </ul>
+                                    <span><b>Rated by: </b>@store.RaterCount customers</span><br />
+                                    <span><b>Role: </b>@(Permissions[store.Name].IsOwner ? "Owner" : "Manager")</span>
+                                </div>
+                            </div>
+                                <div class="col justify-content-center align-self-center text-right">
+                                    <form type="hidden" asp-action="StoreOwners" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                            Owners <i class="fas fa-crown"></i>
+                                        </button>
+                                    </form>
+                                    <form type="hidden" asp-action="StoreManagers" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                            Managers <i class="fas fa-user-tie"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+                                <div class="col justify-content-center align-self-center text-right">
+                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                            View Products <i class="fas fa-store"></i>
+                                        </button>
+                                    </form>
+                                    <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                            Manage Inventory <i class="fas fa-warehouse"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                        </div>
+                        <div class="col">
+                            <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
+                                <!-- <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light" >
+                                        Close Store <i class="fas fa-store-slash"></i>
+                                    </button>
+                                </form> -->
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                        Modify Purchase Policies <i class="fas fa-dollar-sign"></i>
+                                    </button>
+                                </form>
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                        Modify Discount Policies <i class="fas fa-percentage"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                        <div class="col justify-content-center align-self-center text-right">
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                    View Products <i class="fas fa-store"></i>
-                                </button>
-                            </form>
-                            <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                    Manage Inventory <i class="fas fa-warehouse"></i>
-                                </button>
-                            </form>
-
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light" >
-                                    Close Store <i class="fas fa-store-slash"></i>
-                                </button>
-                            </form>
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
-                                    Modify Purchase Policies <i class="fas fa-dollar-sign"></i>
-                                </button>
-                            </form>
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
-                                    Modify Discount Policies <i class="fas fa-percentage"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-                    <!-- End -->
-                }
+                    </li>
+                        <!-- End -->
+                            }
             </ul> <!-- End -->
         </div>
     </div>

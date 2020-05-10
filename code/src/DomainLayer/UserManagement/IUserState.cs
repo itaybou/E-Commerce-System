@@ -1,4 +1,6 @@
-﻿namespace ECommerceSystem.DomainLayer.UserManagement
+﻿using ECommerceSystem.Models;
+
+namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {
@@ -17,7 +19,5 @@
         void removePermissions(string storeName);
 
         Permissions getPermission(string storeName);
-
-
     }
 }

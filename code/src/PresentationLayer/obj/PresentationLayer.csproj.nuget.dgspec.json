@@ -1,34 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {}
+    "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {}
   },
   "projects": {
-    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+    "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj",
+        "projectUniqueName": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj",
         "projectName": "ECommerceSystem",
-        "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+        "projectPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
       },
       "frameworks": {
         "net461": {}
       }
     },
-    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {
+    "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+        "projectUniqueName": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
         "projectName": "PresentationLayer",
-        "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
-        "packagesPath": "C:\\Users\\Itay Bouganim\\.nuget\\packages\\",
-        "outputPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
+        "projectPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+        "packagesPath": "C:\\Users\\סהר\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Itay Bouganim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\סהר\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -41,8 +41,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
-                "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+              "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+                "projectPath": "C:\\Users\\סהר\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
               }
             }
           }
@@ -56,6 +56,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.3, )"
@@ -63,6 +67,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.2, )"
+            },
+            "toastr": {
+              "target": "Package",
+              "version": "[2.1.1, )"
             }
           },
           "imports": [

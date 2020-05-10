@@ -4,3 +4,13 @@
 #  stack-trace format: (at <stack-trace-method>\n)*
 ###################################################################
 2020-04-26 20:21:50.1650 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:28:54.6076 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:44:27.3474 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:45:39.6722 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:52:20.0622 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:57:31.1087 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:58:09.5042 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:59:10.1523 | ERROR: Missing spell checker dictionary file!
+2020-05-05 11:59:59.0363 | ERROR: Missing spell checker dictionary file!
+2020-05-05 12:00:39.8192 | ERROR: Missing spell checker dictionary file!
+2020-05-09 19:39:09.0667 | ERROR: Missing spell checker dictionary file!

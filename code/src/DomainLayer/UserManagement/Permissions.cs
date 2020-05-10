@@ -2,32 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public enum PermissionType 
-    {
-        AddProductInv,
-        DeleteProductInv,
-        ModifyProduct,
-        WatchAndComment,
-        WatchPurchaseHistory,
-    }
 
     public class Permissions : IStoreInterface
     {
         private User _assignedBy;
         private Dictionary<PermissionType, bool> _permissions;
         private bool _isOwner;
-        private Store _store;
+        private IStoreInterface _store;
 
 
         public User AssignedBy { get => _assignedBy; }
+        public IStoreInterface Store { get => _store; set => _store = value; }
+        public Dictionary<PermissionType, bool> PermissionTypes { get => _permissions; set => _permissions = value; }
 
-
-        private Permissions(User assignedBy, bool isOwner, Store store)
+        private Permissions(User assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
         {
             this._assignedBy = assignedBy;
+            this._permissions = permissions;
             initPermmisionsDict(isOwner);
             this._isOwner = isOwner;
             this._store = store;
@@ -65,6 +61,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _permissions[PermissionType.AddProductInv] = isOwner;
             _permissions[PermissionType.DeleteProductInv] = isOwner;
             _permissions[PermissionType.ModifyProduct] = isOwner;
+            _permissions[PermissionType.ManagePurchasePolicy] = isOwner;
+            _permissions[PermissionType.ManageDiscounts] = isOwner;
             _permissions[PermissionType.WatchPurchaseHistory] = true;   // defualt for manager
             _permissions[PermissionType.WatchAndComment] = true;     // default for manager
         }
@@ -118,26 +116,36 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
-        internal bool canWatchHistory()
+        public bool canWatchHistory()
         {
             return _permissions[PermissionType.WatchPurchaseHistory];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public bool canManagePurchasePolicy()
+        {
+            return _permissions[PermissionType.ManagePurchasePolicy];
+        }
+
+        public bool canManageDiscounts()
+        {
+            return _permissions[PermissionType.ManageDiscounts];
+        }
+
+        public Guid addProductInv(string activeUserName, string productName, string description,  double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
             if (this.canAddProduct())
             {
-                return _store.addProductInv(activeUserName, productName, description, discount, purchaseType, price, quantity, category, keywords);
+                return _store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
 
 
-        public Guid addProduct(string loggedInUserName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             if (this.canModifyProduct())
             {
-                return _store.addProduct(loggedInUserName, productInvName, discount, purchaseType, quantity);
+                return _store.addProduct(loggedInUserName, productInvName, quantity, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
@@ -169,23 +177,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, Discount newDiscount)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
-            }
-            else return false;
-        }
+        //public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
+        //    }
+        //    else return false;
+        //}
 
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
-            }
-            else return false;
-        }
+        //public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
+        //    }
+        //    else return false;
+        //}
 
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {
@@ -247,7 +255,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _store.rateStore(rating);
         }
 
-        public void logPurchase(StorePurchase purchase)
+        public void logPurchase(StorePurchaseModel purchase)
         {
             _store.logPurchase(purchase);
         }
@@ -257,13 +265,167 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             throw new NotImplementedException();
         }
 
-        public List<StorePurchase> purchaseHistory()
+        public List<StorePurchaseModel> purchaseHistory()
         {
             if (this.canWatchHistory())
             {
                 return _store.purchaseHistory();
             }
             else return null;
+        }
+
+        public Guid addDayOffPolicy(List<DayOfWeek> daysOff)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addDayOffPolicy(daysOff);
+            }
+            else return Guid.Empty;
+        }
+
+        public void removePurchasePolicy(Guid policyID)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                _store.removePurchasePolicy(policyID);
+                
+            }    
+        }
+
+        public Guid addLocationPolicy(List<string> banLocations)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addLocationPolicy(banLocations);
+
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addMinPriceStorePolicy(double minPrice)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addMinPriceStorePolicy(minPrice);
+
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addAndPurchasePolicy(Guid iD1, Guid iD2)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addAndPurchasePolicy(iD1, iD2);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addOrPurchasePolicy(Guid iD1, Guid iD2)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addOrPurchasePolicy(iD1, iD2);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addXorPurchasePolicy(Guid iD1, Guid iD2)
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.addXorPurchasePolicy(iD1, iD2);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addVisibleDiscount(productID, percentage, expDate);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addAndDiscountPolicy(List<Guid> IDS)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addAndDiscountPolicy(IDS);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addOrDiscountPolicy(List<Guid> IDs)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addOrDiscountPolicy(IDs);
+            }
+            else return Guid.Empty;
+        }
+
+        public Guid addXorDiscountPolicy(List<Guid> IDs)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.addXorDiscountPolicy(IDs);
+            }
+            else return Guid.Empty;
+        }
+
+        public bool removeProductDiscount(Guid discountID, Guid productID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeProductDiscount(discountID, productID);
+            }
+            else return false;
+        }
+
+        public bool removeCompositeDiscount(Guid discountID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeCompositeDiscount(discountID);
+            }
+            else return false;
+        }
+
+        public bool removeStoreLevelDiscount(Guid discountID)
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.removeCompositeDiscount(discountID);
+            }
+            else return false;
+        }
+
+        public string StoreName()
+        {
+            if (_store is Store)
+            {
+                return _store.StoreName();
+            } return null;
         }
     }
 }

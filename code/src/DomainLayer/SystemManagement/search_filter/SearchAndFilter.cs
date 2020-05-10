@@ -1,6 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
 using System;
@@ -16,8 +16,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public SearchAndFilter()
         {
-            _storeManagement = StoreManagement.Instance;
             _spellChecker = new SpellChecker();
+            _storeManagement = StoreManagement.Instance;
         }
 
         public virtual List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)

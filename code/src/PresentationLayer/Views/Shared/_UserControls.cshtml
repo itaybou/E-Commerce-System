@@ -1,44 +1,70 @@
-﻿<!--Navbar Auth Section-->
-    <div class="navbar-expand text-center justify-content-end navbar-colors d-flex flex-row p-1">
-        <span class="align-content-between m-2">
-            Welcome <b>User</b>
-        </span>
-        <!--User Notifications-->
-        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Cart" asp-action="Index">
-            <i class="far fa-envelope" aria-label="false"></i>
-            Notifications
-        </a>
-        <!--/User Notifications-->
-        <!--User Dashboard Controls-->
-        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Cart" asp-action="Index">
-            <i class="fas fa-user-tag" aria-label="false"></i>
-            Dashboard
-        </a>
-        <!--/User Dashboard Controls-->
-        <!--Purchase History-->
-        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="UserPurchases" asp-action="Index">
-            <i class="fas fa-shopping-bag" aria-label="false"></i>
-            Purchases
-        </a>
-        <!--/Purchase History-->
-        <!--Cart Controls-->
-        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Cart" asp-action="Index">
-            <i class="fas fa-shopping-cart" aria-label="false"></i>
-            My Cart
-            <sup><span class="badge badge-primary" style="background-color: #eab061">5000</span></sup>
-        </a>
-        <!--/Cart Controls-->
-        <a class="bttn btn-ripple login-btn px-lg-4 m-1" asp-controller="Auth" asp-action="Register">
-            <i class="fas fa-user" aria-label="true"></i>
-            Sign Up
-        </a>
-        <a class="bttn btn-ripple login-btn px-lg-4 m-1" asp-controller="Auth" asp-action="Login">
-            <i class="fas fa-sign-in-alt" aria-label="true"></i>
-            Sign In
-        </a>
-        <a class="bttn btn-ripple login-btn bg-danger px-lg-4 m-1" asp-controller="Auth" asp-action="Logout">
-            <i class="fas fa-sign-in-alt" aria-label="true"></i>
-            Logout
-        </a>
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    var notificationCount = Context.Session.GetString("NotificationCount");
+}
+
+<!--Navbar Auth Section-->
+    <div class="navbar-expand text-center justify-content-between navbar-colors d-flex flex-row p-1">
+        <div class="flex-row d-flex">
+         <partial name="_AdminControls" />
+        </div>
+        <div class="flex-row d-flex">
+            <span class="align-content-between m-2">
+                Welcome <b>@(User.Identity.IsAuthenticated ? User.Identity.Name : "Guest")</b>
+            </span>
+            <!--User Notifications-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Notification" asp-action="Index">
+                    <i class="far fa-envelope" aria-label="false"></i>
+                    Notifications
+                    <span class="badge badge-warning">@notificationCount</span>
+                </a>
+            }
+            <!--/User Notifications-->
+            <!--User Dashboard Controls-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="User" asp-action="Index">
+                    <i class="fas fa-user-tag" aria-label="false"></i>
+                    Dashboard
+                </a>
+            }
+            <!--/User Dashboard Controls-->
+            <!--Purchase History-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="UserPurchases" asp-action="Index">
+                    <i class="fas fa-shopping-bag" aria-label="false"></i>
+                    Purchases
+                </a>
+            }
+            <!--/Purchase History-->
+            <!--Cart Controls-->
+            <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Cart" asp-action="Index">
+                <i class="fas fa-shopping-cart" aria-label="false"></i>
+                My Cart
+
+            </a>
+            <!--/Cart Controls-->
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="bttn btn-ripple login-btn px-lg-4 m-1" asp-controller="Auth" asp-action="Register">
+                    <i class="fas fa-user" aria-label="true"></i>
+                    Sign Up
+                </a>
+                <a class="bttn btn-ripple login-btn px-lg-4 m-1" asp-controller="Auth" asp-action="Login">
+                    <i class="fas fa-sign-in-alt" aria-label="true"></i>
+                    Sign In
+                </a>
+            }
+            else
+            {
+                <a class="bttn btn-ripple login-btn bg-danger px-lg-4 m-1" asp-controller="Auth" asp-action="Logout">
+                    <i class="fas fa-sign-in-alt" aria-label="true"></i>
+                    Logout
+                </a>
+            }
+        </div>
     </div>
-<!--/Navbar Auth Section-->
+                <!--/Navbar Auth Section-->

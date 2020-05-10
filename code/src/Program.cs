@@ -1,7 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using System;

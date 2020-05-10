@@ -1,9 +1,11 @@
-﻿using System;
+﻿using ECommerceSystem.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -47,7 +49,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string productName, string description, Discount discount, PurchaseType purchaseType, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string productName, string description, double price, int quantity, Category category, List<string> keywords)
         {
             if (productName.Equals(""))
             {
@@ -57,7 +59,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            ProductInventory productInventory = ProductInventory.Create(productName, description, discount, purchaseType, price, quantity, category, keywords);
+            ProductInventory productInventory = ProductInventory.Create(productName, description,  price, quantity, category, keywords);
             if(productInventory == null)
             {
                 return Guid.Empty;
@@ -132,7 +134,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //return the new product id or -1 in case of fail
-        public Guid addProduct(string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(string productInvName, int quantity)
         {
             ProductInventory productInventory = getProductByName(productInvName);
             if (productInventory == null) // check if the product exist
@@ -141,7 +143,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                var id = productInventory.addProduct(discount, purchaseType, quantity, productInventory.Price);
+                var id = productInventory.addProduct( quantity, productInventory.Price);
                 if (id != Guid.Empty){
                     return id;
                 }
@@ -165,7 +167,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
-        public bool modifyProductDiscountType(string productInvName, Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string productInvName, Guid productID, DiscountType newDiscount)
         {
             if(newDiscount.Percentage < 0)
             {

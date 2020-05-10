@@ -1,0 +1,15 @@
+﻿@if (User.IsInRole("Admin"))
+{
+    <span class="align-content-between m-2">
+        <b>Admin controls: </b>
+    </span>
+    <!--User Notifications-->
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Admin" asp-action="Users">
+            <i class="fas fa-users"></i>
+            Manage users
+        </a>
+    }
+    <!--/User Notifications-->
+}

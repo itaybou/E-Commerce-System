@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ECommerceSystem.Models.UserModel>
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<<div class="container">
+    <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table table-striped user-list">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><span>Username</span></th>
+                                    <th><span>Firstname</span></th>
+                                    <th><span>Lastname</span></th>
+                                    <th><span>Email</span></th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        <img src="~/images/anonymous.png" alt="" height="42" width="42">
+                                    </td>
+                                    <td>
+                                        @user.Username
+                                    </td>
+                                    <td>@user.Fname</td>
+                                    <td>
+                                        @user.Lname
+                                    </td>
+                                    <td>
+                                        @user.Email
+                                    </td>
+                                    <td style="width: 15%;">
+                                        <a href="#" class="btn btn-sm btn-success">
+                                            <i class="fas fa-history"></i>
+                                            Purchases
+                                        </a>
+                                    </td>
+                                    <td style="width: 10%;">
+                                        <a href="#" class="table-link">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="table-link danger">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x text-danger"></i>
+                                                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

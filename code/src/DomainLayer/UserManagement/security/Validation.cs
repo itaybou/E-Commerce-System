@@ -1,4 +1,4 @@
-﻿using ECommerceSystem.DomainLayer.Utilities;
+﻿using ECommerceSystem.Utilities;
 using System;
 using System.Net.Mail;
 using System.Text.RegularExpressions;

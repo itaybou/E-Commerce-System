@@ -23,13 +23,13 @@ namespace ECommerceSystemRegressionTests
         [TestCase()]
         public void AtLeastOneSystemAdmin() // 1
         {
-            Assert.True(_usersManagement.Users.Keys.ToList().Exists(u => u.isSystemAdmin()));
+            Assert.True(_usersManagement.UserCarts.Keys.ToList().Exists(u => u.isSystemAdmin()));
         }
 
         [TestCase()]
         public void StoreOwnerManagerMustBeSubscribed() // 2
         {
-            var users = _usersManagement.Users.Keys.ToList();
+            var users = _usersManagement.UserCarts.Keys.ToList();
             _storeManagement.Stores.ForEach(s => s.Premmisions.ToList()
                 .ForEach(p =>
                 {
@@ -49,7 +49,7 @@ namespace ECommerceSystemRegressionTests
         [TestCase()]
         public void OnlyOneStoreShoppingCartPerStore() // 6
         {
-            var userCarts = _usersManagement.Users.Values.Concat(new List<UserShoppingCart>() { {_usersManagement._activeUser._cart }}).ToList();
+            var userCarts = _usersManagement.UserCarts.Values.Concat(new List<UserShoppingCart>() { {_usersManagement.UserCarts.Values.First() }}).ToList();
             userCarts.ForEach(uCart => {
                 var stores = uCart.StoreCarts.Select(s => s.store);
                 Assert.True(stores.Distinct().Count() == stores.Count());
@@ -60,8 +60,8 @@ namespace ECommerceSystemRegressionTests
         [TestCase()]
         public void UserHasAccessOnlyToHisShoppingCart() // 7
         {
-            var distinctUsers = _usersManagement.Users.Keys.Distinct();
-            var distinctUserCarts = _usersManagement.Users.Values.Distinct();
+            var distinctUsers = _usersManagement.UserCarts.Keys.Distinct();
+            var distinctUserCarts = _usersManagement.UserCarts.Values.Distinct();
             Assert.AreEqual(distinctUsers.Count(), distinctUserCarts.Count());
         }
     }

@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace ECommerceSystem.DomainLayer.Utilities
+namespace ECommerceSystem.Utilities
 {
     public class Range<T> where T : IComparable<T>
     {

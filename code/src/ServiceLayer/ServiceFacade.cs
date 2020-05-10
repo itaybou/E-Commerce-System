@@ -1,5 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.Utilities;
+using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -22,29 +22,29 @@ namespace ECommerceSystem.ServiceLayer
             _storeServices = new StoreService();
         }
 
-        public Guid addProduct(string storeName, string productInvName, Discount discount, PurchaseType purchaseType, int quantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
         {
-            return _storeServices.addProduct(storeName, productInvName, discount, purchaseType, quantity);
+            return _storeServices.addProduct(sessionID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
 
-        public Guid addProductInv(string storeName, string description, string productInvName, Discount discount, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, PurchaseType purchaseType, double price, int quantity, string category, List<string> keywords)
         {
             throw new NotImplementedException();
         }
 
-        public bool addProductToCart(Guid productId, string storeName, int quantity)
+        public bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity)
         {
-            throw new NotImplementedException();
+            return _userServices.addProductToCart(sessionID, productId, storeName, quantity);
         }
 
-        public bool assignManager(string newManageruserName, string storeName)
+        public bool assignManager(Guid sessionID, string newManageruserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.assignManager(sessionID, newManageruserName, storeName);
         }
 
-        public bool assignOwner(string newOwneruserName, string storeName)
+        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.assignOwner(sessionID, newOwneruserName, storeName);
         }
 
         public bool ChangeProductQunatity(Guid productId, int quantity)
@@ -62,24 +62,29 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
+        public bool editPermissions(Guid sessionID, string storeName, string managerUserName, List<PermissionType> permissions)
         {
-            throw new NotImplementedException();
+            return _storeServices.editPermissions(sessionID, storeName, managerUserName, permissions);
         }
 
         public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
         {
-            throw new NotImplementedException();
+            return _storeServices.getAllStoresInfo();
         }
 
         public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.getStoreInfo(storeName);
+        }
+
+        public IDictionary<string, PermissionModel> getUserPermissions(Guid sessionId)
+        {
+            return _storeServices.getUserPermissions(sessionId);
         }
 
         public bool isUserLogged(string username)
@@ -92,17 +97,17 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool login(string uname, string pswd)
+        public (bool, Guid) login(Guid sessionID, string uname, string pswd)
         {
-            throw new NotImplementedException();
+            return _userServices.login(sessionID, uname, pswd);
         }
 
-        public bool logout()
+        public bool logout(Guid userId)
         {
-            throw new NotImplementedException();
+            return _userServices.logout(userId);
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID, Discount newDiscount)
+        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID)
         {
             throw new NotImplementedException();
         }
@@ -127,9 +132,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool openStore(string name, DiscountPolicy discountPolicy, PurchasePolicy purchasePolicy)
+        public bool openStore(Guid sessionID, string name)
         {
-            throw new NotImplementedException();
+            return _storeServices.openStore(sessionID, name);
         }
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
@@ -137,12 +142,12 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             throw new NotImplementedException();
         }
 
-        public bool register(string uname, string pswd, string fname, string lname, string email)
+        public (bool, string) register(string uname, string pswd, string fname, string lname, string email)
         {
             return _userServices.register(uname, pswd, fname, lname, email);
         }
@@ -157,34 +162,69 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool removeManager(string managerUserName, string storeName)
+        public bool removeManager(Guid sessionID, string managerUserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.removeManager(sessionID, managerUserName, storeName);
         }
 
         public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByCategory(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            throw new NotImplementedException();
+            return _systemServices.searchProductsByName(prodName, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-        public ShoppingCartModel ShoppingCartDetails()
+        public ShoppingCartModel ShoppingCartDetails(Guid sessionID)
         {
-            throw new NotImplementedException();
+            return _userServices.ShoppingCartDetails(sessionID);
         }
 
         public ICollection<UserPurchaseModel> userPurchaseHistory(string userName)
         {
             throw new NotImplementedException();
+        }
+
+        public UserModel userDetails(Guid sessionID)
+        {
+            return _userServices.userDetails(sessionID);
+        }
+
+        public bool isUserAdmin(Guid sessionID)
+        {
+            return _userServices.isUserAdmin(sessionID);
+        }
+
+        public IEnumerable<UserModel> allUsers(Guid sessionID)
+        {
+            return _userServices.allUsers(sessionID);
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        {
+            return _storeServices.getStoreOwners(storeName);
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        {
+            return _storeServices.getStoreManagers(storeName);
+        }
+
+        public IEnumerable<UserModel> searchUsers(string username)
+        {
+            return _userServices.searchUsers(username);
+        }
+
+        public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
+        {
+            return _storeServices.getUsernamePermissionTypes(storeName, username);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
 using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
@@ -8,10 +9,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string _uname;
         public string _pswd;
         private List<UserPurchase> _purchaseHistory;
-
         public UserDetails _details { get; set; }
         public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
-
 
         private Dictionary<string, Permissions> _permisions;  //store name --> permission
 
@@ -62,9 +61,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public class UserDetails
         {
-            private string _fname { get; set; }
-            private string _lname { get; set; }
-            private string _email { get; set; }
+            private string _fname;
+            private string _lname;
+            private string _email;
 
             public UserDetails(string fname, string lname, string email)
             {
@@ -72,6 +71,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 _lname = lname;
                 _email = email;
             }
+
+            public string Fname { get => _fname; set => _fname = value; }
+            public string Lname { get => _lname; set => _lname = value; }
+            public string Email { get => _email; set => _email = value; }
         }
 
 
@@ -83,5 +86,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
             else return null;
         }
+
     }
 }

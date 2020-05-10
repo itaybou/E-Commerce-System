@@ -57,6 +57,33 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.2.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.2.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.2.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -70,18 +97,39 @@
       <HintPath>packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.TraceSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.TraceSource.4.3.0\lib\net46\System.Diagnostics.TraceSource.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,10 +138,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalProductDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\OrDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ProductDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\XORDiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\DaysOffPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\LocationPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\MinPricePerStorePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\ProductQuantityPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\XORPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\OrPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\AndPurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\CompositePurchasePolicy.cs" />
+    <Compile Include="CommunicationLayer\Communication.cs" />
+    <Compile Include="CommunicationLayer\ICommunication.cs" />
+    <Compile Include="CommunicationLayer\notifications\INotification.cs" />
+    <Compile Include="CommunicationLayer\notifications\Notification.cs" />
+    <Compile Include="CommunicationLayer\notifications\NotificationCenter.cs" />
+    <Compile Include="CommunicationLayer\WebsocketManager.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\SystemLogger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
+    <Compile Include="Models\PermissionModel.cs" />
+    <Compile Include="Models\PermissionType.cs" />
+    <Compile Include="Models\notifications\AssignManagerNotification.cs" />
+    <Compile Include="Models\notifications\PurchaseNotification.cs" />
+    <Compile Include="Models\notifications\RemoveManagerNotification.cs" />
+    <Compile Include="Models\notifications\RemoveOwnerNotification.cs" />
+    <Compile Include="Models\notifications\AssignOwnerNotification.cs" />
+    <Compile Include="Models\notifications\INotitficationType.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
     <Compile Include="DomainLayer\SystemManagement\ModelFactory.cs" />
@@ -101,13 +178,14 @@
     <Compile Include="Models\ShoppingCartModel.cs" />
     <Compile Include="Models\StoreModel.cs" />
     <Compile Include="Models\StorePurchaseModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserPurchaseModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DomainLayer\StoresManagement\Category.cs" />
-    <Compile Include="DomainLayer\StoresManagement\Discount.cs" />
-    <Compile Include="DomainLayer\StoresManagement\PurchasePolicy.cs" />
-    <Compile Include="DomainLayer\StoresManagement\DiscountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\DiscountType.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\PurchasePolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\DiscountPolicy.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="DomainLayer\StoresManagement\IStoreInterface.cs" />
     <Compile Include="DomainLayer\StoresManagement\Product.cs" />
     <Compile Include="DomainLayer\StoresManagement\Store.cs" />
@@ -116,7 +194,7 @@
     <Compile Include="DomainLayer\StoresManagement\PurchaseType.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagemet.cs" />
     <Compile Include="DomainLayer\StoresManagement\ImmediatePurchase.cs" />
-    <Compile Include="DomainLayer\StoresManagement\VisibleDiscount.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\VisibleDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\StorePurchase.cs" />
     <Compile Include="DomainLayer\SystemManagement\search_filter\Filters.cs" />
     <Compile Include="DomainLayer\SystemManagement\search_filter\SearchAndFilter.cs" />
@@ -139,10 +217,11 @@
     <Compile Include="DomainLayer\UserManagement\IUserState.cs" />
     <Compile Include="ServiceLayer\IService.cs" />
     <Compile Include="ServiceLayer\ServiceFacade.cs" />
+    <Compile Include="CommunicationLayer\sessions\ISessionController.cs" />
+    <Compile Include="CommunicationLayer\sessions\SessionController.cs" />
     <Compile Include="Utilities\EnumMethods.cs" />
     <Compile Include="Utilities\Range.cs" />
     <Compile Include="ServiceLayer\SystemServices.cs" />
-    <Compile Include="ServiceLayer\IDataManager.cs" />
     <Compile Include="ServiceLayer\UserServices.cs" />
     <Compile Include="ServiceLayer\StoreService.cs" />
   </ItemGroup>
@@ -153,6 +232,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="ClassDiagram1.cd" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
