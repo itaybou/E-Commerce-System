@@ -205,38 +205,38 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //@pre - userID exist and subscribed
-        public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount)
-        {
-            User activeUser = isUserIDSubscribed(userID);
-            if (activeUser == null) //The logged in user isn`t subscribed
-            {
-                return false;
-            }
-            Permissions permission = activeUser.getPermission(storeName);
-            if (permission == null)
-            {
-                return false;
-            }
+        //public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount)
+        //{
+        //    User activeUser = isUserIDSubscribed(userID);
+        //    if (activeUser == null) //The logged in user isn`t subscribed
+        //    {
+        //        return false;
+        //    }
+        //    Permissions permission = activeUser.getPermission(storeName);
+        //    if (permission == null)
+        //    {
+        //        return false;
+        //    }
 
-            return permission.modifyProductDiscountType(activeUser.Name(), productInvName, productID, newDiscount);
-        }
+        //    return permission.modifyProductDiscountType(activeUser.Name(), productInvName, productID, newDiscount);
+        //}
 
-        //@pre - userID exist and subscribed
-        public bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
-        {
-            User activeUser = isUserIDSubscribed(userID);
-            if (activeUser == null) //The logged in user isn`t subscribed
-            {
-                return false;
-            }
-            Permissions permission = activeUser.getPermission(storeName);
-            if (permission == null)
-            {
-                return false;
-            }
+        ////@pre - userID exist and subscribed
+        //public bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //{
+        //    User activeUser = isUserIDSubscribed(userID);
+        //    if (activeUser == null) //The logged in user isn`t subscribed
+        //    {
+        //        return false;
+        //    }
+        //    Permissions permission = activeUser.getPermission(storeName);
+        //    if (permission == null)
+        //    {
+        //        return false;
+        //    }
 
-            return permission.modifyProductPurchaseType(activeUser.Name(), productInvName, productID, purchaseType);
-        }
+        //    return permission.modifyProductPurchaseType(activeUser.Name(), productInvName, productID, purchaseType);
+        //}
 
         //*********Assign*********
 

@@ -186,7 +186,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (user != null && user.isSubscribed())
             {
                 var productsPurchased = allProducts.Select(prod => 
-                    new Product(prod.Key.Name, prod.Key.Description, prod.Key.PurchaseType, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
+                    new Product(prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
                     user._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }

@@ -99,19 +99,19 @@ namespace ECommerceSystem.ServiceLayer
             return _storeManagement.modifyProductQuantity(userID, storeName, productInvName, productID, newQuantity);
         }
 
-        [Trace("Info")]
-        public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID, DiscountType newDiscount) // TODO: fix service types version 1
-        {
-            var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.modifyProductDiscountType(userID, storeName, productInvName, productID, newDiscount);
-        }
+        //[Trace("Info")]
+        //public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID, DiscountType newDiscount) // TODO: fix service types version 1
+        //{
+        //    var userID = _sessions.ResolveSession(sessionID);
+        //    return _storeManagement.modifyProductDiscountType(userID, storeName, productInvName, productID, newDiscount);
+        //}
 
-        [Trace("Info")]
-        public bool modifyProductPurchaseType(Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
-        {
-            var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.modifyProductPurchaseType(userID, storeName, productInvName, productID, purchaseType);
-        }
+        //[Trace("Info")]
+        //public bool modifyProductPurchaseType(Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
+        //{
+        //    var userID = _sessions.ResolveSession(sessionID);
+        //    return _storeManagement.modifyProductPurchaseType(userID, storeName, productInvName, productID, purchaseType);
+        //}
 
         [Trace("Info")]
         //Usecase - 4.3

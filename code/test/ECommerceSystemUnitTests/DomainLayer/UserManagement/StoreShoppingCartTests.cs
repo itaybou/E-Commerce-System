@@ -93,18 +93,18 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 0.0);       //check the total price of empty shopping cart
             _storeShoppingCart.AddToCart(product, 5);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 80.0);     //check the total price after adding a new product to cart 
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 100.0);     //check the total price after adding a new product to cart 
             _storeShoppingCart.AddToCart(product2, 2);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 116.0);     //check the total price after adding second product to cart
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 140.0);     //check the total price after adding second product to cart
             _storeShoppingCart.ChangeProductQuantity(product, 1);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 52.0);      //check the total price after changing the quantity of a product
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 60.0);      //check the total price after changing the quantity of a product
             _storeShoppingCart.RemoveFromCart(product2);
             _storeShoppingCart.RemoveFromCart(product);
             Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 0.0);       //check the total price after removing all the products to zero
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.AddToCart(product2, 2);
             _storeShoppingCart.RemoveFromCart(product2);
-            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 80.0);     //check the total price after removing only 1 product
+            Assert.AreEqual(_storeShoppingCart.getTotalCartPrice(), 100.0);     //check the total price after removing only 1 product
 
 
         }

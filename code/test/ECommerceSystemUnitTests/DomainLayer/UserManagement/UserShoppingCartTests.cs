@@ -32,19 +32,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product1 = new Product(null, null, 20, 20, Guid.NewGuid());
             var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart1.AddToCart(product1, 5);
-            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 80.0);     //check the total price after adding a product to cart
+            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 100.0);     //check the total price after adding a product to cart
             _storeShoppingCart2.AddToCart(product2, 2);
-            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 120.0);     //check the total price after adding a new product to cart
+            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 140.0);     //check the total price after adding a new product to cart
             _storeShoppingCart1.AddToCart(product1, 2);
-            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 152.0);     //check the total price after adding a new product to cart
+            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 180.0);     //check the total price after adding a new product to cart
             _storeShoppingCart1.RemoveFromCart(product1);
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 40.0);      //check the total price after removing a product from a cart
             _storeShoppingCart2.AddToCart(product2, 2);
             Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 80.0);
             _storeShoppingCart1.AddToCart(product1, 4);
-            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 144.0);
+            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 160.0);
             _storeShoppingCart1.ChangeProductQuantity(product1, 1);
-            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 96.0);     //check the total price after changing the quantity of a product
+            Assert.AreEqual(_userShoppingCart.getTotalACartPrice(), 100.0);     //check the total price after changing the quantity of a product
      
         }
 

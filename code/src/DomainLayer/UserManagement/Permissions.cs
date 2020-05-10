@@ -177,23 +177,23 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
-            }
-            else return false;
-        }
+        //public bool modifyProductDiscountType(string loggedInUserName, string productInvName, Guid productID, DiscountType newDiscount)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductDiscountType(loggedInUserName, productInvName, productID, newDiscount);
+        //    }
+        //    else return false;
+        //}
 
-        public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
-        {
-            if (this.canModifyProduct())
-            {
-                return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
-            }
-            else return false;
-        }
+        //public bool modifyProductPurchaseType(string loggedInUserName, string productInvName, Guid productID, PurchaseType purchaseType)
+        //{
+        //    if (this.canModifyProduct())
+        //    {
+        //        return _store.modifyProductPurchaseType(loggedInUserName, productInvName, productID, purchaseType);
+        //    }
+        //    else return false;
+        //}
 
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {

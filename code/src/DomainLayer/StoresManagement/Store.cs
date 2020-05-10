@@ -106,7 +106,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this._purchasePolicy.Add(productPurchasePolicy);
-                this.Inventory.getProductById(productID).PurchasePolicy = productPurchasePolicy;
+                this.Inventory.Products.First().ProductList.First().PurchasePolicy = productPurchasePolicy;
             }
             return productID;
         }
@@ -144,16 +144,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ProductInventory productInv = _inventory.getProductByName(productInvName);
             foreach(Product p in productInv.ProductList)
             {
-                _purchasePolicy.Remove(p.PurchasePolicy.ID);
+                if(p.PurchasePolicy != null)
+                     _purchasePolicy.Remove(p.PurchasePolicy.ID);
             }
 
             //remove all discounts of the products of the productInv
             foreach (Product p in productInv.ProductList)
             {
-                if (p.Discount.IsInComposite)
+                if(p.Discount != null)
                 {
-                    _discountPolicy.Remove(p.PurchasePolicy.ID);
+                    if (p.Discount.IsInComposite)
+                    {
+                        _discountPolicy.Remove(p.PurchasePolicy.ID);
+                    }
                 }
+
             }
 
             return _inventory.deleteProductInventory(productInvName);
@@ -162,8 +167,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
         {
             Product product = Inventory.getProductById(productID);
-            _purchasePolicy.Remove(product.PurchasePolicy.getID());
-            _discountPolicy.Remove(product.Discount.getID());
+            if(product.PurchasePolicy != null)
+                _purchasePolicy.Remove(product.PurchasePolicy.getID());
+            if(product.Discount != null)
+                _discountPolicy.Remove(product.Discount.getID());
             return _inventory.deleteProduct(productInvName, productID);
         }
 

@@ -45,15 +45,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             inventory.Products.Clear();
         }
 
-        [Test()]
-        public void addProductInvNotSuccessTest()
-        {
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", 100, 100, Category.ELECTRONICS, keywords), "Add productInv with null discount to inventory successed"); //discount null 
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung",  100, 100, Category.ELECTRONICS, keywords), "Add productInv with null purchase type to inventory successed"); //purchase type null
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung",  -5, 100, Category.ELECTRONICS, keywords), "Add productInv with negative price to inventory successed"); //negative price
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung",  100, -5, Category.ELECTRONICS, keywords), "Add productInv with negative quantity to inventory successed"); //negative quantity
-            Assert.AreEqual(Guid.Empty, inventory.addProductInv(productName, "samsung", 100, 100, Category.ELECTRONICS, keywords), "Add productInv with already exist name to inventory successed"); //exist name
-        }
 
         [Test()]
         public void addProductInvSuccessTest()

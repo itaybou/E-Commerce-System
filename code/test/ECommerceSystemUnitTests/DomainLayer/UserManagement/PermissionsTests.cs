@@ -73,11 +73,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _userManagement.register("newManager", "pA55word", "fname", "lname", "owner@gmail.com");
 
             _regularUserGUID = _regularUser.Guid;
-            _permitManagerGUID = _permitManager.Guid;
-            _nonPermitManagerGUID = _nonPermitManager.Guid;
-            _ownerGUID = _owner.Guid;
-            _anotherOwnerGUID = _anotherOwner.Guid;
-            _newManagerGUID = _newManager.Guid;
+            _permitManagerGUID = _userManagement.getUserByName("permitManager").Guid;
+            _nonPermitManagerGUID = _userManagement.getUserByName("nonPermitManager").Guid;
+            _ownerGUID = _userManagement.getUserByName("owner").Guid;
+            _anotherOwnerGUID = _userManagement.getUserByName("anotherOwner").Guid;
+            _newManagerGUID = _userManagement.getUserByName("newManager").Guid;
 
 
             _userManagement.login("owner", "pA55word");
@@ -122,7 +122,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _storeManagement.removeManager(_ownerGUID, "permitManager", "store");
             _storeManagement.removeManager(_ownerGUID, "nonPermitManager", "store");
             _storeManagement.removeManager(_ownerGUID, "anotherOwner", "store");
-            
+
+
         }
 
         [Test()]

@@ -444,3 +444,17 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.dll
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V2\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.pdb
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\netstandard.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.Extensions.Primitives.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Memory.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Buffers.dll
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\Microsoft.Extensions.Primitives.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Memory.xml
+C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Numerics.Vectors.xml

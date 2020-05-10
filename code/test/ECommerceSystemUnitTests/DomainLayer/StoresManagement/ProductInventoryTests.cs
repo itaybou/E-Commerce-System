@@ -46,8 +46,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void CreateTest()
         {
             Assert.NotNull(ProductInventory.Create(productName, description,  price, quantity, category, keywords));
-            Assert.Null(ProductInventory.Create(productName, description, price, quantity, category, keywords)); // discount null
-            Assert.Null(ProductInventory.Create(productName, description, price, quantity, category, keywords)); // purchase typ null
             Assert.Null(ProductInventory.Create(productName, description,-5, quantity, category, keywords)); // price < 0 null
             Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords)); // quantity > 0 null
         }
@@ -86,8 +84,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductTest()
         {
-            Assert.AreEqual(Guid.Empty,productInv.addProduct( 10, 50), "Add new product with null discount successed");
-            Assert.AreEqual(Guid.Empty, productInv.addProduct( 10, 50), "Add new product with null purchaseType successed");
             Assert.AreEqual(Guid.Empty, productInv.addProduct( -1, 50), "Add new product with negative quantity successed");
             Assert.AreEqual(Guid.Empty, productInv.addProduct( 10, -2), "Add new product with negative price successed");
 

@@ -71,12 +71,12 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             _userManagement.register("anotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.login("owner", "pA55word");
             
-            _regularUserGUID = _regularUser.Guid;
-            _permitManagerGUID = _permitManager.Guid;
-            _nonPermitManagerGUID = _nonPermitManager.Guid;
-            _ownerGUID = _owner.Guid;
-            _anotherOwnerGUID = _anotherOwner.Guid;
-            _newManagerGUID = _newManager.Guid;
+            _regularUserGUID = _userManagement.getUserByName("regularUser").Guid;
+            _permitManagerGUID = _userManagement.getUserByName("permitManager").Guid;
+            _nonPermitManagerGUID = _userManagement.getUserByName("nonPermitManager").Guid;
+            _ownerGUID = _userManagement.getUserByName("owner").Guid;
+            _anotherOwnerGUID = _userManagement.getUserByName("anotherOwner").Guid;
+            _newManagerGUID = _userManagement.getUserByName("newManager").Guid;
             // make the managers permissions
 
 
