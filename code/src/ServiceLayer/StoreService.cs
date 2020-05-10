@@ -139,7 +139,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.7
-        public bool removeManager(Guid sessionID, string managerUserName, string storeName) // TODO: fix service types version 1
+        public bool removeManager(Guid sessionID, string managerUserName, string storeName)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.removeManager(userID, managerUserName, storeName);
@@ -193,6 +193,11 @@ namespace ECommerceSystem.ServiceLayer
         public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
         {
             return _storeManagement.removePurchasePolicy(userID, storeName, policyID);
+        }
+
+        internal IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
+        {
+            return _storeManagement.getUserPermissionTypes(storeName, username);
         }
 
 
@@ -262,9 +267,15 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
         {
             return _storeManagement.getStoreOwners(storeName);
+        }
+
+        [Trace("Info")]
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        {
+            return _storeManagement.getStoreManagers(storeName);
         }
     }
 }

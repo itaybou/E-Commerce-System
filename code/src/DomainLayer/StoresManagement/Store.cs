@@ -315,6 +315,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return _premmisions.ContainsKey(name) ? _premmisions[name] : null;
         }
 
+        public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string name)
+        {
+            return _premmisions.ContainsKey(name) ? _premmisions[name].PermissionTypes : new Dictionary<PermissionType, bool>();
+        }
+
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             return this._purchasePolicy.canBuy(products, totalPrice, address);

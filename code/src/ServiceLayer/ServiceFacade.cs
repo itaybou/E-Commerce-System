@@ -62,9 +62,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool editPermissions(string storeName, string managerUserName, List<string> permissions)
+        public bool editPermissions(Guid sessionID, string storeName, string managerUserName, List<PermissionType> permissions)
         {
-            throw new NotImplementedException();
+            return _storeServices.editPermissions(sessionID, storeName, managerUserName, permissions);
         }
 
         public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
@@ -162,9 +162,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool removeManager(string managerUserName, string storeName)
+        public bool removeManager(Guid sessionID, string managerUserName, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.removeManager(sessionID, managerUserName, storeName);
         }
 
         public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
@@ -207,14 +207,24 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.allUsers(sessionID);
         }
 
-        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
         {
             return _storeServices.getStoreOwners(storeName);
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        {
+            return _storeServices.getStoreManagers(storeName);
         }
 
         public IEnumerable<UserModel> searchUsers(string username)
         {
             return _userServices.searchUsers(username);
+        }
+
+        public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
+        {
+            return _storeServices.getUsernamePermissionTypes(storeName, username);
         }
     }
 }

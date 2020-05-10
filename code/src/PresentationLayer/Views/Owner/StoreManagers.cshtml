@@ -1,0 +1,300 @@
+﻿@using ECommerceSystem.Models;
+@model (IEnumerable<(UserModel, PermissionModel)>, string)
+@{
+    var users = Model.Item1;
+    var storeName = Model.Item2;
+    ViewData["Title"] = "Store Managers - " + storeName;
+    ViewData["StoreName"] = storeName;
+    var permissionTypes = PermissionType.Descriptions().Keys;
+    var permissionTypesEnum = PermissionType.Descriptions().Values;
+}
+
+<input id="store" name="store" type="hidden" value="@storeName" />
+
+@section Scripts
+{
+    <script>
+        var store = document.getElementById('store').value;
+        $('.assign-search').select2({
+            placeholder: "Search users to assign",
+            allowClear: true,
+            minimumInputLength: 2,
+            maximumInputLength: 18,
+            templateResult: formatUserResults,
+            templateSelection: formatUserSelection,
+            escapeMarkup: function (markup) { return markup; },
+            ajax: {
+                cache: false,
+                //type: "GET",
+                delay: 250,
+                url: '/Owner/AssignSearch',
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        query: params.term, //search term
+                        storeName: store,
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    var newData = [];
+                    $.each(data, function (index, item) {
+                        newData.push({
+                            id: item.id,
+                            username: item.username,
+                            permissions: item.permissions
+                        });
+                    });
+                    return { results: newData };
+                },
+            }
+        });
+
+        function formatUserResults(user) {
+            var markup = "<table class='table-striped'><tr>";
+            if (user.username !== undefined) {
+                markup += "<div><b>" + user.username + "</b></div>";
+            }
+            markup += "</td></tr></table>"
+            return markup;
+        }
+
+        function formatUserSelection(user) {
+            return user.username;
+        }
+
+        $('#assign-search').on('select2:select', function (e) {
+            var username = e.params.data.username;
+            var permissions = e.params.data.permissions;
+            console.log(permissions);
+            $('input[type=checkbox]').prop('checked', false);
+            $('#assignUsername').val(username);
+            for (var i = 0; i < permissions.length; i++) {
+                $("#permission_" + i).prop("checked", permissions[i] ? 1 : 0);
+            }
+            if (username !== undefined) {
+                $('#permissions').show(300);
+            }
+        });
+
+        $("#assign-search").on("select2:unselecting", function (e) {
+            $('#permissions').hide(100);
+        });
+
+        $("#assign-search").on("change", function (e) {
+            $('#permissions').hide(50);
+        });
+
+        function editModal(username, permissions) {
+            const permStr = permissions.split(",");
+            const perm = permStr.map(p => p == 'True' ? true : false);
+            $('#editUsername').val(username);
+            $('#editUsernameTxt').text(username);
+            for (var i = 0; i < perm.length; i++) {
+                $("#permission2_" + i).prop("checked", perm[i] ? 1 : 0);
+            }
+            $('#edit-modal').modal();
+        };
+    </script>
+}
+
+<div class="container-fluid w-75">
+    <div class="row-2">
+        <div class="col">
+            <h1><i class="fas fa-user-tie"></i> @ViewData["Title"]</h1>
+        </div>
+        <div class="col justify-content-center align-self-center text-right" style="margin-bottom: 5px">
+            <button style="width: 250px" class="btn btn-lg btn-success" data-toggle="modal" data-target="#add-modal">
+                <i class="fas fa-plus"></i><i class="fas fa-user-tie"></i> Assign Manager
+            </button>
+        </div>
+        @if (!ViewContext.ModelState.IsValid)
+        {
+            <div class="col alert alert-danger" style="margin-top: 5px; margin-bottom: 5px;">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table table-striped user-list">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><span>Username</span></th>
+                                    <th><span>Firstname</span></th>
+                                    <th><span>Lastname</span></th>
+                                    <th><span>Email</span></th>
+                                    <th><span>Assigned By</span></th>
+                                    <th><span>Permissions</span></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var userPerm in users)
+                                {
+
+                                    var user = userPerm.Item1;
+                                    var permissions = userPerm.Item2;
+
+                                <tr>
+                                    <td>
+                                        <img src="~/images/anonymous.png" alt="" height="42" width="42">
+                                    </td>
+                                    <td>
+                                        @user.Username
+                                    </td>
+                                    <td>@user.Fname</td>
+                                    <td>
+                                        @user.Lname
+                                    </td>
+                                    <td>
+                                        @user.Email
+                                    </td>
+                                    <td>
+                                        @userPerm.Item2.AssignedBy
+                                    </td>
+                                    <td class="text-left text-info">
+                                        <ul>
+                                            @foreach (var permission in permissions.PermissionTypes)
+                                            {
+
+                                                <li>
+                                                    <small><b>@permission.Value</b></small>
+                                                </li>
+
+                                            }
+                                        </ul>
+                                    </td>
+                                    <td style="width: 8%">
+                                        @{
+                                            var perms = new bool[permissionTypesEnum.Count];
+                                            var userPermissions = userPerm.Item2.PermissionTypes.ToList();
+                                            for (var i = 0; i < permissionTypesEnum.Count; i++)
+                                            {
+                                                if (userPermissions.Contains(permissionTypesEnum.ElementAt(i)))
+                                                    perms[i] = true;
+                                            }
+                                            var permStr = string.Join(",", perms);
+                                        }
+                                        <button onclick="@($"editModal('{user.Username}', '{permStr}')");" class=" btn">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x text-info"></i>
+                                                <i class="fa fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </button>
+                                        <form type="hidden" asp-controller="Owner" asp-action="RemoveManager" asp-route-manager="@user.Username" asp-route-storeName="@storeName" method="post">
+                                            <button type="submit" class="btn danger" style="border: none; background-color: none">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x text-danger"></i>
+                                                    <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <!--<td style="width: 10%;">
+        <a href="#" class="table-link">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="#" class="table-link danger">
+            <span class="fa-stack">
+                <i class="fa fa-square fa-stack-2x text-danger"></i>
+                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </td> -->
+
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height: 50%">
+            <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" class="login-form" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">@("Assign manager")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        <input id="assignUsername" name="assignUsername" type="hidden" value="@null" />
+                        <select id="assign-search" class="w-100 assign-search" style="display: flex; width: 100%"></select>
+                    </div>
+                    <div id="permissions" class="w-100" style="display:none">
+                        <br />
+                        <h5>Set manager permissions:</h5>
+                        <ul class="list-group list-group-flush">
+                            @{var counter = 0; }
+                            @foreach (var permDesc in permissionTypes)
+                            {
+                                <li class="list-group-item">
+                                    <input type="checkbox" id="permission_@counter" name="permission_@counter" value="@permDesc">
+                                    <label>@permDesc</label>
+                                </li>
+                                counter++;
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Assign</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height: 50%">
+            <form asp-controller="Owner" asp-action="EditManagerPermissions" asp-route-storeName="@storeName" class="login-form" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">@("Edit manager permission for ")<span class="editUsernameTxt" /></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="editUsername" name="editUsername" type="hidden" value="@null" />
+                    <div id="permissions" class="w-100">
+                        <br />
+                        <ul class="list-group list-group-flush">
+                            @{var counter2 = 0; }
+                            @foreach (var permDesc in permissionTypes)
+                            {
+                                <li class="list-group-item">
+                                    <input type="checkbox" id="permission2_@counter2" name="permission2_@counter2" value="@permDesc">
+                                    <label>@permDesc</label>
+                                </li>
+                                counter2++;
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

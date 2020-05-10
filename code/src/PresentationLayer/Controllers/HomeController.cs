@@ -28,5 +28,11 @@ namespace PresentationLayer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public JsonResult KeepSessionAlive()
+        {
+            return new JsonResult(new { Data = "Success" });
+        }
     }
 }

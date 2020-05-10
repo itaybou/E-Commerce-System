@@ -31,24 +31,43 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._stores = new List<Store>();
         }
 
-        public IEnumerable<UserModel> getStoreOwners(string storeName)
+        private IEnumerable<(UserModel, PermissionModel)> getRoleHolders(string storeName, bool owner)
         {
-            var owners = new List<User>();
+            var roleHolders = new List<(User, Permissions)>();
             var permissions = Stores.Select(store => {
-                if (store.Name.Equals(storeName)) {
-                    return store.Premmisions;
-                } return null;
-            });
-            foreach(var permission in permissions)
-            {
-                foreach(var user in permission.Keys)
+                if (store.Name.Equals(storeName))
                 {
-                    if (permission[user].isOwner())
-                        owners.Add(_userManagement.getUserByName(user));
+                    return store.Premmisions;
                 }
+                return null;
+            });
+            foreach (var permission in permissions)
+            {
+                if (permission != null)
+                {
+                    foreach (var user in permission.Keys)
+                    {
+                        var userPermissions = permission[user];
+                        var condition = owner ? permission[user].isOwner() : !permission[user].isOwner();
+                        if (condition)
+                            roleHolders.Add((_userManagement.getUserByName(user), userPermissions));
+                    }
+                }
+                else return new List<(UserModel, PermissionModel)>();
             }
-            return owners.Select(owner => ModelFactory.CreateUser(owner));
+            return roleHolders.Select(holder => (ModelFactory.CreateUser(holder.Item1), ModelFactory.CreatePermissions(holder.Item2)));
         }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        {
+            return (getRoleHolders(storeName, true), storeName);
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        {
+            return (getRoleHolders(storeName, false), storeName);
+        }
+
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
@@ -204,6 +223,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             return permission.modifyProductPrice(activeUser.Name(), productInvName, newPrice);
+        }
+
+        internal IDictionary<PermissionType, bool> getUserPermissionTypes(string storeName, string username)
+        {
+            return Stores.Find(store => store.Name.Equals(storeName)).getUsernamePermissionTypes(username);
         }
 
         //@pre - userID exist and subscribed

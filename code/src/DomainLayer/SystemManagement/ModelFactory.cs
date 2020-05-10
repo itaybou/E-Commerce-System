@@ -50,7 +50,8 @@ namespace ECommerceSystem.Models
 
         public static PermissionModel CreatePermissions(Permissions permissions)
         {
-            return new PermissionModel(permissions.isOwner(), permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
+            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name(),
+                permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
         }
 
         public static UserModel CreateUser(User user)

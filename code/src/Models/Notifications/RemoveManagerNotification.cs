@@ -21,7 +21,7 @@ namespace ECommerceSystem.Models
 
         public string getMessage()
         {
-            return "You have been removed by " + _revmover + "from being manager of the store " + _storeName;
+            return "You have been removed by " + _revmover + " from being manager of the store " + _storeName;
         }
     }
 }

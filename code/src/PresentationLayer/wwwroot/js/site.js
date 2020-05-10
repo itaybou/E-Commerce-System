@@ -35,22 +35,6 @@ $(document).ready(function (e) {
     });
 });
 
-
-$(function () {
-
-    $('tbody > tr').on('click', function (event) {
-        event.preventDefault();
-        var prodId = $(e.relatedTarget).data('prod-id');
-        $('#myModal').val(prodId);
-        $('#myModal').modal('show');
-    })
-
-    $('.btn-mais-info').on('click', function (event) {
-        $('.open_info').toggleClass("hide");
-    })
-
-});
-
 $(window).load(function () {
     $('#messageModal').modal('show');
 });
