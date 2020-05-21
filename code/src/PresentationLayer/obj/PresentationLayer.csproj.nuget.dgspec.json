@@ -1,28 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {}
+    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj",
+        "projectUniqueName": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj",
         "projectName": "ECommerceSystem",
-        "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+        "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
       },
       "frameworks": {
         "net461": {}
       }
     },
-    "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {
+    "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+        "projectUniqueName": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
         "projectName": "PresentationLayer",
-        "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+        "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
         "packagesPath": "C:\\Users\\Itay Bouganim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
+        "outputPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,8 +41,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
-                "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+              "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+                "projectPath": "C:\\My Files\\School\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא ליישום פרוייקט תוכנה\\Workspace\\Version 1\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
               }
             }
           }
