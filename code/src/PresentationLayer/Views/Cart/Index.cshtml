@@ -6,7 +6,6 @@
     var TotalBeforeDiscount = @Model.UserCart.Cart.Aggregate(0.0, (sum, curr) =>
                      sum += curr.Value.Aggregate(0.0, (sum, prod) => sum += prod.Item1.BasePrice * prod.Item2));
 }
-
 <div class="container mb-4">
     <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
     <div class="row">

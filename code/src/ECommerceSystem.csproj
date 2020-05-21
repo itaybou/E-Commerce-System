@@ -138,6 +138,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessLayer\IDataAccess.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />

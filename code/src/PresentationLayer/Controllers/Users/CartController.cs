@@ -43,6 +43,8 @@ namespace PresentationLayer.Controllers.Users
             var session = new Guid(HttpContext.Session.Id);
             var store = _service.getProductInventory(id).Item2;
             var valid = _service.addProductToCart(session, id, store, 1);
+            if (valid)
+                TempData["Notification"] = "Added product to cart!";
             return RedirectToAction("Index");
         }
 
