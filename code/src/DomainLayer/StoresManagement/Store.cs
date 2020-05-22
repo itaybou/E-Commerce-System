@@ -111,15 +111,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return productID;
         }
 
-        public void reduceProductQuantity(Product prod, int reduceBy) // lock
-        {
-            lock (prod)
-            {
-                prod.Quantity -= reduceBy;  // Store reduce product quantity
-                if (prod.Quantity.Equals(0))
-                    Inventory.deleteProduct(prod.Name, prod.Id);
-            }
-        }
 
         //@pre - logged in user have permission to modify product
         //return the new product id or -1 in case of fail

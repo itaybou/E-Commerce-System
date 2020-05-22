@@ -44,5 +44,26 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string Name { get => _name; set => _name = value; }
         public string Description { get => _description; set => _description = value; }
         public ProductQuantityPolicy PurchasePolicy { get => purchasePolicy; set => purchasePolicy = value; }
+
+        public void increaseProductQuantity(int quantity)
+        {
+            lock (this)
+            {
+                Quantity += quantity;
+            }
+        }
+
+        public bool decreaseProductQuantity(int decreaseBy)
+        {
+            lock (this)
+            {
+                if (Quantity >= decreaseBy)
+                {
+                    Quantity -= decreaseBy; 
+                    return true;
+                }
+                else return false;
+            }
+        }
     }
 }

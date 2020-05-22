@@ -491,12 +491,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             store.logPurchase(storePurchaseModel);
 
+        }
+
+        public void sendPurchaseNotification(Store store, string username)
+        {
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string username in store.Premmisions.Keys)
+            foreach (string manager in store.Premmisions.Keys) //for each owner/manager
             {
-                notificationsUsers.Add(_userManagement.getUserByName(username).Guid);
+                notificationsUsers.Add(_userManagement.getUserByName(manager).Guid);
             }
-           _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
+            _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(username, store.Name));
         }
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
