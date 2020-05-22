@@ -173,11 +173,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         }
 
         [Test()]
-        public void deleteProductTestByPermitedUserTest()
+        public void deleteProductTestByPermitedManagerTest()
         {
             
-            Guid guid1 = _store.Inventory.addProduct(_productName, _quantity);
-            Assert.True(_permissions.deleteProduct("permitManager", _productName, guid1),
+            Guid product = _store.Inventory.addProduct(_productName, _quantity);
+            Assert.True(_permissions.deleteProduct("permitManager", _productName, product),
                     "Fail to delete group of products ");
 
         }

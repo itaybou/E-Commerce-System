@@ -14,7 +14,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            if (!products.ContainsKey(_productID)) return;
+            if (!products.ContainsKey(_productID)) return; // the product of this discount isn`t exist in the cart
 
             double newTotalPrice = (((100 - this.Percentage) / 100) * products[_productID].basePrice) * products[_productID].quantity;
             double basePrice = products[_productID].basePrice;

@@ -51,6 +51,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                     }
                 }
             }
+
             _children = newChildren;
         }
 

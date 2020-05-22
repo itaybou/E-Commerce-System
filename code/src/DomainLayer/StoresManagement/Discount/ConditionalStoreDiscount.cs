@@ -9,11 +9,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
     public class ConditionalStoreDiscount : DiscountType
     {
 
-        private double _reauiredPrice;
+        private double _requiredPrice;
 
-        public ConditionalStoreDiscount(double reauiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
+        public ConditionalStoreDiscount(double requiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
         {
-            _reauiredPrice = reauiredPrice;
+            _requiredPrice = requiredPrice;
         }
 
 
@@ -22,8 +22,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         {
             if (this.isSatisfied(products))
             {
-                foreach(var prod in products)
+                for(int i = 0; i < products.Count; i++)
                 {
+                    var prod = products.ElementAt(i);
                     double newTotalPrice = (((100 - this.Percentage) / 100) * prod.Value.basePrice) * prod.Value.quantity;
                     double basePrice = prod.Value.basePrice;
                     int quantity = prod.Value.quantity;
@@ -40,7 +41,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             {
                 totalPrice += prod.Value.totalPrice;
             }
-            return totalPrice >= _reauiredPrice;
+            return totalPrice >= _requiredPrice;
         }
     }
 }

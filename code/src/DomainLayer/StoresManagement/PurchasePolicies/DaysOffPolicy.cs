@@ -7,7 +7,7 @@ using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
-    class DaysOffPolicy : PurchasePolicy
+    public class DaysOffPolicy : PurchasePolicy
     {
         List<DayOfWeek> daysOff;
         Guid _ID;

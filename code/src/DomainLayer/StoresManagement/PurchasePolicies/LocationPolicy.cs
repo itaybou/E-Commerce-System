@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
-    class LocationPolicy : PurchasePolicy
+    public class LocationPolicy : PurchasePolicy
     {
         List<string> _bannedLocation;
         Guid _ID;
@@ -19,6 +19,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
+            if(address == null)
+            {
+                return false;
+            }
+
             foreach(string s in _bannedLocation)
             {
                 if (address.Contains(s))

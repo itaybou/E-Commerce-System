@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 {
@@ -37,6 +38,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         User _anotherOwner;
         User _newManager;
 
+
+        //**purchase policy**
+
+
+        List<string> _bannedLocationsIran;
+        List<string> _bannedLocationsIraq;
+        List<string> _bannedLocationsTurkey;
+        List<string> _bannedLocationsEgypt;
+        List<string> _bannedLocationsLebanon;
+
+        Guid _banIranPolicyID;
+        Guid _banIraqPolicyID;
+        Guid _banEgyptPolicyID;
+        Guid _banTurkeyPolicyID;
+        Guid _banLebanonPolicyID;
+        Guid _minPricePerStorePolicyID;
+
+        double _requireTotalPrice;
         [OneTimeSetUp]
         public void setUpFixture()
         {
@@ -88,6 +107,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             _store.editPermissions("permitManager", permissions, "owner");
 
 
+            //**purchase policy**
+            _requireTotalPrice = 200;
+            _bannedLocationsIran = new List<string>() { "iran" };
+            _bannedLocationsIraq = new List<string>() { "iraq" };
+            _bannedLocationsTurkey = new List<string>() { "turkey" };
+            _bannedLocationsEgypt = new List<string>() { "egypt" };
+            _bannedLocationsLebanon = new List<string>() { "lebanon" };
+
+            _banIranPolicyID = _store.addLocationPolicy(_bannedLocationsIran);
+            _banTurkeyPolicyID = _store.addLocationPolicy(_bannedLocationsTurkey);
+            _banIraqPolicyID = _store.addLocationPolicy(_bannedLocationsIraq);
+            _banEgyptPolicyID = _store.addLocationPolicy(_bannedLocationsEgypt);
+            _banLebanonPolicyID = _store.addLocationPolicy(_bannedLocationsLebanon);
+            _minPricePerStorePolicyID = _store.addMinPriceStorePolicy(_requireTotalPrice);
+
         }
 
         [TearDown]
@@ -98,11 +132,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             _store.removeManager(_owner, "nonPermitManager");
             _store.removeManager(_owner, "permitManager");
         }
-
-
-       
-
-        
 
         [Test()]
         public void removeManagerTest()
@@ -152,9 +181,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 
         }
 
-       
-
-
         [Test()]
         public void rateStoreTest()
         {
@@ -164,12 +190,65 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.AreEqual(3.5, _store.Rating);
         }
 
-        //[Test()]
-        //public void logPurchaseTest()
-        //{
-        //    List<Product> products = _store.Inventory.Products.ElementAt(0).ProductList; // = {"Iphone"}
-        //    _store.logPurchase(new StorePurchaseModel(_regularUser.Name(), 1000, products);
-        //    Assert.True(true);
-        //}
+
+        // *************PURCHASE POLICY TESTS********* //
+        [Test()]
+        public void addCompositePurchasePolicyTest()
+        {
+            //try to add with not exist policy
+
+            Assert.AreEqual(Guid.Empty, _store.addAndPurchasePolicy(_banIranPolicyID, Guid.NewGuid()));
+
+            //add first xor
+            Guid xorPolicy1 = _store.addXorPurchasePolicy(_banIranPolicyID, _banIraqPolicyID);
+
+            //check that the simple policies exist
+            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
+            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
+
+            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iran"));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran iraq"));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice - 1, "iran"));
+
+
+
+            //add second xor
+
+            Guid xorPolicy2 = _store.addXorPurchasePolicy(_banIranPolicyID, _banEgyptPolicyID);
+            //check that the simple policies exist
+            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
+            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banEgyptPolicyID));
+
+            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iran"));
+            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iraq egypt"));
+
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice - 1, "iran"));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, ""));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran egypt"));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran iraq"));
+            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iraq"));
+        }
+
+
+        [Test()]
+        public void removePolicyTest()
+        {
+
+            //remove first level simple policy
+            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
+            _store.removePurchasePolicy(_banIranPolicyID);
+            Assert.IsNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
+
+
+            //remove composite from first level
+            Guid andPolicy = _store.addOrPurchasePolicy(_banEgyptPolicyID, _banIraqPolicyID);
+            _store.removePurchasePolicy(_banIraqPolicyID);
+            Assert.IsNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
+            _store.removePurchasePolicy(andPolicy);
+            Assert.IsNull(_store.PurchasePolicy.getByID(andPolicy));
+            Assert.IsNotNull(_banEgyptPolicyID);
+
+        }
+        // *************DISCOUNT TESTS**************** //
     }
 }
