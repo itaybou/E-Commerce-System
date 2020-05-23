@@ -6,6 +6,8 @@ using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using System;
 using System.Linq;
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem
 {
@@ -13,22 +15,15 @@ namespace ECommerceSystem
     {
         private static void Main(string[] args)
         {
-            SystemLogger.initLogger();
-            hello("helloworld", 3, 4.5);
+            IDataAccess data = DataAccess.Instance;
 
-        }
-        
-        [Trace("info")]
-        public static int hello(string s, int i, double b)
-        {
-            return world(5);
-        }
+            var admin = new User(new SystemAdmin("itay", "linkin9p", "itay", "bou", "itay@email.com"));
+            data.Users.Insert(new User(new Subscribed("itay", "linkin9p", "itay", "bou", "itay@email.com")));
+            data.Users.Insert(admin);
+            
 
-        [Trace("info")]
-        public static int world(int i)
-        {
-            SystemLogger.LogError("hello world");
-            return 1;
+            var user = data.Users.GetByIdOrNull(admin.Guid, u => u.Guid);
+            Console.ReadLine();
         }
     }
 }

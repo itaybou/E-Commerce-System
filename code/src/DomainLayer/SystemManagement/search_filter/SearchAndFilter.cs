@@ -2,7 +2,6 @@
 using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
 using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
-using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

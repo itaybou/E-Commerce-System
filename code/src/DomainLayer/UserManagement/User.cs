@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 
@@ -7,67 +8,62 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class User
     {
-        public IUserState _state { get; set; }
-        public UserShoppingCart _cart { get; set; }
-        public Guid Guid { get => _guid; set => _guid = value; }
-
-        Guid _guid;
+        public Guid Guid { get; set; }
+        public IUserState State { get; set; }
+        public UserShoppingCart Cart { get; set; }
+        public string Name { get => State.Username; }
+        public string Password { get => State.Password; }
 
         public User()
         {
-            _state = new Guest();
-            _cart = new UserShoppingCart();
-            _guid = Guid.NewGuid();
+            State = new Guest();
+            Guid = Guid.NewGuid();
+            Cart = new UserShoppingCart(Guid);
         }
 
         public User(IUserState state)
         {
-            _state = state;
-            _cart = new UserShoppingCart();
-            _guid = Guid.NewGuid();
+            State = state;
+            Guid = Guid.NewGuid();
+            Cart = new UserShoppingCart(Guid);
         }
 
         public User(IUserState state, Guid guid)
         {
-            _state = state;
-            _cart = new UserShoppingCart();
-            _guid = guid;
+            State = state;
+            Guid = guid;
+            Cart = new UserShoppingCart(Guid);
         }
 
         public bool isSubscribed()
         {
-            return this._state.isSubscribed();
-        }
-
-        public string Name()
-        {
-            return _state.Name();
+            return this.State.isSubscribed();
         }
 
         public void addPermission(Permissions permissions, string storeName)
         {
-            _state.addPermission(permissions, storeName);
+            State.addPermission(permissions, storeName);
         }
 
         public void removePermissions(string storeName)
         {
-            _state.removePermissions(storeName);
+            State.removePermissions(storeName);
         }
 
         public bool isSystemAdmin()
         {
-            return _state.isSystemAdmin();
+            return State.isSystemAdmin();
         }
 
         //Assume _state is subsbcribed
         public List<UserPurchase> getHistoryPurchase()
         {
-            return ((Subscribed)_state).PurchaseHistory;
+            return ((Subscribed)State).PurchaseHistory;
         }
 
         public Permissions getPermission(string storeName)
         {
-            return _state.getPermission(storeName);
+            return State.getPermission(storeName);
         }
     }
 }

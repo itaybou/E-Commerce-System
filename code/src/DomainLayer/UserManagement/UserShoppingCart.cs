@@ -1,24 +1,23 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public class UserShoppingCart : IEnumerable<Product>
+    public class UserShoppingCart
     {
-        private List<StoreShoppingCart> _storeCarts;
+        public List<StoreShoppingCart> StoreCarts { get; set; }
 
-        public List<StoreShoppingCart> StoreCarts { get => _storeCarts; set => _storeCarts = value; }
-
-        public UserShoppingCart()
+        public UserShoppingCart(Guid userID)
         {
-            _storeCarts = new List<StoreShoppingCart>();
+            StoreCarts = new List<StoreShoppingCart>();
         }
 
         public double getTotalACartPrice()
         {
-            return _storeCarts.Aggregate(0.0, (total, cart) => total + cart.getTotalCartPrice());
+            return StoreCarts.Aggregate(0.0, (total, cart) => total + cart.getTotalCartPrice());
         }
 
         public ICollection<(Store, double, IDictionary<Product, int>)> getProductsStoreAndTotalPrices()
@@ -34,22 +33,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public IDictionary<Product, int> getAllCartProductsAndQunatities()
         {
             return StoreCarts.SelectMany(storeCart => storeCart.Products).ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-
-        public IEnumerator<Product> GetEnumerator()
-        {
-            foreach (var storeCart in _storeCarts)
-            {
-                foreach (var product in storeCart.Products.Keys.ToList())
-                {
-                    yield return product;
-                }
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

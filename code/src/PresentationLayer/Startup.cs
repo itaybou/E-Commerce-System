@@ -12,6 +12,7 @@ using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DataAccessLayer;
 
 namespace PresentationLayer
 {
@@ -29,6 +30,8 @@ namespace PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<DataAccess>(
+                 Configuration.GetSection(nameof(DataAccess)));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IService, ServiceFacade>();
             services.AddAuthorization(options =>
@@ -46,7 +49,12 @@ namespace PresentationLayer
                 options.LoginPath = "/auth/login";
                 options.LogoutPath = "/auth/logout";
             });
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddHttpContextAccessor();
         }
 
@@ -61,7 +69,6 @@ namespace PresentationLayer
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

@@ -1,14 +1,15 @@
 ﻿using ECommerceSystem.Models;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {
+        string Username { get; set; }
+
+        string Password { get; set; }
+
         bool isSubscribed();
-
-        string Name();
-
-        string Password();
 
         void logPurchase(UserPurchase userPurchase);
 

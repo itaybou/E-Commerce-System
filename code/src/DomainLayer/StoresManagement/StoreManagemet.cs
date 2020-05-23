@@ -105,10 +105,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            Store newStore = new Store(activeUser.Name(), name); //sync - make user.name property
+            Store newStore = new Store(activeUser.Name, name); //sync - make user.name property
 
             Permissions permissions = Permissions.CreateOwner(null, newStore);
-            newStore.addOwner(activeUser.Name(), permissions);
+            newStore.addOwner(activeUser.Name, permissions);
             _userManagement.addPermission(activeUser, permissions, newStore.Name);
 
             _stores.Add(newStore);
@@ -132,7 +132,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name(), productInvName, description,  price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            return permission.addProductInv(activeUser.Name, productInvName, description,  price, quantity, categoryName, keywords, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -151,7 +151,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProduct(activeUser.Name(), productInvName, quantity, minQuantity, maxQuantity);
+            return permission.addProduct(activeUser.Name, productInvName, quantity, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -169,7 +169,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.deleteProductInventory(activeUser.Name(), productInvName);
+            return permission.deleteProductInventory(activeUser.Name, productInvName);
         }
 
         //@pre - userID exist and subscribed
@@ -187,7 +187,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.deleteProduct(activeUser.Name(), productInvName, productID);
+            return permission.deleteProduct(activeUser.Name, productInvName, productID);
         }
 
         //@pre - userID exist and subscribed
@@ -205,7 +205,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductName(activeUser.Name(), newProductName, oldProductName);
+            return permission.modifyProductName(activeUser.Name, newProductName, oldProductName);
         }
 
         //@pre - userID exist and subscribed
@@ -222,7 +222,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductPrice(activeUser.Name(), productInvName, newPrice);
+            return permission.modifyProductPrice(activeUser.Name, productInvName, newPrice);
         }
 
         internal IDictionary<PermissionType, bool> getUserPermissionTypes(string storeName, string username)
@@ -244,7 +244,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductQuantity(activeUser.Name(), productInvName, productID, newQuantity);
+            return permission.modifyProductQuantity(activeUser.Name, productInvName, productID, newQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -308,7 +308,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
 
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName));
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name, storeName));
                 return true;
             }
             else
@@ -348,7 +348,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User assigneeUser = _userManagement.getUserByName(newManageruserName);
                 _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
 
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName));
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name, storeName));
                 return true;
             }
             else
@@ -378,7 +378,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User toRemoveUser = _userManagement.getUserByName(managerUserName);
                 _userManagement.removePermissions(storeName, toRemoveUser);
 
-                _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName));
+                _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name, storeName));
                 return true;
             }
             else
@@ -401,7 +401,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name());
+            return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
         }
 
         public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
@@ -487,7 +487,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
             List<ProductModel> products = storeBoughtProducts.Select(prod => new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount())).ToList();
-            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name(), totalPrice, products);
+            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products);
 
             store.logPurchase(storePurchaseModel);
 
@@ -502,7 +502,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
         {
             var user = _userManagement.getUserByGUID(userID);
-            var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name())).
+            var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name)).
                 Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
             return dict;
         }

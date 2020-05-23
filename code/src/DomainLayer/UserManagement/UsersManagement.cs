@@ -1,5 +1,7 @@
 ﻿using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.CommunicationLayer.notifications;
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.Models;
@@ -13,30 +15,29 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public sealed class UsersManagement
     {
-        private IDictionary<User, UserShoppingCart> _users;
-
+        private IDataAccess _data;
         private Communication _communication;
 
         private static readonly Lazy<UsersManagement> lazy = new Lazy<UsersManagement>(() => new UsersManagement());
-
         public static UsersManagement Instance => lazy.Value;
-
-        public IDictionary<User, UserShoppingCart> UserCarts { get => _users; set => _users = value; }
 
         private UsersManagement()
         {
-            _users = new Dictionary<User, UserShoppingCart>();
+            _data = DataAccess.Instance;
             _communication = Communication.Instance;
-            _users.Add(new User(new SystemAdmin("admin", Encryption.encrypt("4dMinnn"), "admin", "admin", "admin@gmail.com")), new UserShoppingCart());
+
+            // TODO: REMOVE TO INIT FROM FILE - TEMP
+            _data.Users.Insert(new User(new SystemAdmin("admin", Encryption.encrypt("4dMinnn"), "admin", "admin", "admin@gmail.com")));
+            // TODO: REMOVE TO INIT FROM FILE - TEMP
         }
 
         public User getUserByGUID(Guid userID)
         {
-            User user = _users.Keys.ToList().Find(u => u.Guid.Equals(userID));
-            if(user == null)
+            User user = _data.Users.GetByIdOrNull(userID, u => u.Guid);
+            if (user == null)
             {
                 user = new User(new Guest(), userID);
-                UserCarts.Add(user, null);
+                _data.Users.CacheUser(user);
             }
             return user;
         }
@@ -44,11 +45,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string register(string uname, string pswd, string fname, string lname, string email)
         {
             string error = null;
-            var exists = getAll().Exists(user => user.isSubscribed() && user.Name().Equals(uname));
+            var exists = _data.Users.QueryAll().Any(user => user.isSubscribed() && user.Name.Equals(uname));
             if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
             {
                 var encrypted_pswd = Encryption.encrypt(pswd);
-                UserCarts.Add(new User(new Subscribed(uname, encrypted_pswd, fname, lname, email)), new UserShoppingCart());
+                var user = new User(new Subscribed(uname, encrypted_pswd, fname, lname, email));
+                _data.Users.Insert(user);
                 return null;
             }
             return exists ? "User already exists" : error;
@@ -57,11 +59,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public (bool, Guid) login(string uname, string pswd)
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
-            var user = _users.Keys.ToList().Find(u => u.Name().Equals(uname) && u._state.Password().Equals(encrypted_pswd));
-            if (user != null)
-            {
-                user._cart = UserCarts[user];
-            }
+            var user = _data.Users.GetSubscribedUser(uname, encrypted_pswd);
             return user != null ? (user != null, user.Guid) : (user != null, Guid.Empty);
         }
 
@@ -69,21 +67,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             User user = getUserByGUID(userID);
             if (user == null || !user.isSubscribed())
+            {
+                _data.Users.UncacheUser(user);
                 return false;
-            UserCarts[user] = user._cart;
+            }
             return true;
-        }
-
-        public UserShoppingCart getUserCart(User user)
-        {
-            return user._cart;
-        }
-
-        public void resetUserShoppingCart(Guid userID)
-        {
-            var user = getUserByGUID(userID);
-            user._cart = new UserShoppingCart();
-            UserCarts[user] = user._cart;
         }
 
         public bool addProductToCart(Guid userID, Guid productId, string storeName, int quantity)
@@ -104,6 +92,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 }
 
                 storeCart.AddToCart(product, quantity);
+                _data.Users.Update(user, userID, u => u.Guid);
                 _communication.SendPrivateNotification(userID, "Product successfully added to cart!");
                 return true;
             }
@@ -112,25 +101,32 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public ShoppingCartModel ShoppingCartDetails(Guid userID)
         {
-            User user = getUserByGUID(userID);
-            var cart = user._cart;
-
+            var user = getUserByGUID(userID);
+            var cart = getUserCart(user);
             return ModelFactory.CreateShoppingCart(cart);
         }
 
-        public UserShoppingCart userShoppingCart(Guid userID) => _users.Keys.ToList().Find(u => u.Guid.Equals(userID))._cart;
+        public UserShoppingCart getUserCart(User user)
+        {
+            if(user != null)
+                return user.Cart;
+            return null;
+        }
 
         public bool changeProductQuantity(Guid userID, Guid productId, int quantity)
         {
-            var productToChange = userShoppingCart(userID).ToList().Find(prod => prod.Id.Equals(productId));
+            var user = getUserByGUID(userID);
+            var cart = getUserCart(user);
+            var productToChange = new Product("name", "desc", 2, 2.5, Guid.Empty);// cart.ToList().Find(prod => prod.Id.Equals(productId));
             if (quantity < 0 || productToChange == null)
                 return false;
             if (productToChange.Quantity >= quantity)
             {
-                var storeCart = userShoppingCart(userID).StoreCarts.Find(cart => cart.Products.ContainsKey(productToChange));
+                var storeCart = cart.StoreCarts.Find(cart => cart.Products.ContainsKey(productToChange));
                 if (quantity.Equals(0))
                     storeCart.RemoveFromCart(productToChange);
                 else storeCart.ChangeProductQuantity(productToChange, quantity);
+                _data.Users.Update(user, userID, u => u.Guid);
                 return true;
             }
 
@@ -139,10 +135,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool removeProdcutFromCart(Guid userID, Guid productId)
         {
-            var productToRemove = userShoppingCart(userID).ToList().Find(prod => prod.Id.Equals(productId));
+            var user = getUserByGUID(userID);
+            var cart = getUserCart(user);
+            var productToRemove = new Product("name", "desc", 2, 2.5, Guid.Empty);//cart.ToList().Find(prod => prod.Id.Equals(productId));
             if (productToRemove == null)
                 return false;
-            userShoppingCart(userID).StoreCarts.Find(cart => cart.Products.ContainsKey(productToRemove)).RemoveFromCart(productToRemove);
+            cart.StoreCarts.Find(cart => cart.Products.ContainsKey(productToRemove)).RemoveFromCart(productToRemove);
+            _data.Users.Update(user, userID, u => u.Guid);
             return true;
         }
 
@@ -157,19 +156,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var user = getUserByGUID(userID);
             if (!user.isSystemAdmin())
                 return new List<UserModel>();
-            else return UserCarts.Keys.Where(u => u.isSubscribed()).Select(u => ModelFactory.CreateUser(u));
+            else return _data.Users.FetchAll().Select(u => ModelFactory.CreateUser(u));
+        }
+
+        internal void resetUserShoppingCart(Guid userID)
+        {
+            var user = getUserByGUID(userID);
+            user.Cart = new UserShoppingCart(userID);
+            _data.Users.Update(user, userID, u => u.Guid);
         }
 
         internal IEnumerable<UserModel> searchUsers(string username)
         {
-            var users = UserCarts.Keys.Where(user => user.isSubscribed() && user.Name().ToLower().StartsWith(username.ToLower()));
-            return users.OrderBy(user => user.Name().Length).Select(user => ModelFactory.CreateUser(user));
+            var users = _data.Users.FindAllBy(user => user.isSubscribed() && user.Name.ToLower().StartsWith(username.ToLower()));
+            return users.OrderBy(user => user.Name.Length).Select(user => ModelFactory.CreateUser(user));
         }
 
-        //public UserShoppingCart getActiveUserShoppingCart()
-        //{
-        //    return getUserCart(getLoggedInUser());
-        //}
 
         public void logUserPurchase(Guid userID, double totalPrice, IDictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
@@ -179,14 +181,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 var productsPurchased = allProducts.Select(prod => 
                     new Product(prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
-                    user._state.logPurchase(new UserPurchase(totalPrice, productsPurchased,
+                    user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }
-        }
-
-        public List<User> getAll()
-        {
-            return _users.Keys.ToList();
         }
 
         public void addPermission(User user, Permissions permissions, string storeName)
@@ -201,12 +198,12 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public User getUserByName(string managerUserName)
         {
-            return _users.Keys.ToList().Find(u => u.Name().Equals(managerUserName));
+            return _data.Users.FindOneBy(u => u.Name.Equals(managerUserName));
         }
 
         public bool isSubscribed(string newManageruserName)
         {
-            return _users.Keys.ToList().Exists(u => u.Name().Equals(newManageruserName));
+            return _data.Users.QueryAll().Any(u => u.Name.Equals(newManageruserName));
         }
 
         //@pre - logged in user is system admin

@@ -1135,7 +1135,7 @@
             <param name="data">The data. Also called "str" in RFC5802.</param>
             <param name="key">The key.</param>
         </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.#ctor(MongoDB.Driver.Core.Authentication.UsernamePasswordCredential,MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.H,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hi,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hmac)">
+        <member name="M:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.#ctor(MongoDB.Driver.Core.Authentication.UsernamePasswordCredential,System.Security.Cryptography.HashAlgorithmName,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.H,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hi,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hmac)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator"/> class.
             </summary>
@@ -1145,7 +1145,7 @@
             <param name="hi">The Hi function to use.</param>
             <param name="hmac">The Hmac function to use.</param>
         </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.#ctor(MongoDB.Driver.Core.Authentication.UsernamePasswordCredential,MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName,MongoDB.Driver.Core.Misc.IRandomStringGenerator,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.H,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hi,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hmac,MongoDB.Driver.Core.Authentication.ScramCache)">
+        <member name="M:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.#ctor(MongoDB.Driver.Core.Authentication.UsernamePasswordCredential,System.Security.Cryptography.HashAlgorithmName,MongoDB.Driver.Core.Misc.IRandomStringGenerator,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.H,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hi,MongoDB.Driver.Core.Authentication.ScramShaAuthenticator.Hmac,MongoDB.Driver.Core.Authentication.ScramCache)">
             <summary>
             Initializes a new instance of the <see cref="T:MongoDB.Driver.Core.Authentication.ScramShaAuthenticator"/> class.
             </summary>
@@ -1570,13 +1570,6 @@
             <param name="errorCode">The error code.</param>
             <param name="message">The message.</param>
         </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Sspi.Win32Exception.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.Core.Authentication.Sspi.Win32Exception" /> class.
-            </summary>
-            <param name="info">The info.</param>
-            <param name="context">The context.</param>
-        </member>
         <member name="T:MongoDB.Driver.Core.Authentication.UsernamePasswordCredential">
             <summary>
             Represents a username/password credential.
@@ -1639,93 +1632,6 @@
             Gets the password (converts the password from a SecureString to a regular string).
             </summary>
             <returns>The password.</returns>
-        </member>
-        <member name="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName">
-             <summary>
-             Specifies the name of a cryptographic hash algorithm.
-             </summary>
-             <remarks>
-             Asymmetric Algorithms implemented using Microsoft's CNG (Cryptography Next Generation) API
-             will interpret the underlying string value as a CNG algorithm identifier: 
-               * https://msdn.microsoft.com/en-us/library/windows/desktop/aa375534(v=vs.85).aspx
-            
-             As with CNG, the names are case-sensitive. 
-             
-             Asymmetric Algorithms implemented using other technologies:
-                * Must recognize at least "MD5", "SHA1", "SHA256", "SHA384", and "SHA512".
-                * Should recognize additional CNG IDs for any other hash algorithms that they also support.
-             </remarks>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.MD5">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing "MD5"
-            </summary>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.SHA1">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing "SHA1"
-            </summary>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.SHA256">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing "SHA256"
-            </summary>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.SHA384">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing "SHA384"
-            </summary>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.SHA512">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing "SHA512"
-            </summary>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.#ctor(System.String)">
-            <summary>
-            Gets a <see cref="T:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName" /> representing a custom name.
-            </summary>
-            <param name="name">The custom hash algorithm name.</param>
-        </member>
-        <member name="P:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.Name">
-            <summary>
-            Gets the underlying string representation of the algorithm name. 
-            </summary>
-            <remarks>
-            May be null or empty to indicate that no hash algorithm is applicable.
-            </remarks>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.ToString">
-            <inheritdoc/>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.Equals(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.Equals(MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName)">
-            <inheritdoc/>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.GetHashCode">
-            <inheritdoc/>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.op_Equality(MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName,MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName)">
-            <summary>
-            Implements the operator ==.
-            </summary>
-            <param name="left">The left operand.</param>
-            <param name="right">The right operand.</param>
-            <returns>
-            The result of the == operator.
-            </returns>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName.op_Inequality(MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName,MongoDB.Driver.Core.Authentication.Vendored.HashAlgorithmName)">
-            <summary>
-            Implements the operator !=.
-            </summary>
-            <param name="left">The left operand.</param>
-            <param name="right">The right operand.</param>
-            <returns>
-            The result of the != operator.
-            </returns>
         </member>
         <member name="T:MongoDB.Driver.Core.Bindings.ChannelReadBinding">
             <summary>
@@ -4101,15 +4007,6 @@
             </summary>
             <param name="builder">The cluster builder.</param>
             <param name="connectionString">The connection string.</param>
-            <returns>A reconfigured cluster builder.</returns>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Configuration.ClusterBuilderExtensions.UsePerformanceCounters(MongoDB.Driver.Core.Configuration.ClusterBuilder,System.String,System.Boolean)">
-            <summary>
-            Configures the cluster to write performance counters.
-            </summary>
-            <param name="builder">The cluster builder.</param>
-            <param name="applicationName">The name of the application.</param>
-            <param name="install">if set to <c>true</c> install the performance counters first.</param>
             <returns>A reconfigured cluster builder.</returns>
         </member>
         <member name="M:MongoDB.Driver.Core.Configuration.ClusterBuilderExtensions.TraceWith(MongoDB.Driver.Core.Configuration.ClusterBuilder,System.Diagnostics.TraceSource)">
@@ -7051,25 +6948,6 @@
             Gets the server identifier.
             </summary>
         </member>
-        <member name="T:MongoDB.Driver.Core.Events.Diagnostics.PerformanceCounterEventSubscriber">
-            <summary>
-            Represents an event subscriber that records certain events to Windows performance counters.
-            </summary>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Events.Diagnostics.PerformanceCounterEventSubscriber.InstallPerformanceCounters">
-            <summary>
-            Installs the performance counters.
-            </summary>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Events.Diagnostics.PerformanceCounterEventSubscriber.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.Core.Events.Diagnostics.PerformanceCounterEventSubscriber"/> class.
-            </summary>
-            <param name="applicationName">The name of the application.</param>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Events.Diagnostics.PerformanceCounterEventSubscriber.TryGetEventHandler``1(System.Action{``0}@)">
-            <inheritdoc />
-        </member>
         <member name="T:MongoDB.Driver.Core.Events.Diagnostics.TraceSourceCommandEventSubscriber">
             <summary>
             An event subscriber that writes command events to a trace source.
@@ -7629,13 +7507,6 @@
             </summary>
             <param name="info">The object data.</param>
             <returns>An end point.</returns>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Misc.EndPointHelper.GetObjectData(System.Net.EndPoint)">
-            <summary>
-            Gets the object data required to serialize an end point.
-            </summary>
-            <param name="value">The end point.</param>
-            <returns>The object data.</returns>
         </member>
         <member name="M:MongoDB.Driver.Core.Misc.EndPointHelper.SequenceEquals(System.Collections.Generic.IEnumerable{System.Net.EndPoint},System.Collections.Generic.IEnumerable{System.Net.EndPoint})">
             <summary>
@@ -13660,13 +13531,6 @@
             <param name="writeConcernError">The write concern error.</param>
             <param name="unprocessedRequests">The unprocessed requests.</param>
         </member>
-        <member name="M:MongoDB.Driver.Core.Operations.MongoBulkWriteOperationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.Core.Operations.MongoBulkWriteOperationException" /> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.Core.Operations.MongoBulkWriteOperationException.Result">
             <summary>
             Gets the result of the bulk write operation.
@@ -13696,9 +13560,6 @@
             <value>
             The write errors.
             </value>
-        </member>
-        <member name="M:MongoDB.Driver.Core.Operations.MongoBulkWriteOperationException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.Core.Operations.OperationClock">
             <summary>
@@ -17912,13 +17773,6 @@
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoAuthenticationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoAuthenticationException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="T:MongoDB.Driver.MongoClientException">
             <summary>
             Represents a MongoDB client exception.
@@ -17936,13 +17790,6 @@
             </summary>
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoClientException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoClientException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoCommandException">
             <summary>
@@ -17976,13 +17823,6 @@
              // <param name="result">The command result.</param>
              <param name="innerException">The inner exception.</param>
             
-        </member>
-        <member name="M:MongoDB.Driver.MongoCommandException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoCommandException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="P:MongoDB.Driver.MongoCommandException.Code">
             <summary>
@@ -18024,9 +17864,6 @@
             The command result.
             </value>
         </member>
-        <member name="M:MongoDB.Driver.MongoCommandException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
-        </member>
         <member name="T:MongoDB.Driver.MongoConfigurationException">
             <summary>
             Represents a MongoDB configuration exception.
@@ -18045,13 +17882,6 @@
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoConfigurationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoConfigurationException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="T:MongoDB.Driver.MongoConnectionClosedException">
             <summary>
             Represents a MongoDB connection failed exception.
@@ -18062,13 +17892,6 @@
             Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoConnectionClosedException"/> class.
             </summary>
             <param name="connectionId">The connection identifier.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoConnectionClosedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoConnectionClosedException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoConnectionException">
             <summary>
@@ -18090,20 +17913,10 @@
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoConnectionException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoConnectionException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoConnectionException.ConnectionId">
             <summary>
             Gets the connection identifier.
             </summary>
-        </member>
-        <member name="M:MongoDB.Driver.MongoConnectionException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.MongoCursorNotFoundException">
             <summary>
@@ -18118,13 +17931,6 @@
             <param name="cursorId">The cursor identifier.</param>
             <param name="query">The query.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoCursorNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoCursorNotFoundException"/> class.
-            </summary>
-            <param name="info">The information.</param>
-            <param name="context">The context.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoCursorNotFoundException.CursorId">
             <summary>
             Gets the cursor identifier.
@@ -18132,9 +17938,6 @@
             <value>
             The cursor identifier.
             </value>
-        </member>
-        <member name="M:MongoDB.Driver.MongoCursorNotFoundException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.MongoDuplicateKeyException">
             <summary>
@@ -18148,13 +17951,6 @@
             <param name="connectionId">The connection identifier.</param>
             <param name="message">The error message.</param>
             <param name="commandResult">The command result.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoDuplicateKeyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoDuplicateKeyException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoException">
             <summary>
@@ -18173,13 +17969,6 @@
             </summary>
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="P:MongoDB.Driver.MongoException.ErrorLabels">
             <summary>
@@ -18209,9 +17998,6 @@
             Removes the error label.
             </summary>
             <param name="errorLabel">The error label.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.MongoExecutionTimeoutException">
             <summary>
@@ -18250,13 +18036,6 @@
             <param name="innerException">The inner exception.</param>
             <param name="result">The command result.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoExecutionTimeoutException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoExecutionTimeoutException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoExecutionTimeoutException.Code">
             <summary>
             Gets the error code.
@@ -18284,13 +18063,6 @@
             </summary>
             <param name="clusterDescription">The cluster description.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoIncompatibleDriverException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoIncompatibleDriverException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="T:MongoDB.Driver.MongoInternalException">
             <summary>
             Represents a MongoDB internal exception (almost surely the result of a bug).
@@ -18309,13 +18081,6 @@
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoInternalException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoInternalException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="T:MongoDB.Driver.MongoNodeIsRecoveringException">
             <summary>
             Represents a MongoDB node is recovering exception.
@@ -18328,13 +18093,6 @@
             <param name="connectionId">The connection identifier.</param>
             <param name="command">The command.</param>
             <param name="result">The result.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoNodeIsRecoveringException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoNodeIsRecoveringException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoNotPrimaryException">
             <summary>
@@ -18349,13 +18107,6 @@
             <param name="command">The command.</param>
             <param name="result">The result.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoNotPrimaryException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoNotPrimaryException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="T:MongoDB.Driver.MongoQueryException">
             <summary>
             Represents a MongoDB query exception.
@@ -18369,13 +18120,6 @@
             <param name="message">The message.</param>
             <param name="query">The query.</param>
             <param name="queryResult">The query result.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoQueryException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoQueryException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="P:MongoDB.Driver.MongoQueryException.Query">
             <summary>
@@ -18392,9 +18136,6 @@
             <value>
             The query result.
             </value>
-        </member>
-        <member name="M:MongoDB.Driver.MongoQueryException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.MongoServerException">
             <summary>
@@ -18416,20 +18157,10 @@
             <param name="message">The error message.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoServerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoServerException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoServerException.ConnectionId">
             <summary>
             Gets the connection identifier.
             </summary>
-        </member>
-        <member name="M:MongoDB.Driver.MongoServerException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="T:MongoDB.Driver.MongoWaitQueueFullException">
             <summary>
@@ -18441,13 +18172,6 @@
             Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoWaitQueueFullException"/> class.
             </summary>
             <param name="message">The error message.</param>
-        </member>
-        <member name="M:MongoDB.Driver.MongoWaitQueueFullException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoWaitQueueFullException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoWriteConcernException">
             <summary>
@@ -18462,13 +18186,6 @@
             <param name="message">The error message.</param>
             <param name="writeConcernResult">The command result.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoWriteConcernException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:MongoDB.Driver.MongoWriteConcernException"/> class.
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoWriteConcernException.WriteConcernResult">
             <summary>
             Gets the write concern result.
@@ -18476,9 +18193,6 @@
             <value>
             The write concern result.
             </value>
-        </member>
-        <member name="M:MongoDB.Driver.MongoWriteConcernException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <inheritdoc/>
         </member>
         <member name="M:MongoDB.Driver.MongoWriteConcernException.IsWriteConcernErrorOnly">
             <summary>

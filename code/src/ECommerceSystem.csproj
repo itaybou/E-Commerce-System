@@ -41,7 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -167,7 +167,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessLayer\repositories\cache\CacheCleaner.cs" />
+    <Compile Include="DataAccessLayer\repositories\cache\CachedObject.cs" />
     <Compile Include="DataAccessLayer\IDataAccess.cs" />
+    <Compile Include="DataAccessLayer\context\DbContext.cs" />
+    <Compile Include="DataAccessLayer\context\IDbContext.cs" />
+    <Compile Include="DataAccessLayer\DataAccess.cs" />
+    <Compile Include="DataAccessLayer\repositories\cache\ICacheProxy.cs" />
+    <Compile Include="DataAccessLayer\repositories\cache\UserCacheProxy.cs" />
+    <Compile Include="DataAccessLayer\EntityMap.cs" />
+    <Compile Include="DataAccessLayer\repositories\IStoreRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\IUserRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\UserRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\IRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\Repository.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
@@ -262,7 +275,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="ClassDiagram1.cd" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -13725,13 +13725,6 @@
             <param name="writeErrors">The write errors.</param>
             <param name="writeConcernError">The write concern error.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoBulkWriteException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the MongoQueryException class (this overload supports deserialization).
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoBulkWriteException.WriteConcernError">
             <summary>
             Gets the write concern error.
@@ -13741,13 +13734,6 @@
             <summary>
             Gets the write errors.
             </summary>
-        </member>
-        <member name="M:MongoDB.Driver.MongoBulkWriteException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Gets the object data.
-            </summary>
-            <param name="info">The information.</param>
-            <param name="context">The context.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoBulkWriteException`1">
             <summary>
@@ -13765,13 +13751,6 @@
             <param name="writeConcernError">The write concern error.</param>
             <param name="unprocessedRequests">The unprocessed requests.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoBulkWriteException`1.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the MongoQueryException class (this overload supports deserialization).
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoBulkWriteException`1.Result">
             <summary>
             Gets the result of the bulk write operation.
@@ -13781,13 +13760,6 @@
             <summary>
             Gets the unprocessed requests.
             </summary>
-        </member>
-        <member name="M:MongoDB.Driver.MongoBulkWriteException`1.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Gets the object data.
-            </summary>
-            <param name="info">The information.</param>
-            <param name="context">The context.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoClient">
             <inheritdoc/>
@@ -16391,13 +16363,6 @@
             <param name="writeConcernError">The write concern error.</param>
             <param name="innerException">The inner exception.</param>
         </member>
-        <member name="M:MongoDB.Driver.MongoWriteException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the MongoQueryException class (this overload supports deserialization).
-            </summary>
-            <param name="info">The SerializationInfo.</param>
-            <param name="context">The StreamingContext.</param>
-        </member>
         <member name="P:MongoDB.Driver.MongoWriteException.WriteConcernError">
             <summary>
             Gets the write concern error.
@@ -16407,13 +16372,6 @@
             <summary>
             Gets the write error.
             </summary>
-        </member>
-        <member name="M:MongoDB.Driver.MongoWriteException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Gets the object data.
-            </summary>
-            <param name="info">The information.</param>
-            <param name="context">The context.</param>
         </member>
         <member name="T:MongoDB.Driver.MongoX509Identity">
             <summary>

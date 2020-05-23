@@ -30,7 +30,7 @@ namespace ECommerceSystem.Models
 
         public static StorePurchaseModel CreateStorePurchase(StorePurchase purchase)
         {
-            return new StorePurchaseModel(purchase.User.Name(), purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList());
+            return new StorePurchaseModel(purchase.User.Name, purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList());
         }
 
         public static ShoppingCartModel CreateShoppingCart(UserShoppingCart cart)
@@ -50,7 +50,7 @@ namespace ECommerceSystem.Models
 
         public static PermissionModel CreatePermissions(Permissions permissions)
         {
-            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name(),
+            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name,
                 permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
         }
 
@@ -58,8 +58,8 @@ namespace ECommerceSystem.Models
         {
             if (!user.isSubscribed())
                 return null;
-            var state = (Subscribed)user._state;
-            return new UserModel(user.Guid, state._uname, state._details.Fname, state._details.Lname, state._details.Email);
+            var state = (Subscribed)user.State;
+            return new UserModel(user.Guid, state.Username, state.Details.FirstName, state.Details.LastName, state.Details.Email);
         }
     }
 }

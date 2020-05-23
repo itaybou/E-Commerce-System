@@ -255,7 +255,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name().Equals(loggedInUser.Name())) //check that the logged in the user who assigned userName
+            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
             {
                 return false;
             }
@@ -275,7 +275,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name().Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
+            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
             {
                 return false;
             }
