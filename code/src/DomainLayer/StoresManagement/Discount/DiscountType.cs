@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -19,6 +20,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         public float Percentage { get => _percentage; set => _percentage = value; }
 
         public abstract void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
+        public abstract DiscountPolicyModel CreateModel();
 
         public Guid getID()
         {

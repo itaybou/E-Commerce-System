@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -20,6 +21,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             double basePrice = products[_productID].basePrice;
             int quantity = products[_productID].quantity;
             products[_productID] = (basePrice, quantity, newTotalPrice);
+        }
+
+        public override DiscountPolicyModel CreateModel()
+        {
+            return new VisibleDiscountModel(this._ID, this._expDate, this._percentage, this._productID);
         }
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)

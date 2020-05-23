@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -27,6 +28,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                 int quantity = products[_productID].quantity;
                 products[_productID] = (basePrice, quantity, newTotalPrice);
             }
+        }
+
+        public override DiscountPolicyModel CreateModel()
+        {
+            return new ConditionalProductDiscountModel(this._ID, this._requiredQuantity, this._expDate, this._percentage);
         }
 
         //check that the quantity of product id > required quantity

@@ -4,6 +4,8 @@ using System.Linq;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -302,6 +304,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.getAllPurchasePolicyByStoreName();
+
+            }
+            else return null;
+        }
+
         public Guid addMinPriceStorePolicy(double minPrice)
         {
             if (this.canManagePurchasePolicy())
@@ -426,6 +438,24 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 return _store.StoreName();
             } return null;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.getAllStoreLevelDiscounts();
+            }
+            else return null;
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose()
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.getAllDiscountsForCompose();
+            }
+            else return null;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -22,6 +23,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         {
             DayOfWeek today = DateTime.Today.DayOfWeek;
             return !daysOff.Contains(today);
+        }
+
+        public PurchasePolicyModel CreateModel()
+        {
+            return new DaysOffPolicyModel(this._ID, this.daysOff);
         }
 
         public Guid getID()

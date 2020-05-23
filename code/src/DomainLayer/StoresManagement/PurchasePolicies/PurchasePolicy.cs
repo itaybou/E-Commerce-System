@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -11,6 +12,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
     {
         bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address);
         Guid getID();
-
+        PurchasePolicyModel CreateModel();
     }
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -57,6 +59,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         Guid addAndPurchasePolicy(Guid iD1, Guid iD2);
         Guid addOrPurchasePolicy(Guid iD1, Guid iD2);
         Guid addXorPurchasePolicy(Guid iD1, Guid iD2);
+        List<PurchasePolicyModel> getAllPurchasePolicyByStoreName();
+
 
         //Manage discounts
         Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate);
@@ -68,5 +72,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         bool removeProductDiscount(Guid discountID, Guid productID);
         bool removeCompositeDiscount(Guid discountID);
         bool removeStoreLevelDiscount(Guid discountID);
+        List<DiscountPolicyModel> getAllStoreLevelDiscounts();
+        List<DiscountPolicyModel> getAllDiscountsForCompose();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -33,6 +34,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                 }
             }
             return counter == 1;
+        }
+
+        public override PurchasePolicyModel CreateModel()
+        {
+            List<PurchasePolicyModel> childrenModels = new List<PurchasePolicyModel>();
+            foreach(PurchasePolicy p in this.Children)
+            {
+                childrenModels.Add(p.CreateModel());
+            }
+            return new CompositePurchasePolicyModel(this._ID, childrenModels, CompositeType.Xor);
         }
     }
 }

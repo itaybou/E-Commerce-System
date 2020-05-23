@@ -8,6 +8,8 @@ using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -466,6 +468,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _purchasePolicy.Remove(policyID);
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
+        {
+            List<PurchasePolicyModel> allPurchasePolicies = new List<PurchasePolicyModel>();
+            getAllPurchasePolicyByStoreNameRec(_purchasePolicy, allPurchasePolicies);
+            return allPurchasePolicies;
+        }
+
+        private void getAllPurchasePolicyByStoreNameRec(PurchasePolicy root, List<PurchasePolicyModel> allPurchasePolicies)
+        {
+            allPurchasePolicies.Add(root.CreateModel());
+
+            if(root is CompositePurchasePolicy)
+            {
+                foreach(PurchasePolicy p in ((CompositePurchasePolicy)root).Children)
+                {
+                    getAllPurchasePolicyByStoreNameRec(p, allPurchasePolicies);
+                }
+            }
+        }
 
         //*********Manage discounts  --   REQUIREMENT 4.2*********
 
@@ -742,9 +763,43 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
+        {
+            List<DiscountPolicyModel> allStoreLevelDiscountPolicies = new List<DiscountPolicyModel>();
+            getAllDiscountsFromTree(_storeLevelDiscounts, allStoreLevelDiscountPolicies);
+            return allStoreLevelDiscountPolicies;
+        }
+
+        private void getAllDiscountsFromTree(DiscountPolicy root, List<DiscountPolicyModel> allStoreLevelDiscountPolicies)
+        {
+            allStoreLevelDiscountPolicies.Add(root.CreateModel());
+
+            if (root is CompositeDiscountPolicy)
+            {
+                foreach (DiscountPolicy d in ((CompositeDiscountPolicy)root).Children)
+                {
+                    getAllDiscountsFromTree(d, allStoreLevelDiscountPolicies);
+                }
+            }
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose()
+        {
+            List<DiscountPolicyModel> allDicsountsModels = new List<DiscountPolicyModel>(); //without store level discount
+            getAllDiscountsFromTree(_discountPolicyTree, allDicsountsModels);
+
+            //add all the discounts that not exist in the tree
+            foreach(var d in _NotInTreeProductDiscounts)
+            {
+                allDicsountsModels.Add(d.Value.CreateModel());
+            }
+            return allDicsountsModels;
+        }
+
         public string StoreName()
         {
             return Name;
         }
+
     }
 }
