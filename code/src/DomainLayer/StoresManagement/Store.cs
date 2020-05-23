@@ -84,6 +84,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
         public long RaterCount { get => _raterCount; set => _raterCount = value; }
         public AndPurchasePolicy PurchasePolicy { get => _purchasePolicy; set => _purchasePolicy = value; }
+        public OrDiscountPolicy DiscountPolicyTree { get => _discountPolicyTree; set => _discountPolicyTree = value; }
+        public XORDiscountPolicy StoreLevelDiscounts { get => _storeLevelDiscounts; set => _storeLevelDiscounts = value; }
+        public Dictionary<Guid, DiscountPolicy> AllDiscountsMap { get => _allDiscountsMap; set => _allDiscountsMap = value; }
+        public Dictionary<Guid, DiscountType> NotInTreeProductDiscounts { get => _NotInTreeProductDiscounts; set => _NotInTreeProductDiscounts = value; }
 
         public void addOwner(string userName, Permissions permissions)
         {
@@ -467,9 +471,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate)
         {
+            if(percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0)
+            {
+                return Guid.Empty;
+            }
+
+            Product prod = _inventory.getProductById(productID); 
+            if(prod == null || prod.Discount != null)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             VisibleDiscount newDiscount = new VisibleDiscount(percentage, expDate, newID, productID);
-            Product prod = _inventory.getProductById(productID); 
             prod.Discount = newDiscount; //add the new discount to the product 
             _allDiscountsMap.Add(newID, newDiscount);
             _NotInTreeProductDiscounts.Add(newID, newDiscount);
@@ -478,9 +492,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
         {
+            if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0 || minQuantityForDiscount < 0)
+            {
+                return Guid.Empty;
+            }
+
+            Product prod = _inventory.getProductById(productID);
+            if (prod == null || prod.Discount != null)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             ConditionalProductDiscount newDiscount = new ConditionalProductDiscount(percentage, expDate, newID, productID, minQuantityForDiscount);
-            Product prod = _inventory.getProductById(productID);
             prod.Discount = newDiscount; //add the new discount to the product (override if exist old one)
             _allDiscountsMap.Add(newID, newDiscount);
             _NotInTreeProductDiscounts.Add(newID, newDiscount);
@@ -489,6 +513,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)
         {
+            if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0 || minPriceForDiscount < 0)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             ConditionalStoreDiscount newDiscount = new ConditionalStoreDiscount(minPriceForDiscount, expDate, percentage, newID);
             _storeLevelDiscounts.Children.Add(newDiscount);
@@ -504,17 +533,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 if (!_allDiscountsMap.ContainsKey(id))
                 {
-                    return false;
+                    return true;
                 }
 
                 DiscountPolicy discountPolicy = _allDiscountsMap[id];
 
                 if(discountPolicy is ConditionalStoreDiscount)
                 {
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
 
@@ -638,7 +667,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Product prod = _inventory.getProductById(productID);
 
-            if(prod == null)
+            if(prod == null || prod.Discount == null || prod.Discount.getID() != discountID)
+            {
+                return false;
+            }
+
+            if (!_allDiscountsMap.ContainsKey(discountID) || !(_allDiscountsMap[discountID] is ProductDiscount))
             {
                 return false;
             }
@@ -659,6 +693,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private void deepRemoveCompositeDiscount(CompositeDiscountPolicy discount)
         {
+            _allDiscountsMap.Remove(discount.getID());
             foreach(DiscountPolicy d in discount.Children)
             {
                 if(d is DiscountType)
@@ -667,7 +702,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 }
                 else //d is composite
                 {
-                    _allDiscountsMap.Remove(d.getID());
                     deepRemoveCompositeDiscount((CompositeDiscountPolicy)d);
                 }
             }
@@ -698,7 +732,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool removeStoreLevelDiscount(Guid discountID)
         {
-            if (!_allDiscountsMap.ContainsKey(discountID))
+            if (!_allDiscountsMap.ContainsKey(discountID) || !(_allDiscountsMap[discountID] is ConditionalStoreDiscount))
             {
                 return false;
             }

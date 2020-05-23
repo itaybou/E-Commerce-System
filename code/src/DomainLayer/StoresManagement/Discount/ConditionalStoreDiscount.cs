@@ -25,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                 for(int i = 0; i < products.Count; i++)
                 {
                     var prod = products.ElementAt(i);
-                    double newTotalPrice = (((100 - this.Percentage) / 100) * prod.Value.basePrice) * prod.Value.quantity;
+                    double newTotalPrice = (((100 - this.Percentage) / 100) * prod.Value.totalPrice);
                     double basePrice = prod.Value.basePrice;
                     int quantity = prod.Value.quantity;
                     products[prod.Key] = (basePrice, quantity, newTotalPrice); // ??

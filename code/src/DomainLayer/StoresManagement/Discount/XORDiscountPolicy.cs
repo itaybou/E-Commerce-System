@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    class XORDiscountPolicy : CompositeDiscountPolicy
+    public class XORDiscountPolicy : CompositeDiscountPolicy
     {
         public XORDiscountPolicy(Guid ID) : base(ID)
         {
