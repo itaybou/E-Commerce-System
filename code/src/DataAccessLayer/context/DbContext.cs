@@ -1,11 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Driver;
 
 namespace ECommerceSystem.DataAccessLayer
 {
@@ -20,7 +13,10 @@ namespace ECommerceSystem.DataAccessLayer
             MongoClient = new MongoClient();//Configuration.ConnectionString);
         }
 
+        public MongoClient Client() => MongoClient;
+
         public IMongoDatabase Database() => MongoClient.GetDatabase(Configuration.DatabaseName);
+
         public IMongoDatabase TestDatabase() => MongoClient.GetDatabase(Configuration.TestDatabaseName);
 
         private class DatabaseConfiguration
@@ -42,6 +38,5 @@ namespace ECommerceSystem.DataAccessLayer
 
             public string TestDatabaseName => _testDatabaseName;
         }
-
     }
 }

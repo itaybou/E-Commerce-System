@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.ServiceLayer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ECommerceSystem.ServiceLayer;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using ECommerceSystem.CommunicationLayer;
-using ECommerceSystem.DataAccessLayer;
+using System;
 
 namespace PresentationLayer
 {
@@ -43,11 +38,11 @@ namespace PresentationLayer
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
             }).AddCookie(options =>
             {
                 options.LoginPath = "/auth/login";
                 options.LogoutPath = "/auth/logout";
+                options.Cookie.Name = "ECommerceCookie";
             });
             services.AddSession(options =>
             {

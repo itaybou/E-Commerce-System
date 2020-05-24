@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Models;
+﻿using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PresentationLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
     [Authorize(Roles = "Admin, Subscribed")]
     public class OwnerController : Controller
     {
-
         private IService _service;
 
         public OwnerController(IService service)
@@ -80,7 +76,7 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult StoreManagers(string storeName)
         {
-            var managers = _service.getStoreManagers(storeName); 
+            var managers = _service.getStoreManagers(storeName);
             return View("../Owner/StoreManagers", managers);
         }
 
@@ -100,13 +96,14 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             var session = new Guid(HttpContext.Session.Id);
             var assignUsername = Request.Form["assignUsername"].ToString();
-            if(!String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
+            if (!String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
             {
                 if (!_service.assignOwner(session, assignUsername, storeName))
                 {
                     ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
                 }
-            } else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
+            }
+            else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
             var owners = _service.getStoreOwners(storeName);
             return View("../Owner/StoreOwners", owners);
         }
@@ -121,7 +118,8 @@ namespace PresentationLayer.Controllers.StoreOwner
             var permissionTypes = PermissionType.Descriptions();
             for (var i = 0; i < PermissionType.Descriptions().Count(); ++i)
             {
-                if (Request.Form.ContainsKey("permission_" + i)) {
+                if (Request.Form.ContainsKey("permission_" + i))
+                {
                     givenPermissions.Add(permissionTypes[Request.Form["permission_" + i].ToString()]);
                 }
             }
@@ -142,7 +140,8 @@ namespace PresentationLayer.Controllers.StoreOwner
         public IActionResult RemoveManager(string manager, string storeName)
         {
             var session = new Guid(HttpContext.Session.Id);
-            if(!_service.removeManager(session, manager, storeName)) {
+            if (!_service.removeManager(session, manager, storeName))
+            {
                 ModelState.AddModelError("InvalidRemoveOperation", $"Error occured while trying to remove manager '{manager}'. try again later.");
             }
             var managers = _service.getStoreManagers(storeName);

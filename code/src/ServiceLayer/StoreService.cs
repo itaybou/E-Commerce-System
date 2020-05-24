@@ -1,10 +1,7 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
-using ECommerceSystem.CommunicationLayer.sessions;
 using System;
 using System.Collections.Generic;
 
@@ -21,10 +18,10 @@ namespace ECommerceSystem.ServiceLayer
             _sessions = SessionController.Instance;
         }
 
-        public void removeAllStores()
-        {
-            _storeManagement.Stores.Clear();
-        }
+        //public void removeAllStores()
+        //{
+        //    _storeManagement.Stores.Clear();
+        //}
 
         [Trace("Info")]
         //Usecase - 2.4
@@ -41,7 +38,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 3.2
-        public bool openStore(Guid sessionID, string name) 
+        public bool openStore(Guid sessionID, string name)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.openStore(userID, name);
@@ -52,7 +49,7 @@ namespace ECommerceSystem.ServiceLayer
         public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity) // -1 if not needed in both
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName,  price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity);
         }
 
         [Trace("Info")]
@@ -65,7 +62,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public Guid addProduct(Guid sessionID, string storeName, string productInvName,  int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addProduct(userID, storeName, productInvName, quantity, minQuantity, maxQuantity);
@@ -158,7 +155,7 @@ namespace ECommerceSystem.ServiceLayer
 
         //*********ADD*********
 
-        public Guid addDayOffPolicy(Guid userID, string storeName, List <DayOfWeek> daysOff)
+        public Guid addDayOffPolicy(Guid userID, string storeName, List<DayOfWeek> daysOff)
         {
             return _storeManagement.AddDayOffPolicy(userID, storeName, daysOff);
         }
@@ -200,9 +197,7 @@ namespace ECommerceSystem.ServiceLayer
             return _storeManagement.getUserPermissionTypes(storeName, username);
         }
 
-
         //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
-
 
         //*********ADD*********
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using Newtonsoft.Json;
+using System;
+using System.Collections.Concurrent;
 
 namespace PresentationLayer.Controllers.Notification
 {
@@ -21,7 +17,8 @@ namespace PresentationLayer.Controllers.Notification
                 if (String.IsNullOrEmpty(notifications))
                 {
                     return new ConcurrentDictionary<Guid, (string, DateTime)>();
-                } else
+                }
+                else
                 {
                     return JsonConvert.DeserializeObject<ConcurrentDictionary<Guid, (string, DateTime)>>(notifications);
                 }
@@ -29,10 +26,11 @@ namespace PresentationLayer.Controllers.Notification
 
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     HttpContext.Session.SetString("SessionNotification", "");
-                } else
+                }
+                else
                 {
                     var serialized = JsonConvert.SerializeObject(value);
                     HttpContext.Session.SetString("SessionNotification", serialized);

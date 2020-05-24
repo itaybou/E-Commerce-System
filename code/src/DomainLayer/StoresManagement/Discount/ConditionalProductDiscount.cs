@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -15,12 +12,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             this._requiredQuantity = reauiredQuantity;
         }
 
-
-
         //if the customer buy _reauiredQuantity he get discount percentage on all the quantity of the product
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            if(products[_productID].quantity >= _requiredQuantity)
+            if (products[_productID].quantity >= _requiredQuantity)
             {
                 double newTotalPrice = (((100 - this.Percentage) / 100) * products[_productID].basePrice) * products[_productID].quantity;
                 double basePrice = products[_productID].basePrice;

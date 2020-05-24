@@ -1,26 +1,23 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.Models;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 {
     [TestFixture()]
     public class InventoryTests
     {
-        string productName = "Iphone", description = "description";
-        PurchaseType purchaseType = new ImmediatePurchase();
-        double price = 100;
-        int quantity = 5;
-        Category category = Category.CELLPHONES;
-        List<string> keywords = new List<string>();
+        private string productName = "Iphone", description = "description";
+        private PurchaseType purchaseType = new ImmediatePurchase();
+        private double price = 100;
+        private int quantity = 5;
+        private Category category = Category.CELLPHONES;
+        private List<string> keywords = new List<string>();
         private Guid productID;
         private Guid productInvID;
-        Inventory inventory;
+        private Inventory inventory;
         private ProductInventory pInv;
 
         [OneTimeSetUp]
@@ -45,17 +42,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             inventory.Products.Clear();
         }
 
-
         [Test()]
         public void addProductInvSuccessTest()
         {
-            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung",  100, 100, Category.ELECTRONICS, keywords), "Failed to add productInv to inventory");
+            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", 100, 100, Category.ELECTRONICS, keywords), "Failed to add productInv to inventory");
         }
 
         [Test()]
         public void deleteProductInventoryTest()
         {
-            Assert.NotNull(inventory.getProductByName(productName), "Delete productInv when not supposed to"); 
+            Assert.NotNull(inventory.getProductByName(productName), "Delete productInv when not supposed to");
             Assert.True(inventory.deleteProductInventory(productName), "Fail to delete product inv");
             Assert.Null(inventory.getProductByName(productName), "Didnt delete productInv when supposed to");
         }
@@ -64,7 +60,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void deleteProductThatNotExistsTest()
         {
             Assert.False(inventory.deleteProductInventory("fail"), "Delete non exist productInv successed");
-
         }
 
         [Test()]
@@ -80,7 +75,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void modifyProductPriceTest()
         {
             Assert.True(inventory.modifyProductPrice(productName, 500), "Failed to modify product price");
-            Assert.AreEqual(500,inventory.getProductByName(productName).Price, "Failed to modify product price");
+            Assert.AreEqual(500, inventory.getProductByName(productName).Price, "Failed to modify product price");
         }
 
         [TestCase()]
@@ -89,13 +84,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.False(inventory.modifyProductPrice(productName, -5), "Modify price to negative for product successed");
             Assert.False(inventory.modifyProductPrice(productName, 0), "Modify price to 0 for product successed");
             Assert.False(inventory.modifyProductPrice("Galaxy", 20), "Modify price for non exist product successed");
-
         }
 
         [Test()]
         public void modifyProductQuantityTest()
         {
-
             Assert.True(inventory.modifyProductQuantity(productName, productID, 30), "Failed to modify product quantity");
             Assert.AreEqual(30, inventory.getProductByName(productName).getProducByID(productID).Quantity, "Failed to modify product quantity");
         }
@@ -137,13 +130,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //{
         //    Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
 
-            //Assert.False(inventory.modifyProductDiscountType(productName, productID, new VisibleDiscount(-5, new DiscountPolicy())), "Modify discount to negative percent successed");
-            //Assert.False(inventory.modifyProductDiscountType("Samsung", productID, newDis), "Modify discount for nonexist productInv name successed");
-            //Assert.False(inventory.modifyProductDiscountType(productName, Guid.NewGuid(), newDis), "Modify discount for nonexist group of products id successed");
+        //Assert.False(inventory.modifyProductDiscountType(productName, productID, new VisibleDiscount(-5, new DiscountPolicy())), "Modify discount to negative percent successed");
+        //Assert.False(inventory.modifyProductDiscountType("Samsung", productID, newDis), "Modify discount for nonexist productInv name successed");
+        //Assert.False(inventory.modifyProductDiscountType(productName, Guid.NewGuid(), newDis), "Modify discount for nonexist group of products id successed");
 
         //    Assert.True(inventory.modifyProductDiscountType(productName, productID, newDis), "Fail to modify discount of product group");
         //    Assert.AreEqual(newDis, inventory.getProductByName(productName).getProducByID(productID).Discount, "Discount type didnt modified when its supposed to");
-
 
         //}
 
@@ -152,12 +144,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //{
         //    PurchaseType newPurchase = new ImmediatePurchase();
 
-            //Assert.False(inventory.modifyProductPurchaseType("Samsung", productID, newPurchase), "Modify purchase type for nonexist productInv name successed");
-            //Assert.False(inventory.modifyProductPurchaseType(productName, Guid.NewGuid(), newPurchase), "Modify purchase type for nonexist group of products id successed");
+        //Assert.False(inventory.modifyProductPurchaseType("Samsung", productID, newPurchase), "Modify purchase type for nonexist productInv name successed");
+        //Assert.False(inventory.modifyProductPurchaseType(productName, Guid.NewGuid(), newPurchase), "Modify purchase type for nonexist group of products id successed");
 
         //    Assert.True(inventory.modifyProductPurchaseType(productName, productID, newPurchase), "Fail to modify purchase type of product group");
         //    Assert.AreEqual(newPurchase, inventory.getProductByName(productName).getProducByID(productID).PurchaseType, "Purchase type didnt modified when its supposed to");
         //}
-
     }
 }

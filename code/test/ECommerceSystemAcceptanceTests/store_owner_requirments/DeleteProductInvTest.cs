@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
-
     // Requirment 4.1.2
     [TestFixture()]
-    class DeleteProductInvTest : StoreOwnerTests
+    internal class DeleteProductInvTest : StoreOwnerTests
     {
-
         [OneTimeSetUp]
         public new void oneTimeSetup()
         {
@@ -42,13 +36,11 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.deleteProductInv(_storeName, _productName), "delete product by not permited manager success");
             _bridge.logout();
 
-
             //not exist product and store:
             _bridge.login(_ownerUserName, _pswd);
             Assert.False(_bridge.deleteProductInv(_storeName, "not exist"), "delete not exist product in store success");
             Assert.False(_bridge.deleteProductInv("not exist", _productName), "delete not exist product in store success");
             _bridge.logout();
         }
-
     }
 }

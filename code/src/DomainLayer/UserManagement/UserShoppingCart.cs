@@ -1,6 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,11 +7,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class UserShoppingCart
     {
+        public Guid UserID { get; set; }
         public List<StoreShoppingCart> StoreCarts { get; set; }
 
         public UserShoppingCart(Guid userID)
         {
             StoreCarts = new List<StoreShoppingCart>();
+            UserID = userID;
         }
 
         public double getTotalACartPrice()
@@ -23,7 +24,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public ICollection<(Store, double, IDictionary<Product, int>)> getProductsStoreAndTotalPrices()
         {
             var result = new List<(Store, double, IDictionary<Product, int>)>();
-            foreach(var storeCart in StoreCarts)
+            foreach (var storeCart in StoreCarts)
             {
                 result.Add((storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products));
             }

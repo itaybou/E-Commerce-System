@@ -1,5 +1,4 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using System;
+﻿using System;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
@@ -12,7 +11,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
                 return false;
             }
 
-            if (amount<=0)
+            if (amount <= 0)
             {
                 return false;
             }

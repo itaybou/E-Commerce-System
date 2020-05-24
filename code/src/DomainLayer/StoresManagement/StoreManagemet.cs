@@ -1,43 +1,38 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
-using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerceSystem.CommunicationLayer;
-using ECommerceSystem.CommunicationLayer.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class StoreManagement
     {
-        private List<Store> _stores;
         private UsersManagement _userManagement;
-        private Communication _communication;
+        private ICommunication _communication;
+        private IDataAccess _data;
 
         private static readonly Lazy<StoreManagement> lazy = new Lazy<StoreManagement>(() => new StoreManagement());
-
         public static StoreManagement Instance => lazy.Value;
-
-        public List<Store> Stores { get => _stores; set => _stores = value; }
 
         private StoreManagement()
         {
             _communication = Communication.Instance;
-            this._userManagement = UsersManagement.Instance;
-            this._stores = new List<Store>();
+            _data = DataAccess.Instance;
+            _userManagement = UsersManagement.Instance;
         }
 
         private IEnumerable<(UserModel, PermissionModel)> getRoleHolders(string storeName, bool owner)
         {
             var roleHolders = new List<(User, Permissions)>();
-            var permissions = Stores.Select(store => {
+            var permissions = _data.Stores.FetchAll().Select(store =>
+            {
                 if (store.Name.Equals(storeName))
                 {
-                    return store.Premmisions;
+                    return store.Permissions;
                 }
                 return null;
             });
@@ -68,7 +63,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return (getRoleHolders(storeName, false), storeName);
         }
 
-
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
         private User isUserIDSubscribed(Guid userID)
@@ -80,14 +74,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         // Return null if the name isn`t exist
         public Store getStoreByName(string name)
         {
-            foreach (Store store in _stores)
-            {
-                if (store.Name.Equals(name))
-                {
-                    return store;
-                }
-            }
-            return null;
+            return _data.Stores.GetByIdOrNull(name, s => s.Name);
         }
 
         //@pre - userID exist and subscribed
@@ -95,15 +82,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             User activeUser = isUserIDSubscribed(userID); //check if if exist and subscribed
             if (activeUser == null) //userID isn`t exist or the user isn`t subscribed
-            {
                 return false;
-            }
-
 
             if (getStoreByName(name) != null) //name already exist
-            {
                 return false;
-            }
 
             Store newStore = new Store(activeUser.Name, name); //sync - make user.name property
 
@@ -111,7 +93,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             newStore.addOwner(activeUser.Name, permissions);
             _userManagement.addPermission(activeUser, permissions, newStore.Name);
 
-            _stores.Add(newStore);
+            _data.Transactions.OpenStoreTransaction(activeUser, newStore);
             return true;
         }
 
@@ -132,7 +114,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name, productInvName, description,  price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            return permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -227,7 +209,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         internal IDictionary<PermissionType, bool> getUserPermissionTypes(string storeName, string username)
         {
-            return Stores.Find(store => store.Name.Equals(storeName)).getUsernamePermissionTypes(username);
+            return _data.Stores.FindOneBy(store => store.Name.Equals(storeName)).getUsernamePermissionTypes(username);
         }
 
         //@pre - userID exist and subscribed
@@ -335,12 +317,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if(activeUserPermissions == null)
+            if (activeUserPermissions == null)
             {
-                return false; 
+                return false;
             }
 
-            Permissions newManagerPer =  activeUserPermissions.assignManager(activeUser, newManageruserName);
+            Permissions newManagerPer = activeUserPermissions.assignManager(activeUser, newManageruserName);
 
             if (newManagerPer != null)
             {
@@ -369,7 +351,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
 
             bool isSuccess = permission == null ? false : permission.removeManager(activeUser, managerUserName);
             if (isSuccess)
@@ -406,14 +387,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
         {
-            var info = _stores.Find(s => s.Name.Equals(storeName)).getStoreInfo();
+            var info = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
             return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
         }
 
         public Dictionary<StoreModel, List<ProductModel>> getAllStoresProducts()
         {
             var storeProdcuts = new Dictionary<StoreModel, List<ProductModel>>();
-            _stores.ForEach(s =>
+            _data.Stores.FetchAll().ToList().ForEach(s =>
                 {
                     var storeInfo = s.getStoreInfo();
                     storeProdcuts.Add(ModelFactory.CreateStore(storeInfo.Item1),
@@ -426,7 +407,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoresProdcutInventories()
         {
             var allProducts = new List<ProductInventory>();
-            foreach (Store store in _stores)
+            var stores = _data.Stores.FetchAll();
+            foreach (Store store in stores)
             {
                 allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
@@ -435,13 +417,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public (ProductModel, string) getProductInventory(Guid prodID)
         {
-            foreach (Store store in _stores)
+            var stores = _data.Stores.FetchAll();
+            foreach (Store store in stores)
             {
-                foreach(var prodInv in store.Inventory)
+                foreach (var prodInv in store.Inventory)
                 {
-                    foreach(var prod in prodInv.ProductList)
+                    foreach (var prod in prodInv.ProductList)
                     {
-                        if(prod.Id.Equals(prodID))
+                        if (prod.Id.Equals(prodID))
                             return (ModelFactory.CreateProduct(prodInv.ProductList.First()), store.Name);
                     }
                 }
@@ -452,7 +435,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProducts = new List<ProductInventory>();
-            foreach (Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
+            var stores = _data.Stores.FindAllBy(s => storeRatingFilter.inRange(s.Rating));
+            foreach (Store store in stores)
             {
                 allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
@@ -492,17 +476,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             store.logPurchase(storePurchaseModel);
 
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string username in store.Premmisions.Keys)
+            foreach (string username in store.Permissions.Keys)
             {
                 notificationsUsers.Add(_userManagement.getUserByName(username).Guid);
             }
-           _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
+            _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
         }
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
         {
             var user = _userManagement.getUserByGUID(userID);
-            var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name)).
+            var dict = _data.Stores.FetchAll().ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name)).
                 Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
             return dict;
         }
@@ -606,6 +590,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.addXorPurchasePolicy(ID1, ID2);
         }
+
         //*********REMOVE*********
 
         public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
@@ -625,12 +610,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-
-
-
-
         //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
-
 
         //*********ADD*********
         public Guid addVisibleDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate)
@@ -679,11 +659,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             return permission.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
-        } 
+        }
 
         public Guid addAndDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
         {
-
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
@@ -778,7 +757,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.removeStoreLevelDiscount(discountID);
         }
-
     }
-
 }

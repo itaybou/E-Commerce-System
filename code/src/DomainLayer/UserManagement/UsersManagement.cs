@@ -1,22 +1,18 @@
 ﻿using ECommerceSystem.CommunicationLayer;
-using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.DataAccessLayer;
-using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement.security;
 using ECommerceSystem.Models;
-using ECommerceSystem.ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public sealed class UsersManagement
     {
         private IDataAccess _data;
-        private Communication _communication;
+        private ICommunication _communication;
 
         private static readonly Lazy<UsersManagement> lazy = new Lazy<UsersManagement>(() => new UsersManagement());
         public static UsersManagement Instance => lazy.Value;
@@ -108,7 +104,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public UserShoppingCart getUserCart(User user)
         {
-            if(user != null)
+            if (user != null)
                 return user.Cart;
             return null;
         }
@@ -172,17 +168,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return users.OrderBy(user => user.Name.Length).Select(user => ModelFactory.CreateUser(user));
         }
 
-
         public void logUserPurchase(Guid userID, double totalPrice, IDictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var user = getUserByGUID(userID);
             if (user != null && user.isSubscribed())
             {
-                var productsPurchased = allProducts.Select(prod => 
+                var productsPurchased = allProducts.Select(prod =>
                     new Product(prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
-                    user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
-                    firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+                user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
+                firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
             }
         }
 

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using ECommerceSystem.CommunicationLayer.notifications;
+using ECommerceSystem.CommunicationLayer.sessions;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using ECommerceSystem.CommunicationLayer.notifications;
-using ECommerceSystem.CommunicationLayer.sessions;
-using Microsoft.AspNetCore.Http;
 
 namespace ECommerceSystem.CommunicationLayer
 {
-    class WebsocketManager
+    internal class WebsocketManager
     {
         private readonly NotificationCenter NotificationsCenter;
         private readonly SessionController SessionManager;
@@ -31,15 +31,17 @@ namespace ECommerceSystem.CommunicationLayer
                 var session = GetSessionID(httpContext);
                 if (SessionSockets.ContainsKey(session))
                 {
-                    await CloseConnectionAsync(httpContext, SessionSockets[GetSessionID(httpContext)], 
+                    await CloseConnectionAsync(httpContext, SessionSockets[GetSessionID(httpContext)],
                         new WebSocketReceiveResult(0, WebSocketMessageType.Text, true));
-                } else if(SessionManager.GetLoggesUserIDBySession(session) != Guid.Empty)
+                }
+                else if (SessionManager.GetLoggesUserIDBySession(session) != Guid.Empty)
                 {
                     var (sessionID, webSocket) = await ConnectAsync(httpContext);
                     await NotificationsCenter.NotifyPastNotifications(webSocket, sessionID);
                     var status = await ReceiveAsync(httpContext, webSocket);
                     await CloseConnectionAsync(httpContext, webSocket, status);
-                } else httpContext.Response.StatusCode = 204; // No Content
+                }
+                else httpContext.Response.StatusCode = 204; // No Content
             }
             else httpContext.Response.StatusCode = 400; // Bad Request
         }

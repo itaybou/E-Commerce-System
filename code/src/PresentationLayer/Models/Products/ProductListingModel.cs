@@ -2,22 +2,19 @@
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PresentationLayer.Models.Products
 {
     public class ProductListingModel
     {
         public readonly int MAX_PRODUCTS_PER_PAGE = 12;
-        public SearchResultModel VisibleProducts {get; set;}
+        public SearchResultModel VisibleProducts { get; set; }
         public int Pages { get; set; }
         public int CurrentPage { get; set; }
         public string SearchInput { get; set; }
         public string SearchType { get; set; }
         public string Category { get; set; }
         public IEnumerable<string> Categories { get; set; }
-
 
         public double PriceRangeFrom { get; set; }
         public double PriceRangeTo { get; set; }
@@ -28,7 +25,6 @@ namespace PresentationLayer.Models.Products
         //{
         //    VisibleProducts = visibleProducts;
         //}
-
 
         public ProductListingModel(SearchResultModel products, string category, string searchInput, string searchType, double from, double to, int prodRating, int storeRating, int page)
         {

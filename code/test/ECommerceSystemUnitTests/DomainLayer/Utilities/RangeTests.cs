@@ -47,7 +47,6 @@ namespace ECommerceSystem.DomainLayer.Utilities.Tests
             Assert.True(_range.inRange(2.1));
             Assert.True(_range.inRange(2.0));
             Assert.True(_range.inRange(5.0));
-
         }
 
         [Test()]

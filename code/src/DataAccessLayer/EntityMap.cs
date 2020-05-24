@@ -3,38 +3,39 @@ using ECommerceSystem.DomainLayer.UserManagement;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static ECommerceSystem.DomainLayer.UserManagement.Subscribed;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
 {
-    static class EntityMap
+    internal static class EntityMap
     {
         internal static void RegisterClassMaps()
         {
             //BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
             var pack = new ConventionPack { new EnumRepresentationConvention(BsonType.String) };
             ConventionRegistry.Register("EnumStringConvention", pack, t => true);
+            pack = new ConventionPack() { new IgnoreExtraElementsConvention(true) };
+            ConventionRegistry.Register("IgnoreExtraElementsConvention", pack, t => true);
+            //BsonSerializer.RegisterSerializer(typeof(IStoreInterface), BsonSerializer.LookupSerializer<Store>());
 
-            //BsonClassMap.RegisterClassMap<Store>(user => {
-            //    user.MapIdMember(u => u.Guid);
-            //    user.MapProperty(u => u.Name).SetElementName("username");
-            //    user.MapProperty(u => u.Password).SetElementName("password");
-            //    user.MapProperty(u => u._state).SetElementName("details");
-            //    user.MapProperty(u => u.Cart).SetElementName("cart");
-            //});
-
-            BsonClassMap.RegisterClassMap<User>(user => {
-                user.MapIdMember(u => u.Guid);
-                user.AutoMap();
+            BsonClassMap.RegisterClassMap<Store>(store =>
+            {
+                store.AutoMap();
+                //store.MapIdMember(s => s.Name);
                 //user.MapProperty(u => u.Cart).SetElementName("cart");
+                //user.MapProperty(u => u.State).SetElementName("state");
             });
 
-            BsonClassMap.RegisterClassMap<Subscribed>(user => {
+            BsonClassMap.RegisterClassMap<User>(user =>
+            {
+                user.AutoMap();
+                user.MapIdMember(u => u.Guid);
+                user.MapProperty(u => u.Cart).SetElementName("cart");
+                user.MapProperty(u => u.State).SetElementName("state");
+            });
+
+            BsonClassMap.RegisterClassMap<Subscribed>(user =>
+            {
                 user.SetDiscriminator("Subscribed");
                 user.AutoMap();
                 //user.SetIgnoreExtraElements(true);
@@ -60,6 +61,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             BsonClassMap.RegisterClassMap<UserShoppingCart>();
 
             BsonClassMap.RegisterClassMap<StoreShoppingCart>();
+            //BsonClassMap.RegisterClassMap<Product>();
         }
     }
 }

@@ -1,13 +1,6 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.Utilities;
-using ECommerceSystem.Models;
-using ECommerceSystem.ServiceLayer;
-using System;
-using System.Linq;
-using ECommerceSystem.DataAccessLayer;
+﻿using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.DomainLayer.UserManagement;
+using System;
 
 namespace ECommerceSystem
 {
@@ -20,7 +13,6 @@ namespace ECommerceSystem
             var admin = new User(new SystemAdmin("itay", "linkin9p", "itay", "bou", "itay@email.com"));
             data.Users.Insert(new User(new Subscribed("itay", "linkin9p", "itay", "bou", "itay@email.com")));
             data.Users.Insert(admin);
-            
 
             var user = data.Users.GetByIdOrNull(admin.Guid, u => u.Guid);
             Console.ReadLine();

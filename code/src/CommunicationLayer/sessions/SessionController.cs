@@ -1,14 +1,12 @@
-﻿using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.CommunicationLayer.sessions
 {
-    class SessionController : ISessionController
+    internal class SessionController : ISessionController
     {
         public static IDictionary<Guid, Guid> LoggedSessions;
         public static IDictionary<Guid, Guid> GuestSessions;
@@ -42,10 +40,15 @@ namespace ECommerceSystem.CommunicationLayer.sessions
         public Guid LogoutSession(Guid sessionID)
         {
             if (Get(LoggedSessions, sessionID) == Guid.Empty)
-                throw new ArgumentException("Session ID does not exist");
+                throw new AuthenticationException("session expired!");
             var userID = LoggedSessions[sessionID];
             LoggedSessions.Remove(sessionID);
             return userID;
+        }
+
+        internal bool ReaffirmSession(Guid guid)
+        {
+            return LoggedSessions.ContainsKey(guid);
         }
 
         public Guid GetLoggesUserIDBySession(Guid sessionID)
@@ -60,7 +63,7 @@ namespace ECommerceSystem.CommunicationLayer.sessions
             var result = LoggedSessions.FirstOrDefault(s => s.Value.Equals(userID));
             return result.Key;
         }
-            
+
         private static Guid Get(IDictionary<Guid, Guid> dict, Guid sessionID)
         {
             Guid userID;

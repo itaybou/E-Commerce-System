@@ -1,11 +1,8 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -13,27 +10,44 @@ namespace ECommerceSystem.ServiceLayer
     {
         // User Services
         bool isUserAdmin(Guid sessionID);
+
         bool isUserSubscribed(string username);
+
         bool isUserLogged(string username);
+
         void removeAllUsers();
+
         (bool, string) register(string uname, string pswd, string fname, string lname, string email);
+
         (bool, Guid) login(Guid sessionID, string uname, string pswd);
+
         bool logout(Guid guid);
+
         bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity);
+
         ShoppingCartModel ShoppingCartDetails(Guid sessionID);
+
         bool RemoveFromCart(Guid productId);
+
         bool ChangeProductQunatity(Guid productId, int quantity);
+
         ICollection<UserPurchaseModel> userPurchaseHistory(string userName);
+
         UserModel userDetails(Guid sessionID);
+
         IEnumerable<UserModel> allUsers(Guid sessionID);
 
         IEnumerable<UserModel> searchUsers(string username);
+
         IDictionary<string, PermissionModel> getUserPermissions(Guid sessionID);
+
         IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username);
 
         // Store Services
         Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
+
         Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
+
         bool openStore(Guid sessionID, string name);
 
         Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
@@ -65,15 +79,20 @@ namespace ECommerceSystem.ServiceLayer
         IEnumerable<StorePurchaseModel> purchaseHistory(string storeName);
 
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName);
+
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName);
 
         (ProductModel, string) getProductInventory(Guid prodID);
 
         // System Services
         SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+
         SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+
         SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+
         SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+
         ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address);
     }
 }

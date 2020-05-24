@@ -1,5 +1,4 @@
 ﻿using System;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -27,7 +26,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return; // guest dont have permissions
         }
-
 
         public void removePermissions(string storeName)
         {

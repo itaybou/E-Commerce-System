@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public class MinPricePerStorePolicy : PurchasePolicy
     {
-        double _minPrice;
-        Guid _ID;
-
+        private double _minPrice;
+        private Guid _ID;
 
         public MinPricePerStorePolicy(double min, Guid ID)
         {

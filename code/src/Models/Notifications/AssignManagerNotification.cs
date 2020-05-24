@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECommerceSystem.Models
+﻿namespace ECommerceSystem.Models
 {
-    class AssignManagerNotification : INotitficationType
+    internal class AssignManagerNotification : INotitficationType
     {
-        string _assigned;
-        string _assignee;
-        string _storeName;
+        private string _assigned;
+        private string _assignee;
+        private string _storeName;
 
         public AssignManagerNotification(string assigned, string assignee, string storeName)
         {

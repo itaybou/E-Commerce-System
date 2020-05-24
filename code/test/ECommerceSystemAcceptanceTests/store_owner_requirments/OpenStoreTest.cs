@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
-
     // Requirment 3.2
     [TestFixture()]
-    class OpenStoreTest : StoreOwnerTests
+    internal class OpenStoreTest : StoreOwnerTests
     {
-        string _newStoreName;
-        string _discountPolicy;
-        string _purchasePolicy;
+        private string _newStoreName;
+        private string _discountPolicy;
+        private string _purchasePolicy;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -33,7 +27,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
-
         [TestCase()]
         public void openStoreFail()
         {
@@ -42,6 +35,5 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.openStore(_storeName, _discountPolicy, _purchasePolicy), "open store with exist store name successed");
             _bridge.logout();
         }
-
     }
 }

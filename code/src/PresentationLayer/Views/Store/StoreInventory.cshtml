@@ -4,8 +4,6 @@
     ViewData["Title"] = "Store Inventory";
 }
 
-
-
     <div class="container-fluid w-75">
         <h1>@ViewData["StoreName"] - Store Inventory</h1>
         <div class="alert alert-info">
@@ -37,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var product in Model.Item2) 
+                @foreach(var product in Model.Item2)
                 {
                 <tr class="text-left hovertr">
                     <td class="w-25">@product.Id</td>

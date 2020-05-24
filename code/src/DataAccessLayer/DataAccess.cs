@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DataAccessLayer.repositories;
+﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Linq;
 
 namespace ECommerceSystem.DataAccessLayer
 {
@@ -20,11 +17,13 @@ namespace ECommerceSystem.DataAccessLayer
         public static DataAccess Instance => lazy.Value;
 
         private IDbContext Context { get; }
+        public ITransactions Transactions { get; }
 
         private DataAccess()
         {
             EntityMap.RegisterClassMaps();
             Context = new DbContext(ConnectionString, DatabaseName, TestDatabaseName);
+            Transactions = new TransactionManager(Context.Client(), Users, Stores);
             InitializeDatabase();
         }
 
@@ -32,6 +31,8 @@ namespace ECommerceSystem.DataAccessLayer
         {
             if (!CollectionExists(nameof(Users)))
                 Context.Database().CreateCollection(nameof(Users));
+            if (!CollectionExists(nameof(Stores)))
+                Context.Database().CreateCollection(nameof(Stores));
         }
 
         private bool CollectionExists(string collectionName)
@@ -43,6 +44,7 @@ namespace ECommerceSystem.DataAccessLayer
         }
 
         private IUserRepository users;
+
         public IUserRepository Users
         {
             get
@@ -50,6 +52,18 @@ namespace ECommerceSystem.DataAccessLayer
                 if (users == null)
                     users = new UserCacheProxy(Context, nameof(Users));
                 return users;
+            }
+        }
+
+        private IStoreRepository stores;
+
+        public IStoreRepository Stores
+        {
+            get
+            {
+                if (stores == null)
+                    stores = new StoresCacheProxy(Context, nameof(Stores));
+                return stores;
             }
         }
     }

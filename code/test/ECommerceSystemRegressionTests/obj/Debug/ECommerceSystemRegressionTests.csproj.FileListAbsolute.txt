@@ -151,5 +151,3 @@ C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליי
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Numerics.Vectors.xml
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\test\ECommerceSystemRegressionTests\bin\Debug\System.Buffers.xml
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csprojAssemblyReference.cache
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CoreCompileInputs.cache

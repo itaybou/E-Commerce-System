@@ -1,10 +1,10 @@
-﻿using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
+using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
-using ECommerceSystem.CommunicationLayer.sessions;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -50,9 +50,8 @@ namespace ECommerceSystem.ServiceLayer
             return _systemManager.SearchAndFilterSystem.getProductSearchResults(null, keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-
         /// <summary>
-        /// purchase process of user shopping cart 
+        /// purchase process of user shopping cart
         /// </summary>
         /// <param name="firstName"> first name of the user</param>
         /// <param name="lastName"> last name of the user </param>
@@ -70,7 +69,7 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         ///// <summary>
-        ///// purchase process of specific product 
+        ///// purchase process of specific product
         ///// </summary>
         ///// <param name="product"> the product the user want to buy and the store that own the product</param>
         ///// <param name="firstName">first name of the user</param>
@@ -87,9 +86,8 @@ namespace ECommerceSystem.ServiceLayer
         //    return _systemManager.purchaseProduct(product, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         //}
 
-
         ///// <summary>
-        ///// purchase process of specific products 
+        ///// purchase process of specific products
         ///// </summary>
         ///// <param name="products"> all the products the user want to buy and the stores that own the products</param>
         ///// <param name="firstName">first name of the user</param>

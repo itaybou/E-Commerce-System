@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
     // Requirment 4.1.3
     [TestFixture()]
-
-    class ModifyProductTest : StoreOwnerTests
+    internal class ModifyProductTest : StoreOwnerTests
     {
-        Guid _iphoneFirstGroupProductsID;
+        private Guid _iphoneFirstGroupProductsID;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -35,7 +30,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as guest success");
         }
 
-
         [TestCase()]
         public void modifyProductAsRegularUser()
         {
@@ -49,7 +43,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "modify purchase type of product group as regular user success");
             _bridge.logout();
         }
-
 
         [TestCase()]
         public void modifyProductAsNotPermitedManager()
@@ -112,9 +105,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         //{
         //    _bridge.login(_ownerUserName, _pswd);
 
-            //add product
-            //Assert.AreNotEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
-            //Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
+        //add product
+        //Assert.AreNotEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, 50), "fail to add product group ");
+        //Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _productName, _discontType, _discountPercentage, _purchaseType, -5), "add product group with with negative quantity success");
 
         //    //delete product:
         //    Assert.True(_bridge.deleteProduct(_storeName, _productName, _iphoneFirstGroupProductsID), "fail to delete product group ");
@@ -146,11 +139,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         //    Assert.True(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "immediate"), "fail to modify purchase type");
         //    Assert.False(_bridge.modifyProductPurchaseType(_storeName, _productName, _iphoneFirstGroupProductsID, "not exist purchase type"), "modify to not exist purchase type successed");
 
-
         //    _bridge.logout();
         //}
-
-
-
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ECommerceSystem.Models
+﻿namespace ECommerceSystem.Models
 {
     public enum Category
     {

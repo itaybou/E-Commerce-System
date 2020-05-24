@@ -1,6 +1,8 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DataAccessLayer.serializers;
+using ECommerceSystem.DomainLayer.StoresManagement;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -9,8 +11,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         private Store _store { get; set; }
         private Dictionary<Product, int> _productQuantities; // Product => Quantity
 
+        [BsonSerializer(typeof(StoreReferenceSerializer))]
         public Store store { get => _store; set => _store = value; }
-        public Dictionary<Product, int> Products { get => _productQuantities; }
+
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<Product, int> Products { get => _productQuantities; set => _productQuantities = value; }
 
         public StoreShoppingCart(Store s)
         {

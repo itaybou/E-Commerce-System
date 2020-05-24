@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceSystemRegressionTests
 {
@@ -49,13 +48,13 @@ namespace ECommerceSystemRegressionTests
         [TestCase()]
         public void OnlyOneStoreShoppingCartPerStore() // 6
         {
-            var userCarts = _usersManagement.UserCarts.Values.Concat(new List<UserShoppingCart>() { {_usersManagement.UserCarts.Values.First() }}).ToList();
-            userCarts.ForEach(uCart => {
+            var userCarts = _usersManagement.UserCarts.Values.Concat(new List<UserShoppingCart>() { { _usersManagement.UserCarts.Values.First() } }).ToList();
+            userCarts.ForEach(uCart =>
+            {
                 var stores = uCart.StoreCarts.Select(s => s.store);
                 Assert.True(stores.Distinct().Count() == stores.Count());
             });
         }
-
 
         [TestCase()]
         public void UserHasAccessOnlyToHisShoppingCart() // 7

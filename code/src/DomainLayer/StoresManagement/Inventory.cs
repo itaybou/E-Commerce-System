@@ -1,25 +1,30 @@
-﻿using ECommerceSystem.Models;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class Inventory : IEnumerable<ProductInventory>
     {
         private List<ProductInventory> _products;
-        public List<ProductInventory> Products { get => _products; set => _products = value;
+
+        public List<ProductInventory> Products
+        {
+            get => _products; set => _products = value;
         }
 
         public Inventory()
         {
             _products = new List<ProductInventory>();
         }
-        
+
+        public Inventory(List<ProductInventory> products)
+        {
+            _products = products;
+        }
+
         //Return null if there isn`t product with name
         public ProductInventory getProductByName(string name)
         {
@@ -59,8 +64,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            ProductInventory productInventory = ProductInventory.Create(productName, description,  price, quantity, category, keywords);
-            if(productInventory == null)
+            ProductInventory productInventory = ProductInventory.Create(productName, description, price, quantity, category, keywords);
+            if (productInventory == null)
             {
                 return Guid.Empty;
             }
@@ -103,7 +108,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductPrice(string productName, int newPrice)
         {
-            if(newPrice <= 0)
+            if (newPrice <= 0)
             {
                 return false;
             }
@@ -143,8 +148,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                var id = productInventory.addProduct( quantity, productInventory.Price);
-                if (id != Guid.Empty){
+                var id = productInventory.addProduct(quantity, productInventory.Price);
+                if (id != Guid.Empty)
+                {
                     return id;
                 }
                 else
@@ -169,7 +175,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductDiscountType(string productInvName, Guid productID, DiscountType newDiscount)
         {
-            if(newDiscount.Percentage < 0)
+            if (newDiscount.Percentage < 0)
             {
                 return false;
             }
@@ -200,7 +206,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerator<ProductInventory> GetEnumerator()
         {
-            foreach(var product in _products)
+            foreach (var product in _products)
             {
                 yield return product;
             }

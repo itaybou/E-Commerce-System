@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
+using System;
+using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public interface IStoreInterface
     {
-
         string StoreName();
 
         Guid addProductInv(string activeUserName, string productName, string description, double price,
@@ -47,26 +42,40 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         Permissions getPermissionByName(string userName);
 
-        List <StorePurchaseModel> purchaseHistory();
+        List<StorePurchaseModel> purchaseHistory();
 
         //Manage purchase policy
         Guid addDayOffPolicy(List<DayOfWeek> daysOff);
+
         void removePurchasePolicy(Guid policyID);
+
         Guid addLocationPolicy(List<string> banLocations);
+
         Guid addMinPriceStorePolicy(double minPrice);
+
         Guid addAndPurchasePolicy(Guid iD1, Guid iD2);
+
         Guid addOrPurchasePolicy(Guid iD1, Guid iD2);
+
         Guid addXorPurchasePolicy(Guid iD1, Guid iD2);
 
         //Manage discounts
         Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate);
+
         Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+
         Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount);
+
         Guid addAndDiscountPolicy(List<Guid> IDs);
+
         Guid addOrDiscountPolicy(List<Guid> IDs);
+
         Guid addXorDiscountPolicy(List<Guid> IDs);
+
         bool removeProductDiscount(Guid discountID, Guid productID);
+
         bool removeCompositeDiscount(Guid discountID);
+
         bool removeStoreLevelDiscount(Guid discountID);
     }
 }

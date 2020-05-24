@@ -1,11 +1,9 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
-using ECommerceSystem.CommunicationLayer.sessions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ECommerceSystem.ServiceLayer
 {

@@ -1,6 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.Models;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
@@ -11,6 +10,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public string Password { get; set; }
         public UserDetails Details { get; set; }
         public List<UserPurchase> PurchaseHistory { get; set; }
+
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, Permissions> Permissions { get; set; }
 
         public Subscribed(string uname, string pswd, string fname, string lname, string email)
@@ -69,6 +70,5 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
             else return null;
         }
-
     }
 }

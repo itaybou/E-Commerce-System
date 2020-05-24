@@ -458,5 +458,3 @@ C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTest
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Text.Encodings.Web.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Memory.xml
 C:\Users\סהר\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Numerics.Vectors.xml
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csprojAssemblyReference.cache
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache

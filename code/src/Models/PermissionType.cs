@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.Models
 {
-    public class PermissionType
+    public class PermissionType : IEquatable<PermissionType>
     {
-        private PermissionType(string value) { Value = value; }
+        private PermissionType(string value)
+        {
+            Value = value;
+        }
+
         public string Value { get; set; }
 
         public static PermissionType AddProductInv = new PermissionType("Add Products");
@@ -31,6 +32,11 @@ namespace ECommerceSystem.Models
                 { ManagePurchasePolicy.Value, ManagePurchasePolicy},
                 { ManageDiscounts.Value, ManageDiscounts}
             };
+        }
+
+        public bool Equals(PermissionType other)
+        {
+            return Value.Equals(other.Value);
         }
     }
 }

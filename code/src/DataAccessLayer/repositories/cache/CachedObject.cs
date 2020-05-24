@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ECommerceSystem.DataAccessLayer.repositories.cache
 {
-    class CachedObject<T>
+    internal class CachedObject<T>
     {
-        T _element;
-        DateTime _cacheTime;
+        private T _element;
+        private DateTime _cacheTime;
 
         public CachedObject(T element)
         {
             _element = element;
             _cacheTime = DateTime.Now;
-
         }
 
-        public void SetAccessed()
+        public T GetAccessElement()
         {
             CacheTime = DateTime.Now;
+            return _element;
         }
 
         public double CachedTime()
@@ -30,11 +25,12 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             return now.Subtract(_cacheTime).TotalSeconds;
         }
 
-        public T Element 
-        { 
+        public T Element
+        {
             get => _element;
             set => _element = value;
         }
+
         public DateTime CacheTime { get => _cacheTime; set => _cacheTime = value; }
     }
 }

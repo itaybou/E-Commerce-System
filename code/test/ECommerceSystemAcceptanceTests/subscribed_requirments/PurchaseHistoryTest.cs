@@ -1,8 +1,6 @@
 ﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
@@ -13,7 +11,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         private string store_uname, store_pswd;
         private string uname, pswd;
         private IBridgeAdapter _bridge;
-        string firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address;
+        private string firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address;
 
         [OneTimeSetUp]
         public void oneTimeSetup()
@@ -51,6 +49,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
+
         /*
         [TestCase()]
         public void TestViewPurchaseHistory()

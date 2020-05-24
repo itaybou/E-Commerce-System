@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -24,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             }
 
             bool output = false;
-            foreach(PurchasePolicy p in base.Children)
+            foreach (PurchasePolicy p in base.Children)
             {
                 output = output || p.canBuy(products, totalPrice, address);
             }

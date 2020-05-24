@@ -1,11 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.UserManagement;
-using MongoDB.Bson.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ECommerceSystem.DomainLayer.UserManagement.Subscribed;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
 {

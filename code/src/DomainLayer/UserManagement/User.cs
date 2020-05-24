@@ -1,7 +1,4 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.Models;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.UserManagement

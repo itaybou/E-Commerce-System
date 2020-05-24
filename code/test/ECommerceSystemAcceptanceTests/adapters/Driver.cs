@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ECommerceSystemAcceptanceTests.adapters
+﻿namespace ECommerceSystemAcceptanceTests.adapters
 {
-    class Driver
+    internal class Driver
     {
         public static IBridgeAdapter getAcceptanceBridge()
         {

@@ -1,11 +1,5 @@
-﻿using ECommerceSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PresentationLayer.Models
 {
@@ -20,7 +14,7 @@ namespace PresentationLayer.Models
         public string? Category { get; set; }
 
         [DisplayName("Descrption")]
-        public string Description { get ; set; }
+        public string Description { get; set; }
 
         [DisplayName("Quantity")]
         [Required(ErrorMessage = "Please Provide Quantity", AllowEmptyStrings = false)]

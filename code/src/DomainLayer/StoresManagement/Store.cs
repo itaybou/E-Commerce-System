@@ -1,41 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    public class Store : IStoreInterface
+    public class Store : IStoreInterface, ISupportInitialize
     {
+        private static readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
 
-        private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
+        public string Name { get; set; }
+        public double Rating { get; set; }
+        public Inventory Inventory { get; set; }
+        public List<StorePurchaseModel> PurchaseHistory { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<string, Permissions> Permissions { get; set; }
 
-        private string _name;
-        private double _rating;
-        private long _raterCount;
+        public long RaterCount { get; set; }
+
         private OrDiscountPolicy _discountPolicy; //all store complex discounts
         private AndPurchasePolicy _purchasePolicy; // all store purchase policies
-        private Dictionary<string, Permissions> _premmisions; // username => permissions
-        private Inventory _inventory;
         private XORDiscountPolicy _storeLevelDiscounts;
-        private List<StorePurchaseModel> _purchaseHistory;
         private Dictionary<Guid, DiscountPolicy> _discountsMap;
 
         public Store(string ownerUserName, string name)
         {
             this._discountPolicy = new OrDiscountPolicy(Guid.NewGuid());
             this._purchasePolicy = new AndPurchasePolicy(Guid.NewGuid());
-            this._premmisions = new Dictionary<string, Permissions>();
-            this._inventory = new Inventory();
+            this.Permissions = new Dictionary<string, Permissions>();
+            this.Inventory = new Inventory();
             this.Name = name;
-            this._purchaseHistory = new List<StorePurchaseModel>();
+            this.PurchaseHistory = new List<StorePurchaseModel>();
             this._storeLevelDiscounts = new XORDiscountPolicy(Guid.NewGuid());
             this._discountsMap = new Dictionary<Guid, DiscountPolicy>();
         }
@@ -58,7 +61,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _discountPolicy.calculateTotalPrice(products);
 
             //calc the simple discounts:
-            foreach(var p in productQuantities)
+            foreach (var p in productQuantities)
             {
                 if (p.Key.Discount != null && !p.Key.Discount.IsInComposite)
                 {
@@ -69,7 +72,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //calc store discounts
             this._storeLevelDiscounts.calculateTotalPrice(products);
 
-
             //sum all prices after discounts
             foreach (var prod in products)
             {
@@ -78,29 +80,19 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return totalPrice;
         }
 
-        public string Name { get => _name; set => _name = value; }
-        public double Rating { get => _rating; }
-        public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        public List<StorePurchaseModel> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
-        public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
-        public long RaterCount { get => _raterCount; set => _raterCount = value; }
-
-
         public void addOwner(string userName, Permissions permissions)
         {
-            _premmisions.Add(userName, permissions);
+            Permissions.Add(userName, permissions);
         }
 
         //*********Add, Delete, Modify Products*********
 
-
         //@pre - logged in user have permission to add product
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string activeUserName, string productName, string description,  double price,
+        public Guid addProductInv(string activeUserName, string productName, string description, double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
-
-            Guid productID = _inventory.addProductInv(productName, description,  price, quantity, category, keywords);
+            Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords);
 
             if (minQuantity != -1 && maxQuantity != -1)
             {
@@ -125,8 +117,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //return the new product id or -1 in case of fail
         public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
-            Guid productID = _inventory.addProduct(productInvName, quantity);
-            if(minQuantity != -1 && maxQuantity != -1)
+            Guid productID = Inventory.addProduct(productInvName, quantity);
+            if (minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this._purchasePolicy.Add(productPurchasePolicy);
@@ -136,52 +128,47 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return productID;
         }
 
-
         public bool deleteProductInventory(string loggedInUserName, string productInvName)
         {
-
             //remove all policies of the products of the productInv
-            ProductInventory productInv = _inventory.getProductByName(productInvName);
-            foreach(Product p in productInv.ProductList)
+            ProductInventory productInv = Inventory.getProductByName(productInvName);
+            foreach (Product p in productInv.ProductList)
             {
-                if(p.PurchasePolicy != null)
-                     _purchasePolicy.Remove(p.PurchasePolicy.ID);
+                if (p.PurchasePolicy != null)
+                    _purchasePolicy.Remove(p.PurchasePolicy.ID);
             }
 
             //remove all discounts of the products of the productInv
             foreach (Product p in productInv.ProductList)
             {
-                if(p.Discount != null)
+                if (p.Discount != null)
                 {
                     if (p.Discount.IsInComposite)
                     {
                         _discountPolicy.Remove(p.PurchasePolicy.ID);
                     }
                 }
-
             }
 
-            return _inventory.deleteProductInventory(productInvName);
+            return Inventory.deleteProductInventory(productInvName);
         }
 
         public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
         {
             Product product = Inventory.getProductById(productID);
-            if(product.PurchasePolicy != null)
+            if (product.PurchasePolicy != null)
                 _purchasePolicy.Remove(product.PurchasePolicy.getID());
-            if(product.Discount != null)
+            if (product.Discount != null)
                 _discountPolicy.Remove(product.Discount.getID());
-            return _inventory.deleteProduct(productInvName, productID);
+            return Inventory.deleteProduct(productInvName, productID);
         }
 
-
         //*********Modify Products*********
-
 
         //@pre - logged in user have permission to  product
         public bool modifyProductPrice(string loggedInUserName, string productName, int newPrice)
         {
-            return _inventory.modifyProductPrice(productName, newPrice);
+            return Inventory.modifyProductPrice(productName, newPrice);
         }
 
         //@pre - logged in user have permission to modify product
@@ -199,13 +186,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {
-            return _inventory.modifyProductQuantity(productName, productID, newQuantity);
+            return Inventory.modifyProductQuantity(productName, productID, newQuantity);
         }
 
         //@pre - logged in user have permission to modify product
         public bool modifyProductName(string loggedInUserName, string newProductName, string oldProductName)
         {
-            return _inventory.modifyProductName(newProductName, oldProductName);
+            return Inventory.modifyProductName(newProductName, oldProductName);
         }
 
         //*********Assign*********
@@ -213,125 +200,120 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Permissions assignOwner(User loggedInUser, string newOwneruserName)
         {
             Permissions per = null;
-            if (_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner() ) // The user of userName is already owner of this store
+            if (Permissions.ContainsKey(newOwneruserName) && Permissions[newOwneruserName].isOwner()) // The user of userName is already owner of this store
             {
                 return null;
             }
 
-            if (_premmisions.ContainsKey(newOwneruserName))
+            if (Permissions.ContainsKey(newOwneruserName))
             {
-                _premmisions[newOwneruserName].makeOwner();
-                
+                Permissions[newOwneruserName].makeOwner();
             }
             else
             {
-                per = Permissions.CreateOwner(loggedInUser, this);
+                per = UserManagement.Permissions.CreateOwner(loggedInUser, this);
                 if (per == null) return null;
-                _premmisions.Add(newOwneruserName, per);
+                Permissions.Add(newOwneruserName, per);
             }
             return per;
         }
 
         public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
-
-            if (_premmisions.ContainsKey(newManageruserName)) // The user of userName is already owner/manager of this store
+            if (Permissions.ContainsKey(newManageruserName)) // The user of userName is already owner/manager of this store
             {
                 return null;
             }
 
-            Permissions per = Permissions.CreateManager(loggedInUser, this);
-            if (per == null) return null; 
-            _premmisions.Add(newManageruserName, per);
+            Permissions per = UserManagement.Permissions.CreateManager(loggedInUser, this);
+            if (per == null) return null;
+            Permissions.Add(newManageruserName, per);
 
             return per;
         }
 
         public bool removeManager(User loggedInUser, string managerUserName)
         {
-
-            if (!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) // The user of userName isn`t manager of this store or he is owner of this store
+            if (!Permissions.ContainsKey(managerUserName) || Permissions[managerUserName].isOwner()) // The user of userName isn`t manager of this store or he is owner of this store
             {
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
+            if (!Permissions[managerUserName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
             {
                 return false;
             }
 
-            _premmisions.Remove(managerUserName);
-            
+            Permissions.Remove(managerUserName);
+
             return true;
         }
-
 
         // @Pre - loggedInUserName is the user who assign managerUserName
         //        managerUserName is manager in this store
         public bool editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
         {
-            if(!_premmisions.ContainsKey(managerUserName) || _premmisions[managerUserName].isOwner()) //The managerUserName isn`t manager
+            if (!Permissions.ContainsKey(managerUserName) || Permissions[managerUserName].isOwner()) //The managerUserName isn`t manager
             {
                 return false;
             }
 
-            if (!_premmisions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
+            if (!Permissions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
             {
                 return false;
             }
 
-            _premmisions[managerUserName].edit(permissions);
+            Permissions[managerUserName].edit(permissions);
             return true;
         }
 
         public Tuple<Store, List<Product>> getStoreInfo()
         {
-            var prods = _inventory.SelectMany(p => p).ToList();
+            var prods = Inventory.SelectMany(p => p).ToList();
             return new Tuple<Store, List<Product>>(this, prods);
         }
 
         public void rateStore(double rating)
         {
-            ++_raterCount;
+            ++RaterCount;
             rating = RATING_RANGE.inRange(rating) ? rating :
                      rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
-            _rating = ((_rating * (_raterCount - 1)) + rating) / _raterCount;
+            Rating = ((Rating * (RaterCount - 1)) + rating) / RaterCount;
         }
 
         public void logPurchase(StorePurchaseModel purchase)
         {
-            _purchaseHistory.Add(purchase);
+            PurchaseHistory.Add(purchase);
         }
 
         public Permissions getPermissionByName(string userName)
         {
-            if (_premmisions.ContainsKey(userName))
+            if (Permissions.ContainsKey(userName))
             {
-                return _premmisions[userName];
+                return Permissions[userName];
             }
             else return null;
         }
 
         public List<StorePurchaseModel> purchaseHistory()
         {
-            return this.PurchaseHistory;        
+            return this.PurchaseHistory;
         }
 
         public Permissions getUsernamePermissions(string name)
         {
-            return _premmisions.ContainsKey(name) ? _premmisions[name] : null;
+            return Permissions.ContainsKey(name) ? Permissions[name] : null;
         }
 
         public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string name)
         {
-            return _premmisions.ContainsKey(name) ? _premmisions[name].PermissionTypes : new Dictionary<PermissionType, bool>();
+            return Permissions.ContainsKey(name) ? Permissions[name].PermissionTypes : new Dictionary<PermissionType, bool>();
         }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             return this._purchasePolicy.canBuy(products, totalPrice, address);
         }
-
 
         //*********Manage Purchase Policy  --   REQUIREMENT 4.2*********
 
@@ -427,13 +409,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             _purchasePolicy.Children = newChildren;
         }
 
-
         public void removePurchasePolicy(Guid policyID)
         {
             _purchasePolicy.Remove(policyID);
-            
         }
-
 
         //*********Manage discounts  --   REQUIREMENT 4.2*********
 
@@ -441,8 +420,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Guid newID = Guid.NewGuid();
             VisibleDiscount newDiscount = new VisibleDiscount(percentage, expDate, newID, productID);
-            Product prod = _inventory.getProductById(productID); 
-            prod.Discount = newDiscount; //add the new discount to the product 
+            Product prod = Inventory.getProductById(productID);
+            prod.Discount = newDiscount; //add the new discount to the product
             _discountsMap.Add(newID, newDiscount);
             return newID;
         }
@@ -451,7 +430,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Guid newID = Guid.NewGuid();
             ConditionalProductDiscount newDiscount = new ConditionalProductDiscount(percentage, expDate, newID, productID, minQuantityForDiscount);
-            Product prod = _inventory.getProductById(productID);
+            Product prod = Inventory.getProductById(productID);
             prod.Discount = newDiscount; //add the new discount to the product (override if exist old one)
             _discountsMap.Add(newID, newDiscount);
             return newID;
@@ -466,24 +445,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return newID;
         }
 
-        
         private bool containsStoreLevelDiscount(List<Guid> iDS)
         {
-            foreach(Guid id in iDS)
+            foreach (Guid id in iDS)
             {
                 DiscountPolicy discountPolicy = _discountPolicy.getByID(id);
-                if(discountPolicy == null)
+                if (discountPolicy == null)
                 {
                     return false;
                 }
-                if(discountPolicy is ConditionalStoreDiscount)
+                if (discountPolicy is ConditionalStoreDiscount)
                 {
                     return false;
                 }
             }
             return true;
         }
-
 
         public Guid addAndDiscountPolicy(List<Guid> IDs)
         {
@@ -496,9 +473,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
 
             //turn on the isInTree flags of the basic product discounts
-            foreach(Guid id in IDs)
+            foreach (Guid id in IDs)
             {
-                if(_discountPolicy.getByID(id) != null) // the discount already exist in the tree
+                if (_discountPolicy.getByID(id) != null) // the discount already exist in the tree
                 {
                     return Guid.Empty;
                 }
@@ -517,7 +494,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return newID;
         }
 
-
         public Guid addOrDiscountPolicy(List<Guid> IDs)
         {
             if (containsStoreLevelDiscount(IDs)) //dont allow to compose store level discount
@@ -531,7 +507,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //turn on the isInTree flags of the basic product discounts
             foreach (Guid id in IDs)
             {
-
                 if (_discountPolicy.getByID(id) != null) // the discount already exist in the tree
                 {
                     return Guid.Empty;
@@ -583,12 +558,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return newID;
         }
 
-
         public bool removeProductDiscount(Guid discountID, Guid productID)
         {
-            Product prod = _inventory.getProductById(productID);
+            Product prod = Inventory.getProductById(productID);
 
-            if(prod == null)
+            if (prod == null)
             {
                 return false;
             }
@@ -605,9 +579,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private void deepRemoveCompositeDiscount(CompositeDiscountPolicy discount)
         {
-            foreach(DiscountPolicy d in discount.Children)
+            foreach (DiscountPolicy d in discount.Children)
             {
-                if(d is DiscountType)
+                if (d is DiscountType)
                 {
                     ((DiscountType)d).IsInComposite = false;
                 }
@@ -617,7 +591,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     deepRemoveCompositeDiscount((CompositeDiscountPolicy)d);
                 }
             }
-
         }
 
         public bool removeCompositeDiscount(Guid discountID)
@@ -649,6 +622,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public string StoreName()
         {
             return Name;
+        }
+
+        public void BeginInit()
+        {
+            return;
+        }
+
+        public void EndInit()
+        {
+            Permissions.Values.ToList().ForEach(p => p.Store = this);
         }
     }
 }

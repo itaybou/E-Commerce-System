@@ -67,17 +67,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <param name="CVV"></param>
         /// <param name="address"></param>
         /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
-        public  List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
             var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID));                                                                                        // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
 
             //check that the cart satisfy the stores purchase policy
-            foreach(var s in storeProducts)
+            foreach (var s in storeProducts)
             {
                 IDictionary<Guid, int> products = s.Item3.ToDictionary(pair => pair.Key.Id, pair => pair.Value); // product => quantity
-                if(!s.Item1.canBuy(products, s.Item2, address))
+                if (!s.Item1.canBuy(products, s.Item2, address))
                 {
                     return new List<ProductModel>(); //cant buy the products by the store policy
                 }
@@ -112,7 +112,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
             else
             {
-                 ThreadPool.QueueUserWorkItem(pFunc);
+                ThreadPool.QueueUserWorkItem(pFunc);
             }
         }
 

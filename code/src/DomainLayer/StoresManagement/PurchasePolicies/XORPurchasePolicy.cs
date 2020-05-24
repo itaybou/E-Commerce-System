@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -16,16 +13,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         {
         }
 
-        public override bool canBuy(IDictionary <Guid, int> products, double totalPrice, string address)
+        public override bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
-
-            if(base.Children.Count == 0)
+            if (base.Children.Count == 0)
             {
                 return true;
             }
 
             int counter = 0;
-            foreach(PurchasePolicy p in base.Children)
+            foreach (PurchasePolicy p in base.Children)
             {
                 if (p.canBuy(products, totalPrice, address))
                 {

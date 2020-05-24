@@ -1,7 +1,4 @@
-﻿using ECommerceSystem.Models;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace ECommerceSystem.DomainLayer.UserManagement
+﻿namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {

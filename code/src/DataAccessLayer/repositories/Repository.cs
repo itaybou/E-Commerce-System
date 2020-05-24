@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
 {
@@ -31,7 +29,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
         {
             var collection = Context.Database().GetCollection<T>(RepositoryName);
             var filter = Builders<T>.Filter.Eq(idFunc, id);
-            return collection.Find(filter).First();
+            return collection.Find(filter).FirstOrDefault();
         }
 
         public void Insert(T entity)
@@ -73,7 +71,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
         {
             var collection = Context.Database().GetCollection<T>(RepositoryName);
             var filter = Builders<T>.Filter.Where(predicate);
-            return collection.Find(filter).First();
+            return collection.Find(filter).FirstOrDefault();
         }
 
         public IEnumerable<T> FindAllBy(Expression<Func<T, bool>> predicate)

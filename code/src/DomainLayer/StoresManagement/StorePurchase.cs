@@ -7,7 +7,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private User _user;
         private double _totalPrice;
-        private List <Product> _productsPurchased;
+        private List<Product> _productsPurchased;
 
         public StorePurchase(User user, double totalPrice, List<Product> productsPurchased)
         {

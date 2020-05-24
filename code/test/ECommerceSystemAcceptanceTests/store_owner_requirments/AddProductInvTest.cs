@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.ServiceLayer;
-using ECommerceSystemAcceptanceTests.adapters;
-using NUnit.Framework;
-
+﻿using NUnit.Framework;
+using System;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
-
     // Requirment 4.1.1
     [TestFixture()]
-    class AddProductInvTest : StoreOwnerTests
+    internal class AddProductInvTest : StoreOwnerTests
     {
-
         [OneTimeSetUp]
         public new void oneTimeSetup()
         {
@@ -52,7 +44,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.AreEqual(Guid.Empty, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, -5, _quantity, _category, _keywords), "add product with negative price successed");
             Assert.AreEqual(Guid.Empty, _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, -5, _category, _keywords), "add product with negative quantity successed");
             Assert.AreEqual(Guid.Empty, _bridge.addProductInv(_storeName, _productName, _description, _discontType, -5, _purchaseType, _price, -5, _category, _keywords), "add product with negative discount percentage successed");
-
 
             //add same product twice
             _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);

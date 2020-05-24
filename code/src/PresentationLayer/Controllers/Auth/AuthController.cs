@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using ECommerceSystem.Exceptions;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PresentationLayer.Models;
-using PresentationLayer.Models.Auth;
-using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PresentationLayer.Models;
+using PresentationLayer.Models.Auth;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers.Auth
 {
@@ -50,12 +47,13 @@ namespace PresentationLayer.Controllers.Auth
                 HttpContext.Session.SetString("Username", model.Username);
                 var session = new Guid(HttpContext.Session.Id);
                 var (valid, guid) = _service.login(session, model.Username, model.Password);
-                if(valid)
+                if (valid)
                 {
                     await AuthenticateAsync(guid, model.Username);
                     var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
-                } else
+                }
+                else
                 {
                     ModelState.AddModelError("InvalidRegistration", "invalid credentials");
                     return View(model);
@@ -93,10 +91,10 @@ namespace PresentationLayer.Controllers.Auth
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterModel model)
         {
-            if(ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 var (valid, error) = _service.register(model.Username, model.Password, model.FirstName, model.LastName, model.Email);
-                if(valid)
+                if (valid)
                 {
                     var message = new ActionMessageModel("Registration was successfull.", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
@@ -113,15 +111,19 @@ namespace PresentationLayer.Controllers.Auth
         {
             if (User.Identity.IsAuthenticated)
             {
-                //if (_service.logout(userId)) 
-                //{
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                var sessionId = new Guid(HttpContext.Session.Id);
-                _service.logout(sessionId);
-                HttpContext.Session.Clear();
-                var message = new ActionMessageModel("Logged out successfully.\nSee you later!", Url.Action("Index", "Home"));
-                return View("_ActionMessage", message);
-                //}
+                try
+                {
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    var sessionId = new Guid(HttpContext.Session.Id);
+                    _service.logout(sessionId);
+                    HttpContext.Session.Clear();
+                    var message = new ActionMessageModel("Logged out successfully.\nSee you later!", Url.Action("Index", "Home"));
+                    return View("_ActionMessage", message);
+                }
+                catch (AuthenticationException e)
+                {
+                    return Redirect("~/");
+                }
             }
             return Redirect("~/");
         }

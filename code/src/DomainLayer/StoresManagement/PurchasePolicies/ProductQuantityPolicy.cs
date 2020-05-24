@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public class ProductQuantityPolicy : PurchasePolicy
     {
-        int _min;
-        int _max;
-        Guid _productID;
-        Guid _ID;
+        private int _min;
+        private int _max;
+        private Guid _productID;
+        private Guid _ID;
 
         public ProductQuantityPolicy(int min, int max, Guid productID, Guid ID)
         {

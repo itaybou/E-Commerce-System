@@ -1,17 +1,13 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
+using ECommerceSystem.ServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.ServiceLayer;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Utilities;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
-    class RealBridge : IBridgeAdapter
+    internal class RealBridge : IBridgeAdapter
     {
         private UserServices _userServices;
         private StoreService _storeService;
@@ -46,10 +42,9 @@ namespace ECommerceSystemAcceptanceTests.adapters
             }
 
             return _storeService.addProduct(userID, storeName, productInvName, discount, purchase, quantity);
-
         }
 
-        public Guid addProductInv(Guid userID, string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List <string> keys)
+        public Guid addProductInv(Guid userID, string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List<string> keys)
         {
             Discount discount = null;
             PurchaseType purchase = null;
@@ -142,7 +137,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
         public bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity)
         {
             return _storeService.modifyProductQuantity(userID, storeName, productInvName, productID, newQuantity);
-
         }
 
         public bool openStore(Guid userID, string name, string discountPolicy, string purchasePolicy)
@@ -161,7 +155,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             //{
             //    return null;
             //}
-            
+
             //List<Tuple<string, List<Tuple<Guid, int>>, double>> purchases = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
             //foreach(StorePurchase s in history)
             //{
@@ -241,7 +235,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             var keywords = new List<string>() { { "hello" }, { "world" }, { "pokemon" } };
             products.ForEach(p =>
             {
-                _storeService.addProductInv(userID, storeName, "desc" , p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat , keywords);
+                _storeService.addProductInv(userID, storeName, "desc", p, new VisibleDiscount(10.0f, new DiscountPolicy()), new ImmediatePurchase(), 10.0 * i, 20, cat, keywords);
                 i += 0.2;
                 cat = Category.ELECTRONICS;
                 keywords = new List<string>() { { "hello" }, { "my" }, { "name" }, { "is" }, { "inigo" }, { "montoya" } };
@@ -319,7 +313,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return null;
         }
 
-
         public Dictionary<string, Dictionary<Guid, int>> AddTocart(Guid prodID, int quantity) //2.6
         {
             //var info = _storeService.getAllStoresInfo();
@@ -334,14 +327,12 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return getUserCartDetails(); //uses User service function
         }
 
-
         public bool RemoveFromCart(Guid prodID) // 2.7.1
         {
             //var info = _storeService.getAllStoresInfo();
             //var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
             //return _userServices.RemoveFromCart(prodId);
             return true;
-
         }
 
         public bool ChangeProductCartQuantity(Guid prodID, int quantity)    // 2.7.2

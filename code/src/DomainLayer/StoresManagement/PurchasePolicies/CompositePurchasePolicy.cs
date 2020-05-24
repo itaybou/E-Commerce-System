@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -42,7 +39,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                     newChildren.Add(p);
 
                     //remove from the children
-                    if(p is CompositePurchasePolicy)
+                    if (p is CompositePurchasePolicy)
                     {
                         ((CompositePurchasePolicy)p).Remove(purchasePolicyID);
                     }
@@ -54,7 +51,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         public PurchasePolicy getByID(Guid ID)
         {
             //check if this contains id
-            foreach(PurchasePolicy p in _children)
+            foreach (PurchasePolicy p in _children)
             {
                 if (p.getID().Equals(ID))
                 {
@@ -68,7 +65,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                 if (p is CompositePurchasePolicy)
                 {
                     PurchasePolicy wanted = ((CompositePurchasePolicy)p).getByID(ID);
-                    if(wanted != null)
+                    if (wanted != null)
                     {
                         return wanted;
                     }

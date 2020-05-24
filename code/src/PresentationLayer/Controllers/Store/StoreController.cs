@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerceSystem.Models;
+﻿using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PresentationLayer.Controllers.Store
 {
-
     public class StoreController : Controller
     {
-
         private IService _service;
 
         public StoreController(IService service)
@@ -52,11 +49,11 @@ namespace PresentationLayer.Controllers.Store
         [Route("OpenStore")]
         public IActionResult OpenStore(OpenStoreModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var session = new Guid(HttpContext.Session.Id);
                 var valid = _service.openStore(session, model.StoreName);
-                if(valid)
+                if (valid)
                 {
                     return RedirectToAction("UserStoreList", "Store");
                 }

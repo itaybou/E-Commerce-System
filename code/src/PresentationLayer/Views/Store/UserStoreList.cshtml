@@ -45,39 +45,38 @@
                                     <span><b>Role: </b>@(Permissions[store.Name].IsOwner ? "Owner" : "Manager")</span>
                                 </div>
                             </div>
-                                <div class="col justify-content-center align-self-center text-right">
-                                    <form type="hidden" asp-action="StoreOwners" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                            <div class="col justify-content-center align-self-center text-right">
+                                <form type="hidden" asp-action="StoreOwners" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                        Owners <i class="fas fa-crown"></i>
+                                    </button>
+                                </form>
+                                <form type="hidden" asp-action="StoreManagers" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                        Managers <i class="fas fa-user-tie"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col justify-content-center align-self-center text-right">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                        View Products <i class="fas fa-store"></i>
+                                    </button>
+                                </form>
+                                @if (permissions.PermissionTypes.Contains(PermissionType.AddProductInv) || permissions.PermissionTypes.Contains(PermissionType.DeleteProductInv) || permissions.PermissionTypes.Contains(PermissionType.ModifyProduct))
+                                {
+                                    <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
                                         <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            Owners <i class="fas fa-crown"></i>
+                                            Manage Inventory <i class="fas fa-warehouse"></i>
                                         </button>
                                     </form>
-                                    <form type="hidden" asp-action="StoreManagers" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            Managers <i class="fas fa-user-tie"></i>
-                                        </button>
-                                    </form>
-
-                                </div>
-                                <div class="col justify-content-center align-self-center text-right">
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            View Products <i class="fas fa-store"></i>
-                                        </button>
-                                    </form>
-                                    @if(permissions.PermissionTypes.Contains(PermissionType.AddProductInv) || permissions.PermissionTypes.Contains(PermissionType.DeleteProductInv) || permissions.PermissionTypes.Contains(PermissionType.ModifyProduct)) 
-                                    {
-                                        <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                            <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                                Manage Inventory <i class="fas fa-warehouse"></i>
-                                            </button>
-                                        </form>
-                                    }
-                                </div>
+                                }
+                            </div>
                         </div>
                         <div class="col">
                             <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
                                 <!-- <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                    <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light" >
+                                    <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light">
                                         Close Store <i class="fas fa-store-slash"></i>
                                     </button>
                                 </form> -->
@@ -105,13 +104,12 @@
                                         </button>
                                     </form>
                                 }
-                                </div>
+                            </div>
                         </div>
                     </li>
-                        <!-- End -->
-                            }
+                    <!-- End -->
+                }
             </ul> <!-- End -->
         </div>
     </div>
 </div>
-

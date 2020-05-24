@@ -1,11 +1,7 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.Models
 {

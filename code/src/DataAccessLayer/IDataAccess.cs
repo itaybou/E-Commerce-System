@@ -1,9 +1,4 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DataAccessLayer
 {
@@ -13,7 +8,8 @@ namespace ECommerceSystem.DataAccessLayer
         string DatabaseName { get; }
         string TestDatabaseName { get; }
 
-
+        ITransactions Transactions { get; }
         IUserRepository Users { get; }
+        IStoreRepository Stores { get; }
     }
 }

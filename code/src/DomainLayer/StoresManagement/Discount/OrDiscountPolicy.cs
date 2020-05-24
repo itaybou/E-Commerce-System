@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -18,7 +15,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            foreach(DiscountPolicy d in base.Children)
+            foreach (DiscountPolicy d in base.Children)
             {
                 d.calculateTotalPrice(products);
             }

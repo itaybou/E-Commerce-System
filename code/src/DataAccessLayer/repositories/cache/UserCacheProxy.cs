@@ -4,12 +4,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DataAccessLayer.repositories.cache
 {
-    class UserCacheProxy : IUserRepository, ICacheProxy<User, Guid>
+    internal class UserCacheProxy : IUserRepository, ICacheProxy<User, Guid>
     {
         private CacheCleaner CacheCleaner;
         public int CleanCacheMinutesTime => 5; // Time interval to clean cache in minutes
@@ -18,13 +16,52 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
         private IDictionary<Guid, CachedObject<User>> UsersCache { get; }
         private IUserRepository UserRepository { get; }
 
-
         public UserCacheProxy(IDbContext context, string repositoryName)
         {
             CacheCleaner = new CacheCleaner(CleanCache, CleanCacheMinutesTime * 60);
             UsersCache = new ConcurrentDictionary<Guid, CachedObject<User>>();
             UserRepository = new UserRepository(context, repositoryName);
             CacheCleaner.StartCleaner();
+        }
+
+        public void Cache(User user)
+        {
+            if (user != null && !UsersCache.ContainsKey(user.Guid))
+            {
+                var cachedUser = new CachedObject<User>(user);
+                UsersCache.Add(user.Guid, cachedUser);
+            }
+        }
+
+        public void Uncache(Guid id)
+        {
+            if (UsersCache.ContainsKey(id))
+                UsersCache.Remove(id);
+        }
+
+        public void CacheUser(User user)
+        {
+            Cache(user);
+        }
+
+        public void UncacheUser(User user)
+        {
+            Uncache(user.Guid);
+        }
+
+        public void CleanCache()
+        {
+            foreach (var user in UsersCache)
+            {
+                if (user.Value.Element.isSubscribed() && user.Value.CachedTime() > StoreCachedObjectsSecondsTime)
+                    Uncache(user.Key);
+            }
+        }
+
+        public void Recache(User entity)
+        {
+            Uncache(entity.Guid);
+            Cache(entity);
         }
 
         public ICollection<User> FetchAll()
@@ -39,10 +76,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public User FindOneBy(Expression<Func<User, bool>> predicate)
         {
-            var user = UsersCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).First();
+            var user = UsersCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
             if (user == null)
             {
-                user =  UserRepository.FindOneBy(predicate);
+                user = UserRepository.FindOneBy(predicate);
                 Cache(user);
             }
             return user;
@@ -50,7 +87,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public User GetByIdOrNull(Guid id, Expression<Func<User, Guid>> idFunc)
         {
-            var user = UsersCache.ContainsKey(id) ? UsersCache[id].Element : null;
+            var user = UsersCache.ContainsKey(id) ? UsersCache[id].GetAccessElement() : null;
             if (user == null)
             {
                 user = UserRepository.GetByIdOrNull(id, idFunc);
@@ -102,44 +139,6 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 return UsersCache[userID].Element.Cart;
 
             return GetByIdOrNull(userID, u => u.Guid).Cart;
-        }
-
-
-        public void Cache(User user)
-        {
-            if(user != null)
-                UsersCache.Add(user.Guid, new CachedObject<User>(user));
-        }
-
-        public void Uncache(Guid id)
-        {
-            if (UsersCache.ContainsKey(id))
-                UsersCache.Remove(id);
-        }
-
-        public void CacheUser(User user)
-        {
-            Cache(user);
-        }
-
-        public void UncacheUser(User user)
-        {
-            Uncache(user.Guid);
-        }
-
-        public void CleanCache()
-        {
-            foreach (var user in UsersCache)
-            {
-                if (user.Value.Element.isSubscribed() && user.Value.CachedTime() > StoreCachedObjectsSecondsTime)
-                    Uncache(user.Key);
-            }
-        }
-
-        public void Recache(User entity)
-        {
-            Uncache(entity.Guid);
-            Cache(entity);
         }
     }
 }

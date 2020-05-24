@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
-
     // Requirment 4.5
     [TestFixture()]
-    class AssignManagerTest : StoreOwnerTests
+    internal class AssignManagerTest : StoreOwnerTests
     {
-        string _newManager;
+        private string _newManager;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -22,7 +16,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.register(_newManager, _pswd, _fname, _lname, _email);
         }
 
-
         [TestCase()]
         public void assignManagerSuccess()
         {
@@ -31,13 +24,11 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.logout();
         }
 
-
         [TestCase()]
         public void assignOwnerFail()
         {
             string otherOwner = "other owner";
             _bridge.register(otherOwner, _pswd, _fname, _lname, _email);
-            
 
             Assert.False(_bridge.assignManager(_newManager, _storeName), "assign manager as a guest successed");
 
@@ -48,7 +39,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.login(_managerUserName, _pswd);
             Assert.False(_bridge.assignManager(_newManager, _storeName), "assign manager as a manager successed");
             _bridge.logout();
-
 
             _bridge.login(_ownerUserName, _pswd);
             Assert.False(_bridge.assignManager("not exist", _storeName), "assign not exist user as manager successed");

@@ -1,32 +1,32 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-
     public class Permissions : IStoreInterface
     {
-        private User _assignedBy;
-        private Dictionary<PermissionType, bool> _permissions;
-        private bool _isOwner;
-        private IStoreInterface _store;
+        public User AssignedBy { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<PermissionType, bool> PermissionTypes { get; set; }
 
-        public User AssignedBy { get => _assignedBy; }
-        public IStoreInterface Store { get => _store; set => _store = value; }
-        public Dictionary<PermissionType, bool> PermissionTypes { get => _permissions; set => _permissions = value; }
+        public bool IsOwner { get; set; }
+
+        [BsonIgnore]
+        public IStoreInterface Store { get; set; }
 
         private Permissions(User assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
         {
-            this._assignedBy = assignedBy;
-            this._permissions = permissions;
+            this.AssignedBy = assignedBy;
+            this.PermissionTypes = permissions;
             initPermmisionsDict(isOwner);
-            this._isOwner = isOwner;
-            this._store = store;
+            this.IsOwner = isOwner;
+            this.Store = store;
         }
 
         public static Permissions CreateOwner(User assignedBy, Store store)
@@ -57,95 +57,94 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         private void initPermmisionsDict(bool isOwner)
         {
-            _permissions = new Dictionary<PermissionType, bool>();
-            _permissions[PermissionType.AddProductInv] = isOwner;
-            _permissions[PermissionType.DeleteProductInv] = isOwner;
-            _permissions[PermissionType.ModifyProduct] = isOwner;
-            _permissions[PermissionType.ManagePurchasePolicy] = isOwner;
-            _permissions[PermissionType.ManageDiscounts] = isOwner;
-            _permissions[PermissionType.WatchPurchaseHistory] = true;   // defualt for manager
-            _permissions[PermissionType.WatchAndComment] = true;     // default for manager
+            PermissionTypes = new Dictionary<PermissionType, bool>();
+            PermissionTypes[PermissionType.AddProductInv] = isOwner;
+            PermissionTypes[PermissionType.DeleteProductInv] = isOwner;
+            PermissionTypes[PermissionType.ModifyProduct] = isOwner;
+            PermissionTypes[PermissionType.ManagePurchasePolicy] = isOwner;
+            PermissionTypes[PermissionType.ManageDiscounts] = isOwner;
+            PermissionTypes[PermissionType.WatchPurchaseHistory] = true;   // defualt for manager
+            PermissionTypes[PermissionType.WatchAndComment] = true;     // default for manager
         }
 
         public void makeOwner()
         {
-            foreach (KeyValuePair<PermissionType, bool> per in _permissions)
+            foreach (KeyValuePair<PermissionType, bool> per in PermissionTypes)
             {
-                _permissions[per.Key] = true;
+                PermissionTypes[per.Key] = true;
             }
-            this._isOwner = true;
+            this.IsOwner = true;
         }
 
         public bool isOwner()
         {
-            return _isOwner;
+            return IsOwner;
         }
 
         public bool canAddProduct()
         {
-            return _permissions[PermissionType.AddProductInv];
+            return PermissionTypes[PermissionType.AddProductInv];
         }
 
         public bool canDeleteProduct()
         {
-            return _permissions[PermissionType.DeleteProductInv];
+            return PermissionTypes[PermissionType.DeleteProductInv];
         }
 
         public bool canModifyProduct()
         {
-            return _permissions[PermissionType.ModifyProduct];
+            return PermissionTypes[PermissionType.ModifyProduct];
         }
 
         public bool canWatchPurchaseHistory()
         {
-            return _permissions[PermissionType.WatchPurchaseHistory];
+            return PermissionTypes[PermissionType.WatchPurchaseHistory];
         }
 
         public bool canWatchAndomment()
         {
-            return _permissions[PermissionType.WatchAndComment];
+            return PermissionTypes[PermissionType.WatchAndComment];
         }
 
         public void edit(List<PermissionType> permissions)
         {
             // reset all permissions to false
-            for (int i = 0; i < _permissions.Count; i++)
+            for (int i = 0; i < PermissionTypes.Count; i++)
             {
-                PermissionType per = _permissions.ElementAt(i).Key;
-                _permissions[per] = permissions.Contains(per);
+                PermissionType per = PermissionTypes.ElementAt(i).Key;
+                PermissionTypes[per] = permissions.Contains(per);
             }
         }
 
         public bool canWatchHistory()
         {
-            return _permissions[PermissionType.WatchPurchaseHistory];
+            return PermissionTypes[PermissionType.WatchPurchaseHistory];
         }
 
         public bool canManagePurchasePolicy()
         {
-            return _permissions[PermissionType.ManagePurchasePolicy];
+            return PermissionTypes[PermissionType.ManagePurchasePolicy];
         }
 
         public bool canManageDiscounts()
         {
-            return _permissions[PermissionType.ManageDiscounts];
+            return PermissionTypes[PermissionType.ManageDiscounts];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description,  double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(string activeUserName, string productName, string description, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
         {
             if (this.canAddProduct())
             {
-                return _store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity);
+                return Store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
-
 
         public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             if (this.canModifyProduct())
             {
-                return _store.addProduct(loggedInUserName, productInvName, quantity, minQuantity, maxQuantity);
+                return Store.addProduct(loggedInUserName, productInvName, quantity, minQuantity, maxQuantity);
             }
             else return Guid.Empty;
         }
@@ -154,7 +153,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canDeleteProduct())
             {
-                return _store.deleteProductInventory(loggedInUserName, productInvName);
+                return Store.deleteProductInventory(loggedInUserName, productInvName);
             }
             else return false;
         }
@@ -163,7 +162,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canModifyProduct())
             {
-                return _store.deleteProduct(loggedInUserName, productInvName, productID);
+                return Store.deleteProduct(loggedInUserName, productInvName, productID);
             }
             else return false;
         }
@@ -172,7 +171,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canModifyProduct())
             {
-                return _store.modifyProductPrice(loggedInUserName, productName, newPrice);
+                return Store.modifyProductPrice(loggedInUserName, productName, newPrice);
             }
             else return false;
         }
@@ -199,7 +198,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canModifyProduct())
             {
-                return _store.modifyProductQuantity(loggedInUserName, productName, productID, newQuantity);
+                return Store.modifyProductQuantity(loggedInUserName, productName, productID, newQuantity);
             }
             else return false;
         }
@@ -208,7 +207,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canModifyProduct())
             {
-                return _store.modifyProductName(loggedInUserName, newProductName, oldProductName);
+                return Store.modifyProductName(loggedInUserName, newProductName, oldProductName);
             }
             else return false;
         }
@@ -217,7 +216,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.assignOwner(loggedInUser, newOwneruserName);
+                return Store.assignOwner(loggedInUser, newOwneruserName);
             }
             else return null;
         }
@@ -226,7 +225,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.assignManager(loggedInUser, newManageruserName);
+                return Store.assignManager(loggedInUser, newManageruserName);
             }
             else return null;
         }
@@ -235,7 +234,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.removeManager(loggedInUser, managerUserName);
+                return Store.removeManager(loggedInUser, managerUserName);
             }
             else return false;
         }
@@ -244,20 +243,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.editPermissions(managerUserName, permissions, loggedInUserName);
+                return Store.editPermissions(managerUserName, permissions, loggedInUserName);
             }
             else return false;
         }
 
-
         public void rateStore(double rating)
         {
-            _store.rateStore(rating);
+            Store.rateStore(rating);
         }
 
         public void logPurchase(StorePurchaseModel purchase)
         {
-            _store.logPurchase(purchase);
+            Store.logPurchase(purchase);
         }
 
         public Permissions getPermissionByName(string userName)
@@ -269,7 +267,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canWatchHistory())
             {
-                return _store.purchaseHistory();
+                return Store.purchaseHistory();
             }
             else return null;
         }
@@ -278,7 +276,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addDayOffPolicy(daysOff);
+                return Store.addDayOffPolicy(daysOff);
             }
             else return Guid.Empty;
         }
@@ -287,17 +285,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                _store.removePurchasePolicy(policyID);
-                
-            }    
+                Store.removePurchasePolicy(policyID);
+            }
         }
 
         public Guid addLocationPolicy(List<string> banLocations)
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addLocationPolicy(banLocations);
-
+                return Store.addLocationPolicy(banLocations);
             }
             else return Guid.Empty;
         }
@@ -306,8 +302,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addMinPriceStorePolicy(minPrice);
-
+                return Store.addMinPriceStorePolicy(minPrice);
             }
             else return Guid.Empty;
         }
@@ -316,7 +311,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addAndPurchasePolicy(iD1, iD2);
+                return Store.addAndPurchasePolicy(iD1, iD2);
             }
             else return Guid.Empty;
         }
@@ -325,7 +320,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addOrPurchasePolicy(iD1, iD2);
+                return Store.addOrPurchasePolicy(iD1, iD2);
             }
             else return Guid.Empty;
         }
@@ -334,7 +329,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.addXorPurchasePolicy(iD1, iD2);
+                return Store.addXorPurchasePolicy(iD1, iD2);
             }
             else return Guid.Empty;
         }
@@ -343,7 +338,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addVisibleDiscount(productID, percentage, expDate);
+                return Store.addVisibleDiscount(productID, percentage, expDate);
             }
             else return Guid.Empty;
         }
@@ -352,7 +347,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
+                return Store.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
             }
             else return Guid.Empty;
         }
@@ -361,7 +356,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
+                return Store.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
             }
             else return Guid.Empty;
         }
@@ -370,7 +365,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addAndDiscountPolicy(IDS);
+                return Store.addAndDiscountPolicy(IDS);
             }
             else return Guid.Empty;
         }
@@ -379,7 +374,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addOrDiscountPolicy(IDs);
+                return Store.addOrDiscountPolicy(IDs);
             }
             else return Guid.Empty;
         }
@@ -388,7 +383,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.addXorDiscountPolicy(IDs);
+                return Store.addXorDiscountPolicy(IDs);
             }
             else return Guid.Empty;
         }
@@ -397,7 +392,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.removeProductDiscount(discountID, productID);
+                return Store.removeProductDiscount(discountID, productID);
             }
             else return false;
         }
@@ -406,7 +401,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.removeCompositeDiscount(discountID);
+                return Store.removeCompositeDiscount(discountID);
             }
             else return false;
         }
@@ -415,17 +410,18 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.removeCompositeDiscount(discountID);
+                return Store.removeCompositeDiscount(discountID);
             }
             else return false;
         }
 
         public string StoreName()
         {
-            if (_store is Store)
+            if (Store is Store)
             {
-                return _store.StoreName();
-            } return null;
+                return Store.StoreName();
+            }
+            return null;
         }
     }
 }

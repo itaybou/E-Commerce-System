@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECommerceSystem.DataAccessLayer.repositories.cache
+﻿namespace ECommerceSystem.DataAccessLayer.repositories.cache
 {
     internal interface ICacheProxy<T, K>
     {
@@ -12,8 +6,11 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
         int StoreCachedObjectsSecondsTime { get; }
 
         void Uncache(K id);
+
         void Cache(T entity);
+
         void Recache(T entity);
+
         void CleanCache();
     }
 }

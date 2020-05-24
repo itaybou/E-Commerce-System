@@ -101,38 +101,38 @@
                                 @foreach (var userPerm in users)
                                 {
                                     var user = userPerm.Item1;
-                                <tr>
-                                    <td>
-                                        <img src="~/images/anonymous.png" alt="" height="42" width="42">
-                                    </td>
-                                    <td>
-                                        @user.Username
-                                    </td>
-                                    <td>@user.Fname</td>
-                                    <td>
-                                        @user.Lname
-                                    </td>
-                                    <td>
-                                        @user.Email
-                                    </td>
-                                    <td>
-                                        @userPerm.Item2.AssignedBy
-                                    </td>
-                                    <!--<td style="width: 10%;">
-        <a href="#" class="table-link">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x text-danger"></i>
-                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </td> -->
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="~/images/anonymous.png" alt="" height="42" width="42">
+                                        </td>
+                                        <td>
+                                            @user.Username
+                                        </td>
+                                        <td>@user.Fname</td>
+                                        <td>
+                                            @user.Lname
+                                        </td>
+                                        <td>
+                                            @user.Email
+                                        </td>
+                                        <td>
+                                            @userPerm.Item2.AssignedBy
+                                        </td>
+                                        <!--<td style="width: 10%;">
+                                            <a href="#" class="table-link">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x"></i>
+                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#" class="table-link danger">
+                                                <span class="fa-stack">
+                                                    <i class="fa fa-square fa-stack-2x text-danger"></i>
+                                                    <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                </span>
+                                            </a>
+                                        </td> -->
+                                    </tr>
                                 }
                             </tbody>
                         </table>

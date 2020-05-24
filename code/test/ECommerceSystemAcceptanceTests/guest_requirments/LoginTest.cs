@@ -1,6 +1,5 @@
 ﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {

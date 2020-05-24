@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
-    class DaysOffPolicy : PurchasePolicy
+    internal class DaysOffPolicy : PurchasePolicy
     {
-        List<DayOfWeek> daysOff;
-        Guid _ID;
+        private List<DayOfWeek> daysOff;
+        private Guid _ID;
 
         public DaysOffPolicy(List<DayOfWeek> daysOff, Guid ID)
         {

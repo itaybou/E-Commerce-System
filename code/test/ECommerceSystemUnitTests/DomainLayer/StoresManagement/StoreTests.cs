@@ -1,41 +1,35 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Models;
-
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 {
     [TestFixture()]
     public class StoreTests
     {
-        string _productName = "Iphone", _description = "description";
-        PurchaseType _purchaseType = new ImmediatePurchase();
-        double _price = 100;
-        int _quantity = 5;
-        Category _category = Category.CELLPHONES;
-        List<string> _keywords = new List<string>();
-        Guid _productID = Guid.NewGuid();
-        Guid _productInvID = Guid.NewGuid();
+        private string _productName = "Iphone", _description = "description";
+        private PurchaseType _purchaseType = new ImmediatePurchase();
+        private double _price = 100;
+        private int _quantity = 5;
+        private Category _category = Category.CELLPHONES;
+        private List<string> _keywords = new List<string>();
+        private Guid _productID = Guid.NewGuid();
+        private Guid _productInvID = Guid.NewGuid();
 
-        SystemManager _systemManagement;
+        private SystemManager _systemManagement;
 
+        private UsersManagement _userManagement;
+        private User _owner;
+        private User _regularUser;
+        private User _nonPermitManager;
+        private User _permitManager;
+        private Store _store;
 
-        UsersManagement _userManagement;
-        User _owner;
-        User _regularUser;
-        User _nonPermitManager;
-        User _permitManager;
-        Store _store;
-
-        User _anotherOwner;
-        User _newManager;
+        private User _anotherOwner;
+        private User _newManager;
 
         [OneTimeSetUp]
         public void setUpFixture()
@@ -51,10 +45,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             _anotherOwner = new User(new Subscribed("anotherOwner", "pA55word", "fname", "lname", "email@gmail.com"));
             _newManager = new User(new Subscribed("newManager", "pA55word", "fname", "lname", "email@gmail.com"));
 
-
-
             _userManagement = UsersManagement.Instance;
-            _systemManagement = SystemManager.Instance; 
+            _systemManagement = SystemManager.Instance;
             _userManagement.register("owner", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("permitManager", "pA55word", "fname", "lname", "owner@gmail.com");
@@ -63,16 +55,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 
             // make the managers permissions
 
-
             _keywords.Add("phone");
         }
 
         [SetUp]
         public void setUp()
         {
-            _store = new Store( "owner", "store");
-            _store.Inventory.addProductInv(_productName, _description,  _price, _quantity, _category, _keywords);
-
+            _store = new Store("owner", "store");
+            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords);
 
             _store.assignOwner(_owner, "anotherOwner");
             //_store.assignManager(_owner, "newManager");
@@ -86,8 +76,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             permissions.Add(PermissionType.WatchPurchaseHistory);
             permissions.Add(PermissionType.ModifyProduct);
             _store.editPermissions("permitManager", permissions, "owner");
-
-
         }
 
         [TearDown]
@@ -99,11 +87,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             _store.removeManager(_owner, "permitManager");
         }
 
-
-       
-
-        
-
         [Test()]
         public void removeManagerTest()
         {
@@ -114,7 +97,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.False(_store.removeManager(_anotherOwner, "newManager"), "Remove manager by owner who isn`t his asignee successed");
 
             Assert.True(_store.removeManager(_owner, "newManager"), "Fail to remove manager");
-            Assert.Null(_store.getPermissionByName("newManager"), "Remove manager successed, but the manager still have permissions"); 
+            Assert.Null(_store.getPermissionByName("newManager"), "Remove manager successed, but the manager still have permissions");
         }
 
         [Test()]
@@ -128,7 +111,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             fewPermissions.Add(PermissionType.AddProductInv);
             fewPermissions.Add(PermissionType.DeleteProductInv);
             fewPermissions.Add(PermissionType.WatchAndComment);
-
 
             Assert.False(_store.editPermissions(_newManager.Name(), emptyPermissions, _regularUser.Name()), "Edit permiossions for manager by regular successed");
             Assert.False(_store.editPermissions(_newManager.Name(), emptyPermissions, _permitManager.Name()), "Edit permiossions for manager by another manager successed");
@@ -149,11 +131,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.False(_store.getPermissionByName(_newManager.Name()).canModifyProduct(), "Permissions edited to successed but the manager have permission to modify product");
             Assert.True(_store.getPermissionByName(_newManager.Name()).canWatchAndomment(), "Permissions edited to esuccessed but the manager dont have permission to watch and comment");
             Assert.False(_store.getPermissionByName(_newManager.Name()).canWatchPurchaseHistory(), "Permissions edited to successed but the manager have permission to watch history");
-
         }
-
-       
-
 
         [Test()]
         public void rateStoreTest()

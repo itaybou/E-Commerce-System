@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ECommerceSystem.ServiceLayer;
+﻿using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.User;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers.Users
 {
@@ -55,9 +53,8 @@ namespace PresentationLayer.Controllers.Users
             var session = new Guid(HttpContext.Session.Id);
             var cart = _service.ShoppingCartDetails(session);
             model.Products = new CartModel(cart).UserCart.Cart.Select(m => m.Value).SelectMany(p => p); // Temp
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-
             }
             return View("Checkout", model);
         }

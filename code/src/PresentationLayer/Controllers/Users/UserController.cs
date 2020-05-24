@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ECommerceSystem.ServiceLayer;
+﻿using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace PresentationLayer.Controllers.Users
 {
