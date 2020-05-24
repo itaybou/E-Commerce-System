@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -21,6 +22,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             return _minPrice <= totalPrice;
+        }
+
+        public PurchasePolicyModel CreateModel()
+        {
+            return new MinPricePerStorePolicyModel(this._ID, this._minPrice);
         }
 
         public Guid getID()

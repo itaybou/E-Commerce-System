@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     public class ConditionalStoreDiscount : DiscountType
     {
 
-        private double _reauiredPrice;
+        private double _requiredPrice;
 
-        public ConditionalStoreDiscount(double reauiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
+        public ConditionalStoreDiscount(double requiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
         {
-            _reauiredPrice = reauiredPrice;
+            _requiredPrice = requiredPrice;
         }
 
 
@@ -22,14 +23,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         {
             if (this.isSatisfied(products))
             {
-                foreach(var prod in products)
+                for(int i = 0; i < products.Count; i++)
                 {
-                    double newTotalPrice = (((100 - this.Percentage) / 100) * prod.Value.basePrice) * prod.Value.quantity;
+                    var prod = products.ElementAt(i);
+                    double newTotalPrice = (((100 - this.Percentage) / 100) * prod.Value.totalPrice);
                     double basePrice = prod.Value.basePrice;
                     int quantity = prod.Value.quantity;
                     products[prod.Key] = (basePrice, quantity, newTotalPrice); // ??
                 }
             }
+        }
+
+        public override DiscountPolicyModel CreateModel()
+        {
+            return new ConditionalStoreDiscountModel(this._ID, this._requiredPrice, this._expDate, this._percentage);
         }
 
         //check that the total price > required price
@@ -40,7 +47,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             {
                 totalPrice += prod.Value.totalPrice;
             }
-            return totalPrice >= _reauiredPrice;
+            return totalPrice >= _requiredPrice;
         }
     }
 }

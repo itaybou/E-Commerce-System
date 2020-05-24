@@ -163,6 +163,11 @@
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
+    <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\VisibleDiscountModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
     <Compile Include="Models\notifications\AssignManagerNotification.cs" />
@@ -171,6 +176,12 @@
     <Compile Include="Models\notifications\RemoveOwnerNotification.cs" />
     <Compile Include="Models\notifications\AssignOwnerNotification.cs" />
     <Compile Include="Models\notifications\INotitficationType.cs" />
+    <Compile Include="Models\PurchasePolicyModels\CompositePurchasePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\ProductQuantityPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\MinPricePerStorePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\LocationPolicyModel .cs" />
+    <Compile Include="Models\PurchasePolicyModels\DaysOffPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\PurchasePolicyModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
     <Compile Include="DomainLayer\SystemManagement\ModelFactory.cs" />

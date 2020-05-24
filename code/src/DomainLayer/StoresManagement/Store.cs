@@ -8,6 +8,8 @@ using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -20,24 +22,26 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private string _name;
         private double _rating;
         private long _raterCount;
-        private OrDiscountPolicy _discountPolicy; //all store complex discounts
+        private OrDiscountPolicy _discountPolicyTree; //all store complex discounts
         private AndPurchasePolicy _purchasePolicy; // all store purchase policies
         private Dictionary<string, Permissions> _premmisions; // username => permissions
         private Inventory _inventory;
         private XORDiscountPolicy _storeLevelDiscounts;
         private List<StorePurchaseModel> _purchaseHistory;
-        private Dictionary<Guid, DiscountPolicy> _discountsMap;
+        private Dictionary<Guid, DiscountPolicy> _allDiscountsMap;
+        private Dictionary<Guid, DiscountType> _NotInTreeProductDiscounts;
 
         public Store(string ownerUserName, string name)
         {
-            this._discountPolicy = new OrDiscountPolicy(Guid.NewGuid());
+            this._discountPolicyTree = new OrDiscountPolicy(Guid.NewGuid());
             this._purchasePolicy = new AndPurchasePolicy(Guid.NewGuid());
             this._premmisions = new Dictionary<string, Permissions>();
             this._inventory = new Inventory();
             this.Name = name;
             this._purchaseHistory = new List<StorePurchaseModel>();
             this._storeLevelDiscounts = new XORDiscountPolicy(Guid.NewGuid());
-            this._discountsMap = new Dictionary<Guid, DiscountPolicy>();
+            this._allDiscountsMap = new Dictionary<Guid, DiscountPolicy>();
+            this._NotInTreeProductDiscounts = new Dictionary<Guid, DiscountType>();
         }
 
         public double getTotalPrice(Dictionary<Product, int> productQuantities)
@@ -55,15 +59,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             //calc the complexive discounts on the tree:
-            _discountPolicy.calculateTotalPrice(products);
+            _discountPolicyTree.calculateTotalPrice(products);
 
             //calc the simple discounts:
-            foreach(var p in productQuantities)
+            foreach(var discount in _NotInTreeProductDiscounts)
             {
-                if (p.Key.Discount != null && !p.Key.Discount.IsInComposite)
-                {
-                    p.Key.Discount.calculateTotalPrice(products);
-                }
+                discount.Value.calculateTotalPrice(products); 
             }
 
             //calc store discounts
@@ -84,7 +85,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<StorePurchaseModel> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
         public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
         public long RaterCount { get => _raterCount; set => _raterCount = value; }
-
+        public AndPurchasePolicy PurchasePolicy { get => _purchasePolicy; set => _purchasePolicy = value; }
+        public OrDiscountPolicy DiscountPolicyTree { get => _discountPolicyTree; set => _discountPolicyTree = value; }
+        public XORDiscountPolicy StoreLevelDiscounts { get => _storeLevelDiscounts; set => _storeLevelDiscounts = value; }
+        public Dictionary<Guid, DiscountPolicy> AllDiscountsMap { get => _allDiscountsMap; set => _allDiscountsMap = value; }
+        public Dictionary<Guid, DiscountType> NotInTreeProductDiscounts { get => _NotInTreeProductDiscounts; set => _NotInTreeProductDiscounts = value; }
 
         public void addOwner(string userName, Permissions permissions)
         {
@@ -111,15 +116,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return productID;
         }
 
-        public void reduceProductQuantity(Product prod, int reduceBy) // lock
-        {
-            lock (prod)
-            {
-                prod.Quantity -= reduceBy;  // Store reduce product quantity
-                if (prod.Quantity.Equals(0))
-                    Inventory.deleteProduct(prod.Name, prod.Id);
-            }
-        }
 
         //@pre - logged in user have permission to modify product
         //return the new product id or -1 in case of fail
@@ -153,12 +149,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 if(p.Discount != null)
                 {
-                    if (p.Discount.IsInComposite)
+                    if (_NotInTreeProductDiscounts.ContainsKey(p.Discount.getID()))
                     {
-                        _discountPolicy.Remove(p.PurchasePolicy.ID);
+                        _NotInTreeProductDiscounts.Remove(p.Discount.getID());
                     }
+                    else
+                    {
+                        _discountPolicyTree.Remove(p.PurchasePolicy.ID);
+                    }
+                    _allDiscountsMap.Remove(p.PurchasePolicy.ID);
                 }
-
             }
 
             return _inventory.deleteProductInventory(productInvName);
@@ -167,11 +167,33 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
         {
             Product product = Inventory.getProductById(productID);
-            if(product.PurchasePolicy != null)
-                _purchasePolicy.Remove(product.PurchasePolicy.getID());
-            if(product.Discount != null)
-                _discountPolicy.Remove(product.Discount.getID());
-            return _inventory.deleteProduct(productInvName, productID);
+            if (product == null)
+            {
+                return false;
+            }
+
+            bool success = _inventory.deleteProduct(productInvName, productID);
+
+            if (success)
+            {
+                if (product.PurchasePolicy != null)
+                    _purchasePolicy.Remove(product.PurchasePolicy.getID());
+                if (product.Discount != null)
+                {
+                    if (_NotInTreeProductDiscounts.ContainsKey(product.Discount.getID()))
+                    {
+                        _NotInTreeProductDiscounts.Remove(product.Discount.getID());
+                    }
+                    else
+                    {
+                        _discountPolicyTree.Remove(product.PurchasePolicy.ID);
+                    }
+                    _allDiscountsMap.Remove(product.PurchasePolicy.ID);
+                }
+                return true;
+            }
+            else return false;
+            
         }
 
 
@@ -430,39 +452,97 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void removePurchasePolicy(Guid policyID)
         {
+            PurchasePolicy toRemove = _purchasePolicy.getByID(policyID);
+            if(toRemove == null)
+            {
+                return;
+            }
+            if(toRemove is CompositePurchasePolicy)
+            {
+                foreach (PurchasePolicy p in ((CompositePurchasePolicy)toRemove).Children)
+                {
+                    _purchasePolicy.Children.Add(p);
+                }
+
+            }
             _purchasePolicy.Remove(policyID);
-            
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
+        {
+            List<PurchasePolicyModel> allPurchasePolicies = new List<PurchasePolicyModel>();
+            getAllPurchasePolicyByStoreNameRec(_purchasePolicy, allPurchasePolicies);
+            return allPurchasePolicies;
+        }
+
+        private void getAllPurchasePolicyByStoreNameRec(PurchasePolicy root, List<PurchasePolicyModel> allPurchasePolicies)
+        {
+            allPurchasePolicies.Add(root.CreateModel());
+
+            if(root is CompositePurchasePolicy)
+            {
+                foreach(PurchasePolicy p in ((CompositePurchasePolicy)root).Children)
+                {
+                    getAllPurchasePolicyByStoreNameRec(p, allPurchasePolicies);
+                }
+            }
+        }
 
         //*********Manage discounts  --   REQUIREMENT 4.2*********
 
         public Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate)
         {
+            if(percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0)
+            {
+                return Guid.Empty;
+            }
+
+            Product prod = _inventory.getProductById(productID); 
+            if(prod == null || prod.Discount != null)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             VisibleDiscount newDiscount = new VisibleDiscount(percentage, expDate, newID, productID);
-            Product prod = _inventory.getProductById(productID); 
             prod.Discount = newDiscount; //add the new discount to the product 
-            _discountsMap.Add(newID, newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
+            _NotInTreeProductDiscounts.Add(newID, newDiscount);
             return newID;
         }
 
         public Guid addCondiotionalProcuctDiscount(Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
         {
+            if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0 || minQuantityForDiscount < 0)
+            {
+                return Guid.Empty;
+            }
+
+            Product prod = _inventory.getProductById(productID);
+            if (prod == null || prod.Discount != null)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             ConditionalProductDiscount newDiscount = new ConditionalProductDiscount(percentage, expDate, newID, productID, minQuantityForDiscount);
-            Product prod = _inventory.getProductById(productID);
             prod.Discount = newDiscount; //add the new discount to the product (override if exist old one)
-            _discountsMap.Add(newID, newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
+            _NotInTreeProductDiscounts.Add(newID, newDiscount);
             return newID;
         }
 
         public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)
         {
+            if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0 || minPriceForDiscount < 0)
+            {
+                return Guid.Empty;
+            }
+
             Guid newID = Guid.NewGuid();
             ConditionalStoreDiscount newDiscount = new ConditionalStoreDiscount(minPriceForDiscount, expDate, percentage, newID);
             _storeLevelDiscounts.Children.Add(newDiscount);
-            _discountsMap.Add(newID, newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
             return newID;
         }
 
@@ -471,17 +551,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             foreach(Guid id in iDS)
             {
-                DiscountPolicy discountPolicy = _discountPolicy.getByID(id);
-                if(discountPolicy == null)
+
+                if (!_allDiscountsMap.ContainsKey(id))
                 {
-                    return false;
+                    return true;
                 }
+
+                DiscountPolicy discountPolicy = _allDiscountsMap[id];
+
                 if(discountPolicy is ConditionalStoreDiscount)
                 {
-                    return false;
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
 
@@ -496,24 +579,30 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
 
             //turn on the isInTree flags of the basic product discounts
-            foreach(Guid id in IDs)
+            foreach (Guid id in IDs)
             {
-                if(_discountPolicy.getByID(id) != null) // the discount already exist in the tree
+                if (!_allDiscountsMap.ContainsKey(id))
                 {
                     return Guid.Empty;
                 }
 
-                DiscountPolicy dis = _discountsMap[id];
-                newChildren.Add(dis);
-                if (dis is DiscountType)
+                if (_NotInTreeProductDiscounts.ContainsKey(id))
                 {
-                    ((DiscountType)dis).IsInComposite = true;
+                    _NotInTreeProductDiscounts.Remove(id);
                 }
+                else // the discount already exist in the tree
+                {
+                    _discountPolicyTree.Remove(id); // cant exist more then one time in the tree
+                }
+
+                DiscountPolicy dis = _allDiscountsMap[id];
+                newChildren.Add(dis);
+
             }
 
             AndDiscountPolicy newDiscount = new AndDiscountPolicy(newID, newChildren);
-            _discountsMap.Add(newID, newDiscount);
-            _discountPolicy.Children.Add(newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
+            _discountPolicyTree.Children.Add(newDiscount);
             return newID;
         }
 
@@ -531,23 +620,28 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //turn on the isInTree flags of the basic product discounts
             foreach (Guid id in IDs)
             {
-
-                if (_discountPolicy.getByID(id) != null) // the discount already exist in the tree
+                if (!_allDiscountsMap.ContainsKey(id))
                 {
                     return Guid.Empty;
                 }
 
-                DiscountPolicy dis = _discountsMap[id];
-                newChildren.Add(dis);
-                if (dis is DiscountType)
+                if (_NotInTreeProductDiscounts.ContainsKey(id)) 
                 {
-                    ((DiscountType)dis).IsInComposite = true;
+                    _NotInTreeProductDiscounts.Remove(id);
                 }
+                else // the discount already exist in the tree
+                {
+                    _discountPolicyTree.Remove(id); // cant exist more then one time in the tree
+                }
+
+                DiscountPolicy dis = _allDiscountsMap[id];
+                newChildren.Add(dis);
+
             }
 
             OrDiscountPolicy newDiscount = new OrDiscountPolicy(newID, newChildren);
-            _discountPolicy.Children.Add(newDiscount);
-            _discountsMap.Add(newID, newDiscount);
+            _discountPolicyTree.Children.Add(newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
             return newID;
         }
 
@@ -564,22 +658,28 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //turn on the isInTree flags of the basic product discounts
             foreach (Guid id in IDs)
             {
-                if (_discountPolicy.getByID(id) != null) // the discount already exist in the tree
+                if (!_allDiscountsMap.ContainsKey(id))
                 {
                     return Guid.Empty;
                 }
 
-                DiscountPolicy dis = _discountsMap[id];
-                newChildren.Add(dis);
-                if (dis is DiscountType)
+                if (_NotInTreeProductDiscounts.ContainsKey(id))
                 {
-                    ((DiscountType)dis).IsInComposite = true;
+                    _NotInTreeProductDiscounts.Remove(id);
                 }
+                else // the discount already exist in the tree
+                {
+                    _discountPolicyTree.Remove(id); // cant exist more then one time in the tree
+                }
+
+                DiscountPolicy dis = _allDiscountsMap[id];
+                newChildren.Add(dis);
+
             }
 
             XORDiscountPolicy newDiscount = new XORDiscountPolicy(newID, newChildren);
-            _discountPolicy.Children.Add(newDiscount);
-            _discountsMap.Add(newID, newDiscount);
+            _discountPolicyTree.Children.Add(newDiscount);
+            _allDiscountsMap.Add(newID, newDiscount);
             return newID;
         }
 
@@ -588,32 +688,41 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Product prod = _inventory.getProductById(productID);
 
-            if(prod == null)
+            if(prod == null || prod.Discount == null || prod.Discount.getID() != discountID)
             {
                 return false;
             }
 
-            if (prod.Discount.IsInComposite)
+            if (!_allDiscountsMap.ContainsKey(discountID) || !(_allDiscountsMap[discountID] is ProductDiscount))
             {
-                _discountPolicy.Remove(discountID);
+                return false;
             }
 
-            _discountsMap.Remove(discountID);
+            if (_NotInTreeProductDiscounts.ContainsKey(discountID)) //not in tree
+            {
+                _NotInTreeProductDiscounts.Remove(discountID);
+            }
+            else
+            {
+                _discountPolicyTree.Remove(discountID);
+            }
+
+            _allDiscountsMap.Remove(discountID);
             prod.Discount = null;
             return true;
         }
 
         private void deepRemoveCompositeDiscount(CompositeDiscountPolicy discount)
         {
+            _allDiscountsMap.Remove(discount.getID());
             foreach(DiscountPolicy d in discount.Children)
             {
                 if(d is DiscountType)
                 {
-                    ((DiscountType)d).IsInComposite = false;
+                    _NotInTreeProductDiscounts.Add(d.getID(), (DiscountType)d);
                 }
                 else //d is composite
                 {
-                    this._discountsMap.Remove(d.getID());
                     deepRemoveCompositeDiscount((CompositeDiscountPolicy)d);
                 }
             }
@@ -622,33 +731,75 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool removeCompositeDiscount(Guid discountID)
         {
-            CompositeDiscountPolicy toRemove = (CompositeDiscountPolicy)(_discountPolicy.getByID(discountID));
 
-            if (toRemove == null) //discount id isn`t exist
+            if (!_allDiscountsMap.ContainsKey(discountID))
+            {
+                return false;
+            }
+        
+
+            DiscountPolicy toRemove = _allDiscountsMap[discountID];
+
+            if(!(toRemove is CompositeDiscountPolicy))
             {
                 return false;
             }
 
-            _discountPolicy.Remove(discountID);
-            deepRemoveCompositeDiscount(toRemove); // turn off "isInTree" flags of internal basic discounts, and remove from the discounts map the internal composite discounts
+
+            _discountPolicyTree.Remove(discountID);
+            deepRemoveCompositeDiscount((CompositeDiscountPolicy)toRemove); // add product and store discounts back to _NotInTree map
             return true;
         }
 
         public bool removeStoreLevelDiscount(Guid discountID)
         {
-            if (!_discountsMap.ContainsKey(discountID))
+            if (!_allDiscountsMap.ContainsKey(discountID) || !(_allDiscountsMap[discountID] is ConditionalStoreDiscount))
             {
                 return false;
             }
 
-            this._discountsMap.Remove(discountID);
+            this._allDiscountsMap.Remove(discountID);
             this._storeLevelDiscounts.Remove(discountID);
             return true;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
+        {
+            List<DiscountPolicyModel> allStoreLevelDiscountPolicies = new List<DiscountPolicyModel>();
+            getAllDiscountsFromTree(_storeLevelDiscounts, allStoreLevelDiscountPolicies);
+            return allStoreLevelDiscountPolicies;
+        }
+
+        private void getAllDiscountsFromTree(DiscountPolicy root, List<DiscountPolicyModel> allStoreLevelDiscountPolicies)
+        {
+            allStoreLevelDiscountPolicies.Add(root.CreateModel());
+
+            if (root is CompositeDiscountPolicy)
+            {
+                foreach (DiscountPolicy d in ((CompositeDiscountPolicy)root).Children)
+                {
+                    getAllDiscountsFromTree(d, allStoreLevelDiscountPolicies);
+                }
+            }
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose()
+        {
+            List<DiscountPolicyModel> allDicsountsModels = new List<DiscountPolicyModel>(); //without store level discount
+            getAllDiscountsFromTree(_discountPolicyTree, allDicsountsModels);
+
+            //add all the discounts that not exist in the tree
+            foreach(var d in _NotInTreeProductDiscounts)
+            {
+                allDicsountsModels.Add(d.Value.CreateModel());
+            }
+            return allDicsountsModels;
         }
 
         public string StoreName()
         {
             return Name;
         }
+
     }
 }

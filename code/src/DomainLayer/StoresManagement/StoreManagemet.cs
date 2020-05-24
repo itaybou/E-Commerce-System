@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.CommunicationLayer.notifications;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -247,6 +249,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return permission.modifyProductQuantity(activeUser.Name(), productInvName, productID, newQuantity);
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userid);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllPurchasePolicyByStoreName();
+
+        }
+
         //@pre - userID exist and subscribed
         //public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount)
         //{
@@ -314,6 +333,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             else
                 return false;
         }
+
 
         //@pre - userID exist and subscribed
         public bool assignManager(Guid userID, string newManageruserName, string storeName)
@@ -491,12 +511,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             store.logPurchase(storePurchaseModel);
 
+        }
+
+        public void sendPurchaseNotification(Store store, string username)
+        {
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string username in store.Premmisions.Keys)
+            foreach (string manager in store.Premmisions.Keys) //for each owner/manager
             {
-                notificationsUsers.Add(_userManagement.getUserByName(username).Guid);
+                notificationsUsers.Add(_userManagement.getUserByName(manager).Guid);
             }
-           _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
+            _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(username, store.Name));
         }
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
@@ -777,6 +801,39 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             return permission.removeStoreLevelDiscount(discountID);
+        }
+
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid userID, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllStoreLevelDiscounts();
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid userID, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllDiscountsForCompose();
         }
 
     }

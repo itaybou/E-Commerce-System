@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -51,6 +52,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                     }
                 }
             }
+
             _children = newChildren;
         }
 
@@ -80,5 +82,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
             return null;
         }
+
+        public abstract DiscountPolicyModel CreateModel();
     }
 }
