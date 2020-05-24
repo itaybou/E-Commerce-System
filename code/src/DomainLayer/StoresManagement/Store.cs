@@ -266,7 +266,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            _premmisions.Remove(ownerToRemoveUserName);
+            return _premmisions.Remove(ownerToRemoveUserName);
         }
 
 

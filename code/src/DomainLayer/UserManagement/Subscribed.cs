@@ -96,6 +96,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (!_assignees.ContainsKey(storeName))
             {
                 List<Guid> assgneedList = new List<Guid>() { assigneeID };
+                _assignees.Add(storeName, assgneedList);
             }
             else
             {
@@ -112,6 +113,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else
             {
                 _assignees[storeName].Remove(assigneeID);
+                if(_assignees[storeName].Count == 0)
+                {
+                    _assignees.Remove(storeName);
+                }
                 return true;
             }
         }
@@ -128,5 +133,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
+        public void removeAllAssigneeOfStore(string storeName)
+        {
+            _assignees.Remove(storeName);
+        }
     }
 }

@@ -25,5 +25,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         void addAssignee(string storeName, Guid assigneeID);
         bool removeAssignee(string storeName, Guid assigneeID);
         List<Guid> getAssigneesOfStore(string storeName);
+        void removeAllAssigneeOfStore(string storeName);
     }
 }

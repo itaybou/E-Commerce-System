@@ -51,13 +51,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             // nonPermitManager - manager with the default permissions
             // permitManager - manager with the default permissions, add, delete and modify productInv a
             // regularUser - not owner/manager of the store
-            _regularUser = new User(new Subscribed("regularUser", "pA55word", "fname", "lname", "owner@gmail.com"));
-            _permitManager = new User(new Subscribed("permitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
-            _nonPermitManager = new User(new Subscribed("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
-            _owner = new User(new Subscribed("owner", "pA55word", "fname", "lname", "owner@gmail.com"));
-            _anotherOwner = new User(new Subscribed("anotherOwner", "pA55word", "fname", "lname", "email@gmail.com"));
-            _newManager = new User(new Subscribed("newManager", "pA55word", "fname", "lname", "email@gmail.com"));
-
 
 
             _storeManagement = StoreManagement.Instance;
@@ -70,7 +63,16 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             _userManagement.register("newManager", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("anotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.login("owner", "pA55word");
-            
+
+
+            _regularUser = _userManagement.getUserByName("regularUser");
+            _permitManager = _userManagement.getUserByName("permitManager");
+            _nonPermitManager = _userManagement.getUserByName("nonPermitManager");
+            _owner = _userManagement.getUserByName("owner");
+            _anotherOwner = _userManagement.getUserByName("anotherOwner");
+            _newManager = _userManagement.getUserByName("newManager");
+
+
             _regularUserGUID = _userManagement.getUserByName("regularUser").Guid;
             _permitManagerGUID = _userManagement.getUserByName("permitManager").Guid;
             _nonPermitManagerGUID = _userManagement.getUserByName("nonPermitManager").Guid;
@@ -88,6 +90,9 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         {
             _userManagement.login("owner", "pA55word");
             _storeManagement.openStore(_ownerGUID ,"store");
+            _storeManagement.assignManager(_ownerGUID, "permitManager", "store");
+            _storeManagement.editPermissions(_ownerGUID, "store", "permitManager", new List<PermissionType> { PermissionType.AddProductInv, PermissionType.DeleteProductInv, PermissionType.ManageDiscounts, PermissionType.ManagePurchasePolicy, PermissionType.ModifyProduct, PermissionType.WatchAndComment, PermissionType.WatchPurchaseHistory });
+            _storeManagement.assignManager(_ownerGUID, "nonPermitManager", "store");
             _store = _storeManagement.getStoreByName("store");
         }
 
@@ -113,6 +118,40 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             Assert.False(_storeManagement.assignManager(_permitManagerGUID, "newManager", "store"), "Assign regular user as manager by manager with full permissions successed");
             _userManagement.logout(_permitManager.Guid);
 
+
+
+        }
+
+        [Test()]
+        public void removeOwnerTest()
+        {
+            _storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store");
+            _userManagement.register("ownerAssignedByAnotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
+            _storeManagement.assignOwner(_anotherOwnerGUID, "ownerAssignedByAnotherOwner", "store");
+            User ownerAssignedByAnotherOwner = _userManagement.getUserByName("ownerAssignedByAnotherOwner");
+
+
+            Assert.False(_storeManagement.removeOwner(_regularUserGUID, "anotherOwner", "store")); //regular user try to remove owner
+            Assert.False(_storeManagement.removeOwner(_permitManagerGUID, "anotherOwner", "store")); //permited manager try to remove owner
+            Assert.False(_storeManagement.removeOwner(_nonPermitManagerGUID, "anotherOwner", "store")); //non permited manager try to remove owner
+            Assert.False(_storeManagement.removeOwner(Guid.NewGuid(), "anotherOwner", "store")); //non exist id user try to remove owner
+            Assert.False(_storeManagement.removeOwner(_ownerGUID, "anotherOwner", "notExiststore")); //non exist store
+            Assert.False(_storeManagement.removeOwner(_ownerGUID, "permitManager", "store")); //try to remove not owner user(manager)
+            Assert.False(_storeManagement.removeOwner(_ownerGUID, "ownerAssignedByAnotherOwner", "store")); //try to owner that was not assigned by "_owner"
+
+
+            Assert.True(_storeManagement.removeOwner(_ownerGUID, "anotherOwner", "store"));
+            //check that the another owner and the owner that assined by abother owner dont have permissions to the store
+            Assert.IsNull(_anotherOwner.getPermission("store"));
+            Assert.IsNull(ownerAssignedByAnotherOwner.getPermission("store"));
+            Assert.IsFalse(_store.Premmisions.ContainsKey(_anotherOwner.Name()));
+            Assert.IsFalse(_store.Premmisions.ContainsKey(ownerAssignedByAnotherOwner.Name()));
+
+            //check that owner dont have other owner as asignee
+            Assert.IsFalse(_owner.getAssigneesOfStore("store").Contains(_anotherOwnerGUID));
+
+            //check that another owner dont have any assignees
+            Assert.IsNull(_anotherOwner.getAssigneesOfStore("store"));
 
 
         }

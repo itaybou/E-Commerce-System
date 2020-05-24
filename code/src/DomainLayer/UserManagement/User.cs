@@ -84,5 +84,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return _state.getAssigneesOfStore(storeName);
         }
+
+        public void removeAllAssigneeOfStore(string storeName)
+        {
+            _state.removeAllAssigneeOfStore(storeName);
+        }
     }
 }

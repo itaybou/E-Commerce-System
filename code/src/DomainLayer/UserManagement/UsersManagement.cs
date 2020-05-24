@@ -250,6 +250,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return getUserByGUID(userID).getAssigneesOfStore(storeName);
         }
 
-
+        public void removeAllAssigneeOfStore(Guid userID, string storeName)
+        {
+            getUserByGUID(userID).removeAllAssigneeOfStore(storeName);
+        }
     }
 }

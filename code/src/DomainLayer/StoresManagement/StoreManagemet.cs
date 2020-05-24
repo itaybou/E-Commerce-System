@@ -349,42 +349,55 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
+            
 
-            Permissions activeUserPermissions = activeUser.getPermission(storeName);
+            User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
+            
+            bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
+            if (output)
+            {
+                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+            }
+            return output;
+        }
 
-            if (activeUserPermissions == null)
+
+        private bool removeOwnerRec(User removerUser, User toRemove, string storeName)
+        {
+            bool output = true;
+            Permissions removerUserPermissions = removerUser.getPermission(storeName);
+
+            if (removerUserPermissions == null)
             {
                 return false;
             }
 
-            if (activeUserPermissions.removeOwner(activeUserID, ownerToRemoveUserName))
+            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name()))
             {
-                User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
-                _userManagement.removePermissions(storeName, _userManagement.getUserByName(ownerToRemoveUserName)); //remove permissions object from the user
-                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid); //remove from asignees list
-
-                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRevmoe.Guid, storeName); // list of the owners and managers that the removed owner assign
-                foreach(Guid assigneeID in assignedByRemovedOwner)
+                //remove all the owners\managers that the removed owner assign
+                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
+                if (assignedByRemovedOwner != null)
                 {
-                    User assigneeUser = _userManagement.getUserByGUID(assigneeID);
-                    Permissions asigneePermissions = assigneeUser.getPermission(storeName);
-
-
-                    if (asigneePermissions.isOwner())
+                    foreach (Guid assigneeID in assignedByRemovedOwner)
                     {
-                        removeOwner(toRevmoe.Guid, assigneeUser.Name(), storeName);
+                        User assigneeUser = _userManagement.getUserByGUID(assigneeID);
+                        Permissions asigneePermissions = assigneeUser.getPermission(storeName);
+
+                        if (asigneePermissions.isOwner())
+                        {
+                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID), storeName);
+                        }
+                        else
+                        {
+                            output = output && removeManager(toRemove.Guid, assigneeUser.Name(), storeName);
+                        }
                     }
-                    else
-                    {
-                        removeManager(toRevmoe.Guid, assigneeUser.Name(), storeName);
-                    }
+                    _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
                 }
-
-                return true;
+                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name())); //remove permissions object from the user  
+                return output;
             }
             else return false;
-
-
         }
 
         //@pre - userID exist and subscribed

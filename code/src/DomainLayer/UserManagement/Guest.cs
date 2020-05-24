@@ -61,5 +61,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return null;
         }
+
+        public void removeAllAssigneeOfStore(string storeName)
+        {
+            return;
+        }
     }
 }
