@@ -124,6 +124,14 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
+        //Usecase - 4.4
+        public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.removeOwner(userID, ownerToRemoveUserName, storeName);
+        }
+
+        [Trace("Info")]
         //Usecase - 4.5
         public bool assignManager(Guid sessionID, string newManageruserName, string storeName)
         {

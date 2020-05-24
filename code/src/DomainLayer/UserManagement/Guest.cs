@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
@@ -44,6 +45,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public Permissions getPermission(string storeName)
         {
             return null;  // guest dont have permissions
+        }
+
+        public void addAssignee(string storeName, Guid assigneeID)
+        {
+            return;
+        }
+
+        public bool removeAssignee(string storeName, Guid assigneeID)
+        {
+            return false;
+        }
+
+        public List<Guid> getAssigneesOfStore(string storeName)
+        {
+            return null;
         }
     }
 }

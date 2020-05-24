@@ -234,5 +234,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return null;
             return ModelFactory.CreateUser(user);
         }
+
+        public void addAssignee(Guid userID, string storeName, Guid assigneeID)
+        {
+            getUserByGUID(userID).addAssignee(storeName, assigneeID);
+        }
+
+        public bool removeAssignee(Guid userID, string storeName, Guid assigneeID)
+        {
+            return getUserByGUID(userID).removeAssignee(storeName, assigneeID);
+        }
+
+        public List<Guid> getAssigneesOfStore(Guid userID, string storeName)
+        {
+            return getUserByGUID(userID).getAssigneesOfStore(storeName);
+        }
+
+
     }
 }

@@ -1,4 +1,6 @@
-﻿using ECommerceSystem.Models;
+﻿using System;
+using System.Collections.Generic;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -19,5 +21,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         void removePermissions(string storeName);
 
         Permissions getPermission(string storeName);
+
+        void addAssignee(string storeName, Guid assigneeID);
+        bool removeAssignee(string storeName, Guid assigneeID);
+        List<Guid> getAssigneesOfStore(string storeName);
     }
 }

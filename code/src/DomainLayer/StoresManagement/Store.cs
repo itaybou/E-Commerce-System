@@ -254,6 +254,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return per;
         }
 
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if(!_premmisions.ContainsKey(ownerToRemoveUserName) || !_premmisions[ownerToRemoveUserName].isOwner()) //ownerToRemoveUserName isn`t owner of this store
+            {
+                return false;
+            }
+
+            if (!_premmisions[ownerToRemoveUserName].AssignedBy.Guid.Equals(activeUserID)) //active useer isn`t the user who assign ownerToRemoveUserName
+            {
+                return false;
+            }
+
+            _premmisions.Remove(ownerToRemoveUserName);
+        }
+
+
         public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
 

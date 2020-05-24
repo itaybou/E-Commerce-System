@@ -37,6 +37,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         Permissions assignOwner(User loggedInUser, string newOwneruserName);
 
+        bool removeOwner(Guid activeUserID, string ownerToRemoveUserName);
+
         Permissions assignManager(User loggedInUser, string newManageruserName);
 
         bool removeManager(User loggedInUser, string managerUserName);
