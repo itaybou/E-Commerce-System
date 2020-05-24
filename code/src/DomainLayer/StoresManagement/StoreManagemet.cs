@@ -322,10 +322,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             Permissions newOwmerPer = activeUserPermissions.assignOwner(activeUser, newOwneruserName);
+            //add the permissions object to the user
             if (newOwmerPer != null)
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
+                _userManagement.addAssignee(userID, storeName, assigneeUser.Guid);
 
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName));
                 return true;
@@ -334,6 +336,69 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
         }
 
+
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(activeUserID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!_userManagement.isSubscribed(ownerToRemoveUserName)) //ownerToRemoveUserName isn`t subscribed
+            {
+                return false;
+            }
+            
+
+            User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
+            
+            bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
+            if (output)
+            {
+                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+            }
+            return output;
+        }
+
+
+        private bool removeOwnerRec(User removerUser, User toRemove, string storeName)
+        {
+            bool output = true;
+            Permissions removerUserPermissions = removerUser.getPermission(storeName);
+
+            if (removerUserPermissions == null)
+            {
+                return false;
+            }
+
+            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name()))
+            {
+                //remove all the owners\managers that the removed owner assign
+                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
+                if (assignedByRemovedOwner != null)
+                {
+                    foreach (Guid assigneeID in assignedByRemovedOwner)
+                    {
+                        User assigneeUser = _userManagement.getUserByGUID(assigneeID);
+                        Permissions asigneePermissions = assigneeUser.getPermission(storeName);
+
+                        if (asigneePermissions.isOwner())
+                        {
+                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID), storeName);
+                        }
+                        else
+                        {
+                            output = output && removeManager(toRemove.Guid, assigneeUser.Name(), storeName);
+                        }
+                    }
+                    _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
+                }
+                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name())); //remove permissions object from the user  
+                return output;
+            }
+            else return false;
+        }
 
         //@pre - userID exist and subscribed
         public bool assignManager(Guid userID, string newManageruserName, string storeName)
@@ -367,6 +432,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Add the permission to the new manager
                 User assigneeUser = _userManagement.getUserByName(newManageruserName);
                 _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
+                _userManagement.addAssignee(userID, storeName, assigneeUser.Guid); 
 
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName));
                 return true;
@@ -397,6 +463,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Remove the permission from the user
                 User toRemoveUser = _userManagement.getUserByName(managerUserName);
                 _userManagement.removePermissions(storeName, toRemoveUser);
+                _userManagement.removeAssignee(userID, storeName, toRemoveUser.Guid);
 
                 _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName));
                 return true;

@@ -423,6 +423,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.removeOwner(activeUserID, ownerToRemoveUserName);
+            }
+            else return false;
+        }
+
         public bool removeStoreLevelDiscount(Guid discountID)
         {
             if (this.canManageDiscounts())
