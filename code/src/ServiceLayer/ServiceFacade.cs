@@ -42,9 +42,25 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.assignManager(sessionID, newManageruserName, storeName);
         }
 
-        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
+        public Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName)
         {
-            return _storeServices.assignOwner(sessionID, newOwneruserName, storeName);
+            return _storeServices.createOwnerAssignAgreement(sessionID, newOwneruserName, storeName);
+        }
+
+        public bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            return _storeServices.approveAssignOwnerRequest(sessionID, agreementID, storeName);
+        }
+
+        public bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            return _storeServices.disApproveAssignOwnerRequest(sessionID, agreementID, storeName);
+
+        }
+
+        public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
+        {
+            return _storeServices.removeOwner(sessionID, ownerToRemoveUserName, storeName);
         }
 
         public bool ChangeProductQunatity(Guid productId, int quantity)

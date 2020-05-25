@@ -378,6 +378,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.createOwnerAssignAgreement(assigner, newOwneruserName);
+            }
+            else return null;
+        }
+
         public Guid addAndDiscountPolicy(List<Guid> IDS)
         {
             if (this.canManageDiscounts())
@@ -419,6 +428,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (this.canManageDiscounts())
             {
                 return _store.removeCompositeDiscount(discountID);
+            }
+            else return false;
+        }
+
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.removeOwner(activeUserID, ownerToRemoveUserName);
             }
             else return false;
         }

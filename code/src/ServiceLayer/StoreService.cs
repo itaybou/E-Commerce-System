@@ -117,10 +117,34 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.3
-        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
+        public Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName)
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.assignOwner(userID, newOwneruserName, storeName);
+            return _storeManagement.createOwnerAssignAgreement(userID, newOwneruserName, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.3
+        public bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.approveAssignOwnerRequest(userID, agreementID, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.3
+        public bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.disApproveAssignOwnerRequest(userID, agreementID, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.4
+        public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.removeOwner(userID, ownerToRemoveUserName, storeName);
         }
 
         [Trace("Info")]

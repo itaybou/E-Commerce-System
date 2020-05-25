@@ -54,8 +54,9 @@ namespace ECommerceSystem.ServiceLayer
 
         bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
 
-        bool assignOwner(Guid sessionID, string newOwneruserName, string storeName);
-
+        Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName);
+        bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName);
+        bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName);
         bool assignManager(Guid sessionID, string newManageruserName, string storeName);
 
         bool editPermissions(Guid sessionID, string storeName, string managerUserName, List<PermissionType> permissions);
