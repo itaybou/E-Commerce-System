@@ -4,6 +4,8 @@ using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -112,10 +114,34 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.3
-        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
+        public Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName)
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.assignOwner(userID, newOwneruserName, storeName);
+            return _storeManagement.createOwnerAssignAgreement(userID, newOwneruserName, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.3
+        public bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.approveAssignOwnerRequest(userID, agreementID, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.3
+        public bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.disApproveAssignOwnerRequest(userID, agreementID, storeName);
+        }
+
+        [Trace("Info")]
+        //Usecase - 4.4
+        public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.removeOwner(userID, ownerToRemoveUserName, storeName);
         }
 
         [Trace("Info")]
@@ -154,64 +180,83 @@ namespace ECommerceSystem.ServiceLayer
         //*********Manage Purchase Policy  --   REQUIREMENT 4.2*********
 
         //*********ADD*********
-
-        public Guid addDayOffPolicy(Guid userID, string storeName, List<DayOfWeek> daysOff)
+        [Trace("Info")]
+        public Guid addDayOffPolicy(Guid userID, string storeName, List <DayOfWeek> daysOff)
         {
             return _storeManagement.AddDayOffPolicy(userID, storeName, daysOff);
         }
 
+        [Trace("Info")]
         public Guid addLocationPolicy(Guid userID, string storeName, List<string> banLocations)
         {
             return _storeManagement.addLocationPolicy(userID, storeName, banLocations);
         }
 
+        [Trace("Info")]
         public Guid addMinPriceStorePolicy(Guid userID, string storeName, double minPrice)
         {
             return _storeManagement.addMinPriceStorePolicy(userID, storeName, minPrice);
         }
 
+        [Trace("Info")]
         public Guid addAndPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
         {
             return _storeManagement.addAndPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
+        [Trace("Info")]
         public Guid addOrPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
         {
             return _storeManagement.addOrPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
+        [Trace("Info")]
         public Guid addXorPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
         {
             return _storeManagement.addXorPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
         //*********REMOVE*********
-
+        [Trace("Info")]
         public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
         {
             return _storeManagement.removePurchasePolicy(userID, storeName, policyID);
         }
 
-        internal IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
+        [Trace("Info")]
+        public IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username)
         {
             return _storeManagement.getUserPermissionTypes(storeName, username);
         }
+
+
+        //*********gett all policies for gui*********
+        [Trace("Info")]
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
+        {
+            return _storeManagement.getAllPurchasePolicyByStoreName(userid, storeName);
+        } 
+
+
 
         //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
 
         //*********ADD*********
 
         //if the product already have discount, the new discount override the old
+        [Trace("Info")]
         public Guid addVisibleDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate)
         {
             return _storeManagement.addVisibleDiscount(userID, storeName, productID, percentage, expDate);
         }
 
+        [Trace("Info")]
         public Guid addCondiotionalProcuctDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
         {
             return _storeManagement.addCondiotionalProcuctDiscount(userID, storeName, productID, percentage, expDate, minQuantityForDiscount);
         }
 
+        [Trace("Info")]
         public Guid addConditionalStoreDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minPriceForDiscount)
         {
             return _storeManagement.addConditionalStoreDiscount(userID, storeName, percentage, expDate, minPriceForDiscount);
@@ -219,6 +264,7 @@ namespace ECommerceSystem.ServiceLayer
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
+        [Trace("Info")]
         public Guid addAndDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
         {
             return _storeManagement.addAndDiscountPolicy(userID, storeName, IDs);
@@ -226,6 +272,7 @@ namespace ECommerceSystem.ServiceLayer
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
+        [Trace("Info")]
         public Guid addOrDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
         {
             return _storeManagement.addOrDiscountPolicy(userID, storeName, IDs);
@@ -233,25 +280,42 @@ namespace ECommerceSystem.ServiceLayer
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
+        [Trace("Info")]
         public Guid addXorDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
         {
             return _storeManagement.addXorDiscountPolicy(userID, storeName, IDs);
         }
 
         //*********REMOVE*********
+        [Trace("Info")]
         public bool removeProductDiscount(Guid userID, string storeName, Guid discountID, Guid productID)
         {
             return _storeManagement.removeProductDiscount(userID, storeName, discountID, productID);
         }
 
+        [Trace("Info")]
         public bool removeCompositeDiscount(Guid userID, string storeName, Guid discountID)
         {
             return _storeManagement.removeCompositeDiscount(userID, storeName, discountID);
         }
 
+        [Trace("Info")]
         public bool removeStoreLevelDiscount(Guid userID, string storeName, Guid discountID)
         {
             return _storeManagement.removeStoreLevelDiscount(userID, storeName, discountID);
+        }
+
+        [Trace("Info")]
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid userID, string storeName)
+        {
+            return _storeManagement.getAllStoreLevelDiscounts(userID, storeName);
+        }
+
+        //return all store discounts without store level discount
+        [Trace("Info")]
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid userID, string storeName)
+        {
+            return _storeManagement.getAllDiscountsForCompose(userID, storeName);
         }
 
         [Trace("Info")]

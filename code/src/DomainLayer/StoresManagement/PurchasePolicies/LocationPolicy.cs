@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
-    internal class LocationPolicy : PurchasePolicy
+    public class LocationPolicy : PurchasePolicy
     {
         private List<string> _bannedLocation;
         private Guid _ID;
@@ -16,7 +20,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
-            foreach (string s in _bannedLocation)
+            if(address == null)
+            {
+                return false;
+            }
+
+            foreach(string s in _bannedLocation)
             {
                 if (address.Contains(s))
                 {
@@ -24,6 +33,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                 }
             }
             return true;
+        }
+
+        public PurchasePolicyModel CreateModel()
+        {
+            return new LocationPolicyModel(this._ID, this._bannedLocation);
         }
 
         public Guid getID()

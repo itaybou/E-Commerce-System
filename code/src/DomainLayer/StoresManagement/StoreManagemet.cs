@@ -6,6 +6,11 @@ using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.CommunicationLayer.notifications;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -138,6 +143,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return permission.addProduct(activeUser.Name, productInvName, quantity, minQuantity, maxQuantity);
         }
 
+        
+
+
         //@pre - userID exist and subscribed
         public bool deleteProductInventory(Guid userID, string storeName, string productInvName)
         {
@@ -231,6 +239,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return permission.modifyProductQuantity(activeUser.Name, productInvName, productID, newQuantity);
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userid);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllPurchasePolicyByStoreName();
+
+        }
+
         //@pre - userID exist and subscribed
         //public bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, DiscountType newDiscount)
         //{
@@ -267,36 +292,181 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Assign*********
 
-        //@pre - userID exist and subscribed
-        public bool assignOwner(Guid userID, string newOwneruserName, string storeName)
+        //@return id of the agreement
+        public Guid createOwnerAssignAgreement(Guid userID, string newOwneruserName, string storeName)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
-                return false;
+                return Guid.Empty;
             }
 
             if (!_userManagement.isSubscribed(newOwneruserName)) //newOwneruserName isn`t subscribed
             {
-                return false;
+                return Guid.Empty;
             }
             Permissions activeUserPermissions = activeUser.getPermission(storeName);
 
             if (activeUserPermissions == null)
             {
+                return Guid.Empty;
+            }
+            AssignOwnerAgreement agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
+            if(agreement == null)
+            {
+                return Guid.Empty;
+            }
+
+            INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
+            List<Guid> approvers = agreement.PendingApproval.Select(userName => _userManagement.getUserByName(userName).Guid).ToList();
+            if(approvers.Count != 0)
+            {
+                _communication.SendGroupNotification(approvers, notification);
+            }
+            else
+            {
+                assignOwnerAftterApproval(activeUser, newOwneruserName, storeName); //there is only 1 owner in the store(activeUser), so there is no need to approve
+            }
+
+            return agreement.ID;
+        }
+
+        public bool approveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            if (store == null)
+            {
                 return false;
             }
-            Permissions newOwmerPer = activeUserPermissions.assignOwner(activeUser, newOwneruserName);
+
+            AssignOwnerAgreement assignOwnerAgreement = store.getAgreementByID(agreementID);
+            if (assignOwnerAgreement == null)
+            {
+                return false;
+            }
+
+            User approver = _userManagement.getUserByGUID(userID);
+
+            if (!store.approveAssignOwnerRequest(approver.Name(), assignOwnerAgreement))
+            {
+                return false;
+            }
+
+            if (assignOwnerAgreement.isDone())
+            {
+                assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID), assignOwnerAgreement.AsigneeUserName, storeName);
+            }
+
+            return true;
+        }
+
+        public bool disApproveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            if (store == null)
+            {
+                return false;
+            }
+
+            AssignOwnerAgreement assignOwnerAgreement = store.getAgreementByID(agreementID);
+            if (assignOwnerAgreement == null)
+            {
+                return false;
+            }
+
+            User disapprover = _userManagement.getUserByGUID(userID);
+
+            if (!store.disapproveAssignOwnerRequest(disapprover.Name(), assignOwnerAgreement))
+            {
+                return false;
+            }
+
+            //send disapprove notification to the assignee and assigner
+            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name(), storeName);
+            _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
+            _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
+            return true;
+        }
+
+
+        private bool assignOwnerAftterApproval(User assigner, string newOwneruserName, string storeName)
+        {
+            Permissions newOwmerPer = getStoreByName(storeName).assignOwner(assigner, newOwneruserName);
+            //add the permissions object to the user
             if (newOwmerPer != null)
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
+                _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
 
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name, storeName));
                 return true;
             }
             else
                 return false;
+        }
+
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(activeUserID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return false;
+            }
+
+            if (!_userManagement.isSubscribed(ownerToRemoveUserName)) //ownerToRemoveUserName isn`t subscribed
+            {
+                return false;
+            }
+            
+
+            User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
+            
+            bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
+            if (output)
+            {
+                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+            }
+            return output;
+        }
+
+
+        private bool removeOwnerRec(User removerUser, User toRemove, string storeName)
+        {
+            bool output = true;
+            Permissions removerUserPermissions = removerUser.getPermission(storeName);
+
+            if (removerUserPermissions == null)
+            {
+                return false;
+            }
+
+            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name()))
+            {
+                //remove all the owners\managers that the removed owner assign
+                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
+                if (assignedByRemovedOwner != null)
+                {
+                    foreach (Guid assigneeID in assignedByRemovedOwner)
+                    {
+                        User assigneeUser = _userManagement.getUserByGUID(assigneeID);
+                        Permissions asigneePermissions = assigneeUser.getPermission(storeName);
+
+                        if (asigneePermissions.isOwner())
+                        {
+                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID), storeName);
+                        }
+                        else
+                        {
+                            output = output && removeManager(toRemove.Guid, assigneeUser.Name(), storeName);
+                        }
+                    }
+                    _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
+                }
+                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name())); //remove permissions object from the user  
+                return output;
+            }
+            else return false;
         }
 
         //@pre - userID exist and subscribed
@@ -331,6 +501,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Add the permission to the new manager
                 User assigneeUser = _userManagement.getUserByName(newManageruserName);
                 _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
+                _userManagement.addAssignee(userID, storeName, assigneeUser.Guid); 
 
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name, storeName));
                 return true;
@@ -360,6 +531,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 // Remove the permission from the user
                 User toRemoveUser = _userManagement.getUserByName(managerUserName);
                 _userManagement.removePermissions(storeName, toRemoveUser);
+                _userManagement.removeAssignee(userID, storeName, toRemoveUser.Guid);
 
                 _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name, storeName));
                 return true;
@@ -475,12 +647,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             store.logPurchase(storePurchaseModel);
 
+        }
+
+        public void sendPurchaseNotification(Store store, string username)
+        {
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string username in store.Permissions.Keys)
+            foreach (string manager in store.Premmisions.Keys) //for each owner/manager
             {
-                notificationsUsers.Add(_userManagement.getUserByName(username).Guid);
+                notificationsUsers.Add(_userManagement.getUserByName(manager).Guid);
             }
-            _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(storePurchaseModel.Username, store.Name));
+            _communication.SendGroupNotification(notificationsUsers, new PurchaseNotification(username, store.Name));
         }
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
@@ -757,5 +933,39 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.removeStoreLevelDiscount(discountID);
         }
+
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid userID, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllStoreLevelDiscounts();
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid userID, string storeName)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return null;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return null;
+            }
+
+            return permission.getAllDiscountsForCompose();
+        }
+
     }
 }

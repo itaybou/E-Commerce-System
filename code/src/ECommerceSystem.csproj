@@ -167,6 +167,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\AssignOwnerAgreement.cs" />
     <Compile Include="DataAccessLayer\ITransactions.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CacheCleaner.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CachedObject.cs" />
@@ -219,6 +220,13 @@
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\VisibleDiscountModel.cs" />
+    <Compile Include="Models\notifications\DisappvoveAssignOwnerNotification.cs" />
+    <Compile Include="Models\notifications\OwnerAssignRequest.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
     <Compile Include="Models\notifications\AssignManagerNotification.cs" />
@@ -227,6 +235,12 @@
     <Compile Include="Models\notifications\RemoveOwnerNotification.cs" />
     <Compile Include="Models\notifications\AssignOwnerNotification.cs" />
     <Compile Include="Models\notifications\INotitficationType.cs" />
+    <Compile Include="Models\PurchasePolicyModels\CompositePurchasePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\ProductQuantityPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\MinPricePerStorePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\LocationPolicyModel .cs" />
+    <Compile Include="Models\PurchasePolicyModels\DaysOffPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\PurchasePolicyModel.cs" />
     <Compile Include="Models\ProductInventoryModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />

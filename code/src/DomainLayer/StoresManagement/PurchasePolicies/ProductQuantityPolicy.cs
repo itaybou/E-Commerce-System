@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -26,6 +30,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
             int quantity = products[_productID];
             return quantity >= _min && quantity <= _max;
+        }
+
+        public PurchasePolicyModel CreateModel()
+        {
+            return new ProductQuantityPolicyModel(this.ID, this._min, this._max);
         }
 
         public Guid getID()

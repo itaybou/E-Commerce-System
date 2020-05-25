@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -10,5 +11,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
 
         Guid getID();
+        DiscountPolicyModel CreateModel();
     }
 }

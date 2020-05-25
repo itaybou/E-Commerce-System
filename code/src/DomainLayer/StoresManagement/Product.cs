@@ -52,5 +52,25 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return Discount == null ? BasePrice : BasePrice; // TODO: update return value of the calaulated discount or percentage
             //_discount.CalculateDiscount(_basePrice);
         }
+        public void increaseProductQuantity(int quantity)
+        {
+            lock (this)
+            {
+                Quantity += quantity;
+            }
+        }
+
+        public bool decreaseProductQuantity(int decreaseBy)
+        {
+            lock (this)
+            {
+                if (Quantity >= decreaseBy)
+                {
+                    Quantity -= decreaseBy; 
+                    return true;
+                }
+                else return false;
+            }
+        }
     }
 }

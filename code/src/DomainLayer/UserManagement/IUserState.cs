@@ -1,4 +1,8 @@
-﻿namespace ECommerceSystem.DomainLayer.UserManagement
+﻿using System;
+using System.Collections.Generic;
+using ECommerceSystem.Models;
+
+namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {
@@ -17,5 +21,10 @@
         void removePermissions(string storeName);
 
         Permissions getPermission(string storeName);
+
+        void addAssignee(string storeName, Guid assigneeID);
+        bool removeAssignee(string storeName, Guid assigneeID);
+        List<Guid> getAssigneesOfStore(string storeName);
+        void removeAllAssigneeOfStore(string storeName);
     }
 }

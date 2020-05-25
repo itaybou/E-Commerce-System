@@ -6940,6 +6940,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "ECommerceSystem >= 1.0.0"
       "ECommerceSystem >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.Core >= 2.2.5",
       "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation >= 3.1.4",
@@ -6948,14 +6949,18 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Itay Bouganim\\.nuget\\packages\\": {},
+    "C:\\Users\\tomerbit\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+      "projectUniqueName": "C:\\Users\\tomerbit\\Desktop\\University\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא\\V3\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
       "projectUniqueName": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
       "projectName": "PresentationLayer",
+      "projectPath": "C:\\Users\\tomerbit\\Desktop\\University\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא\\V3\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+      "packagesPath": "C:\\Users\\tomerbit\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tomerbit\\Desktop\\University\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא\\V3\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
       "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
       "packagesPath": "C:\\Users\\Itay Bouganim\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
@@ -6964,7 +6969,7 @@
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Itay Bouganim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tomerbit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6977,6 +6982,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
+            "C:\\Users\\tomerbit\\Desktop\\University\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא\\V3\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+              "projectPath": "C:\\Users\\tomerbit\\Desktop\\University\\הנדסת תוכנה\\שנה ג\\סמסטר ב\\סדנא\\V3\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
             "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
               "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
             }
@@ -7010,24 +7017,10 @@
           }
         },
         "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48"
+          "net461"
         ],
         "assetTargetFallback": true,
-        "warn": true,
-        "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "warn": true
       }
     }
   }

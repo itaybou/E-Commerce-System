@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
-    internal class XORDiscountPolicy : CompositeDiscountPolicy
+    public class XORDiscountPolicy : CompositeDiscountPolicy
     {
         public XORDiscountPolicy(Guid ID) : base(ID)
         {
@@ -71,6 +75,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             }
 
             return false; // OR - beacuse if 1/2 satisfied its good, but also if 2/2 satisfied we choose the best of them
+        }
+
+        public override DiscountPolicyModel CreateModel()
+        {
+            List<DiscountPolicyModel> childrenModels = new List<DiscountPolicyModel>();
+            foreach (DiscountPolicy d in this.Children)
+            {
+                childrenModels.Add(d.CreateModel());
+            }
+            return new CompositeDiscountPolicyModel(this._ID, childrenModels, CompositeType.Xor);
         }
     }
 }

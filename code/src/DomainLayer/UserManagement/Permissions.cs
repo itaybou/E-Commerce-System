@@ -2,6 +2,8 @@
 using ECommerceSystem.DataAccessLayer.serializers;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System;
@@ -300,6 +302,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return _store.getAllPurchasePolicyByStoreName();
+
+            }
+            else return null;
+        }
+
         public Guid addMinPriceStorePolicy(double minPrice)
         {
             if (this.canManagePurchasePolicy())
@@ -363,6 +375,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.createOwnerAssignAgreement(assigner, newOwneruserName);
+            }
+            else return null;
+        }
+
         public Guid addAndDiscountPolicy(List<Guid> IDS)
         {
             if (this.canManageDiscounts())
@@ -408,6 +429,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.removeOwner(activeUserID, ownerToRemoveUserName);
+            }
+            else return false;
+        }
+
         public bool removeStoreLevelDiscount(Guid discountID)
         {
             if (this.canManageDiscounts())
@@ -424,6 +454,24 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return Store.StoreName();
             }
             return null;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.getAllStoreLevelDiscounts();
+            }
+            else return null;
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose()
+        {
+            if (this.canManageDiscounts())
+            {
+                return _store.getAllDiscountsForCompose();
+            }
+            else return null;
         }
     }
 }
