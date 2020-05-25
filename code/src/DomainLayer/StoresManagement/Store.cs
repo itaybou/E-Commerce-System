@@ -99,6 +99,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this._purchasePolicy.Add(productPurchasePolicy);
                 this.Inventory.Products.First().ProductList.First().PurchasePolicy = productPurchasePolicy;
+
             }
             return productID;
         }
@@ -631,7 +632,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void EndInit()
         {
-            Permissions.Values.ToList().ForEach(p => p.Store = this);
+            Permissions.Values.ToList().ForEach(p => {
+                if (p.Store == null)
+                    p.Store = this;
+            });
         }
     }
 }

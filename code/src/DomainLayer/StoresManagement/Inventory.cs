@@ -8,27 +8,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class Inventory : IEnumerable<ProductInventory>
     {
-        private List<ProductInventory> _products;
-
-        public List<ProductInventory> Products
-        {
-            get => _products; set => _products = value;
-        }
+        public List<ProductInventory> Products { get; set; }
 
         public Inventory()
         {
-            _products = new List<ProductInventory>();
+            Products = new List<ProductInventory>();
         }
 
         public Inventory(List<ProductInventory> products)
         {
-            _products = products;
+            Products = products;
         }
 
         //Return null if there isn`t product with name
         public ProductInventory getProductByName(string name)
         {
-            foreach (ProductInventory p in _products)
+            foreach (ProductInventory p in Products)
             {
                 if (p.Name.Equals(name))
                 {
@@ -40,7 +35,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Product getProductById(Guid id)
         {
-            foreach (ProductInventory p in _products)
+            foreach (ProductInventory p in Products)
             {
                 foreach (Product prod in p)
                 {
@@ -69,7 +64,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            _products.Add(productInventory);
+            Products.Add(productInventory);
             return productInventory.ID;
         }
 
@@ -82,7 +77,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                _products.Remove(product);
+                Products.Remove(product);
                 return true;
             }
         }
@@ -206,7 +201,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerator<ProductInventory> GetEnumerator()
         {
-            foreach (var product in _products)
+            foreach (var product in Products)
             {
                 yield return product;
             }

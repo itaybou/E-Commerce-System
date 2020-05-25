@@ -120,9 +120,10 @@ namespace PresentationLayer.Controllers.Auth
                     var message = new ActionMessageModel("Logged out successfully.\nSee you later!", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
                 }
-                catch (AuthenticationException e)
+                catch (AuthenticationException)
                 {
-                    return Redirect("~/");
+                    var message = new ActionMessageModel("Oops! Your session has expired. please login again.", Url.Action("Login", "Auth"));
+                    return View("_ActionMessage", message);
                 }
             }
             return Redirect("~/");

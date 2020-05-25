@@ -114,7 +114,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            var result = permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            _data.Stores.Update((Store)permission.Store, storeName, s => s.Name);
+            return result;
         }
 
         //@pre - userID exist and subscribed

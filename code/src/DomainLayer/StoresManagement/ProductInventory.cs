@@ -1,6 +1,7 @@
 using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,51 +11,41 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class ProductInventory : IEnumerable<Product>
     {
-        private readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
+        [BsonIgnore]
+        private static readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
 
-        private Guid _Id;
-        private string _name;
-        private string _description;
-        private Category _category;
-        private double _price;
-        private double _rating;
-        private long _raterCount;
-        private HashSet<string> _keywords;
-        private List<Product> _productInventory;
-
-        public Category Category { get => _category; }
-        public List<string> Keywords { get => _keywords.ToList(); }
-        public double Rating { get => _rating; }
-        public List<Product> ProductList { get => _productInventory; }
-        public Guid ID { get => _Id; }
-        public string Description { get => _description; }
-        public double Price1 { get => _price; }
-        public long RaterCount { get => _raterCount; }
-        public HashSet<string> Keywords1 { get => _keywords; }
-        public string Name { get => _name; set => _name = value; }
+        [BsonId]
+        public Guid ID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Category Category { get; set; }
+        public double Rating { get; set; }
+        public long RaterCount { get; set; }
+        public HashSet<string> Keywords { get; set; }
+        public List<Product> ProductList { get; set; }
 
         public double Price
         {
-            get => _price;
+            get => Price;
             set
             {
-                _price = value;
-                _productInventory.ForEach(p => p.BasePrice = _price);
+                Price = value;
+                ProductList.ForEach(p => p.BasePrice = Price);
             }
         }
 
         public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid)
         {
-            this._name = name;
-            this._category = category;
-            this._price = price;
-            this._description = description;
-            this._productInventory = new List<Product>();
-            this._Id = guid;
-            this._keywords = new HashSet<string>();
-            keywords.ForEach(k => _keywords.Add(k));
-            _raterCount = 0;
-            _rating = 0;
+            this.Name = name;
+            this.Category = category;
+            this.Price = price;
+            this.Description = description;
+            this.ProductList = new List<Product>();
+            this.ID = guid;
+            this.Keywords = new HashSet<string>();
+            keywords.ForEach(k => Keywords.Add(k));
+            RaterCount = 0;
+            Rating = 0;
         }
 
         public static ProductInventory Create(string productName, string description,
@@ -68,13 +59,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             var productGuid = GenerateId();
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid);
             Product newProduct = new Product(productName, description, quantity, price, productGuid);
-            productInventory._productInventory.Add(newProduct);
+            productInventory.ProductList.Add(newProduct);
             return productInventory;
         }
 
         public Product getProducByID(Guid id)
         {
-            foreach (Product p in _productInventory)
+            foreach (Product p in ProductList)
             {
                 if (p.Id.Equals(id))
                 {
@@ -87,7 +78,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public void modifyName(string newProductName)
         {
             this.Name = newProductName;
-            foreach (Product p in _productInventory)
+            foreach (Product p in ProductList)
             {
                 p.Name = newProductName;
             }
@@ -119,7 +110,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            _productInventory.Remove(product);
+            ProductList.Remove(product);
             return true;
         }
 
@@ -130,7 +121,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
             var guid = GenerateId();
-            _productInventory.Add(new Product(Name, Description, quantity, price, guid));
+            ProductList.Add(new Product(Name, Description, quantity, price, guid));
             return guid;
         }
 
@@ -168,10 +159,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void rateProduct(double rating)
         {
-            ++_raterCount;
+            ++RaterCount;
             rating = RATING_RANGE.inRange(rating) ? rating :
                      rating < RATING_RANGE.min ? RATING_RANGE.min : RATING_RANGE.max;
-            _rating = ((_rating * (_raterCount - 1)) + rating) / _raterCount;
+            Rating = ((Rating * (RaterCount - 1)) + rating) / RaterCount;
         }
 
         private static Guid GenerateId()
@@ -181,7 +172,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerator<Product> GetEnumerator()
         {
-            foreach (var product in _productInventory)
+            foreach (var product in ProductList)
             {
                 yield return product;
             }

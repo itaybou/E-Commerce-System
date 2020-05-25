@@ -214,6 +214,7 @@
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
+    <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
     <Compile Include="Models\notifications\AssignManagerNotification.cs" />
@@ -270,7 +271,9 @@
     <Compile Include="ServiceLayer\ServiceFacade.cs" />
     <Compile Include="CommunicationLayer\sessions\ISessionController.cs" />
     <Compile Include="CommunicationLayer\sessions\SessionController.cs" />
+    <Compile Include="Utilities\attributes\StringValueAttribute.cs" />
     <Compile Include="Utilities\EnumMethods.cs" />
+    <Compile Include="Utilities\extensions\EnumExtensions.cs" />
     <Compile Include="Utilities\Range.cs" />
     <Compile Include="ServiceLayer\SystemServices.cs" />
     <Compile Include="ServiceLayer\UserServices.cs" />

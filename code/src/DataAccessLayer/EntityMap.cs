@@ -21,47 +21,30 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             BsonClassMap.RegisterClassMap<Store>(store =>
             {
                 store.AutoMap();
-                //store.MapIdMember(s => s.Name);
-                //user.MapProperty(u => u.Cart).SetElementName("cart");
-                //user.MapProperty(u => u.State).SetElementName("state");
+                store.MapIdMember(s => s.Name);
             });
 
             BsonClassMap.RegisterClassMap<User>(user =>
             {
                 user.AutoMap();
                 user.MapIdMember(u => u.Guid);
-                user.MapProperty(u => u.Cart).SetElementName("cart");
-                user.MapProperty(u => u.State).SetElementName("state");
             });
 
             BsonClassMap.RegisterClassMap<Subscribed>(user =>
             {
                 user.SetDiscriminator("Subscribed");
                 user.AutoMap();
-                //user.SetIgnoreExtraElements(true);
-                //user.MapCreator(u => new Subscribed(u._uname, u._pswd, u._details.Fname, u._details.Lname, u._details.Email));
             });
 
             BsonClassMap.RegisterClassMap<SystemAdmin>(admin =>
             {
                 admin.SetDiscriminator("Admin");
                 admin.AutoMap();
-                //admin.MapCreator(u => new SystemAdmin(u._uname, u._pswd, u._details.Fname, u._details.Lname, u._details.Email));
             });
 
             BsonClassMap.RegisterClassMap<UserDetails>();
-
-            //BsonClassMap.RegisterClassMap<UserDetails>(user => {
-            //    user.AutoMap();
-            //    user.MapProperty(u => u.Fname).SetElementName("first_name");
-            //    user.MapProperty(u => u.Lname).SetElementName("last_name");
-            //    user.MapProperty(u => u.Email).SetElementName("email");
-            //});
-
             BsonClassMap.RegisterClassMap<UserShoppingCart>();
-
             BsonClassMap.RegisterClassMap<StoreShoppingCart>();
-            //BsonClassMap.RegisterClassMap<Product>();
         }
     }
 }

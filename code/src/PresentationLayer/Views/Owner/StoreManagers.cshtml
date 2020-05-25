@@ -1,12 +1,13 @@
 ﻿@using ECommerceSystem.Models;
+@using ECommerceSystem.Utilities.extensions;
 @model (IEnumerable<(UserModel, PermissionModel)>, string)
 @{
     var users = Model.Item1;
     var storeName = Model.Item2;
     ViewData["Title"] = "Store Managers - " + storeName;
     ViewData["StoreName"] = storeName;
-    var permissionTypes = PermissionType.Descriptions().Keys;
-    var permissionTypesEnum = PermissionType.Descriptions().Values;
+    var permissionTypeEnum = Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>();
+    var permissionTypes = permissionTypeEnum.ToDictionary(k => k.GetStringValue(), v => v);
 }
 
 <input id="store" name="store" type="hidden" value="@storeName" />
@@ -165,7 +166,7 @@
                                             {
 
                                                 <li>
-                                                    <small><b>@permission.Value</b></small>
+                                                    <small><b>@permission.GetStringValue()</b></small>
                                                 </li>
 
                                             }
@@ -173,11 +174,11 @@
                                     </td>
                                     <td style="width: 8%">
                                         @{
-                                            var perms = new bool[permissionTypesEnum.Count];
+                                            var perms = new bool[permissionTypeEnum.Count()];
                                             var userPermissions = userPerm.Item2.PermissionTypes.ToList();
-                                            for (var i = 0; i < permissionTypesEnum.Count; i++)
+                                            for (var i = 0; i < permissionTypeEnum.Count(); i++)
                                             {
-                                                if (userPermissions.Contains(permissionTypesEnum.ElementAt(i)))
+                                                if (userPermissions.Contains(permissionTypeEnum.ElementAt(i)))
                                                     perms[i] = true;
                                             }
                                             var permStr = string.Join(",", perms);

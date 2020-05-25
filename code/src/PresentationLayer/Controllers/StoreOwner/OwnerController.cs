@@ -6,6 +6,7 @@ using PresentationLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceSystem.Utilities.extensions;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -115,8 +116,9 @@ namespace PresentationLayer.Controllers.StoreOwner
             var session = new Guid(HttpContext.Session.Id);
             List<PermissionType> givenPermissions = new List<PermissionType>();
             var assignUsername = Request.Form["assignUsername"].ToString();
-            var permissionTypes = PermissionType.Descriptions();
-            for (var i = 0; i < PermissionType.Descriptions().Count(); ++i)
+            var permissionTypeEnums = Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>();
+            var permissionTypes = permissionTypeEnums.ToDictionary(k => k.GetStringValue(), v => v);
+            for (var i = 0; i < permissionTypeEnums.Count(); ++i)
             {
                 if (Request.Form.ContainsKey("permission_" + i))
                 {
@@ -154,8 +156,9 @@ namespace PresentationLayer.Controllers.StoreOwner
             var session = new Guid(HttpContext.Session.Id);
             List<PermissionType> givenPermissions = new List<PermissionType>();
             var editUsername = Request.Form["editUsername"].ToString();
-            var permissionTypes = PermissionType.Descriptions();
-            for (var i = 0; i < permissionTypes.Count(); ++i)
+            var permissionTypeEnums = Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>();
+            var permissionTypes = permissionTypeEnums.ToDictionary(k => k.GetStringValue(), v => v);
+            for (var i = 0; i < permissionTypeEnums.Count(); ++i)
             {
                 if (Request.Form.ContainsKey("permission2_" + i))
                 {

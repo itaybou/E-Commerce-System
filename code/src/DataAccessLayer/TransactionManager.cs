@@ -1,6 +1,7 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Exceptions;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
@@ -30,9 +31,10 @@ namespace ECommerceSystem.DataAccessLayer
                     transactionLogic();
                     await session.CommitTransactionAsync();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     await session.AbortTransactionAsync();
+                    throw new DatabaseException("Database transaction error: transaction aborted.");
                 }
             }
         }
