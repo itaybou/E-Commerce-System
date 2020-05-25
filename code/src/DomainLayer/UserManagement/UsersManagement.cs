@@ -122,7 +122,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return false;
             if (productToChange.Quantity >= quantity)
             {
-                var storeCart = cart.StoreCarts.Find(cart => cart.ProductQuantities.ContainsKey(productToChange.Id));
+                var storeCart = cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToChange.Id));
                 if (quantity.Equals(0))
                     storeCart.RemoveFromCart(productToChange);
                 else storeCart.ChangeProductQuantity(productToChange, quantity);
@@ -141,7 +141,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var productToRemove = cartProducts.Find(prod => prod.Id.Equals(productId));
             if (productToRemove == null)
                 return false;
-            cart.StoreCarts.Find(cart => cart.ProductQuantities.ContainsKey(productToRemove.Id)).RemoveFromCart(productToRemove);
+            cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToRemove.Id)).RemoveFromCart(productToRemove);
             _data.Users.Update(user, userID, u => u.Guid);
             return true;
         }
