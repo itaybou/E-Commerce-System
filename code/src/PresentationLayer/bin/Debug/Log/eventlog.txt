@@ -1154,3 +1154,6 @@
 2020-05-25 17:23:01.1901 | getProductInventory, (0, Guid, prodID, d2813ed1-faad-4b4f-ac35-250e2e69be66)
 2020-05-25 17:23:07.5805 | getProductInventory, (0, Guid, prodID, d2813ed1-faad-4b4f-ac35-250e2e69be66)
 2020-05-25 17:23:34.9017 | getProductInventory, (0, Guid, prodID, d2813ed1-faad-4b4f-ac35-250e2e69be66)
+2020-05-25 17:37:17.0794 | getAllProducts, (0, String, category, , 1, Range`1, priceFilter, ECommerceSystem.Utilities.Range`1[System.Double], 2, Range`1, storeRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double], 3, Range`1, productRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double])
+2020-05-25 17:38:06.0850 | getAllProducts, (0, String, category, AUTOMOTIVE, 1, Range`1, priceFilter, ECommerceSystem.Utilities.Range`1[System.Double], 2, Range`1, storeRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double], 3, Range`1, productRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double])
+2020-05-25 17:38:11.1075 | getAllProducts, (0, String, category, SPORTS, 1, Range`1, priceFilter, ECommerceSystem.Utilities.Range`1[System.Double], 2, Range`1, storeRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double], 3, Range`1, productRatingFilter, ECommerceSystem.Utilities.Range`1[System.Double])
