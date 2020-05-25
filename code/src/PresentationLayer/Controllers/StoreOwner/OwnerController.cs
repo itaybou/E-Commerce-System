@@ -99,14 +99,14 @@ namespace PresentationLayer.Controllers.StoreOwner
             var assignUsername = Request.Form["assignUsername"].ToString();
             if (!String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
             {
-                if (!_service.assignOwner(session, assignUsername, storeName))
+                if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) != Guid.Empty)
                 {
                     ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
                 }
             }
             else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
-            var owners = _service.getStoreOwners(storeName);
-            return View("../Owner/StoreOwners", owners);
+            var message = new ActionMessageModel("Your request has benn sent for approval.", Url.Action("StoreOwners", "Owner"));
+            return View("_ActionMessage", message);
         }
 
         [Authorize(Roles = "Admin, Subscribed")]

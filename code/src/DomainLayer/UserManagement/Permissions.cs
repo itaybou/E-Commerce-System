@@ -306,7 +306,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManagePurchasePolicy())
             {
-                return _store.getAllPurchasePolicyByStoreName();
+                return Store.getAllPurchasePolicyByStoreName();
 
             }
             else return null;
@@ -379,7 +379,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.createOwnerAssignAgreement(assigner, newOwneruserName);
+                return Store.createOwnerAssignAgreement(assigner, newOwneruserName);
             }
             else return null;
         }
@@ -433,7 +433,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.isOwner())
             {
-                return _store.removeOwner(activeUserID, ownerToRemoveUserName);
+                return Store.removeOwner(activeUserID, ownerToRemoveUserName);
             }
             else return false;
         }
@@ -460,7 +460,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.getAllStoreLevelDiscounts();
+                return Store.getAllStoreLevelDiscounts();
             }
             else return null;
         }
@@ -469,7 +469,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return _store.getAllDiscountsForCompose();
+                return Store.getAllDiscountsForCompose();
             }
             else return null;
         }

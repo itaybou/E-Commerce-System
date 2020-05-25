@@ -138,8 +138,8 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             //check that the another owner and the owner that assined by abother owner dont have permissions to the store
             Assert.IsNull(_anotherOwner.getPermission("store"));
             Assert.IsNull(ownerAssignedByAnotherOwner.getPermission("store"));
-            Assert.IsFalse(_store.Premmisions.ContainsKey(_anotherOwner.Name()));
-            Assert.IsFalse(_store.Premmisions.ContainsKey(ownerAssignedByAnotherOwner.Name()));
+            Assert.IsFalse(_store.StorePermissions.ContainsKey(_anotherOwner.Name));
+            Assert.IsFalse(_store.StorePermissions.ContainsKey(ownerAssignedByAnotherOwner.Name));
 
             //check that owner dont have other owner as asignee
             Assert.IsFalse(_owner.getAssigneesOfStore("store").Contains(_anotherOwnerGUID));

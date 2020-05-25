@@ -234,22 +234,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void addAssignee(Guid userID, string storeName, Guid assigneeID)
         {
-            getUserByGUID(userID).addAssignee(storeName, assigneeID);
+            getUserByGUID(userID, true).addAssignee(storeName, assigneeID);
         }
 
         public bool removeAssignee(Guid userID, string storeName, Guid assigneeID)
         {
-            return getUserByGUID(userID).removeAssignee(storeName, assigneeID);
+            return getUserByGUID(userID, true).removeAssignee(storeName, assigneeID);
         }
 
         public List<Guid> getAssigneesOfStore(Guid userID, string storeName)
         {
-            return getUserByGUID(userID).getAssigneesOfStore(storeName);
+            return getUserByGUID(userID, true).getAssigneesOfStore(storeName);
         }
 
         public void removeAllAssigneeOfStore(Guid userID, string storeName)
         {
-            getUserByGUID(userID).removeAllAssigneeOfStore(storeName);
+            getUserByGUID(userID, true).removeAllAssigneeOfStore(storeName);
         }
     }
 }

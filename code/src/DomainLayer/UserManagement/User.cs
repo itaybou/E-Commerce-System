@@ -65,22 +65,22 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void addAssignee(string storeName, Guid assigneeID)
         {
-            _state.addAssignee(storeName, assigneeID);
+            State.addAssignee(storeName, assigneeID);
         }
 
         public bool removeAssignee(string storeName, Guid assigneeID)
         {
-            return _state.removeAssignee(storeName, assigneeID);
+            return State.removeAssignee(storeName, assigneeID);
         }
 
         public List<Guid> getAssigneesOfStore(string storeName)
         {
-            return _state.getAssigneesOfStore(storeName);
+            return State.getAssigneesOfStore(storeName);
         }
 
         public void removeAllAssigneeOfStore(string storeName)
         {
-            _state.removeAllAssigneeOfStore(storeName);
+            State.removeAllAssigneeOfStore(storeName);
         }
     }
 }

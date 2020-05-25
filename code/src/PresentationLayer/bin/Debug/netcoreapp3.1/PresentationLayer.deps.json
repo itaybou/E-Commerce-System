@@ -1749,22 +1749,6 @@
           "ECommerceSystem.exe": {}
         }
       },
-      "NLog/4.0.0.0": {
-        "runtime": {
-          "NLog.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.7.0.11381"
-          }
-        }
-      },
-      "PostSharp/6.5.6.0": {
-        "runtime": {
-          "PostSharp.dll": {
-            "assemblyVersion": "6.5.6.0",
-            "fileVersion": "6.5.6.0"
-          }
-        }
-      },
       "MongoDB.Driver/2.10.4.0": {
         "runtime": {
           "MongoDB.Driver.dll": {
@@ -1778,6 +1762,22 @@
           "MongoDB.Bson.dll": {
             "assemblyVersion": "2.10.4.0",
             "fileVersion": "2.10.4.0"
+          }
+        }
+      },
+      "NLog/4.0.0.0": {
+        "runtime": {
+          "NLog.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.7.0.11381"
+          }
+        }
+      },
+      "PostSharp/6.5.6.0": {
+        "runtime": {
+          "PostSharp.dll": {
+            "assemblyVersion": "6.5.6.0",
+            "fileVersion": "6.5.6.0"
           }
         }
       },
@@ -4478,22 +4478,22 @@
       "serviceable": false,
       "sha512": ""
     },
-    "NLog/4.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PostSharp/6.5.6.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "MongoDB.Driver/2.10.4.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "MongoDB.Bson/2.10.4.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NLog/4.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PostSharp/6.5.6.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

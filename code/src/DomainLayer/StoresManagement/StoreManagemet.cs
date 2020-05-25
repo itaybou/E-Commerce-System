@@ -37,7 +37,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 if (store.Name.Equals(storeName))
                 {
-                    return store.Permissions;
+                    return store.StorePermissions;
                 }
                 return null;
             });
@@ -345,16 +345,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User approver = _userManagement.getUserByGUID(userID);
+            User approver = _userManagement.getUserByGUID(userID, true);
 
-            if (!store.approveAssignOwnerRequest(approver.Name(), assignOwnerAgreement))
+            if (!store.approveAssignOwnerRequest(approver.Name, assignOwnerAgreement))
             {
                 return false;
             }
 
             if (assignOwnerAgreement.isDone())
             {
-                assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID), assignOwnerAgreement.AsigneeUserName, storeName);
+                assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
             }
 
             return true;
@@ -374,15 +374,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User disapprover = _userManagement.getUserByGUID(userID);
+            User disapprover = _userManagement.getUserByGUID(userID, true);
 
-            if (!store.disapproveAssignOwnerRequest(disapprover.Name(), assignOwnerAgreement))
+            if (!store.disapproveAssignOwnerRequest(disapprover.Name, assignOwnerAgreement))
             {
                 return false;
             }
 
             //send disapprove notification to the assignee and assigner
-            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name(), storeName);
+            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name, storeName);
             _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
             _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
             return true;
@@ -399,7 +399,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
                 _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
 
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name, storeName));
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name, storeName));
                 return true;
             }
             else
@@ -441,7 +441,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name()))
+            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name))
             {
                 //remove all the owners\managers that the removed owner assign
                 List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
@@ -449,21 +449,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 {
                     foreach (Guid assigneeID in assignedByRemovedOwner)
                     {
-                        User assigneeUser = _userManagement.getUserByGUID(assigneeID);
+                        User assigneeUser = _userManagement.getUserByGUID(assigneeID, true);
                         Permissions asigneePermissions = assigneeUser.getPermission(storeName);
 
                         if (asigneePermissions.isOwner())
                         {
-                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID), storeName);
+                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID, true), storeName);
                         }
                         else
                         {
-                            output = output && removeManager(toRemove.Guid, assigneeUser.Name(), storeName);
+                            output = output && removeManager(toRemove.Guid, assigneeUser.Name, storeName);
                         }
                     }
                     _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
                 }
-                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name())); //remove permissions object from the user  
+                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name)); //remove permissions object from the user  
                 return output;
             }
             else return false;
@@ -652,7 +652,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public void sendPurchaseNotification(Store store, string username)
         {
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string manager in store.Premmisions.Keys) //for each owner/manager
+            foreach (string manager in store.StorePermissions.Keys) //for each owner/manager
             {
                 notificationsUsers.Add(_userManagement.getUserByName(manager).Guid);
             }

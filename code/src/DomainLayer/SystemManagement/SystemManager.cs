@@ -38,11 +38,12 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             {
                 if (_transactionManager.supplyTransaction(allProducts, address))  // supply all prodcuts by quantity
                 {
+                    var user = _userManagement.getUserByGUID(userID, false);
                     foreach (var (store, storePayment, storeBoughtProducts) in storeProducts)                                                             // send payment to all stores bought from
                     {
                         _transactionManager.sendPayment(store, storePayment);
-                        _storeManagement.logStorePurchase(store, _userManagement.getUserByGUID(userID), storePayment, storeBoughtProducts);
-                        _storeManagement.sendPurchaseNotification(store, _userManagement.getUserByGUID(userID).Name()); //send notification to all managers and owners of the store about the purchase
+                        _storeManagement.logStorePurchase(store, user, storePayment, storeBoughtProducts);
+                        _storeManagement.sendPurchaseNotification(store, user.Name); //send notification to all managers and owners of the store about the purchase
                     }
                     purchased = true;
                 }
@@ -70,7 +71,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
 
-            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID));                                                                                        // User shopping cart
+            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID, false));                                                                                        // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
 
             //check that the cart satisfy the stores purchase policy

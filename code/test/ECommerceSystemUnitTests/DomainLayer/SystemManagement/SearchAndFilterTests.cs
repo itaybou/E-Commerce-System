@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
 using Moq;
@@ -20,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         {
             //_prodIDCounter = 0;
             //_prodInvID = 0;
-
+            DataAccess.Instance.InitializeTestDatabase();
             var purchasePolicy = new ImmediatePurchase();
             _products = new List<ProductInventory>()
             {
@@ -43,13 +44,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _mock.Setup(s => s.getProductInventories(null)).Returns(_products);
             store = new Store("owner", "store1");
             store.Inventory.Products = _products;
-            StoreManagement.Instance.Stores.Add(store);
+            DataAccess.Instance.Stores.Insert(store);
         }
 
         [TearDown]
         public void tearDown()
         {
-            StoreManagement.Instance.Stores.Clear();
+            DataAccess.Instance.DropTestDatabase();
         }
 
         [Test()]

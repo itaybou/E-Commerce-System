@@ -16,8 +16,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public UserDetails Details { get; set; }
         public List<UserPurchase> PurchaseHistory { get; set; }
 
-        private Dictionary<string, Permissions> _permisions;  //store name --> permission
-        private Dictionary<string, List<Guid>> _assignees;  //store name --> list of the owners\managers that this user assign
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign
+
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, Permissions> Permissions { get; set; }
 
@@ -28,12 +29,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             Details = new UserDetails(fname, lname, email);
             PurchaseHistory = new List<UserPurchase>();
             Permissions = new Dictionary<string, Permissions>();
-            _uname = uname;
-            _pswd = pswd;
-            _details = new UserDetails(fname, lname, email);
-            _purchaseHistory = new List<UserPurchase>();
-            _permisions = new Dictionary<string, Permissions>();
-            _assignees = new Dictionary<string, List<Guid>>();
+            Assignees = new Dictionary<string, List<Guid>>();
         }
 
         public bool isSubscribed()
@@ -53,9 +49,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public Permissions getPermission(string storeName)
         {
-            if (_permisions.ContainsKey(storeName))
+            if (Permissions.ContainsKey(storeName))
             {
-                return _permisions[storeName];
+                return Permissions[storeName];
             }
             else return null;
         }
@@ -88,14 +84,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void addAssignee(string storeName, Guid assigneeID)
         {
-            if (!_assignees.ContainsKey(storeName))
+            if (!Assignees.ContainsKey(storeName))
             {
                 List<Guid> assgneedList = new List<Guid>() { assigneeID };
-                _assignees.Add(storeName, assgneedList);
+                Assignees.Add(storeName, assgneedList);
             }
             else
             {
-                _assignees[storeName].Add(assigneeID);
+                Assignees[storeName].Add(assigneeID);
             }
         }
 
@@ -114,16 +110,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         }
         public bool removeAssignee(string storeName, Guid assigneeID)
         {
-            if (!_assignees.ContainsKey(storeName) || _assignees[storeName] == null || !_assignees[storeName].Contains(assigneeID))
+            if (!Assignees.ContainsKey(storeName) || Assignees[storeName] == null || !Assignees[storeName].Contains(assigneeID))
             {
                 return false;
             }
             else
             {
-                _assignees[storeName].Remove(assigneeID);
-                if(_assignees[storeName].Count == 0)
+                Assignees[storeName].Remove(assigneeID);
+                if(Assignees[storeName].Count == 0)
                 {
-                    _assignees.Remove(storeName);
+                    Assignees.Remove(storeName);
                 }
                 return true;
             }
@@ -131,19 +127,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public List<Guid> getAssigneesOfStore(string storeName)
         {
-            if (!_assignees.ContainsKey(storeName))
+            if (!Assignees.ContainsKey(storeName))
             {
                 return null; 
             }
             else
             {
-                return _assignees[storeName];
+                return Assignees[storeName];
             }
         }
 
         public void removeAllAssigneeOfStore(string storeName)
         {
-            _assignees.Remove(storeName);
+            Assignees.Remove(storeName);
         }
     }
 }

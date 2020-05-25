@@ -1,5 +1,5 @@
 ﻿@using ECommerceSystem.Models;
-@model (Dictionary<StoreModel, List<ProductModel>>, IDictionary<string, PermissionModel>)
+@model (Dictionary<StoreModel, List<ProductInventoryModel>>, IDictionary<string, PermissionModel>)
 @{
     ViewData["Title"] = "My Stores";
     var StoreProducts = Model.Item1;

@@ -190,3 +190,6 @@
 2020-05-25 15:56:24.6008 | ERROR: Missing spell checker dictionary file!
 2020-05-25 16:39:09.1553 | ERROR: Missing spell checker dictionary file!
 2020-05-25 17:02:44.6525 | ERROR: Missing spell checker dictionary file!
+2020-05-25 18:43:36.8314 | ERROR: Missing spell checker dictionary file!
+2020-05-25 19:17:25.4599 | ERROR: Missing spell checker dictionary file!
+2020-05-25 19:40:46.9428 | ERROR: Missing spell checker dictionary file!
