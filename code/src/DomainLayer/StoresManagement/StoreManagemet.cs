@@ -67,7 +67,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         // If the user isn`t subscribed return null
         private User isUserIDSubscribed(Guid userID)
         {
-            var user = _userManagement.getUserByGUID(userID);
+            var user = _userManagement.getUserByGUID(userID, false);
             return user.isSubscribed() ? user : null;
         }
 
@@ -387,20 +387,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
         }
 
-        public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreProducts(string storeName)
         {
             var info = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
-            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
+            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProductInventory(p)).ToList());
         }
 
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresProducts()
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresProducts()
         {
-            var storeProdcuts = new Dictionary<StoreModel, List<ProductModel>>();
+            var storeProdcuts = new Dictionary<StoreModel, List<ProductInventoryModel>>();
             _data.Stores.FetchAll().ToList().ForEach(s =>
                 {
                     var storeInfo = s.getStoreInfo();
                     storeProdcuts.Add(ModelFactory.CreateStore(storeInfo.Item1),
-                            storeInfo.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
+                            storeInfo.Item2.Select(p => ModelFactory.CreateProductInventory(p)).ToList());
                 }
             );
             return storeProdcuts;
@@ -417,18 +417,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return allProducts;
         }
 
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             var stores = _data.Stores.FetchAll();
             foreach (Store store in stores)
             {
-                foreach (var prodInv in store.Inventory)
+                foreach (var prodInv in store.Inventory.Products)
                 {
-                    foreach (var prod in prodInv.ProductList)
-                    {
-                        if (prod.Id.Equals(prodID))
-                            return (ModelFactory.CreateProduct(prodInv.ProductList.First()), store.Name);
-                    }
+                    if (prodInv.ID.Equals(prodID))
+                        return (ModelFactory.CreateProductInventory(prodInv), store.Name);
+                    
                 }
             }
             return (null, null);
@@ -437,7 +435,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProducts = new List<ProductInventory>();
-            var stores = _data.Stores.FindAllBy(s => storeRatingFilter.inRange(s.Rating));
+            var stores = _data.Stores.FindAllBy(s => s.Rating.CompareTo(storeRatingFilter.min) >= 0 && s.Rating.CompareTo(storeRatingFilter.max) <= 0);
             foreach (Store store in stores)
             {
                 allProducts = allProducts.Concat(store.Inventory.Products).ToList();
@@ -447,7 +445,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User activeUser = _userManagement.getUserByGUID(userID);
+            User activeUser = _userManagement.getUserByGUID(userID, true);
             if (activeUser == null)
             {
                 return null;
@@ -487,7 +485,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
         {
-            var user = _userManagement.getUserByGUID(userID);
+            var user = _userManagement.getUserByGUID(userID, true);
             var dict = _data.Stores.FetchAll().ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name)).
                 Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
             return dict;

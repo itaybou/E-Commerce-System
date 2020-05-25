@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("alive", "alive");
             return View();
         }
 

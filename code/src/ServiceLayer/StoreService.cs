@@ -25,13 +25,13 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 2.4
-        public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName)
         {
             return _storeManagement.getStoreProducts(storeName);
         }
 
         [Trace("Info")]
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo()
         {
             return _storeManagement.getAllStoresProducts();
         }
@@ -274,7 +274,7 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeManagement.getProductInventory(prodID);
         }

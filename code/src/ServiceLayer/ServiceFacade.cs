@@ -69,12 +69,12 @@ namespace ECommerceSystem.ServiceLayer
             return _systemServices.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo()
         {
             return _storeServices.getAllStoresInfo();
         }
 
-        public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName)
         {
             return _storeServices.getStoreInfo(storeName);
         }
@@ -224,7 +224,7 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.getUsernamePermissionTypes(storeName, username);
         }
 
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeServices.getProductInventory(prodID);
         }

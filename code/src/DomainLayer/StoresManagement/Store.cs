@@ -43,29 +43,31 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._discountsMap = new Dictionary<Guid, DiscountPolicy>();
         }
 
-        public double getTotalPrice(Dictionary<Product, int> productQuantities)
+        public double getTotalPrice(Dictionary<Guid, Tuple<Product, int>> productQuantities)
         {
             double totalPrice = 0;
             Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products = new Dictionary<Guid, (double, int, double)>(); //productID => basePrice, quantity, total price per product
 
             //make the data structure Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> for calc the complexive discounts
-            foreach (KeyValuePair<Product, int> pair in productQuantities)
+            foreach (var prod in productQuantities)
             {
-                double basePrice = pair.Key.BasePrice;
-                int quantity = pair.Value;
+                var pair = prod.Value;
+                double basePrice = pair.Item1.BasePrice;
+                int quantity = pair.Item2;
                 double totalPriceProd = basePrice * quantity;
-                products.Add(pair.Key.Id, (basePrice, quantity, totalPriceProd));
+                products.Add(pair.Item1.Id, (basePrice, quantity, totalPriceProd));
             }
 
             //calc the complexive discounts on the tree:
             _discountPolicy.calculateTotalPrice(products);
 
             //calc the simple discounts:
-            foreach (var p in productQuantities)
+            foreach (var prod in productQuantities)
             {
-                if (p.Key.Discount != null && !p.Key.Discount.IsInComposite)
+                var p = prod.Value;
+                if (p.Item1.Discount != null && !p.Item1.Discount.IsInComposite)
                 {
-                    p.Key.Discount.calculateTotalPrice(products);
+                    p.Item1.Discount.calculateTotalPrice(products);
                 }
             }
 
@@ -268,10 +270,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return true;
         }
 
-        public Tuple<Store, List<Product>> getStoreInfo()
+        public Tuple<Store, List<ProductInventory>> getStoreInfo()
         {
-            var prods = Inventory.SelectMany(p => p).ToList();
-            return new Tuple<Store, List<Product>>(this, prods);
+            return new Tuple<Store, List<ProductInventory>>(this, Inventory.Products);
         }
 
         public void rateStore(double rating)

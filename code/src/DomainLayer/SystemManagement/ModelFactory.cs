@@ -17,10 +17,15 @@ namespace ECommerceSystem.Models
             return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount());
         }
 
+        public static ProductInventoryModel CreateProductInventory(ProductInventory prod)
+        {
+            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords);
+        }
+
         public static SearchResultModel CreateSearchResult(List<ProductInventory> prods, List<string> suggestions)
         {
-            var products = new List<ProductModel>();
-            prods.ForEach(prod => prod.ProductList.ForEach(p => products.Add(new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount()))));
+            var products = new List<ProductInventoryModel>();
+            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords)));
             return new SearchResultModel(products, suggestions);
         }
 
@@ -32,14 +37,14 @@ namespace ECommerceSystem.Models
         public static ShoppingCartModel CreateShoppingCart(UserShoppingCart cart)
         {
             var cartModel = new Dictionary<StoreModel, ICollection<(ProductModel, int)>>();
-            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.store), s.Products.ToList().Select(p => (CreateProduct(p.Key), p.Value)).ToList()));
+            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.Store), s.ProductQuantities.ToList().Select(p => (CreateProduct(p.Value.Item1), p.Value.Item2)).ToList()));
             return new ShoppingCartModel(cartModel);
         }
 
         public static UserPurchaseModel CreateUserPurchase(UserPurchase purcahse)
         {
             return new UserPurchaseModel(purcahse.PurchaseDate, purcahse.TotalPrice, purcahse.ProductsPurchased.Select(p => CreateProduct(p)).ToList(),
-                purcahse.PaymentShippingMethod.FirstName, purcahse.PaymentShippingMethod.LastName, purcahse.PaymentShippingMethod.Id,
+                purcahse.PaymentShippingMethod.Firstname, purcahse.PaymentShippingMethod.Lastname, purcahse.PaymentShippingMethod.Id,
                 purcahse.PaymentShippingMethod.CreditCardNumber, purcahse.PaymentShippingMethod.ExpirationCreditCard,
                 purcahse.PaymentShippingMethod.CVV, purcahse.PaymentShippingMethod.Address);
         }

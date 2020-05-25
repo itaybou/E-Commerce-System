@@ -13,12 +13,14 @@ namespace ECommerceSystem.DataAccessLayer
         private MongoClient _client;
         private IUserRepository _users;
         private IStoreRepository _stores;
+        private IProductRepository _products;
 
-        public TransactionManager(MongoClient client, IUserRepository users, IStoreRepository stores)
+        public TransactionManager(MongoClient client, IUserRepository users, IStoreRepository stores, IProductRepository products)
         {
             _client = client;
             _users = users;
             _stores = stores;
+            _products = products;
         }
 
         private async Task BaseTransactionAsync(Action transactionLogic)

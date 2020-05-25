@@ -42,7 +42,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     {
                         storeBoughtProducts.ToList().ForEach(prod => store.reduceProductQuantity(prod.Key, prod.Value));
                         _transactionManager.sendPayment(store, storePayment);
-                        _storeManagement.logStorePurchase(store, _userManagement.getUserByGUID(userID), storePayment, storeBoughtProducts);
+                        _storeManagement.logStorePurchase(store, _userManagement.getUserByGUID(userID, false), storePayment, storeBoughtProducts);
                     }
                     purchased = true;
                 }
@@ -51,7 +51,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     SystemLogger.LogError("Refund transaction failed to credit card: " + creditCardNumber);
                 }
             }
-            if (purchased)
+            if (purchased && _userManagement.getUserByGUID(userID, false).isSubscribed())
                 _userManagement.logUserPurchase(userID, totalPrice, allProducts, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             return purchased;
         }
@@ -70,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
-            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID));                                                                                        // User shopping cart
+            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID, false));                                                                                        // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
 
             //check that the cart satisfy the stores purchase policy

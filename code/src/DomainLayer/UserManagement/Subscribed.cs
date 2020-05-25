@@ -1,10 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using ECommerceSystem.DataAccessLayer;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public class Subscribed : IUserState
+    public class Subscribed : IUserState, ISupportInitialize
     {
         public string Username { get; set; }
         public string Password { get; set; }
@@ -69,6 +71,20 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return Permissions[storeName];
             }
             else return null;
+        }
+
+        public void BeginInit()
+        {
+            return;
+        }
+
+        public void EndInit()
+        {
+            foreach(var perm in Permissions)
+            {
+                if (perm.Value.Store == null)
+                    perm.Value.Store = DataAccess.Instance.Stores.GetByIdOrNull(perm.Key, s => s.Name);
+            }
         }
     }
 }

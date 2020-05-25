@@ -23,7 +23,7 @@ namespace ECommerceSystem.DataAccessLayer
         {
             EntityMap.RegisterClassMaps();
             Context = new DbContext(ConnectionString, DatabaseName, TestDatabaseName);
-            Transactions = new TransactionManager(Context.Client(), Users, Stores);
+            Transactions = new TransactionManager(Context.Client(), Users, Stores, Products);
             InitializeDatabase();
         }
 
@@ -33,6 +33,8 @@ namespace ECommerceSystem.DataAccessLayer
                 Context.Database().CreateCollection(nameof(Users));
             if (!CollectionExists(nameof(Stores)))
                 Context.Database().CreateCollection(nameof(Stores));
+            if (!CollectionExists(nameof(Products)))
+                Context.Database().CreateCollection(nameof(Products));
         }
 
         private bool CollectionExists(string collectionName)
@@ -64,6 +66,17 @@ namespace ECommerceSystem.DataAccessLayer
                 if (stores == null)
                     stores = new StoresCacheProxy(Context, nameof(Stores));
                 return stores;
+            }
+        }
+
+        private IProductRepository products;
+        public IProductRepository Products
+        {
+            get
+            {
+                if (products == null)
+                    products = new ProductCacheProxy(Context, nameof(Products));
+                return products;
             }
         }
     }

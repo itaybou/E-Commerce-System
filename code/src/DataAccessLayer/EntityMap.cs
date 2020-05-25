@@ -3,6 +3,8 @@ using ECommerceSystem.DomainLayer.UserManagement;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization.Serializers;
+using System;
 using static ECommerceSystem.DomainLayer.UserManagement.Subscribed;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
@@ -16,7 +18,8 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             ConventionRegistry.Register("EnumStringConvention", pack, t => true);
             pack = new ConventionPack() { new IgnoreExtraElementsConvention(true) };
             ConventionRegistry.Register("IgnoreExtraElementsConvention", pack, t => true);
-            //BsonSerializer.RegisterSerializer(typeof(IStoreInterface), BsonSerializer.LookupSerializer<Store>());
+            BsonSerializer.RegisterSerializer(typeof(Guid), new GuidSerializer(BsonType.String));
+            BsonSerializer.RegisterSerializer(typeof(Tuple), new GuidSerializer(BsonType.String));
 
             BsonClassMap.RegisterClassMap<Store>(store =>
             {
@@ -45,6 +48,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             BsonClassMap.RegisterClassMap<UserDetails>();
             BsonClassMap.RegisterClassMap<UserShoppingCart>();
             BsonClassMap.RegisterClassMap<StoreShoppingCart>();
+            BsonClassMap.RegisterClassMap<ProductInventory>();
         }
     }
 }

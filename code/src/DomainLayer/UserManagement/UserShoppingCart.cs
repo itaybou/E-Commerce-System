@@ -26,14 +26,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var result = new List<(Store, double, IDictionary<Product, int>)>();
             foreach (var storeCart in StoreCarts)
             {
-                result.Add((storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products));
+                var dict = storeCart.ProductQuantities.ToDictionary(k => k.Value.Item1, v => v.Value.Item2);
+                result.Add((storeCart.Store, storeCart.getTotalCartPrice(), dict));
             }
             return result;
         }
 
         public IDictionary<Product, int> getAllCartProductsAndQunatities()
         {
-            return StoreCarts.SelectMany(storeCart => storeCart.Products).ToDictionary(pair => pair.Key, pair => pair.Value);
+            return StoreCarts.SelectMany(storeCart => storeCart.ProductQuantities).ToDictionary(pair => pair.Value.Item1, pair => pair.Value.Item2);
         }
     }
 }

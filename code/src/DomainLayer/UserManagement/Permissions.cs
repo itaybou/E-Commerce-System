@@ -14,11 +14,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     public class Permissions : IStoreInterface
     {
         public User AssignedBy { get; set; }
+        public bool IsOwner { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<PermissionType, bool> PermissionTypes { get; set; }
-
-        public bool IsOwner { get; set; }
 
         [BsonIgnore]
         public IStoreInterface Store { get; set; }

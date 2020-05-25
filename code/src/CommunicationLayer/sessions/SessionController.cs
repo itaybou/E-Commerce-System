@@ -46,11 +46,6 @@ namespace ECommerceSystem.CommunicationLayer.sessions
             return userID;
         }
 
-        internal bool ReaffirmSession(Guid guid)
-        {
-            return LoggedSessions.ContainsKey(guid);
-        }
-
         public Guid GetLoggesUserIDBySession(Guid sessionID)
         {
             if (Get(LoggedSessions, sessionID) == Guid.Empty)

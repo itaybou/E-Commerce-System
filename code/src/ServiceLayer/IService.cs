@@ -44,9 +44,9 @@ namespace ECommerceSystem.ServiceLayer
         IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username);
 
         // Store Services
-        Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
+        Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName);
 
-        Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
+        Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo();
 
         bool openStore(Guid sessionID, string name);
 
@@ -82,7 +82,7 @@ namespace ECommerceSystem.ServiceLayer
 
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName);
 
-        (ProductModel, string) getProductInventory(Guid prodID);
+        (ProductInventoryModel, string) getProductInventory(Guid prodID);
 
         // System Services
         SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);

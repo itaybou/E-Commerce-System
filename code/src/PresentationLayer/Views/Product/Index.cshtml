@@ -1,4 +1,5 @@
-﻿@model ECommerceSystem.Models.ProductModel
+﻿@using ECommerceSystem.Models; 
+@model ECommerceSystem.Models.ProductInventoryModel
 @{
     ViewData["Title"] = "Product";
 }
@@ -20,24 +21,46 @@
                         </div>
                     </div>
                     <div class="details col-md-6">
-                        <h3 class="product-title">@Model.Name</h3>
-                        <p class="product-description">@Model.Description</p>
-                        <h4 class="price">
-                            current price:
-                            @if (Model.BasePrice != Model.PriceWithDiscount)
-                            {<span style="color: orangered"><del>@Model.BasePrice $</del></span> <span>@Model.PriceWithDiscount $</span>}
-                        else
-                        { <span>@Model.BasePrice $</span>}
-                        </h4>
-                        <div class="action">
-                            <form type="hidden" asp-action="AddProductToCart" asp-controller="Cart" asp-route-prodID="@Model.Id" method="post">
-                                <button type="submit" style="width: 200px" class="add-to-cart btn btn-default">
-                                    add to cart
-                                </button>
-                            </form>
+                        <div class="row flex justify-content-between p-2">
+                            <div>
+                                <h3 class="product-title">@Model.Name</h3>
+                            </div>
+                            <div>
+                                <h5><b>Category</b>: @Enum.GetName(typeof(Category), Model.Category)</h5>
+                            </div>
+                        </div>
+                            <div class="row flex justify-content-between p-2">
+                                <div>
+                                    <h5><i class="fas fa-star checked"></i><strong> @Model.Rating Rating</strong></h5>
+                                </div>
+                                <div>
+                                    <h5><i class="far fa-thumbs-up"></i><strong> @Model.RaterCount Raters</strong></h5>
+                                    <button type="submit" class="btn btn-info w-100">
+                                        <i class="far fa-thumbs-up"></i> Rate
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="product-description"><h5 class="text-secondary"><b>Product description:</b></h5><h5> @Model.Description</h5></p>
+                            <div class="alert-info p-1">
+                                <b>Keywords:</b>
+                                @foreach (var keyword in Model.Keywords)
+                                {
+                                    <span>@(keyword + " | ")</span>
+                                }
+                            </div>
+                            <h4 class="price p-1">
+                                current price:
+                                <span>@Model.Price $</span>
+                            </h4>
+                            <div class="action">
+                                <form type="hidden" asp-action="AddProductToCart" asp-controller="Cart" asp-route-prodID="@Model.ID" method="post">
+                                    <button type="submit" style="width: 200px" class="add-to-cart btn btn-default">
+                                        add to cart
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>

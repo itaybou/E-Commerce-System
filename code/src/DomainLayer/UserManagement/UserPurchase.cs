@@ -6,53 +6,40 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class UserPurchase
     {
-        private DateTime _purchaseDate;
-        private List<Product> _productsPurchased;
-        private double _totalPrice;
-        private PaymentShipmentDetails _paymentShippingMethod;
-
-        public List<Product> ProductsPurchased { get => _productsPurchased; }
-        public PaymentShipmentDetails PaymentShippingMethod { get => _paymentShippingMethod; }
-        public double TotalPrice { get => _totalPrice; }
-        public DateTime PurchaseDate { get => _purchaseDate; set => _purchaseDate = value; }
+        public DateTime PurchaseDate { get; set; }
+        public List<Product> ProductsPurchased { get; set; }
+        public double TotalPrice { get; set; }
+        public PaymentShipmentDetails PaymentShippingMethod { get; set; }
 
         public UserPurchase(double totalPrice, List<Product> productsPurchased,
             string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            _totalPrice = totalPrice;
-            _productsPurchased = productsPurchased;
-            _paymentShippingMethod = new PaymentShipmentDetails(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-            _purchaseDate = DateTime.Now;
+            TotalPrice = totalPrice;
+            ProductsPurchased = productsPurchased;
+            PaymentShippingMethod = new PaymentShipmentDetails(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            PurchaseDate = DateTime.Now;
         }
     }
 
     public class PaymentShipmentDetails
     {
-        private string _firstName;
-        private string _lastName;
-        private int _id;
-        private string _creditCardNumber;
-        private DateTime _expirationCreditCard;
-        private int _CVV;
-        private string _address;
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public int Id { get; set; }
+        public string CreditCardNumber { get; set; }
+        public DateTime ExpirationCreditCard { get; set; }
+        public int CVV { get; set; }
+        public string Address { get; set; }
 
         public PaymentShipmentDetails(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            _firstName = firstName;
-            _lastName = lastName;
-            _id = id;
-            _creditCardNumber = creditCardNumber;
-            _expirationCreditCard = expirationCreditCard;
-            _CVV = CVV;
-            _address = address;
+            Firstname = firstName;
+            Lastname = lastName;
+            Id = id;
+            CreditCardNumber = creditCardNumber;
+            ExpirationCreditCard = expirationCreditCard;
+            this.CVV = CVV;
+            Address = address;
         }
-
-        public string FirstName { get => _firstName; }
-        public string LastName { get => _lastName; }
-        public int Id { get => _id; }
-        public string CreditCardNumber { get => _creditCardNumber; }
-        public DateTime ExpirationCreditCard { get => _expirationCreditCard; }
-        public int CVV { get => _CVV; }
-        public string Address { get => _address; }
     }
 }

@@ -6,6 +6,7 @@ using PresentationLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceSystem.Exceptions;
 
 namespace PresentationLayer.Controllers.Store
 {
@@ -27,14 +28,20 @@ namespace PresentationLayer.Controllers.Store
         [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult UserStoreList()
         {
-            var permissions = _service.getUserPermissions(new Guid(HttpContext.Session.Id));
-            var stores = new Dictionary<StoreModel, List<ProductModel>>();
-            permissions.Keys.ToList().ForEach(storeName =>
+            try
             {
-                var store = _service.getStoreInfo(storeName);
-                stores.Add(store.Item1, store.Item2);
-            });
-            return View("UserStoreList", (stores, permissions));
+                var permissions = _service.getUserPermissions(new Guid(HttpContext.Session.Id));
+                var stores = new Dictionary<StoreModel, List<ProductInventoryModel>>();
+                permissions.Keys.ToList().ForEach(storeName =>
+                {
+                    var store = _service.getStoreInfo(storeName);
+                    stores.Add(store.Item1, store.Item2);
+                });
+                return View("UserStoreList", (stores, permissions));
+            } catch(AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
         }
 
         [Authorize(Roles = "Admin, Subscribed")]

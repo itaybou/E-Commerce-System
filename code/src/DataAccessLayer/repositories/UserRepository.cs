@@ -6,9 +6,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
 {
     public class UserRepository : Repository<User, Guid>, IUserRepository
     {
-        public UserRepository(IDbContext context, string repositoryName) : base(context, repositoryName)
-        {
-        }
+        public UserRepository(IDbContext context, string repositoryName) : base(context, repositoryName) { }
 
         public User GetSubscribedUser(string username, string password)
         {
