@@ -163,6 +163,13 @@ namespace ECommerceSystem.ServiceLayer
             return _management.allUsers(userID);
         }
 
+        [Trace("Info")]
+        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser(Guid sessionID)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.getAllAssignOwnerRequestOfUser(userID);
+        }
+
         internal IEnumerable<UserModel> searchUsers(string username)
         {
             return _management.searchUsers(username);

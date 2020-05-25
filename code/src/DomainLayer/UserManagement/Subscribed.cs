@@ -17,6 +17,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public List<UserPurchase> PurchaseHistory { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<Guid,AssignOwnerRequestModel> AssignOwnerRequests { get; set; }
+
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
@@ -30,6 +33,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             PurchaseHistory = new List<UserPurchase>();
             Permissions = new Dictionary<string, Permissions>();
             Assignees = new Dictionary<string, List<Guid>>();
+            AssignOwnerRequests = new Dictionary<Guid, AssignOwnerRequestModel>();
         }
 
         public bool isSubscribed()
@@ -140,6 +144,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void removeAllAssigneeOfStore(string storeName)
         {
             Assignees.Remove(storeName);
+        }
+
+        public void addAssignOwnerRequest(AssignOwnerRequestModel request)
+        {
+            AssignOwnerRequests.Add(request.AgreementID, request);
+        }
+
+        public void removeAssignOwnerRequest(Guid agreementID)
+        {
+            AssignOwnerRequests.Remove(agreementID);
+        }
+
+        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser()
+        {
+            return new List<AssignOwnerRequestModel>(this.AssignOwnerRequests.Values); 
         }
     }
 }

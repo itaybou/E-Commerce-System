@@ -21,7 +21,7 @@ namespace ECommerceSystem.Models.notifications
 
         public string getMessage()
         {
-            return "Please approve " + _assigneeUserName + "to be a owner of the store - " + _storeName;
+            return "Please approve " + _assigneeUserName + " to be a owner of the store - " + _storeName + " in your requests page";
         }
     }
 }
