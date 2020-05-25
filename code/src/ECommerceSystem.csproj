@@ -138,6 +138,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\AssignOwnerAgreement.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\VisibleDiscountModel.cs" />
+    <Compile Include="Models\notifications\DisappvoveAssignOwnerNotification.cs" />
+    <Compile Include="Models\notifications\OwnerAssignRequest.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
     <Compile Include="Models\notifications\AssignManagerNotification.cs" />

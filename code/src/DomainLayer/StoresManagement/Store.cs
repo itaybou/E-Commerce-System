@@ -10,6 +10,8 @@ using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -30,6 +32,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private List<StorePurchaseModel> _purchaseHistory;
         private Dictionary<Guid, DiscountPolicy> _allDiscountsMap;
         private Dictionary<Guid, DiscountType> _NotInTreeProductDiscounts;
+        private Dictionary<Guid, AssignOwnerAgreement> _assignOwnerAgreements;
+
 
         public Store(string ownerUserName, string name)
         {
@@ -42,7 +46,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this._storeLevelDiscounts = new XORDiscountPolicy(Guid.NewGuid());
             this._allDiscountsMap = new Dictionary<Guid, DiscountPolicy>();
             this._NotInTreeProductDiscounts = new Dictionary<Guid, DiscountType>();
+            this._assignOwnerAgreements = new Dictionary<Guid, AssignOwnerAgreement>();
         }
+
+
+        public string Name { get => _name; set => _name = value; }
+        public double Rating { get => _rating; }
+        public Inventory Inventory { get => _inventory; private set => _inventory = value; }
+        public List<StorePurchaseModel> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory = value; }
+        public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
+        public long RaterCount { get => _raterCount; set => _raterCount = value; }
+        public AndPurchasePolicy PurchasePolicy { get => _purchasePolicy; set => _purchasePolicy = value; }
+        public OrDiscountPolicy DiscountPolicyTree { get => _discountPolicyTree; set => _discountPolicyTree = value; }
+        public XORDiscountPolicy StoreLevelDiscounts { get => _storeLevelDiscounts; set => _storeLevelDiscounts = value; }
+        public Dictionary<Guid, DiscountPolicy> AllDiscountsMap { get => _allDiscountsMap; set => _allDiscountsMap = value; }
+        public Dictionary<Guid, DiscountType> NotInTreeProductDiscounts { get => _NotInTreeProductDiscounts; set => _NotInTreeProductDiscounts = value; }
+        public Dictionary<Guid, AssignOwnerAgreement> AssignOwnerAgreements { get => _assignOwnerAgreements; set => _assignOwnerAgreements = value; }
+
+
 
         public double getTotalPrice(Dictionary<Product, int> productQuantities)
         {
@@ -78,18 +99,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             return totalPrice;
         }
-
-        public string Name { get => _name; set => _name = value; }
-        public double Rating { get => _rating; }
-        public Inventory Inventory { get => _inventory; private set => _inventory = value; }
-        public List<StorePurchaseModel> PurchaseHistory { get => _purchaseHistory; set => _purchaseHistory=value; }
-        public Dictionary<string, Permissions> Premmisions { get => _premmisions; }
-        public long RaterCount { get => _raterCount; set => _raterCount = value; }
-        public AndPurchasePolicy PurchasePolicy { get => _purchasePolicy; set => _purchasePolicy = value; }
-        public OrDiscountPolicy DiscountPolicyTree { get => _discountPolicyTree; set => _discountPolicyTree = value; }
-        public XORDiscountPolicy StoreLevelDiscounts { get => _storeLevelDiscounts; set => _storeLevelDiscounts = value; }
-        public Dictionary<Guid, DiscountPolicy> AllDiscountsMap { get => _allDiscountsMap; set => _allDiscountsMap = value; }
-        public Dictionary<Guid, DiscountType> NotInTreeProductDiscounts { get => _NotInTreeProductDiscounts; set => _NotInTreeProductDiscounts = value; }
 
         public void addOwner(string userName, Permissions permissions)
         {
@@ -232,27 +241,123 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Assign*********
 
-        public Permissions assignOwner(User loggedInUser, string newOwneruserName)
+        public Permissions assignOwner(User assigner, string newOwneruserName)
         {
             Permissions per = null;
-            if (_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner() ) // The user of userName is already owner of this store
-            {
-                return null;
-            }
 
-            if (_premmisions.ContainsKey(newOwneruserName))
+            if (_premmisions.ContainsKey(newOwneruserName)) // newOwneruserName is manager
             {
-                _premmisions[newOwneruserName].makeOwner();
-                
+                _premmisions[newOwneruserName].makeOwner();  
             }
             else
             {
-                per = Permissions.CreateOwner(loggedInUser, this);
+                per = Permissions.CreateOwner(assigner, this);
                 if (per == null) return null;
                 _premmisions.Add(newOwneruserName, per);
             }
             return per;
         }
+
+        public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
+        {
+            if (_premmisions.ContainsKey(newOwneruserName) && _premmisions[newOwneruserName].isOwner()) // The user of newOwneruserName is already owner of this store
+            {
+                return null;
+            }
+
+            //check that there isn`t open agreement for newOwneruserName
+            foreach (var a in _assignOwnerAgreements)
+            {
+                if (a.Value.AsigneeUserName.Equals(newOwneruserName))
+                {
+                    return null;
+                }
+            }
+
+            HashSet<string> owners = getOWners();
+            owners.Remove(assigner.Name()); //the assigner allready approve with this request
+            AssignOwnerAgreement agreement = new AssignOwnerAgreement(Guid.NewGuid(), assigner.Guid, newOwneruserName, owners);
+            if(owners.Count != 0)
+            {
+                _assignOwnerAgreements.Add(agreement.ID, agreement);
+            }
+            return agreement;
+        }
+
+        public bool approveAssignOwnerRequest(string approverUserName, AssignOwnerAgreement agreement)
+        {
+            if(agreement == null)
+            {
+                return false;
+            }
+
+            if (!agreement.approve(approverUserName))
+            {
+                return false;
+            }
+
+            if (agreement.isDone())
+            {
+                _assignOwnerAgreements.Remove(agreement.ID);
+            }
+            return true;
+        }
+
+        public bool disapproveAssignOwnerRequest(string disapproverUserName, AssignOwnerAgreement agreement)
+        {
+            if (agreement == null)
+            {
+                return false;
+            }
+
+            if (agreement.disapprove(disapproverUserName))
+            {
+                _assignOwnerAgreements.Remove(agreement.ID);
+                return true;
+            }
+            else return false;
+        }
+
+
+        public AssignOwnerAgreement getAgreementByID(Guid agreementID)
+        {
+            if (_assignOwnerAgreements.ContainsKey(agreementID))
+            {
+                return _assignOwnerAgreements[agreementID];
+            }
+            else return null;
+        }
+
+        public HashSet<string> getOWners()
+        {
+            HashSet<string> owners = new HashSet<string>();
+
+            foreach(var permission in _premmisions)
+            {
+                if (permission.Value.isOwner())
+                {
+                    owners.Add(permission.Key);
+                }
+            }
+
+            return owners;
+        }
+
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if(!_premmisions.ContainsKey(ownerToRemoveUserName) || !_premmisions[ownerToRemoveUserName].isOwner()) //ownerToRemoveUserName isn`t owner of this store
+            {
+                return false;
+            }
+
+            if (!_premmisions[ownerToRemoveUserName].AssignedBy.Guid.Equals(activeUserID)) //active useer isn`t the user who assign ownerToRemoveUserName
+            {
+                return false;
+            }
+
+            return _premmisions.Remove(ownerToRemoveUserName);
+        }
+
 
         public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
@@ -268,6 +373,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return per;
         }
+
 
         public bool removeManager(User loggedInUser, string managerUserName)
         {
@@ -286,6 +392,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             
             return true;
         }
+
 
 
         // @Pre - loggedInUserName is the user who assign managerUserName

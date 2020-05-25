@@ -237,8 +237,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.AreEqual(5.0, _store.Rating);
             _store.rateStore(2.0);
             Assert.AreEqual(3.5, _store.Rating);
-        }
-
+        } 
 
         // *************PURCHASE POLICY TESTS********* //
         [Test()]
