@@ -62,5 +62,25 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return State.getPermission(storeName);
         }
+
+        public void addAssignee(string storeName, Guid assigneeID)
+        {
+            State.addAssignee(storeName, assigneeID);
+        }
+
+        public bool removeAssignee(string storeName, Guid assigneeID)
+        {
+            return State.removeAssignee(storeName, assigneeID);
+        }
+
+        public List<Guid> getAssigneesOfStore(string storeName)
+        {
+            return State.getAssigneesOfStore(storeName);
+        }
+
+        public void removeAllAssigneeOfStore(string storeName)
+        {
+            State.removeAllAssigneeOfStore(storeName);
+        }
     }
 }

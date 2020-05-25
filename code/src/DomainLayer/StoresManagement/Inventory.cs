@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    public class Inventory : IEnumerable<ProductInventory>
+    public class Inventory
     {
         public List<ProductInventory> Products { get; set; }
 
@@ -37,7 +37,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             foreach (ProductInventory p in Products)
             {
-                foreach (Product prod in p)
+                foreach (Product prod in p.ProductList)
                 {
                     if (prod.Id.Equals(id))
                     {
@@ -115,7 +115,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                productInventory.Price = newPrice;
+                productInventory.modifyPrice(newPrice);
                 return true;
             }
         }
@@ -197,19 +197,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return productInventory.modifyProductPurchaseType(productID, purchaseType);
             }
-        }
-
-        public IEnumerator<ProductInventory> GetEnumerator()
-        {
-            foreach (var product in Products)
-            {
-                yield return product;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

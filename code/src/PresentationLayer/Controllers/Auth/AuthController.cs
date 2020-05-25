@@ -117,13 +117,14 @@ namespace PresentationLayer.Controllers.Auth
                     var sessionId = new Guid(HttpContext.Session.Id);
                     _service.logout(sessionId);
                     HttpContext.Session.Clear();
+                    foreach (var cookie in Request.Cookies.Keys)
+                        Response.Cookies.Delete(cookie);
                     var message = new ActionMessageModel("Logged out successfully.\nSee you later!", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
                 }
                 catch (AuthenticationException)
                 {
-                    var message = new ActionMessageModel("Oops! Your session has expired. please login again.", Url.Action("Login", "Auth"));
-                    return View("_ActionMessage", message);
+                    return Redirect("~/Exception/AuthException");
                 }
             }
             return Redirect("~/");

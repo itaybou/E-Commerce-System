@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
 {
@@ -68,9 +69,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void makePurchaseSuccessTest()
         {
-            Assert.True(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
+            Assert.True(_systemManager.makePurchase(_userID,   _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
             Assert.AreEqual(product1.Quantity, 15); // First product quantity decreased (first store purchased from)
-            Assert.AreEqual(product2.Quantity, 10);
+            Assert.AreEqual(product2.Quantity,10);
             Assert.AreEqual(product3.Quantity, 18);
             Assert.AreEqual(product4.Quantity, 0);
         }
@@ -104,45 +105,50 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
         }
 
-        //[Test()]
-        //public void purchaseUserShoppingCartTest()
-        //{
-        //    var store1_cart = new StoreShoppingCart(_store1);
-        //    var store2_cart = new StoreShoppingCart(_store2);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store1_cart);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store2_cart);
-        //    store1_cart.AddToCart(product1, 26);
-        //    Assert.IsNotEmpty(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-        //    Assert.True(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address).First().Id.Equals(guid1));
-        //    store1_cart.ChangeProductQuantity(_storeProducts[_store1].Keys.First(), 20);
-        //    Assert.IsNull(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-        //    store1_cart = new StoreShoppingCart(_store1);
-        //    store2_cart = new StoreShoppingCart(_store2);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store1_cart);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store2_cart);
-        //    store1_cart.AddToCart(_storeProducts[_store1].Keys.ElementAt(1), 26);
-        //    store2_cart.AddToCart(_storeProducts[_store2].Keys.First(), 9);
-        //    Assert.AreEqual(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address).Count, 1);
-        //    _userManagement.getLoggedInUser()._cart = new UserShoppingCart();
-        //    _userManagement.Users[_userManagement.getLoggedInUser()] = _userManagement.getLoggedInUser()._cart;
-        //    store1_cart = new StoreShoppingCart(_store1);
-        //    store2_cart = new StoreShoppingCart(_store2);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store1_cart);
-        //    _userManagement.getUserCart(_userManagement.getLoggedInUser()).StoreCarts.Add(store2_cart);
-        //    store1_cart.AddToCart(_storeProducts[_store2].Keys.ElementAt(1), 20);
-        //    store1_cart.AddToCart(_storeProducts[_store2].Keys.First(), 6);
-        //    Assert.IsNull(_systemManager.purchaseUserShoppingCart(_firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-        //}
+        [Test()]
+        public void purchaseUserShoppingCartTestSuccess()
+        {
+            StoreShoppingCart store1_cart = new StoreShoppingCart(_store1);
+            store1_cart.AddToCart(product1, 18);
+            store1_cart.AddToCart(product2, 15);
+            StoreShoppingCart store2_cart = new StoreShoppingCart(_store2);
+            store2_cart.AddToCart(product3, 12);
+            store2_cart.AddToCart(product4, 9);
 
-        //[Test()]
-        //public void purchaseProductTest()
-        //{
-        //    var product1 = new Product(null, null, new VisibleDiscount(20.0f, new DiscountPolicy()), new ImmediatePurchase(), 20, 20, Guid.NewGuid());
+            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID));
+            userCart.StoreCarts.Add(store1_cart);
+            userCart.StoreCarts.Add(store2_cart);
 
-        //    var purchase = Tuple.Create(_store1, (product1, 25));
-        //    Assert.False(_systemManager.purchaseProduct(purchase, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-        //    purchase = Tuple.Create(_store1, (product1, 20));
-        //    Assert.True(_systemManager.purchaseProduct(purchase, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
-        //}
+            Assert.IsNull(_systemManager.purchaseUserShoppingCart(_userID, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
+            Assert.AreEqual(product1.Quantity, 2); 
+            Assert.AreEqual(product2.Quantity, 5);
+            Assert.AreEqual(product3.Quantity, 8);
+            Assert.AreEqual(product4.Quantity, 11);
+        }
+
+
+        [Test()]
+        public void purchaseUserShoppingCartWithExceededProductQuantityTest()
+        {
+            StoreShoppingCart store1_cart = new StoreShoppingCart(_store1);
+            store1_cart.AddToCart(product1, 18);
+            store1_cart.AddToCart(product2, 15);
+            StoreShoppingCart store2_cart = new StoreShoppingCart(_store2);
+            store2_cart.AddToCart(product3, 25);
+            store2_cart.AddToCart(product4, 9);
+
+            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID));
+            userCart.StoreCarts.Add(store1_cart);
+            userCart.StoreCarts.Add(store2_cart);
+
+            List<ProductModel> unavailablePRoducts = _systemManager.purchaseUserShoppingCart(_userID, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address);
+            Assert.AreEqual(product3.Id, unavailablePRoducts.ElementAt(0).Id);
+            Assert.AreEqual(product1.Quantity, 20);
+            Assert.AreEqual(product2.Quantity, 20);
+            Assert.AreEqual(product3.Quantity, 20);
+            Assert.AreEqual(product4.Quantity, 20);
+        }
+
+
     }
 }

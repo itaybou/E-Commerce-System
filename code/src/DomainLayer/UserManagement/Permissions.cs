@@ -2,6 +2,8 @@
 using ECommerceSystem.DataAccessLayer.serializers;
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System;
@@ -14,11 +16,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
     public class Permissions : IStoreInterface
     {
         public User AssignedBy { get; set; }
+        public bool IsOwner { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<PermissionType, bool> PermissionTypes { get; set; }
-
-        public bool IsOwner { get; set; }
 
         [BsonIgnore]
         public IStoreInterface Store { get; set; }
@@ -301,6 +302,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
+        {
+            if (this.canManagePurchasePolicy())
+            {
+                return Store.getAllPurchasePolicyByStoreName();
+
+            }
+            else return null;
+        }
+
         public Guid addMinPriceStorePolicy(double minPrice)
         {
             if (this.canManagePurchasePolicy())
@@ -364,6 +375,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
+        {
+            if (this.isOwner())
+            {
+                return Store.createOwnerAssignAgreement(assigner, newOwneruserName);
+            }
+            else return null;
+        }
+
         public Guid addAndDiscountPolicy(List<Guid> IDS)
         {
             if (this.canManageDiscounts())
@@ -409,6 +429,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
+        public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName)
+        {
+            if (this.isOwner())
+            {
+                return Store.removeOwner(activeUserID, ownerToRemoveUserName);
+            }
+            else return false;
+        }
+
         public bool removeStoreLevelDiscount(Guid discountID)
         {
             if (this.canManageDiscounts())
@@ -425,6 +454,24 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return Store.StoreName();
             }
             return null;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
+        {
+            if (this.canManageDiscounts())
+            {
+                return Store.getAllStoreLevelDiscounts();
+            }
+            else return null;
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose()
+        {
+            if (this.canManageDiscounts())
+            {
+                return Store.getAllDiscountsForCompose();
+            }
+            else return null;
         }
     }
 }

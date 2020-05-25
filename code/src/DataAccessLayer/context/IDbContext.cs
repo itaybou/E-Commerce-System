@@ -7,7 +7,5 @@ namespace ECommerceSystem.DataAccessLayer
         MongoClient Client();
 
         IMongoDatabase Database();
-
-        IMongoDatabase TestDatabase();
     }
 }

@@ -44,9 +44,9 @@ namespace ECommerceSystem.ServiceLayer
         IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username);
 
         // Store Services
-        Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName);
+        Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName);
 
-        Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo();
+        Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo();
 
         bool openStore(Guid sessionID, string name);
 
@@ -68,8 +68,9 @@ namespace ECommerceSystem.ServiceLayer
 
         bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
 
-        bool assignOwner(Guid sessionID, string newOwneruserName, string storeName);
-
+        Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName);
+        bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName);
+        bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName);
         bool assignManager(Guid sessionID, string newManageruserName, string storeName);
 
         bool editPermissions(Guid sessionID, string storeName, string managerUserName, List<PermissionType> permissions);
@@ -82,7 +83,7 @@ namespace ECommerceSystem.ServiceLayer
 
         (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName);
 
-        (ProductModel, string) getProductInventory(Guid prodID);
+        (ProductInventoryModel, string) getProductInventory(Guid prodID);
 
         // System Services
         SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);

@@ -11,5 +11,6 @@ namespace ECommerceSystem.DataAccessLayer
         ITransactions Transactions { get; }
         IUserRepository Users { get; }
         IStoreRepository Stores { get; }
+        IProductRepository Products { get; }
     }
 }

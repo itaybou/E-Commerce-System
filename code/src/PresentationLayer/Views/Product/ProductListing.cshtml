@@ -1,4 +1,5 @@
-﻿@model PresentationLayer.Models.Products.ProductListingModel
+﻿@using ECommerceSystem.Models; 
+@model PresentationLayer.Models.Products.ProductListingModel
 @{
     ViewData["Title"] = "Product Listing";
     var Products = Model.VisibleProducts.ProductResults;
@@ -200,19 +201,30 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
                         <img class="card-img-top" src="https://picsum.photos/600/400/" alt="Product image"> <!--Random Image-->
+                        <div class="alert-info w-100 p-2 row-md-2">
+                            <div class="col w-75">
+                                <p class="card-text"><b>Category: </b>@Enum.GetName(typeof(Category), product.Category)</p>
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <h4 class="card-title"><a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.Id" title="View Product">@product.Name</a></h4>
+                            <h4 class="card-title"><a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.ID" title="View Product">@product.Name</a></h4>
+                            <div class="row flex justify-content-between p-2">
+                                <div>
+                                    <i class="fas fa-star checked"></i><strong> @product.Rating Rating</strong>
+                                </div>
+                                <div>
+                                    <i class="far fa-thumbs-up"></i><strong> @product.RaterCount Raters</strong>
+                                </div>
+                            </div>
                             <p class="card-text">@product.Description</p>
                             <div class="row">
-                                <div class="col">
-                                    <p class="btn btn-warning btn-block">@product.PriceWithDiscount $</p>
+                                <div class="col w-25">
+                                    <p class="btn btn-warning btn-block">@product.Price $</p>
                                 </div>
                                 <div class="col">
-                                    <form type="hidden" asp-action="AddProductToCart" asp-controller="Cart" asp-route-prodID="@product.Id" method="post">
-                                        <button type="submit" class="btn btn-success btn-block">
-                                            <i class="fas fa-cart-plus"></i> Add
-                                        </button>
-                                    </form>
+                                    <button type="submit" class="btn btn-success btn-block" data-toggle="modal" data-target="#add-to-cart-modal" data-id="@product.ID">
+                                        <i class="fas fa-list"></i> <!--<i class="fas fa-cart-plus"></i>--> Pick
+                                    </button>
                                 </div>
                             </div>
                         </div>

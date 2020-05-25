@@ -36,13 +36,14 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             var purchased = false;
             if (_transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
             {
-                if (_transactionManager.supplyTransaction(allProducts, address))                                                        // supply all prodcuts by quantity
+                if (_transactionManager.supplyTransaction(allProducts, address))  // supply all prodcuts by quantity
                 {
+                    var user = _userManagement.getUserByGUID(userID, false);
                     foreach (var (store, storePayment, storeBoughtProducts) in storeProducts)                                                             // send payment to all stores bought from
                     {
-                        storeBoughtProducts.ToList().ForEach(prod => store.reduceProductQuantity(prod.Key, prod.Value));
                         _transactionManager.sendPayment(store, storePayment);
-                        _storeManagement.logStorePurchase(store, _userManagement.getUserByGUID(userID), storePayment, storeBoughtProducts);
+                        _storeManagement.logStorePurchase(store, user, storePayment, storeBoughtProducts);
+                        _storeManagement.sendPurchaseNotification(store, user.Name); //send notification to all managers and owners of the store about the purchase
                     }
                     purchased = true;
                 }
@@ -69,107 +70,87 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         /// <returns>List of unavailable products if there are any, null if succeeded purchase and empty list if payment/supply was unseccesful</returns>
         public List<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            var purchased = false;
-            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID));                                                                                        // User shopping cart
+
+            var shoppingCart = _userManagement.getUserCart(_userManagement.getUserByGUID(userID, false));                                                                                        // User shopping cart
             var storeProducts = shoppingCart.getProductsStoreAndTotalPrices(); // (Store, Store Price To Pay, {Product, Quantity})
 
             //check that the cart satisfy the stores purchase policy
-            foreach (var s in storeProducts)
+            if (!isSatisfyPurchasePolicies(storeProducts, address))
+            {
+                return new List<ProductModel>();
+            }
+
+            IDictionary<Product, int> productsToPurchase = shoppingCart.getAllCartProductsAndQunatities();
+
+            //reduce products quantities
+            List<Product> unavailableProducts = decreaseQuntityOfAllProducts(storeProducts); // unavailable products by qunatity
+
+            if (unavailableProducts.Any()) //there are unavailable products 
+            {
+                restoreProductsQuantities(unavailableProducts, storeProducts);
+                return unavailableProducts.Select(p => ModelFactory.CreateProduct(p)).ToList();
+            }
+
+
+            var totalPrice = shoppingCart.getTotalACartPrice();  // total user cart price with discounts
+
+            // make the payment and suplly transaction, in addiotion send purchase notification
+            if (makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address))
+            {
+                _userManagement.resetUserShoppingCart(userID);
+                _userManagement.logUserPurchase(userID, totalPrice, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                return null;
+            }
+            else // purchase failed
+            {
+                restoreProductsQuantities(unavailableProducts, storeProducts);
+                return new List<ProductModel>(); 
+            }
+        }
+
+        private void restoreProductsQuantities(List<Product> unavailableProducts, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts)
+        {
+            List <Guid> unavailableProductsIDs = unavailableProducts.Select(prod => prod.Id).ToList();
+            foreach ((Store store, double storePayment, IDictionary<Product, int> storeBoughtProducts) in storeProducts)                                                             // send payment to all stores bought from
+            {
+                foreach (var prod in storeBoughtProducts)
+                {
+                    if (!unavailableProductsIDs.Contains(prod.Key.Id))
+                    {
+                        prod.Key.increaseProductQuantity(prod.Value);
+                    }
+                }
+            }
+        }
+
+        private List<Product> decreaseQuntityOfAllProducts(ICollection<(Store, double, IDictionary<Product, int>)> storeProducts)
+        {
+            List<Product> unavailableProducts = new List<Product>();
+            foreach ((Store store, double storePayment, IDictionary<Product, int> storeBoughtProducts) in storeProducts)                                                             // send payment to all stores bought from
+            {
+                foreach(var prod in storeBoughtProducts)
+                {
+                    if(!prod.Key.decreaseProductQuantity(prod.Value))
+                    {
+                        unavailableProducts.Add(prod.Key);
+                    }
+                }
+            }
+            return unavailableProducts;
+        }
+
+        private bool isSatisfyPurchasePolicies(ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, string address)
+        {
+            foreach(var s in storeProducts)
             {
                 IDictionary<Guid, int> products = s.Item3.ToDictionary(pair => pair.Key.Id, pair => pair.Value); // product => quantity
-                if (!s.Item1.canBuy(products, s.Item2, address))
+                if(!s.Item1.canBuy(products, s.Item2, address))
                 {
-                    return new List<ProductModel>(); //cant buy the products by the store policy
+                    return false; //cant buy the products by the store policy
                 }
             }
-
-            var productsToPurchase = shoppingCart.getAllCartProductsAndQunatities(); // Product ==> Cart Quantity
-            var unavailableProducts = new List<Product>();
-            WaitCallback pFunc = delegate   // Lock purchased products untill purchase is completed
-            {
-                unavailableProducts = productsToPurchase.Where(p => p.Key.Quantity < p.Value).Select(k => k.Key).ToList();                              // unavailable products by qunatity
-                if (!unavailableProducts.Any())
-                {
-                    var totalPrice = shoppingCart.getTotalACartPrice();                                                         // total user cart price
-                    purchased = makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-                    if (purchased)
-                        _userManagement.resetUserShoppingCart(userID);
-                }
-            };
-            ProductPurchaseLock(productsToPurchase.Keys.OrderBy(p => p.Id).ToList(), pFunc);    // sort products to lock in the same order
-            return unavailableProducts.Any() ? unavailableProducts.Select(p => ModelFactory.CreateProduct(p)).ToList()  // If one or more of the products were unavailable return them
-                : purchased ? new List<ProductModel>() : null; // if purchased return null else return empty lost indicating that payment process/supply was not successful
+            return true;
         }
 
-        private async void ProductPurchaseLock(ICollection<Product> locks, WaitCallback pFunc, int index = 0)
-        {
-            if (index < locks.Count())
-            {
-                lock (locks.ElementAt(index))
-                {
-                    ProductPurchaseLock(locks, pFunc, index + 1);
-                }
-            }
-            else
-            {
-                ThreadPool.QueueUserWorkItem(pFunc);
-            }
-        }
-
-        //public bool purchaseProduct(Tuple<string, (Guid, int)> product, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
-        //{
-        //    var store = _storeManagement.getStoreByName(product.Item1);
-        //    var available = product.Item2.Item1.Quantity >= product.Item2.Item2;
-        //    if (available)
-        //    {
-        //        var totalPrice = product.Item2.Item1.CalculateDiscount() * product.Item2.Item2;
-        //        var allProducts = new Dictionary<Product, int>()
-        //        {
-        //            {product.Item2.Item1,  product.Item2.Item2}
-        //        };
-        //        var storeProducts = new Dictionary<Store, Dictionary<Product, int>>()
-        //        {
-        //            {product.Item1,  allProducts}
-        //        };
-        //        var storePayments = new List<(Store, double)>()
-        //        {
-        //            (product.Item1, totalPrice)
-        //        };
-        //        return makePurchase(totalPrice, allProducts, storeProducts, storePayments, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address); ;
-        //    }
-        //    return false;
-        //}
-
-        //public List<Product> purchaseProducts(List<Tuple<Store, (Product, int)>> products, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
-        //{
-        //    var availableProducts = products.Where(product => product.Item2.Item1.Quantity >= product.Item2.Item2).ToList();
-        //    var unavailableProducts = products.Except(availableProducts).ToList();
-        //    if (!unavailableProducts.Any())
-        //    {
-        //        var productQuantities = products.Select(tuple => tuple.Item2);
-        //        var totalPrice = productQuantities.Aggregate(0.0, (total, current) => total += (current.Item1.CalculateDiscount() * current.Item2));
-        //        var storeProducts = new Dictionary<Store, Dictionary<Product, int>>();
-        //        products.ForEach(prod =>
-        //        {
-        //            if (storeProducts.ContainsKey(prod.Item1))
-        //            {
-        //                storeProducts[prod.Item1].Add(prod.Item2.Item1, prod.Item2.Item2);
-        //            }
-        //            else storeProducts.Add(prod.Item1, new Dictionary<Product, int>() { { prod.Item2.Item1, prod.Item2.Item2 } });
-        //        });
-        //        var allProducts = productQuantities.ToDictionary(pair => pair.Item1, pair => pair.Item2);
-        //        var storePayments = storeProducts.Select(p => (p.Key, p.Value.ToList().Aggregate(0.0, (total, curr) => total += curr.Key.CalculateDiscount() * curr.Value)));
-        //        var purchased = makePurchase(totalPrice, allProducts, storeProducts, storePayments.ToList(), firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-        //        if (purchased)
-        //        {
-        //            var userCart = _userManagement.getActiveUserShoppingCart();
-        //            userCart.StoreCarts.ForEach(s => products.Where(pair => pair.Item1 == s.store)
-        //            .ToList().ForEach(p => s.ChangeProductQuantity(p.Item2.Item1, s.Products[p.Item2.Item1] - p.Item2.Item2)));
-        //            userCart.StoreCarts = userCart.StoreCarts.Where(s => s.Products.Any()).ToList();
-        //        }
-        //        return purchased? null : new List<Product>();
-        //    }
-        //    return unavailableProducts.Select(prod => prod.Item2.Item1).ToList();
-        //}
     }
 }

@@ -17,13 +17,15 @@ namespace ECommerceSystem.DataAccessLayer
         public static DataAccess Instance => lazy.Value;
 
         private IDbContext Context { get; }
+        private IDbContext TestContext { get; }
         public ITransactions Transactions { get; }
 
         private DataAccess()
         {
             EntityMap.RegisterClassMaps();
-            Context = new DbContext(ConnectionString, DatabaseName, TestDatabaseName);
-            Transactions = new TransactionManager(Context.Client(), Users, Stores);
+            Context = new DbContext(ConnectionString, DatabaseName);
+            TestContext = new DbContext(ConnectionString, TestDatabaseName);
+            Transactions = new TransactionManager(Context.Client(), Users, Stores, Products);
             InitializeDatabase();
         }
 
@@ -33,6 +35,23 @@ namespace ECommerceSystem.DataAccessLayer
                 Context.Database().CreateCollection(nameof(Users));
             if (!CollectionExists(nameof(Stores)))
                 Context.Database().CreateCollection(nameof(Stores));
+            if (!CollectionExists(nameof(Products)))
+                Context.Database().CreateCollection(nameof(Products));
+        }
+
+        public void InitializeTestDatabase()
+        {
+            if (!CollectionExists(nameof(Users)))
+                TestContext.Database().CreateCollection(nameof(Users));
+            if (!CollectionExists(nameof(Stores)))
+                TestContext.Database().CreateCollection(nameof(Stores));
+            if (!CollectionExists(nameof(Products)))
+                TestContext.Database().CreateCollection(nameof(Products));
+        }
+
+        public void DropTestDatabase()
+        {
+            TestContext.Client().DropDatabase(TestDatabaseName);
         }
 
         private bool CollectionExists(string collectionName)
@@ -64,6 +83,52 @@ namespace ECommerceSystem.DataAccessLayer
                 if (stores == null)
                     stores = new StoresCacheProxy(Context, nameof(Stores));
                 return stores;
+            }
+        }
+
+        private IProductRepository products;
+        public IProductRepository Products
+        {
+            get
+            {
+                if (products == null)
+                    products = new ProductCacheProxy(Context, nameof(Products));
+                return products;
+            }
+        }
+
+        private IUserRepository test_users;
+
+        public IUserRepository TestUsers
+        {
+            get
+            {
+                if (test_users == null)
+                    test_users = new UserCacheProxy(TestContext, nameof(Users));
+                return test_users;
+            }
+        }
+
+        private IStoreRepository test_stores;
+
+        public IStoreRepository TestStores
+        {
+            get
+            {
+                if (test_stores == null)
+                    test_stores = new StoresCacheProxy(TestContext, nameof(Stores));
+                return test_stores;
+            }
+        }
+
+        private IProductRepository test_products;
+        public IProductRepository TestProducts
+        {
+            get
+            {
+                if (test_products == null)
+                    test_products = new ProductCacheProxy(TestContext, nameof(Products));
+                return test_products;
             }
         }
     }

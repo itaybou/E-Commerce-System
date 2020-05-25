@@ -1,15 +1,23 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Models;
+using System;
+﻿using ECommerceSystem.DataAccessLayer;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public class Subscribed : IUserState
+    public class Subscribed : IUserState, ISupportInitialize
     {
         public string Username { get; set; }
         public string Password { get; set; }
         public UserDetails Details { get; set; }
         public List<UserPurchase> PurchaseHistory { get; set; }
+
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, Permissions> Permissions { get; set; }
@@ -21,6 +29,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             Details = new UserDetails(fname, lname, email);
             PurchaseHistory = new List<UserPurchase>();
             Permissions = new Dictionary<string, Permissions>();
+            Assignees = new Dictionary<string, List<Guid>>();
         }
 
         public bool isSubscribed()
@@ -37,6 +46,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             Permissions.Remove(storeName);
         }
+
+        public Permissions getPermission(string storeName)
+        {
+            if (Permissions.ContainsKey(storeName))
+            {
+                return Permissions[storeName];
+            }
+            else return null;
+        }
+
 
         public void logPurchase(UserPurchase purchase)
         {
@@ -62,13 +81,65 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
-        public Permissions getPermission(string storeName)
+
+        public void addAssignee(string storeName, Guid assigneeID)
         {
-            if (Permissions.ContainsKey(storeName))
+            if (!Assignees.ContainsKey(storeName))
             {
-                return Permissions[storeName];
+                List<Guid> assgneedList = new List<Guid>() { assigneeID };
+                Assignees.Add(storeName, assgneedList);
             }
-            else return null;
+            else
+            {
+                Assignees[storeName].Add(assigneeID);
+            }
+        }
+
+        public void BeginInit()
+        {
+            return;
+        }
+
+        public void EndInit()
+        {
+            foreach(var perm in Permissions)
+            {
+                if (perm.Value.Store == null)
+                    perm.Value.Store = DataAccess.Instance.Stores.GetByIdOrNull(perm.Key, s => s.Name);
+            }
+        }
+        public bool removeAssignee(string storeName, Guid assigneeID)
+        {
+            if (!Assignees.ContainsKey(storeName) || Assignees[storeName] == null || !Assignees[storeName].Contains(assigneeID))
+            {
+                return false;
+            }
+            else
+            {
+                Assignees[storeName].Remove(assigneeID);
+                if(Assignees[storeName].Count == 0)
+                {
+                    Assignees.Remove(storeName);
+                }
+                return true;
+            }
+        }
+
+        public List<Guid> getAssigneesOfStore(string storeName)
+        {
+            if (!Assignees.ContainsKey(storeName))
+            {
+                return null; 
+            }
+            else
+            {
+                return Assignees[storeName];
+            }
+        }
+
+        public void removeAllAssigneeOfStore(string storeName)
+        {
+            Assignees.Remove(storeName);
         }
     }
 }

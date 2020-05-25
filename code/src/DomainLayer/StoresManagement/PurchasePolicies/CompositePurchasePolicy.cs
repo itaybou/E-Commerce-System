@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -74,5 +78,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
             return null;
         }
+
+        public abstract PurchasePolicyModel CreateModel();
     }
 }

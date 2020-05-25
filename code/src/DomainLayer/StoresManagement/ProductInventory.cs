@@ -1,3 +1,5 @@
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DataAccessLayer.serializers;
 using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
@@ -5,34 +7,43 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    public class ProductInventory : IEnumerable<Product>
+    public class ProductInventory
     {
         [BsonIgnore]
         private static readonly Range<double> RATING_RANGE = new Range<double>(0.0, 5.0);
 
         [BsonId]
         public Guid ID { get; set; }
+        [Required]
+        [BsonElement("name")]
         public string Name { get; set; }
+        [Required]
+        [BsonElement("price")]
+        public double Price { get; set; }
+        [Required]
+        [BsonElement("description")]
         public string Description { get; set; }
+        [Required]
+        [BsonElement("category")]
         public Category Category { get; set; }
+        [Required]
+        [BsonElement("rating")]
         public double Rating { get; set; }
+        [Required]
+        [BsonElement("raters")]
         public long RaterCount { get; set; }
+        [Required]
+        [BsonElement("keywords")]
         public HashSet<string> Keywords { get; set; }
+        [Required]
+        [BsonElement("products")]
+        [BsonSerializer(typeof(ProductListSerializer))]
         public List<Product> ProductList { get; set; }
-
-        public double Price
-        {
-            get => Price;
-            set
-            {
-                Price = value;
-                ProductList.ForEach(p => p.BasePrice = Price);
-            }
-        }
 
         public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid)
         {
@@ -60,19 +71,22 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid);
             Product newProduct = new Product(productName, description, quantity, price, productGuid);
             productInventory.ProductList.Add(newProduct);
+            DataAccess.Instance.Products.Insert(newProduct);
             return productInventory;
         }
 
         public Product getProducByID(Guid id)
         {
-            foreach (Product p in ProductList)
-            {
-                if (p.Id.Equals(id))
-                {
-                    return p;
-                }
-            }
-            return null;
+            return DataAccess.Instance.Products.GetByIdOrNull(id, p => p.Id);
+        }
+
+        public void modifyPrice(double newPrice)
+        {
+            Price = newPrice;
+            ProductList.ForEach(p => {
+                p.BasePrice = newPrice;
+                DataAccess.Instance.Products.Update(p, p.Id, p => p.Id);
+            });
         }
 
         public void modifyName(string newProductName)
@@ -81,6 +95,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             foreach (Product p in ProductList)
             {
                 p.Name = newProductName;
+                DataAccess.Instance.Products.Update(p, p.Id, p => p.Id);
             }
         }
 
@@ -99,6 +114,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             lock (product)
             {
                 product.Quantity = newQuantity;
+                DataAccess.Instance.Products.Update(product, product.Id, p => p.Id);
             }
             return true;
         }
@@ -111,6 +127,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             ProductList.Remove(product);
+            DataAccess.Instance.Products.Remove(product, product.Id, p => p.Id);
             return true;
         }
 
@@ -121,7 +138,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
             var guid = GenerateId();
-            ProductList.Add(new Product(Name, Description, quantity, price, guid));
+            var newProduct = new Product(Name, Description, quantity, price, guid);
+            ProductList.Add(newProduct);
+            DataAccess.Instance.Products.Insert(newProduct);
             return guid;
         }
 
@@ -138,6 +157,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             product.Discount = newDiscount;
+            DataAccess.Instance.Products.Update(product, product.Id, p => p.Id);
             return true;
         }
 
@@ -154,6 +174,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
             product.PurchaseType = purchaseType;
+            DataAccess.Instance.Products.Update(product, product.Id, p => p.Id);
             return true;
         }
 
@@ -168,19 +189,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private static Guid GenerateId()
         {
             return Guid.NewGuid();
-        }
-
-        public IEnumerator<Product> GetEnumerator()
-        {
-            foreach (var product in ProductList)
-            {
-                yield return product;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

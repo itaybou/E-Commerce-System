@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.Models;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
-    internal class DaysOffPolicy : PurchasePolicy
+    public class DaysOffPolicy : PurchasePolicy
     {
         private List<DayOfWeek> daysOff;
         private Guid _ID;
@@ -18,6 +23,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         {
             DayOfWeek today = DateTime.Today.DayOfWeek;
             return !daysOff.Contains(today);
+        }
+
+        public PurchasePolicyModel CreateModel()
+        {
+            return new DaysOffPolicyModel(this._ID, this.daysOff);
         }
 
         public Guid getID()

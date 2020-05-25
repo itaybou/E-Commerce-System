@@ -167,6 +167,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\AssignOwnerAgreement.cs" />
     <Compile Include="DataAccessLayer\ITransactions.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CacheCleaner.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CachedObject.cs" />
@@ -175,17 +176,21 @@
     <Compile Include="DataAccessLayer\context\IDbContext.cs" />
     <Compile Include="DataAccessLayer\DataAccess.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\ICacheProxy.cs" />
+    <Compile Include="DataAccessLayer\repositories\cache\ProductCacheProxy.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\StoresCacheProxy.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\UserCacheProxy.cs" />
     <Compile Include="DataAccessLayer\EntityMap.cs" />
+    <Compile Include="DataAccessLayer\repositories\IProductRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\IStoreRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\IUserRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\ProductRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\StoreRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\UserRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\IRepository.cs" />
     <Compile Include="DataAccessLayer\repositories\Repository.cs" />
     <Compile Include="DataAccessLayer\serializers\BaseSerializer.cs" />
-    <Compile Include="DataAccessLayer\serializers\CartSerializer.cs" />
+    <Compile Include="DataAccessLayer\serializers\ProductDictionarySerializer.cs" />
+    <Compile Include="DataAccessLayer\serializers\ProductLisrSerializer.cs" />
     <Compile Include="DataAccessLayer\serializers\StoreReferenceSerializer.cs" />
     <Compile Include="DataAccessLayer\TransactionManager.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
@@ -215,6 +220,13 @@
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\VisibleDiscountModel.cs" />
+    <Compile Include="Models\notifications\DisappvoveAssignOwnerNotification.cs" />
+    <Compile Include="Models\notifications\OwnerAssignRequest.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />
     <Compile Include="Models\notifications\AssignManagerNotification.cs" />
@@ -223,6 +235,13 @@
     <Compile Include="Models\notifications\RemoveOwnerNotification.cs" />
     <Compile Include="Models\notifications\AssignOwnerNotification.cs" />
     <Compile Include="Models\notifications\INotitficationType.cs" />
+    <Compile Include="Models\PurchasePolicyModels\CompositePurchasePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\ProductQuantityPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\MinPricePerStorePolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\LocationPolicyModel .cs" />
+    <Compile Include="Models\PurchasePolicyModels\DaysOffPolicyModel.cs" />
+    <Compile Include="Models\PurchasePolicyModels\PurchasePolicyModel.cs" />
+    <Compile Include="Models\ProductInventoryModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="DomainLayer\SystemManagement\spell_checker\ISpellChecker.cs" />
     <Compile Include="DomainLayer\SystemManagement\ModelFactory.cs" />

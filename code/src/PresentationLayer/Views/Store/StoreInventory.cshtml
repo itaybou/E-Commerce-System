@@ -1,5 +1,5 @@
 ﻿@using ECommerceSystem.Models
-@model Tuple<StoreModel, List<ProductModel>>
+@model Tuple<StoreModel, List<ProductInventoryModel>>
 @{
     ViewData["Title"] = "Store Inventory";
 }
@@ -35,14 +35,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var product in Model.Item2)
+                @foreach (var product in Model.Item2)
                 {
                 <tr class="text-left hovertr">
-                    <td class="w-25">@product.Id</td>
+                    <td class="w-25">@product.ID</td>
                     <td>@product.Name</td>
-                    <td>@product.Quantity</td>
-                    <td>@product.BasePrice</td>
-                    <td>@product.PriceWithDiscount</td>
+
+                    <td>@product.Price</td>
+          
                     <td class="text-right" style="width: 130px">
                         <div class="edit-icon" style="color: lightslategrey">Edit Product<span style="font-size: 25px"> <i class="fas fa-edit"></i></span></div>
                         <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
@@ -52,7 +52,7 @@
                         </form>
                     </td>
                 </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                        }
+                    </tbody>
+                </table>
+            </div>

@@ -7,9 +7,9 @@ namespace ECommerceSystem.DataAccessLayer
         private MongoClient MongoClient { get; }
         private DatabaseConfiguration Configuration { get; }
 
-        public DbContext(string connectionString, string databaseName, string testDatabaseName)
+        public DbContext(string connectionString, string databaseName)
         {
-            Configuration = new DatabaseConfiguration(connectionString, databaseName, testDatabaseName);
+            Configuration = new DatabaseConfiguration(connectionString, databaseName);
             MongoClient = new MongoClient();//Configuration.ConnectionString);
         }
 
@@ -17,26 +17,21 @@ namespace ECommerceSystem.DataAccessLayer
 
         public IMongoDatabase Database() => MongoClient.GetDatabase(Configuration.DatabaseName);
 
-        public IMongoDatabase TestDatabase() => MongoClient.GetDatabase(Configuration.TestDatabaseName);
 
         private class DatabaseConfiguration
         {
             private readonly string _connectionString;
             private readonly string _databaseName;
-            private readonly string _testDatabaseName;
 
-            public DatabaseConfiguration(string connectionString, string databaseName, string testDatabaseName)
+            public DatabaseConfiguration(string connectionString, string databaseName)
             {
                 _connectionString = connectionString;
                 _databaseName = databaseName;
-                _testDatabaseName = testDatabaseName;
             }
 
             public string ConnectionString => _connectionString;
 
             public string DatabaseName => _databaseName;
-
-            public string TestDatabaseName => _testDatabaseName;
         }
     }
 }

@@ -39,9 +39,25 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.assignManager(sessionID, newManageruserName, storeName);
         }
 
-        public bool assignOwner(Guid sessionID, string newOwneruserName, string storeName)
+        public Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName)
         {
-            return _storeServices.assignOwner(sessionID, newOwneruserName, storeName);
+            return _storeServices.createOwnerAssignAgreement(sessionID, newOwneruserName, storeName);
+        }
+
+        public bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            return _storeServices.approveAssignOwnerRequest(sessionID, agreementID, storeName);
+        }
+
+        public bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
+        {
+            return _storeServices.disApproveAssignOwnerRequest(sessionID, agreementID, storeName);
+
+        }
+
+        public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
+        {
+            return _storeServices.removeOwner(sessionID, ownerToRemoveUserName, storeName);
         }
 
         public bool ChangeProductQunatity(Guid productId, int quantity)
@@ -69,12 +85,12 @@ namespace ECommerceSystem.ServiceLayer
             return _systemServices.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo()
         {
             return _storeServices.getAllStoresInfo();
         }
 
-        public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName)
         {
             return _storeServices.getStoreInfo(storeName);
         }
@@ -224,7 +240,7 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.getUsernamePermissionTypes(storeName, username);
         }
 
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeServices.getProductInventory(prodID);
         }

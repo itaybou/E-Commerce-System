@@ -143,10 +143,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         }
 
         [Test()]
-        public void deleteProductTestByPermitedUserTest()
+        public void deleteProductTestByPermitedManagerTest()
         {
-            Guid guid1 = _store.Inventory.addProduct(_productName, _quantity);
-            Assert.True(_permissions.deleteProduct("permitManager", _productName, guid1),
+            
+            Guid product = _store.Inventory.addProduct(_productName, _quantity);
+            Assert.True(_permissions.deleteProduct("permitManager", _productName, product),
                     "Fail to delete group of products ");
         }
 
@@ -188,10 +189,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         }
 
         [Test()]
-        public void assighOwnerdefaltPermissionsTest()
+        public void assighOwnerdefultPermissionsTest()
         {
             _userManagement.login("owner", "pA55word");
-            Assert.NotNull(_storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
+            Assert.NotNull(_storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
             Assert.AreEqual(_userManagement.getUserByName("anotherOwner").getPermission("store").AssignedBy, _owner, "The user who assign the reg user as manager isn`t the assignee");
             //check defult permissions:
             _newManager = _userManagement.getUserByName("anotherOwner");
@@ -203,7 +204,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         }
 
         [Test()]
-        public void assighManagerdefaltPermissionsTest()
+        public void assighManagerdefultPermissionsTest()
         {
             _userManagement.login("owner", "pA55word");
             Assert.NotNull(_storeManagement.assignManager(_ownerGUID, "newManager", "store"), "Fail to assign regular user as new owner");

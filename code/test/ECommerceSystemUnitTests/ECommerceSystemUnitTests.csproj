@@ -73,8 +73,25 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DomainLayer\StoresManagement\Discount\AbstractCompositeDiscountTest.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDiscountPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalProductDiscountTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscountTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\DiscountTest.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\OrDiscountPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\VisibleDiscountTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\XORDiscountPolicyTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\InventoryTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\ProductInventoryTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\AndPurchasePolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\CompositePurchasePolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\DaysOffPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\LocationPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\MinPricePerStorePolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\OrPurchasePolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\ProductQuantityPolicyTests.cs" />
+    <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\XORPurchasePolicyTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagmentTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilterTests.cs" />

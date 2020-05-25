@@ -2,6 +2,14 @@
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -29,6 +37,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         bool modifyProductName(string loggedInUserName, string newProductName, string oldProductName);
 
         Permissions assignOwner(User loggedInUser, string newOwneruserName);
+
+        AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName);
+
+        bool removeOwner(Guid activeUserID, string ownerToRemoveUserName);
 
         Permissions assignManager(User loggedInUser, string newManageruserName);
 
@@ -58,6 +70,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         Guid addOrPurchasePolicy(Guid iD1, Guid iD2);
 
         Guid addXorPurchasePolicy(Guid iD1, Guid iD2);
+        List<PurchasePolicyModel> getAllPurchasePolicyByStoreName();
+
 
         //Manage discounts
         Guid addVisibleDiscount(Guid productID, float percentage, DateTime expDate);
@@ -77,5 +91,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         bool removeCompositeDiscount(Guid discountID);
 
         bool removeStoreLevelDiscount(Guid discountID);
+        List<DiscountPolicyModel> getAllStoreLevelDiscounts();
+        List<DiscountPolicyModel> getAllDiscountsForCompose();
     }
 }
