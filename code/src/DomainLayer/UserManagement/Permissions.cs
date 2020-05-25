@@ -378,6 +378,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
+        {
+            if (this.isOwner())
+            {
+                return _store.createOwnerAssignAgreement(assigner, newOwneruserName);
+            }
+            else return null;
+        }
+
         public Guid addAndDiscountPolicy(List<Guid> IDS)
         {
             if (this.canManageDiscounts())

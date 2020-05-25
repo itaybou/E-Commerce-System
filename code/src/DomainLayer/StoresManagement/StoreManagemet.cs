@@ -11,6 +11,7 @@ using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -134,7 +135,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProductInv(activeUser.Name(), productInvName, description,  price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            return permission.addProductInv(activeUser.Name(), productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
         }
 
         //@pre - userID exist and subscribed
@@ -155,6 +156,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.addProduct(activeUser.Name(), productInvName, quantity, minQuantity, maxQuantity);
         }
+
+        
+
 
         //@pre - userID exist and subscribed
         public bool deleteProductInventory(Guid userID, string storeName, string productInvName)
@@ -302,40 +306,119 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //*********Assign*********
 
-        //@pre - userID exist and subscribed
-        public bool assignOwner(Guid userID, string newOwneruserName, string storeName)
+        //@return id of the agreement
+        public Guid createOwnerAssignAgreement(Guid userID, string newOwneruserName, string storeName)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
-                return false;
+                return Guid.Empty;
             }
 
             if (!_userManagement.isSubscribed(newOwneruserName)) //newOwneruserName isn`t subscribed
             {
-                return false;
+                return Guid.Empty;
             }
             Permissions activeUserPermissions = activeUser.getPermission(storeName);
 
             if (activeUserPermissions == null)
             {
+                return Guid.Empty;
+            }
+            AssignOwnerAgreement agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
+            if(agreement == null)
+            {
+                return Guid.Empty;
+            }
+
+            INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
+            List<Guid> approvers = agreement.PendingApproval.Select(userName => _userManagement.getUserByName(userName).Guid).ToList();
+            if(approvers.Count != 0)
+            {
+                _communication.SendGroupNotification(approvers, notification);
+            }
+            else
+            {
+                assignOwnerAftterApproval(activeUser, newOwneruserName, storeName); //there is only 1 owner in the store(activeUser), so there is no need to approve
+            }
+
+            return agreement.ID;
+        }
+
+        public bool approveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            if (store == null)
+            {
                 return false;
             }
-            Permissions newOwmerPer = activeUserPermissions.assignOwner(activeUser, newOwneruserName);
+
+            AssignOwnerAgreement assignOwnerAgreement = store.getAgreementByID(agreementID);
+            if (assignOwnerAgreement == null)
+            {
+                return false;
+            }
+
+            User approver = _userManagement.getUserByGUID(userID);
+
+            if (!store.approveAssignOwnerRequest(approver.Name(), assignOwnerAgreement))
+            {
+                return false;
+            }
+
+            if (assignOwnerAgreement.isDone())
+            {
+                assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID), assignOwnerAgreement.AsigneeUserName, storeName);
+            }
+
+            return true;
+        }
+
+        public bool disApproveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
+        {
+            Store store = getStoreByName(storeName);
+            if (store == null)
+            {
+                return false;
+            }
+
+            AssignOwnerAgreement assignOwnerAgreement = store.getAgreementByID(agreementID);
+            if (assignOwnerAgreement == null)
+            {
+                return false;
+            }
+
+            User disapprover = _userManagement.getUserByGUID(userID);
+
+            if (!store.disapproveAssignOwnerRequest(disapprover.Name(), assignOwnerAgreement))
+            {
+                return false;
+            }
+
+            //send disapprove notification to the assignee and assigner
+            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name(), storeName);
+            _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
+            _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
+            return true;
+        }
+
+
+        private bool assignOwnerAftterApproval(User assigner, string newOwneruserName, string storeName)
+        {
+            Permissions newOwmerPer = getStoreByName(storeName).assignOwner(assigner, newOwneruserName);
             //add the permissions object to the user
             if (newOwmerPer != null)
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
-                _userManagement.addAssignee(userID, storeName, assigneeUser.Guid);
+                _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
 
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, activeUser.Name(), storeName));
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name(), storeName));
                 return true;
             }
             else
                 return false;
         }
-
 
         public bool removeOwner(Guid activeUserID, string ownerToRemoveUserName, string storeName)
         {

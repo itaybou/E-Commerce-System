@@ -125,9 +125,10 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         [Test()]
         public void removeOwnerTest()
         {
-            _storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store");
+            _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store");
             _userManagement.register("ownerAssignedByAnotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
-            _storeManagement.assignOwner(_anotherOwnerGUID, "ownerAssignedByAnotherOwner", "store");
+             Guid agreementID = _storeManagement.createOwnerAssignAgreement(_anotherOwnerGUID, "ownerAssignedByAnotherOwner", "store");
+            _storeManagement.approveAssignOwnerRequest(_ownerGUID, agreementID, "store");
             User ownerAssignedByAnotherOwner = _userManagement.getUserByName("ownerAssignedByAnotherOwner");
 
 
@@ -170,13 +171,13 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         public void assignOwnerByUnPermitedUserTest()
         {
             _userManagement.login("regularUser", "pA55word");
-            Assert.False(_storeManagement.assignOwner(_regularUserGUID, "anotherOwner", "store"), "Assign regular user as owner by another regular user successed");
+            Assert.AreEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_regularUserGUID, "anotherOwner", "store"), "Assign regular user as owner by another regular user successed");
             _userManagement.logout(_regularUser.Guid);
             _userManagement.login("nonPermitManager", "pA55word");
-            Assert.False(_storeManagement.assignOwner(_nonPermitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with default permissions successed");
+            Assert.AreEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_nonPermitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with default permissions successed");
             _userManagement.logout(_nonPermitManager.Guid);
             _userManagement.login("permitManager", "pA55word");
-            Assert.False(_storeManagement.assignOwner(_permitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with full permissions successed");
+            Assert.AreEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_permitManagerGUID, "anotherOwner", "store"), "Assign regular user as owner by manager with full permissions successed");
             _userManagement.logout(_permitManager.Guid);
 
 
@@ -184,13 +185,43 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         }
 
         [Test()]
-        public void assignOwnerByPermitedUserTest()
+        public void assignOwnerWithoutAgreemntNeedByPermitedUserTest()
         {
-
-            Assert.True(_storeManagement.assignOwner(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
+            Assert.AreNotEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
             Assert.False(_storeManagement.assignManager(_ownerGUID, "anotherOwner", "store"), "Assign already owner user as new manager successed");
+            _storeManagement.removeOwner(_ownerGUID, "anotherOwner", "store");
             _userManagement.logout(_ownerGUID);
-            
+        }
+
+        [Test()]
+        public void assignOwnerWithAgreemntByPermitedUserTest()
+        {
+            _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store");
+            _userManagement.register("ownerAssignedByAnotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
+            User ownerAssignedByAnotherOwner = _userManagement.getUserByName("ownerAssignedByAnotherOwner");
+            Guid disapproveAgreementID = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "ownerAssignedByAnotherOwner", "store");
+            Assert.AreNotEqual(Guid.Empty, disapproveAgreementID);
+
+            //cant create agree when there is open agree for this user and store
+            Assert.AreEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_ownerGUID, "ownerAssignedByAnotherOwner", "store"));
+
+            //disapprove
+            Assert.IsTrue(_storeManagement.disApproveAssignOwnerRequest(_anotherOwnerGUID, disapproveAgreementID, "store"));
+            Assert.IsNull(_store.getAgreementByID(disapproveAgreementID)); //agreement revmoved after disapprove
+            Assert.IsFalse(_store.getOWners().Contains("ownerAssignedByAnotherOwner"));
+            Assert.IsNull(ownerAssignedByAnotherOwner.getPermission("store"));
+
+
+            //approve
+            Guid approveAgreemntID = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "ownerAssignedByAnotherOwner", "store");
+            Assert.IsTrue(_storeManagement.approveAssignOwnerRequest(_anotherOwnerGUID, approveAgreemntID, "store"));
+            Assert.IsNull(_store.getAgreementByID(approveAgreemntID)); //agreement revmoved after approval
+            Assert.IsTrue(_store.getOWners().Contains("ownerAssignedByAnotherOwner"));
+            Assert.IsNotNull(ownerAssignedByAnotherOwner.getPermission("store"));
+            Assert.IsTrue(ownerAssignedByAnotherOwner.getPermission("store").isOwner());
+
+            _storeManagement.removeOwner(_ownerGUID, "anotherOwner", "store");
+            _storeManagement.removeOwner(_ownerGUID, "ownerAssignedByAnotherOwner", "store");
         }
 
         //[Test()]
@@ -202,18 +233,18 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         //    List<StorePurchase> expected = new List<StorePurchase>();
         //    expected.Add(purchase);
 
-            //succcess:
-            //Assert.AreEqual(expected, _storeManagement.purchaseHistory("store"), "fail to view store history");
-            //Assert.AreEqual(expected, _storeManagement.purchaseHistory("permitManager"), "fail to view store history");
+        //succcess:
+        //Assert.AreEqual(expected, _storeManagement.purchaseHistory("store"), "fail to view store history");
+        //Assert.AreEqual(expected, _storeManagement.purchaseHistory("permitManager"), "fail to view store history");
 
-            //User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
-            //Assert.AreEqual(expected, _storeManagement.purchaseHistory("admin"), "fail to view store history");
+        //User admin = new User(new SystemAdmin("admin", "4dMinnn", "fname", "lname", "email"));
+        //Assert.AreEqual(expected, _storeManagement.purchaseHistory("admin"), "fail to view store history");
 
-            ////fail:
+        ////fail:
 
-            //Assert.Null(_storeManagement.purchaseHistory("regularUser"), "view history of a store successed with regular user");
-            
-            //Assert.Null(_storeManagement.purchaseHistory("nonExsist"), "view history of a store successed with non exist user");
+        //Assert.Null(_storeManagement.purchaseHistory("regularUser"), "view history of a store successed with regular user");
+
+        //Assert.Null(_storeManagement.purchaseHistory("nonExsist"), "view history of a store successed with non exist user");
         //}
 
 
