@@ -2,7 +2,7 @@
 @using ECommerceSystem.Models;
 @model PresentationLayer.Models.AddProductModel
 @{
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Add Product Group";
     var categories = EnumMethods.GetValues(typeof(Category));
     var storeName = ViewData["StoreName"];
 }
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="form-group w-50 col-md-6">
                         <label class="row-form-label" style="text-align: left" for="password">Base Price</label>
-                        <input class="form-control" type="number" placeholder="Base Price" asp-for="BasePrice" />
+                        <input class="form-control" type="number" placeholder="Base Price" asp-for="Price" />
                     </div>
                     <div class="form-group w-50 col-md-6">
                         <label style="text-align: left" for="password">Quantity</label>
@@ -53,23 +53,13 @@
                     </div>-->
                 </div>
                 <div class="row">
-                    <div class="form-group w-50 col-md-6">
-                        <label style="text-align: left" for="password">Minimum Quantity Per Purchase</label>
-                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MinPurchaseQuantity" />
-                    </div>
-                    <div class="form-group w-50 col-md-6">
-                        <label style="text-align: left" for="password">Maximum Quantity Per Purchase</label>
-                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MaxPurchaseQuantity" />
-                    </div>
-                </div>
-                <div class="row">
                     <div class="form-group w-50 col-md-12">
                         <label style="text-align: left" for="password">Keywords (Seperate with spaces)</label>
                         <textarea rows="2" type="text" class="form-control" placeholder="Keyowrds" asp-for="Keywords"></textarea>
                     </div>
                 </div>
                 <input id="storeName" name="storeName" type="hidden" value="@storeName" />
-                <button type="submit" class="w-50">Add Product</button>
+                <button type="submit" class="w-50">Add Product Group</button>
             </form>
         </div>
     </div>

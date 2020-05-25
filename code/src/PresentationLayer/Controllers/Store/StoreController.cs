@@ -69,5 +69,19 @@ namespace PresentationLayer.Controllers.Store
             }
             return View("../Store/OpenStore", model);
         }
+
+        [HttpPost]
+        [Route("RateStore")]
+        public IActionResult RateStore(string storeName, string rating)
+        {
+            try
+            {
+                var rating_int = Int32.Parse(rating);
+                _service.rateStore(storeName, rating_int);
+            }
+            catch (Exception) { }
+            var storeInfo = _service.getAllStoresInfo();
+            return View("StoreList", storeInfo);
+        }
     }
 }

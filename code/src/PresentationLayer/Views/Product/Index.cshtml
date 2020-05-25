@@ -4,6 +4,41 @@
     ViewData["Title"] = "Product";
 }
 
+@section Scripts
+{
+    <script>
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+            container: 'body',
+            html: true,
+            placement: 'bottom',
+            sanitize: false,
+            content: function () {
+                return $("#PopoverContent").html();
+            }
+        });
+    });
+    </script>
+}
+
+<section style="display: none">
+    <div id="PopoverContent" class="hidden">
+        <label class="alert-warning">Rating will be rounded in range 0 - 5</label>
+        <form type="hidden" asp-action="RateProduct" asp-controller="Product" asp-route-prodID="@Model.ID" method="post">
+            <div class="input-group">
+                <input id="rating" name="rating" type="number" class="form-control" placeholder="0-5"
+                       aria-label="0-5" aria-describedby="button-addon1">
+                <div class="input-group-append" id="button-addon1">
+                    <button type="submit" class="btn btn-outline-primary" data-toggle="popover" data-placement="bottom"
+                            data-html="true" data-title="Search">
+                        <i class="far fa-thumbs-up"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
     <div class="container">
         <h1>@ViewData["Name"]</h1>
         <a href="javascript:void(0);" id="backLink">
@@ -31,13 +66,27 @@
                         </div>
                             <div class="row flex justify-content-between p-2">
                                 <div>
-                                    <h5><i class="fas fa-star checked"></i><strong> @Model.Rating Rating</strong></h5>
+                                    <h5><i class="fas fa-star checked"></i><strong> @Math.Round(Model.Rating, 2) Rating</strong></h5>
                                 </div>
                                 <div>
                                     <h5><i class="far fa-thumbs-up"></i><strong> @Model.RaterCount Raters</strong></h5>
-                                    <button type="submit" class="btn btn-info w-100">
+                                    <section>
+                                        <div id="PopoverContent" class="d-none">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Recipient's username"
+                                                       aria-label="Recipient's username with two button addons" aria-describedby="button-addon1">
+                                                <div class="input-group-append" id="button-addon1">
+                                                    <button class="btn btn-outline-primary" type="button" data-toggle="popover" data-placement="bottom"
+                                                            data-html="true" data-title="Search">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <a href="#" class="btn btn-info w-100" data-html='true' data-toggle='popover' data-title="Give your rating">
                                         <i class="far fa-thumbs-up"></i> Rate
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             <p class="product-description"><h5 class="text-secondary"><b>Product description:</b></h5><h5> @Model.Description</h5></p>
@@ -55,7 +104,7 @@
                             <div class="action">
                                 <form type="hidden" asp-action="AddProductToCart" asp-controller="Cart" asp-route-prodID="@Model.ID" method="post">
                                     <button type="submit" style="width: 200px" class="add-to-cart btn btn-default">
-                                        add to cart
+                                        <i class="fas fa-cart-plus"></i> add to cart
                                     </button>
                                 </form>
                             </div>

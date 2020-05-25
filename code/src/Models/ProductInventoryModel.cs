@@ -24,6 +24,11 @@ namespace ECommerceSystem.Models
 
         public List<string> Keywords { get; set; }
 
+        public ProductInventoryModel()
+        {
+
+        }
+
         public ProductInventoryModel(Guid id, string name, double price, string description, Category category, double rating, long raters, HashSet<string> keywords)
         {
             ID = id;
@@ -31,6 +36,7 @@ namespace ECommerceSystem.Models
             Price = price;
             Description = description;
             Rating = rating;
+            Category = category;
             RaterCount = raters;
             Keywords = keywords.ToList();
         }

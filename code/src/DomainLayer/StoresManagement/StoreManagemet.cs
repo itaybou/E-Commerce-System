@@ -559,6 +559,36 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
         }
 
+        public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid productInvID, string storeName)
+        {
+            var result = new List<ProductModel>();
+            var storeInfo = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
+            storeInfo.Item2.ForEach(prod => {
+                if (prod.ID == productInvID)
+                    prod.ProductList.ForEach(p => result.Add(ModelFactory.CreateProduct(p)));
+            });
+            return Tuple.Create(ModelFactory.CreateStore(storeInfo.Item1), result);
+        }
+
+        public void rateProduct(Guid id, int rating)
+        {
+            var store = _data.Stores.FindOneBy(s => s.Inventory.Products.Any(p => p.ID == id));
+            var products = store.Inventory.Products;
+            products.ForEach(p =>
+            {
+                if (p.ID == id)
+                    p.rateProduct(rating);
+            });
+            _data.Stores.Update(store, store.Name, s => s.Name);
+        }
+
+        public void rateStore(string storeName, int rating)
+        {
+            var store = _data.Stores.GetByIdOrNull(storeName, s => s.Name);
+            store.rateStore(rating);
+            _data.Stores.Update(store, store.Name, s => s.Name);
+        }
+
         public Tuple<StoreModel, List<ProductInventoryModel>> getStoreProducts(string storeName)
         {
             var info = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();

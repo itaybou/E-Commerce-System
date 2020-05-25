@@ -13,6 +13,7 @@ using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.Models.notifications;
+using ECommerceSystem.DataAccessLayer;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -194,7 +195,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to  product
         public bool modifyProductPrice(string loggedInUserName, string productName, int newPrice)
         {
-            return Inventory.modifyProductPrice(productName, newPrice);
+            var result =  Inventory.modifyProductPrice(productName, newPrice);
+            if (result)
+            {
+                DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
+                return true;
+            }
+            return false;
         }
 
         //@pre - logged in user have permission to modify product
@@ -218,7 +225,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool modifyProductName(string loggedInUserName, string newProductName, string oldProductName)
         {
-            return Inventory.modifyProductName(newProductName, oldProductName);
+            var result = Inventory.modifyProductName(newProductName, oldProductName);
+            if(result)
+            {
+                DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
+                return true;
+            }
+            return false;
         }
 
         //*********Assign*********

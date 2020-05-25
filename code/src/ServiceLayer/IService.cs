@@ -43,8 +43,14 @@ namespace ECommerceSystem.ServiceLayer
 
         IDictionary<PermissionType, bool> getUsernamePermissionTypes(string storeName, string username);
 
+        void rateProduct(Guid prodID, int rating);
+
+        void rateStore(string storeName, int rating);
+
         // Store Services
         Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName);
+
+        Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid sessionID, Guid productInvID, string storeName);
 
         Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo();
 
@@ -58,13 +64,13 @@ namespace ECommerceSystem.ServiceLayer
 
         bool deleteProduct(string storeName, string productInvName, Guid productID);
 
-        bool modifyProductName(string storeName, string newProductName, string oldProductName);
+        bool modifyProductName(Guid sessionID, string storeName, string newProductName, string oldProductName);
 
-        bool modifyProductPrice(string storeName, string productInvName, int newPrice);
+        bool modifyProductPrice(Guid sessionID, string storeName, string productInvName, int newPrice);
 
         bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
 
-        bool modifyProductDiscountType(string storeName, string productInvName, Guid productID);
+        bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID);
 
         bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
 

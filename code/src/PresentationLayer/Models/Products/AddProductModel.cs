@@ -7,11 +7,11 @@ namespace PresentationLayer.Models
     {
         [DisplayName("Username")]
         [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("Category")]
         [Required(ErrorMessage = "Please Provide Category", AllowEmptyStrings = false)]
-        public string? Category { get; set; }
+        public string Category { get; set; }
 
         [DisplayName("Descrption")]
         public string Description { get; set; }
@@ -22,15 +22,9 @@ namespace PresentationLayer.Models
 
         [DisplayName("Price")]
         [Required(ErrorMessage = "Please Provide Price", AllowEmptyStrings = false)]
-        public double BasePrice { get; set; }
+        public double Price { get; set; }
 
         [DisplayName("Keywords")]
         public string Keywords { get; set; }
-
-        [DisplayName("MinPurchaseQuantity")]
-        public int MinPurchaseQuantity { get; set; }
-
-        [DisplayName("MaxPuchaesQuantity")]
-        public int MaxPurchaseQuantity { get; set; }
     }
 }

@@ -120,19 +120,19 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.logout(userId);
         }
 
-        public bool modifyProductDiscountType(string storeName, string productInvName, Guid productID)
+        public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID)
         {
             throw new NotImplementedException();
         }
 
-        public bool modifyProductName(string storeName, string newProductName, string oldProductName)
+        public bool modifyProductName(Guid sessionID, string storeName, string newProductName, string oldProductName)
         {
-            throw new NotImplementedException();
+            return _storeServices.modifyProductName(sessionID, storeName, newProductName, oldProductName);
         }
 
-        public bool modifyProductPrice(string storeName, string productInvName, int newPrice)
+        public bool modifyProductPrice(Guid sessionID, string storeName, string productInvName, int newPrice)
         {
-            throw new NotImplementedException();
+            return _storeServices.modifyProductPrice(sessionID, storeName, productInvName, newPrice);
         }
 
         public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
@@ -243,6 +243,21 @@ namespace ECommerceSystem.ServiceLayer
         public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeServices.getProductInventory(prodID);
+        }
+
+        public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid sessionID, Guid productInvID, string storeName)
+        {
+            return _storeServices.getStoreProductGroup(sessionID, productInvID, storeName);
+        }
+
+        public void rateProduct(Guid prodID, int rating)
+        {
+            _storeServices.rateProduct(prodID, rating);
+        }
+
+        public void rateStore(string storeName, int rating)
+        {
+            _storeServices.rateStore(storeName, rating);
         }
     }
 }

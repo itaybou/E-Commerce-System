@@ -2,57 +2,84 @@
 @model Tuple<StoreModel, List<ProductInventoryModel>>
 @{
     ViewData["Title"] = "Store Inventory";
+    var store = Model.Item1;
+    var products = Model.Item2;
 }
 
     <div class="container-fluid w-75">
         <h1>@ViewData["StoreName"] - Store Inventory</h1>
+        <a href="javascript:void(0);" id="backLink">
+            <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
+                <i class="fas fa-arrow-circle-left"></i>
+                Go Back
+            </div>
+        </a>
         <div class="alert alert-info">
-            <i class="fa fa-info-circle pull-right"></i>  <strong>Click product to edit details.</strong>
+            <i class="fa fa-info-circle pull-right"></i>  <strong>Click control button to Modify, Remove or Add Concrete products to group.</strong>
         </div>
-
         <div class="row">
             <div class="col md-12">
                 <h1> <i class="fa fa-shopping-cart"></i>  <small> - Manage store inventory</small></h1>
             </div>
             <div class="col justify-content-end align-self-center text-right">
-                <a type="button" style="width: 200px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddProduct" asp-route-store="@ViewData["StoreName"]">
-                    <i class="fas fa-plus"></i><i class="fas fa-truck-loading"></i> Add Prodcut
+                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddProduct" asp-route-store="@store.Name">
+                    <i class="fas fa-plus"></i><i class="fas fa-truck-loading"></i> Add Prodcut Group
                 </a>
             </div>
         </div>
 
         <hr>
 
-        <table class="table table-hover">
+        <table class="table">
             <thead>
                 <tr class="text-left">
                     <th>#ID</th>
                     <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Base Price</th>
-                    <th>Discounted Price</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Rating</th>
+                    <th>Rater Count</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var product in Model.Item2)
+                @foreach (var product in products)
                 {
-                <tr class="text-left hovertr">
-                    <td class="w-25">@product.ID</td>
-                    <td>@product.Name</td>
+                    <tr class="text-left">
+                        <td class="w-25">@product.ID</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price</td>
+                        <td>@Enum.GetName(typeof(Category), product.Category)</td>
+                        <td>@product.Rating</td>
+                        <td>@product.RaterCount</td>
+                        <td class="text-right align-content-end justify-content-end p-0" style="width: 300px">
+                            <table border="0" cellspacing="0" cellpadding="0" class="justify-content-end p-0 table-borderless" style=" padding: 0; margin: 0; border-spacing: 0; border-collapse: collapse; display: block">
+                                <tr>
+                                    <td style="margin: 0px">
+                                        <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-primary" asp-action="ModifyProductGroup" asp-controller="Owner" asp-route-id="@product.ID" asp-route-store="@store.Name">
+                                            Modify <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td style="margin: 0px">
+                                        <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                            <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                                Remove <i class="fas fa-archive"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr class="align-content-end justify-content-end text-right">
 
-                    <td>@product.Price</td>
-          
-                    <td class="text-right" style="width: 130px">
-                        <div class="edit-icon" style="color: lightslategrey">Edit Product<span style="font-size: 25px"> <i class="fas fa-edit"></i></span></div>
-                        <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
-                            <button type="submit" style="width: 130px" class="btn btn-outline-primary m-1">
-                                Remove <i class="fas fa-archive"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                    <td colspan="2" style="margin: 0px">
+                                        <a type="button" style="width: 320px; margin: 0" class="btn btn-outline-success" asp-action="ProductGroupListing" asp-controller="Owner" asp-route-store="@store.Name" asp-route-id="@product.ID">
+                                            Product Group <i class="fas fa-layer-group"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

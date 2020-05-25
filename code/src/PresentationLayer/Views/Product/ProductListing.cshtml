@@ -10,7 +10,7 @@
     var SearchType = Model.SearchType;
 }
 
-    <div class="container">
+    <div class="container-fluid" style="width: 60%">
         <h1>@ViewData["Title"] @(ViewData["StoreName"] != null ? "- " + ViewData["StoreName"] : "")</h1>
         <div class="row">
             <div class="col">
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-<div class="container">
+<div class="container-fluid" style="width: 60%">
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
@@ -210,7 +210,7 @@
                             <h4 class="card-title"><a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.ID" title="View Product">@product.Name</a></h4>
                             <div class="row flex justify-content-between p-2">
                                 <div>
-                                    <i class="fas fa-star checked"></i><strong> @product.Rating Rating</strong>
+                                    <i class="fas fa-star checked"></i><strong> @Math.Round(product.Rating, 2) Rating</strong>
                                 </div>
                                 <div>
                                     <i class="far fa-thumbs-up"></i><strong> @product.RaterCount Raters</strong>

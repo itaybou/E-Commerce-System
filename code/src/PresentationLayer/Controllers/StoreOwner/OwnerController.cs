@@ -35,6 +35,42 @@ namespace PresentationLayer.Controllers.StoreOwner
             return View("../Store/StoreInventory", products);
         }
 
+        [Route("ProductGroupListing")]
+        public IActionResult ProductGroupListing(string store, string id)
+        {
+            ViewData["StoreName"] = store;
+            var prodID = new Guid(id);
+            var session = new Guid(HttpContext.Session.Id);
+            var products = _service.getStoreProductGroup(session, prodID, store);
+            return View("../Store/StoreProducts", products);
+        }
+
+        [Route("ModifyProductGroup")]
+        [Authorize(Roles = "Admin, Subscribed")]
+        public IActionResult ModifyProductGroup(string id, string store)
+        {
+            ViewData["StoreName"] = store;
+            var p = _service.getProductInventory(new Guid(id)).Item1;
+            string keywords = "";
+            p.Keywords.ForEach(word => keywords += word + " ");
+            var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords));
+            return View("../Store/ModifyProductGroup", model);
+        }
+
+        [HttpPost]
+        [Route("ModifyProductGroup")]
+        [Authorize(Roles = "Admin, Subscribed")]
+        public IActionResult ModifyProductGroup(ProductInventoryModel model)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var storeName = Request.Form["storeName"].ToString();
+            var oldName = Request.Form["oldName"].ToString();
+            _service.modifyProductName(session, storeName, model.Name, oldName);
+            _service.modifyProductPrice(session, storeName, model.Name, (int)model.Price);
+            var products = _service.getStoreInfo(storeName);
+            return View("../Store/StoreInventory", products);
+        }
+
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("AddProduct")]
         public IActionResult AddProduct(string store)
@@ -56,8 +92,8 @@ namespace PresentationLayer.Controllers.StoreOwner
                 var keywords = new List<string>();
                 model.Name.Split(" ").ToList().ForEach(word => keywords.Add(word));
                 model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
-                if (_service.addProductInv(session, storeName, model.Description, model.Name, model.BasePrice,
-                    model.Quantity, category, keywords, model.MinPurchaseQuantity, model.MaxPurchaseQuantity) != Guid.Empty)
+                if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                    model.Quantity, category, keywords, -1, -1) != Guid.Empty)
                 {
                     var products = _service.getStoreInfo(storeName);
                     return View("../Store/StoreInventory", products);

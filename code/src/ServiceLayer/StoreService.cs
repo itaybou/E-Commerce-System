@@ -33,6 +33,13 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
+        public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid sessionID, Guid productInvID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreProductGroup(productInvID, storeName);
+        }
+
+        [Trace("Info")]
         public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo()
         {
             return _storeManagement.getAllStoresProducts();
@@ -341,6 +348,18 @@ namespace ECommerceSystem.ServiceLayer
         public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeManagement.getProductInventory(prodID);
+        }
+
+        [Trace("Info")]
+        public void rateProduct(Guid prodID, int rating)
+        {
+            _storeManagement.rateProduct(prodID, rating);
+        }
+
+        [Trace("Info")]
+        public void rateStore(string storeName, int rating)
+        {
+            _storeManagement.rateStore(storeName, rating);
         }
     }
 }

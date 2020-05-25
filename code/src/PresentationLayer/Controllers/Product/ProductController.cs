@@ -43,31 +43,30 @@ namespace PresentationLayer.Controllers.Products
             {
                 case "Name":
                     search = _service.searchProductsByName(searchInput, category == null ? "" : category, new Range<double>(from, to),
-                        new Range<double>(storeRating, storeRating + 1), new Range<double>(prodRating, prodRating + 1));
+                        new Range<double>(storeRating, 5), new Range<double>(prodRating, 5));
                     break;
 
                 case "Category":
                     search = _service.searchProductsByCategory(searchInput, new Range<double>(from, to),
-                        new Range<double>(storeRating, storeRating + 1), new Range<double>(prodRating, prodRating + 1));
+                        new Range<double>(storeRating, 5), new Range<double>(prodRating, 5));
                     break;
 
                 case "Keywords":
                     var keywords = searchInput.Split(" ").ToList();
                     search = _service.searchProductsByKeyword(keywords, category == null ? "" : category, new Range<double>(from, to),
-                        new Range<double>(storeRating, storeRating + 1), new Range<double>(prodRating, prodRating + 1));
+                        new Range<double>(storeRating, 5), new Range<double>(prodRating, 5));
                     break;
 
                 default:
                     search = _service.getAllProducts(category, new Range<double>(from, to),
-                        storeRating == -1 ? new Range<double>(0, 5) : new Range<double>(storeRating, storeRating + 1),
-                        prodRating == -1 ? new Range<double>(0, 5) : new Range<double>(prodRating, prodRating + 1));
+                        storeRating == -1 ? new Range<double>(0, 5) : new Range<double>(storeRating, 5),
+                        prodRating == -1 ? new Range<double>(0, 5) : new Range<double>(prodRating, 5));
                     break;
             }
             var model = new ProductListingModel(search, category, searchInput, searchType, from, to, prodRating, storeRating, page);
             return View("ProductListing", model);
         }
 
-        [AllowAnonymous]
         [Route("StoreProductListing")]
         public IActionResult StoreProductListing(string storeName)
         {
@@ -77,6 +76,25 @@ namespace PresentationLayer.Controllers.Products
             // get from domain product by store
             var model = new ProductListingModel(search, "", "", "", 0, 0, 0, 0, 0);
             return View("ProductListing", model);
+        }
+
+        [HttpPost]
+        [Route("RateProduct")]
+        public IActionResult RateProduct(string prodID, string rating)
+        {
+            var id = new Guid(prodID);
+            try
+            {
+                var rating_int = Int32.Parse(rating);
+                _service.rateProduct(id, rating_int);
+            } catch(Exception) { }
+            // get from domain product by store
+            ViewData["prodId"] = prodID;
+            var model = _service.getProductInventory(id).Item1;
+            if (model == null)
+                return RedirectToAction("ProductListing");
+            ViewData["Name"] = model.Name;
+            return View("Index", model);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.ServiceLayer;
+﻿using ECommerceSystem.Exceptions;
+using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,8 +23,14 @@ namespace PresentationLayer.Controllers.Admin
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
-            var userList = _service.allUsers(new Guid(HttpContext.Session.Id));
-            return View("Users", userList);
+            try
+            {
+                var userList = _service.allUsers(new Guid(HttpContext.Session.Id));
+                return View("Users", userList);
+            } catch(AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
         }
     }
 }

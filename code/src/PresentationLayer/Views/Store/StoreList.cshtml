@@ -1,12 +1,31 @@
 ﻿@using ECommerceSystem.Models;
-@model Dictionary<StoreModel, List<ProductModel>>
+@model Dictionary<StoreModel, List<ProductInventoryModel>>
 @{
     ViewData["Title"] = "Stores";
 }
 
-    <head>
-        <link rel="stylesheet" href="~/css/site.css" />
-    </head>
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+@section Scripts
+{
+    <script>
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+            container: 'body',
+            html: true,
+            placement: 'bottom',
+            sanitize: false,
+            content: function () {
+                var name = $(this).data("index");
+                var element = "#PopoverContent-".concat(name);
+                return $(element).html();
+            }
+        });
+    });
+    </script>
+}
 
 <div class="container py-2">
     <div class="row">
@@ -15,37 +34,59 @@
             <!-- List group-->
             <ul class="list-group shadow">
                 <!-- list group item-->
+                @{var k = 0;}
                 @foreach (var store in Model.Keys)
                 {
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="row">
-                        <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
-                            <div class="media-body order-2 order-lg-1">
-                                <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
-                                <ul class="list-inline small stars">
-                                    @for (var i = 0; i < Math.Round(store.Rating); i++)
-                                    {
-                                        <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
-                                    }
-                                    @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
-                                    {
-                                        <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
-                                    }
-                                </ul>
-                                <span><b>Rated by: </b>@store.RaterCount customers</span>
+                    <li class="list-group-item">
+                        <!-- Custom content-->
+                        <div class="row">
+                            <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
+                                <div class="media-body order-2 order-lg-1">
+                                    <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
+                                    <ul class="list-inline small stars">
+                                        @for (var i = 0; i < Math.Round(store.Rating); i++)
+                                        {
+                                            <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
+                                        }
+                                        @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
+                                        {
+                                            <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
+                                        }
+                                    </ul>
+                                    <span><b>Rated by: </b>@store.RaterCount customers</span>
+                                </div>
+                            </div>
+
+                            <div class="col justify-content-center align-self-center text-right">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                        Store Products <i class="fas fa-store"></i>
+                                    </button>
+                                </form>
+                                <section style="display: none">
+                                    <div id="PopoverContent-@k" class="hidden">
+                                        <label class="alert-warning">Rating will be rounded in range 0 - 5</label>
+                                        <form type="hidden" asp-action="RateStore" asp-controller="Store" asp-route-storeName="@store.Name" method="post">
+                                            <div class="input-group">
+                                                <input id="rating" name="rating" type="number" class="form-control" placeholder="0-5"
+                                                       aria-label="0-5" aria-describedby="button-addon1">
+                                                <div class="input-group-append" id="button-addon1">
+                                                    <button type="submit" class="btn btn-outline-primary" data-toggle="popover" data-placement="bottom"
+                                                            data-html="true" data-title="Search">
+                                                        <i class="far fa-thumbs-up"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                                <a href="#" class="btn btn-info" style="width: 200px" data-html='true' data-toggle='popover' data-title="Give your rating" data-index="@k">
+                                    <i class="far fa-thumbs-up"></i> Rate
+                                </a>
                             </div>
                         </div>
-
-                        <div class="col justify-content-center align-self-center text-right">
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                    Store Products <i class="fas fa-store"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                    k++;
                 }
             </ul> <!-- End -->
         </div>
