@@ -56,7 +56,7 @@ namespace ECommerceSystem.ServiceLayer
 
         bool openStore(Guid sessionID, string name);
 
-        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
+        Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl);
 
         bool deleteProductInv(string storeName, string productInvName);
 

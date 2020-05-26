@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.UserManagement;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
@@ -11,6 +12,11 @@ namespace ECommerceSystem.DataAccessLayer.repositories
         public User GetSubscribedUser(string username, string password)
         {
             return QueryAll().Where(u => u.Name.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
+        }
+
+        public IEnumerable<User> GetSubscribedByUsernameStart(string username)
+        {
+            return QueryAll().Where(user => user.isSubscribed() && user.Name.ToLower().StartsWith(username.ToLower())).ToList();
         }
 
         public void CacheUser(User user)

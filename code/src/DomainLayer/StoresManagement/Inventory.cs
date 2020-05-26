@@ -49,7 +49,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string productName, string description, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string productName, string description, double price, int quantity, Category category, List<string> keywords, string imageUrl)
         {
             if (productName.Equals(""))
             {
@@ -59,7 +59,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            ProductInventory productInventory = ProductInventory.Create(productName, description, price, quantity, category, keywords);
+            ProductInventory productInventory = ProductInventory.Create(productName, description, price, quantity, category, keywords, imageUrl);
             if (productInventory == null)
             {
                 return Guid.Empty;

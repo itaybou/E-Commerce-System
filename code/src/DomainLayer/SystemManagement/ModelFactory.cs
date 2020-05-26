@@ -19,13 +19,13 @@ namespace ECommerceSystem.Models
 
         public static ProductInventoryModel CreateProductInventory(ProductInventory prod)
         {
-            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords);
+            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl);
         }
 
         public static SearchResultModel CreateSearchResult(List<ProductInventory> prods, List<string> suggestions)
         {
             var products = new List<ProductInventoryModel>();
-            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords)));
+            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl)));
             return new SearchResultModel(products, suggestions);
         }
 

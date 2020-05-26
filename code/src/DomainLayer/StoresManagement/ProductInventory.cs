@@ -44,8 +44,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         [BsonElement("products")]
         [BsonSerializer(typeof(ProductListSerializer))]
         public List<Product> ProductList { get; set; }
+        [Required]
+        [BsonElement("image")]
+        public string ImageUrl { get; set; }
 
-        public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid)
+        public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid, string imageUrl)
         {
             this.Name = name;
             this.Category = category;
@@ -57,10 +60,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             keywords.ForEach(k => Keywords.Add(k));
             RaterCount = 0;
             Rating = 0;
+            ImageUrl = imageUrl;
         }
 
         public static ProductInventory Create(string productName, string description,
-            double price, int quantity, Category category, List<string> keywords)
+            double price, int quantity, Category category, List<string> keywords, string imageUrl)
         {
             if (price < 0 || quantity < 0)
             {
@@ -68,7 +72,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             var productInvGuid = GenerateId();
             var productGuid = GenerateId();
-            ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid);
+            ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid, imageUrl);
             Product newProduct = new Product(productName, description, quantity, price, productGuid);
             productInventory.ProductList.Add(newProduct);
             DataAccess.Instance.Products.Insert(newProduct);

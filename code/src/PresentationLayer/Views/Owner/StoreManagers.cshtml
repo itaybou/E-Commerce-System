@@ -246,8 +246,8 @@
                             @foreach (var permDesc in permissionTypes)
                             {
                                 <li class="list-group-item">
-                                    <input type="checkbox" id="permission_@counter" name="permission_@counter" value="@permDesc">
-                                    <label>@permDesc</label>
+                                    <input type="checkbox" id="permission_@counter" name="permission_@counter" value="@permDesc.Key">
+                                    <label>@permDesc.Key</label>
                                 </li>
                                 counter++;
                             }

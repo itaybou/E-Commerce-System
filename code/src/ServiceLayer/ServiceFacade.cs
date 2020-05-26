@@ -24,9 +24,9 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.addProduct(sessionID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
 
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
-            return _storeServices.addProductInv(sessionID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeServices.addProductInv(sessionID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity, imageUrl);
         }
 
         public bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity)

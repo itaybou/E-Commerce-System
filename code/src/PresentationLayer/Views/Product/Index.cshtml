@@ -51,8 +51,18 @@
             <div class="container-fliud">
                 <div class="wrapper row">
                     <div class="preview col-md-6">
+
                         <div class="preview-pic tab-content">
-                            <div class="tab-pane active" id="pic-1"><img src="https://picsum.photos/seed/picsum/400/252" /></div>
+                            <div class="tab-pane active" id="pic-1">
+                                @if (!String.IsNullOrWhiteSpace(Model.ImageURL))
+                                {
+                                    <img class="card-img-top" src="@Model.ImageURL" alt="Product image" width="500" height="350"> <!--user image-->
+                                }
+                                else
+                                {
+                                    <img class="card-img-top" src="~/images/unavailable.png" alt="Unavailable Product image" width="500" height="350"> <!--default image-->
+                                }
+                            </div>
                         </div>
                     </div>
                     <div class="details col-md-6">

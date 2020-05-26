@@ -98,9 +98,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to add product
         //return product(not product inventory!) id, return -1 in case of fail
         public Guid addProductInv(string activeUserName, string productName, string description, double price,
-            int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+            int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
-            Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords);
+            Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords, imageUrl);
 
             if (minQuantity != -1 && maxQuantity != -1)
             {

@@ -26,5 +26,8 @@ namespace PresentationLayer.Models
 
         [DisplayName("Keywords")]
         public string Keywords { get; set; }
+
+        [DisplayName("Image URL")]
+        public string ImageURL { get; set; }
     }
 }

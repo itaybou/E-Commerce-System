@@ -14,7 +14,7 @@ namespace PresentationLayer.Controllers
             foreach (var cookie in Request.Cookies.Keys)
                 Response.Cookies.Delete(cookie);
             var message = new ActionMessageModel("Oops! Your session has expired. please login again.", Url.Action("Login", "Auth"));
-            return View("_ActionMessage", message);
+            return View("_ErrorMessage", message);
         }
     }
 }

@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Models;
 using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
 
@@ -18,7 +16,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         string StoreName();
 
         Guid addProductInv(string activeUserName, string productName, string description, double price,
-            int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity);
+            int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl);
 
         Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity);
 

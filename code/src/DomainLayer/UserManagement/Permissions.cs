@@ -135,11 +135,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return PermissionTypes[PermissionType.ManageDiscounts];
         }
 
-        public Guid addProductInv(string activeUserName, string productName, string description, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(string activeUserName, string productName, string description, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             if (this.canAddProduct())
             {
-                return Store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity);
+                return Store.addProductInv(activeUserName, productName, description, price, quantity, category, keywords, minQuantity, maxQuantity, imageUrl);
             }
             else return Guid.Empty;
         }

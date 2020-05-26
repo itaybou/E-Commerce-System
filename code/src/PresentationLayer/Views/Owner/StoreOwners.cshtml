@@ -5,10 +5,12 @@
     var storeName = Model.Item2;
     ViewData["Title"] = "Store Owners - " + storeName;
 }
+<input id="store" name="store" type="hidden" value="@storeName" />
 
 @section Scripts
 {
     <script>
+        var store = document.getElementById('store').value;
         $('.assign-search').select2({
             placeholder: "Search users to assign",
             allowClear: true,
@@ -27,6 +29,7 @@
                 data: function (params) {
                     return {
                         query: params.term, //search term
+                        storeName: store,
                         page: params.page
                     };
                 },

@@ -55,10 +55,10 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity) // -1 if not needed in both
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl) // -1 if not needed in both
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity, imageUrl);
         }
 
         [Trace("Info")]

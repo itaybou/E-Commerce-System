@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Utilities.extensions;
+using System.Net;
+using System.Globalization;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -53,7 +55,7 @@ namespace PresentationLayer.Controllers.StoreOwner
             var p = _service.getProductInventory(new Guid(id)).Item1;
             string keywords = "";
             p.Keywords.ForEach(word => keywords += word + " ");
-            var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords));
+            var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords), p.ImageURL);
             return View("../Store/ModifyProductGroup", model);
         }
 
@@ -88,19 +90,41 @@ namespace PresentationLayer.Controllers.StoreOwner
             var storeName = Request.Form["storeName"].ToString();
             if (ModelState.IsValid)
             {
-                Category category = (Category)Enum.Parse(typeof(Category), model.Category);
-                var keywords = new List<string>();
-                model.Name.Split(" ").ToList().ForEach(word => keywords.Add(word));
-                model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
-                if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
-                    model.Quantity, category, keywords, -1, -1) != Guid.Empty)
+                if (String.IsNullOrWhiteSpace(model.ImageURL) || IsImageUrl(model.ImageURL))
                 {
-                    var products = _service.getStoreInfo(storeName);
-                    return View("../Store/StoreInventory", products);
+                    Category category = (Category)Enum.Parse(typeof(Category), model.Category);
+                    var keywords = new List<string>();
+                    model.Name.Split(" ").ToList().ForEach(word => keywords.Add(word));
+                    model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
+                    if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                        model.Quantity, category, keywords, -1, -1, model.ImageURL) != Guid.Empty)
+                    {
+                        var products = _service.getStoreInfo(storeName);
+                        return View("../Store/StoreInventory", products);
+                    }
+                    ModelState.AddModelError("AddProductError", "Error occured while trying to add product. check that you paramters are valid.");
                 }
-                ModelState.AddModelError("AddProductError", "Error occured while trying to add product. check that you paramters are valid.");
+                if(!String.IsNullOrWhiteSpace(model.ImageURL))
+                    ModelState.AddModelError("AddProductError", "The image URL entered is not a valid image URL!");
             }
             return View("../Store/AddProduct", model);
+        }
+
+        bool IsImageUrl(string URL)
+        {
+            try
+            {
+                var req = (HttpWebRequest)HttpWebRequest.Create(URL);
+                req.Method = "HEAD";
+                using (var resp = req.GetResponse())
+                {
+                    return resp.ContentType.ToLower(CultureInfo.InvariantCulture)
+                               .StartsWith("image/");
+                }
+            } catch(Exception)
+            {
+                return false;
+            }
         }
 
         [Authorize(Roles = "Admin, Subscribed")]

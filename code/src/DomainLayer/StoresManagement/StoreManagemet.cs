@@ -106,7 +106,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         //@pre - userID exist and subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
@@ -119,7 +119,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            var result = permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            var result = permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity, imageUrl);
             _data.Stores.Update((Store)permission.Store, storeName, s => s.Name);
             return result;
         }

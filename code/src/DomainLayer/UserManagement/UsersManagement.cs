@@ -169,7 +169,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         internal IEnumerable<UserModel> searchUsers(string username)
         {
-            var users = _data.Users.FindAllBy(user => user.isSubscribed() && user.Name.ToLower().StartsWith(username.ToLower()));
+            var users = _data.Users.GetSubscribedByUsernameStart(username);
             return users.OrderBy(user => user.Name.Length).Select(user => ModelFactory.CreateUser(user));
         }
 

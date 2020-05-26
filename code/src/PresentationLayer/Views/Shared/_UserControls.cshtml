@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @{
     var notificationCount = Context.Session.GetString("NotificationCount");
+    var requestCount = Context.Session.GetString("RequestCount");
 }
 
 <!--Navbar Auth Section-->
@@ -12,6 +13,15 @@
             <span class="align-content-between m-2">
                 Welcome <b>@(User.Identity.IsAuthenticated ? User.Identity.Name : "Guest")</b>
             </span>
+            <!--User Requests-->
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-ripple btn-outline-primary m-1" asp-controller="Notification" asp-action="Index">
+                    <i class="fas fa-comments"></i>
+                    Requests
+                    <span class="badge badge-warning">@requestCount</span>
+                </a>
+            }
             <!--User Notifications-->
             @if (User.Identity.IsAuthenticated)
             {

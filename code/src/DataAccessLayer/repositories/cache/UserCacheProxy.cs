@@ -140,5 +140,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
             return GetByIdOrNull(userID, u => u.Guid).Cart;
         }
+
+        public IEnumerable<User> GetSubscribedByUsernameStart(string username)
+        {
+            return UserRepository.GetSubscribedByUsernameStart(username);
+        }
     }
 }

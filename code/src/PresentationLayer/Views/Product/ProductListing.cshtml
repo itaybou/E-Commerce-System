@@ -200,7 +200,14 @@
 
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
-                        <img class="card-img-top" src="https://picsum.photos/600/400/" alt="Product image"> <!--Random Image-->
+                        @if (!String.IsNullOrWhiteSpace(product.ImageURL))
+                        {
+                            <img class="card-img-top" src="@product.ImageURL" alt="Product image" width="350" height="200"> <!--user image-->
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="~/images/unavailable.png" alt="Unavailable Product image" width="350" height="200"> <!--default image-->
+                        }
                         <div class="alert-info w-100 p-2 row-md-2">
                             <div class="col w-75">
                                 <p class="card-text"><b>Category: </b>@Enum.GetName(typeof(Category), product.Category)</p>

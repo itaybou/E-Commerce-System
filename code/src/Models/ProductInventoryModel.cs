@@ -24,12 +24,14 @@ namespace ECommerceSystem.Models
 
         public List<string> Keywords { get; set; }
 
+        public string ImageURL { get; set; }
+
         public ProductInventoryModel()
         {
 
         }
 
-        public ProductInventoryModel(Guid id, string name, double price, string description, Category category, double rating, long raters, HashSet<string> keywords)
+        public ProductInventoryModel(Guid id, string name, double price, string description, Category category, double rating, long raters, HashSet<string> keywords, string imageUrl)
         {
             ID = id;
             Name = name;
@@ -39,6 +41,7 @@ namespace ECommerceSystem.Models
             Category = category;
             RaterCount = raters;
             Keywords = keywords.ToList();
+            ImageURL = imageUrl;
         }
     }
 }
