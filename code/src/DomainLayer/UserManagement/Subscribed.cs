@@ -81,7 +81,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
-
         public void addAssignee(string storeName, Guid assigneeID)
         {
             if (!Assignees.ContainsKey(storeName))

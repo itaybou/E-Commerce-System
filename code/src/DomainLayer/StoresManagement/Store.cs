@@ -100,14 +100,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Guid addProductInv(string activeUserName, string productName, string description, double price,
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
-            Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords, imageUrl);
+            Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords, imageUrl, Name);
 
             if (minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this.PurchasePolicy.Add(productPurchasePolicy);
-                this.Inventory.Products.First().ProductList.First().PurchasePolicy = productPurchasePolicy;
-
+                var product = this.Inventory.getProductById(productID);
+                product.PurchasePolicy = productPurchasePolicy;
+                DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
             }
             return productID;
         }

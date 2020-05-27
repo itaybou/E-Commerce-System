@@ -122,11 +122,6 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.logout(userId);
         }
 
-        public bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool modifyProductName(Guid sessionID, string storeName, string newProductName, string oldProductName)
         {
             return _storeServices.modifyProductName(sessionID, storeName, newProductName, oldProductName);
@@ -137,14 +132,9 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.modifyProductPrice(sessionID, storeName, productInvName, newPrice);
         }
 
-        public bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType)
+        public bool modifyProductQuantity(Guid sessionID, string storeName, string productInvName, Guid productID, int newQuantity)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity)
-        {
-            throw new NotImplementedException();
+            return _storeServices.modifyProductQuantity(sessionID, storeName, productInvName, productID, newQuantity);
         }
 
         public bool openStore(Guid sessionID, string name)
@@ -305,6 +295,35 @@ namespace ECommerceSystem.ServiceLayer
         public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid sessionID, string storeName)
         {
             return _storeServices.getAllPurchasePolicyByStoreName(sessionID, storeName);
+        }
+
+        public Guid addDayOffPolicy(Guid sessionID, string storeName, List<DayOfWeek> daysOff)
+        {
+            return _storeServices.addDayOffPolicy(sessionID, storeName, daysOff);
+        }
+
+        public Guid addLocationPolicy(Guid sessionID, string storeName, List<string> banLocations)
+        {
+            return _storeServices.addLocationPolicy(sessionID, storeName, banLocations);
+        }
+
+        public Guid addMinPriceStorePolicy(Guid sessionID, string storeName, double minPrice)
+        {
+            return _storeServices.addMinPriceStorePolicy(sessionID, storeName, minPrice);
+        }
+
+        public Guid addAndPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeServices.addAndPurchasePolicy(sessionID, storeName, ID1, ID2);
+        }
+
+        public Guid addOrPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeServices.addOrPurchasePolicy(sessionID, storeName, ID1, ID2);
+        }
+        public Guid addXorPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
+        {
+            return _storeServices.addXorPurchasePolicy(sessionID, storeName, ID1, ID2);
         }
     }
 }

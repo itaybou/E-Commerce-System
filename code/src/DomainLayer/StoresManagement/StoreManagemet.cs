@@ -589,7 +589,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Tuple<StoreModel, List<ProductInventoryModel>> getStoreProducts(string storeName)
         {
             var info = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
-            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProductInventory(p)).ToList());
+            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProductInventory(p, storeName)).ToList());
         }
 
         public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresProducts()
@@ -599,7 +599,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 {
                     var storeInfo = s.getStoreInfo();
                     storeProdcuts.Add(ModelFactory.CreateStore(storeInfo.Item1),
-                            storeInfo.Item2.Select(p => ModelFactory.CreateProductInventory(p)).ToList());
+                            storeInfo.Item2.Select(p => ModelFactory.CreateProductInventory(p, storeInfo.Item1.Name)).ToList());
                 }
             );
             return storeProdcuts;
@@ -624,7 +624,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 foreach (var prodInv in store.Inventory.Products)
                 {
                     if (prodInv.ID.Equals(prodID))
-                        return (ModelFactory.CreateProductInventory(prodInv), store.Name);
+                        return (ModelFactory.CreateProductInventory(prodInv, store.Name), store.Name);
                     
                 }
             }

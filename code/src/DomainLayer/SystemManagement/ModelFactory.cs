@@ -17,15 +17,15 @@ namespace ECommerceSystem.Models
             return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount(), p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null);
         }
 
-        public static ProductInventoryModel CreateProductInventory(ProductInventory prod)
+        public static ProductInventoryModel CreateProductInventory(ProductInventory prod, string storeName)
         {
-            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl);
+            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl, storeName);
         }
 
         public static SearchResultModel CreateSearchResult(List<ProductInventory> prods, List<string> suggestions)
         {
             var products = new List<ProductInventoryModel>();
-            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl)));
+            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl, prod.StoreName)));
             return new SearchResultModel(products, suggestions);
         }
 

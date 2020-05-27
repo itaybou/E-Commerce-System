@@ -1,0 +1,131 @@
+﻿@using ECommerceSystem.Utilities;
+@model PresentationLayer.Models.PurchasePolicy.AddPurchasePolicyModel
+@{
+    ViewData["Title"] = "Add Purchase Policy";
+    var storeName = ViewData["StoreName"];
+    var id = ViewData["ProductID"];
+    var days = EnumMethods.GetValues(typeof(DayOfWeek));
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('days-select').change(function () {
+                alert("hello");
+            });
+
+            $("#days").click(function () {
+                $("#location-form").hide();
+                $("#price-form").hide();
+                $("#days-form").show();
+                $("#formState3").val("days");
+            });
+
+            $("#location").click(function () {
+                $("#price-form").hide();
+                $("#days-form").hide();
+                $("#location-form").show();
+                $("#formState2").val("location");
+            });
+
+            $("#price").click(function () {
+                $("#days-form").hide();
+                $("#location-form").hide();
+                $("#price-form").show();
+                $("#formState1").val("price");
+            });
+        });
+
+        function getval(sel) {
+            for (var i = 1; i <= 7; i++) {
+                $('#d' + i).hide();
+            }
+
+            for (var i = 1; i <= sel.value; i++) {
+                $('#d' + i).show();
+            }
+        }
+
+    </script>
+}
+
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="row login-form justify-content-between m-4">
+            <button type="submit" id="price" name="price" class="btn btn-warning m-1" style="width: 30%"><b>Purchase Price</b></button>
+            <button type="submit" id="location" name="location" class="btn btn-warning m-1" style="width: 30%"><b>Banned Locations</b></button>
+            <button type="submit" id="days" name="days" class="btn btn-warning m-1" style="width: 30%"><b>Days Off</b></button>
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+        </div>
+        <div class="form" id="location-form" name="cond-form" style="display: none;">
+            <form asp-controller="Owner" asp-action="AddPurchasePolicy" class="login-form" method="post">
+                <h3>Add Banned Location Policy</h3>
+
+                <div class="row">
+                    <div class="form-group w-50 col-md-12">
+                        <label style="text-align: left" for="password">Banned Locations (Seperate with commas)</label>
+                        <textarea rows="4" type="text" class="form-control" placeholder="Banned Locations" asp-for="BannedLocations"></textarea>
+                    </div>
+                </div>
+                <input id="formState2" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <button type="submit" class="w-50">Add Store Discount</button>
+            </form>
+        </div>
+        <div class="form" id="days-form" name="vis-form" style="display: none;">
+            <form asp-controller="Owner" asp-action="AddPurchasePolicy" class="login-form" method="post">
+                <div class="form-group">
+                    <h3>Add Days Off Policy</h3>
+                    <h5><label>Amount of days</label></h5>
+                    <select class="form-control" onchange="getval(this);">
+                        @for (var i = 1; i <= 7; i++)
+                        {
+                            <option value="@i" class="dropdown-item">@i</option>
+                        }
+                    </select>
+                </div>
+                @for (var i = 1; i <= 7; i++)
+                {
+                    var d = "d" + i;
+                    var day_id = "day" + i;
+                    <div class="form-group" id="@d" style="display: none">
+                        <select class="form-control" id="@day_id" name="@day_id" value="@null">
+                            <option value="" selected disabled hidden>Choose day of the week</option>
+                            @foreach (var day in days)
+                            {
+                                <option value="@day" class="dropdown-item">@day</option>
+                            }
+                        </select>
+                    </div>
+                }
+                <input id="formState3" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <button type="submit" class="w-50">Add Purchase Policy</button>
+            </form>
+        </div>
+        <div class="form" id="price-form" name="cond-form" style="display: none;">
+            <form asp-controller="Owner" asp-action="AddPurchasePolicy" class="login-form" method="post">
+                <h3>Add Minimum Purchase Price Policy</h3>
+                <div class="form-group">
+                    <label style="text-align: left" for="password">Required Purchase Price</label>
+                    <input type="number" class="form-control" placeholder="Required Purchase Price" asp-for="MinPrice" />
+                </div>
+                <input id="formState1" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <button type="submit" class="w-50">Add Store Discount</button>
+            </form>
+        </div>
+    </div>
+</div>

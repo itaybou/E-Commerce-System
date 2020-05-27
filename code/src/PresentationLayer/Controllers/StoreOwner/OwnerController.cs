@@ -11,6 +11,7 @@ using System.Net;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.Products;
+using PresentationLayer.Models.PurchasePolicy;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -28,7 +29,7 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             return View();
         }
-
+#region Products
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("StoreProducts")]
         public IActionResult StoreProductsView(string storeName)
@@ -69,7 +70,7 @@ namespace PresentationLayer.Controllers.StoreOwner
             var p = _service.getProductInventory(new Guid(id)).Item1;
             string keywords = "";
             p.Keywords.ForEach(word => keywords += word + " ");
-            var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords), p.ImageURL);
+            var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords), p.ImageURL, p.StoreName);
             return View("../Store/ModifyProductGroup", model);
         }
 
@@ -113,6 +114,7 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             var session = new Guid(HttpContext.Session.Id);
             var storeName = Request.Form["storeName"].ToString();
+            var quantityLimit = Request.Form["quantity_policy"].ToString() == "true" ? true : false;
             ViewData["StoreName"] = storeName;
             if (ModelState.IsValid)
             {
@@ -123,11 +125,22 @@ namespace PresentationLayer.Controllers.StoreOwner
                     model.Name.Split(" ").ToList().ForEach(word => keywords.Add(word));
                     if(model.Keywords != null)
                         model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
-                    if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
-                        model.Quantity, category, keywords, -1, -1, model.ImageURL) != Guid.Empty)
+                    if (quantityLimit && (model.MinQuantity != null && model.MaxQuantity != null))
                     {
-                        var products = _service.getStoreInfo(storeName);
-                        return View("../Store/StoreInventory", products);
+                        if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                            model.Quantity, category, keywords, (int)model.MinQuantity, (int)model.MaxQuantity, model.ImageURL) != Guid.Empty)
+                        {
+                            var products = _service.getStoreInfo(storeName);
+                            return View("../Store/StoreInventory", products);
+                        }
+                    } else
+                    {
+                        if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                           model.Quantity, category, keywords, -1, -1, model.ImageURL) != Guid.Empty)
+                        {
+                            var products = _service.getStoreInfo(storeName);
+                            return View("../Store/StoreInventory", products);
+                        }
                     }
                     ModelState.AddModelError("AddProductError", "Error occured while trying to add product. check that you paramters are valid.");
                 }
@@ -135,6 +148,33 @@ namespace PresentationLayer.Controllers.StoreOwner
                     ModelState.AddModelError("ImageURLError", "The image URL entered is not a valid image URL!");
             }
             return View("../Store/AddProduct", model);
+        }
+
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("ModifyProduct")]
+        public IActionResult ModifyProduct(string store, string id, string prodName)
+        {
+            ViewData["StoreName"] = store;
+            ViewData["ProductID"] = id;
+            ViewData["ProductName"] = prodName;
+            return View("../Store/ModifyProduct");
+        }
+
+        [HttpPost]
+        [Route("ModifyProduct")]
+        [Authorize(Roles = "Admin, Subscribed")]
+        public IActionResult ModifyProduct(AddProductModel model)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var storeName = Request.Form["storeName"].ToString();
+            var id = new Guid(Request.Form["productID"].ToString());
+            var productName = Request.Form["productName"].ToString();
+            ViewData["StoreName"] = storeName;
+            ViewData["ProductID"] = id;
+            ViewData["ProductName"] = productName;
+            _service.modifyProductQuantity(session, storeName, productName, id, model.Quantity);
+            var products = _service.getStoreInfo(storeName);
+            return View("../Store/StoreInventory", products);
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -215,7 +255,8 @@ namespace PresentationLayer.Controllers.StoreOwner
                 return false;
             }
         }
-
+        #endregion
+#region Mangers/Owners
         [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult StoreOwners(string storeName)
         {
@@ -325,7 +366,8 @@ namespace PresentationLayer.Controllers.StoreOwner
             var managers = _service.getStoreManagers(storeName);
             return View("../Owner/StoreManagers", managers);
         }
-
+        #endregion
+#region PurchasePolicy
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("StorePurchasePolicies")]
         public IActionResult StorePurchasePolicies(string storeName)
@@ -337,6 +379,148 @@ namespace PresentationLayer.Controllers.StoreOwner
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddPurchasePolicy")]
+        public IActionResult AddPurchasePolicy(string storeName)
+        {
+            ViewData["StoreName"] = storeName;
+            return View("../Owner/purchase/AddPurchasePolicy");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddPurchasePolicy")]
+        public IActionResult AddPurchasePolicy(AddPurchasePolicyModel model)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var storeName = Request.Form["storeName"].ToString();
+            var state = Request.Form["formState"].ToString();
+            ViewData["StoreName"] = storeName;
+            switch (state)
+            {
+                case "days":
+                    var days = new List<DayOfWeek>();
+                    for (var i = 1; i <= 7; i++)
+                    {
+                        if (Request.Form.ContainsKey("day" + i))
+                        {
+                            var day = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Request.Form["day" + i].ToString());
+                            if (!days.Contains(day))
+                                days.Add(day);
+                        }
+                    }
+                    if (_service.addDayOffPolicy(session, storeName, days) != Guid.Empty)
+                    {
+                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                    }
+                    break;
+                case "location":
+                    var locations = new List<string>();
+                    model.BannedLocations.Split(",").ToList().ForEach(loc => locations.Add(loc.Trim()));
+                    if (_service.addLocationPolicy(session, storeName, locations) != Guid.Empty)
+                    {
+                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                    }
+                    break;
+                case "price":
+                    if (_service.addMinPriceStorePolicy(session, storeName, model.MinPrice) != Guid.Empty)
+                    {
+                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                    }
+                    break;
+            }
+            ModelState.AddModelError("PurchasePolicyAddError", "Unable to add purchase policy at the moment, please try again later.");
+
+            ViewData["StoreName"] = storeName;
+            return View("../Owner/purchase/AddPurchasePolicy", model);
+        }
+
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddCompositePolicy")]
+        public IActionResult AddCompositePolicy(string storeName)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var selectlist = new List<SelectListItem>();
+            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+            foreach (var policy in policies)
+            {
+                selectlist.Add(new SelectListItem
+                {
+                    Text = policy.GetString(),
+                    Value = policy.ID.ToString(),
+                });
+            }
+            ViewData["StoreName"] = storeName;
+            return View("../Owner/purchase/AddCompositePolicy", selectlist);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddCompositePolicy")]
+        public IActionResult AddCompositePolicy(List<SelectListItem> model)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var storeName = Request.Form["storeName"].ToString();
+            var op = Request.Form["operator"].ToString();
+            ViewData["StoreName"] = storeName;
+            var ids = new List<Guid>();
+            for (int i = 0; i < Request.Form.Count; i++)
+            {
+                if (Request.Form.ContainsKey("selectd" + i))
+                {
+                    ids.Add(new Guid(Request.Form["selectd" + i]));
+                }
+            }
+            if (ids.Count != 2)
+                ModelState.AddModelError("AddCompositeCountError", "Can only choose two policies to compose. please choose 2 policies.");
+            else
+            {
+                var id1 = ids.ElementAt(0);
+                var id2 = ids.ElementAt(1);
+                if (ModelState.IsValid)
+                {
+                    switch (op)
+                    {
+                        case "Or":
+                            if (_service.addOrPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                            {
+                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                        case "And":
+                            if (_service.addAndPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                            {
+                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                        case "Xor":
+                            if (_service.addXorPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                            {
+                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                    }
+                    ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
+                }
+            }
+            var selectlist = new List<SelectListItem>();
+            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+            foreach (var policy in policies)
+            {
+                selectlist.Add(new SelectListItem
+                {
+                    Text = policy.GetString(),
+                    Value = policy.ID.ToString(),
+                });
+            }
+            return View("../Owner/purchase/AddCompositePolicy", selectlist);
+        }
+    #endregion
+
+    #region Discounts
+    [Authorize(Roles = "Admin, Subscribed")]
         [Route("StoreDiscounts")]
         public IActionResult StoreDiscounts(string storeName)
         {
@@ -505,4 +689,5 @@ namespace PresentationLayer.Controllers.StoreOwner
             return View("../Owner/discounts/AddCompositeDiscount", selectlist);
         }
     }
+    #endregion
 }

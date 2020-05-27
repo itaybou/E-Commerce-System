@@ -29,5 +29,11 @@ namespace PresentationLayer.Models
 
         [DisplayName("Image URL")]
         public string ImageURL { get; set; }
+
+        [DisplayName("Minimum Purchase Quantity")]
+        public int? MinQuantity { get; set; }
+
+        [DisplayName("Maximum Purchase Quantity")]
+        public int? MaxQuantity { get; set; }
     }
 }

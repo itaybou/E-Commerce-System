@@ -213,6 +213,11 @@
                                 <p class="card-text"><b>Category: </b>@Enum.GetName(typeof(Category), product.Category)</p>
                             </div>
                         </div>
+                        <div class="alert-warning w-100 p-0 row-md-2">
+                            <div class="col w-75">
+                                <p class="card-text pl-2"><b>Store: </b>@product.StoreName</p>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <h4 class="card-title"><a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.ID" title="View Product">@product.Name</a></h4>
                             <div class="row flex justify-content-between p-2">

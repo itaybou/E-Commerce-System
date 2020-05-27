@@ -36,7 +36,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         public PurchasePolicyModel CreateModel()
         {
             var product = DataAccess.Instance.Products.GetByIdOrNull(ProductID, p => p.Id);
-            return new ProductQuantityPolicyModel(this.ID, product.Name, this.Min, this.Max);
+            return new ProductQuantityPolicyModel(this.ID, product.Name, this.Min, this.Max, product.Id);
         }
 
         public Guid getID()

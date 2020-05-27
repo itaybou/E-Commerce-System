@@ -19,8 +19,11 @@
                 <h1> <i class="fas fa-funnel-dollar"></i>  <small> - Manage Store Purchase Policies</small></h1>
             </div>
             <div class="col justify-content-end align-self-center text-right">
-                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddCompositeDiscount" asp-route-storeName="@storeName">
+                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddPurchasePolicy" asp-route-storeName="@storeName">
                     <i class="fas fa-funnel-dollar"></i>Add Purchase Policy
+                </a>
+                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddCompositePolicy" asp-route-storeName="@storeName">
+                    <i class="fas fa-cubes"></i>Add Composite Policy
                 </a>
             </div>
         </div>

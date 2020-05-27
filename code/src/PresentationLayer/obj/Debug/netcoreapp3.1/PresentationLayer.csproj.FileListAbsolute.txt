@@ -450,3 +450,6 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\StoreDiscountPolicies.cshtml.g.cs
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Store\AddConcreteProduct.cshtml.g.cs
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\purchase\StorePurchasePolicies.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\purchase\AddPurchasePolicy.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Store\ModifyProduct.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\purchase\AddCompositePolicy.cshtml.g.cs

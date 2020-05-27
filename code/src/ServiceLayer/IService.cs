@@ -58,6 +58,13 @@ namespace ECommerceSystem.ServiceLayer
         Guid addOrDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs);
         Guid addXorDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs);
 
+        Guid addDayOffPolicy(Guid sessionID, string storeName, List<DayOfWeek> daysOff);
+        Guid addLocationPolicy(Guid sessionID, string storeName, List<string> banLocations);
+        Guid addMinPriceStorePolicy(Guid sessionID, string storeName, double minPrice);
+        Guid addAndPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2);
+        Guid addOrPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2);
+        Guid addXorPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2);
+
         Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid sessionID, Guid productInvID, string storeName);
 
         Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo();
@@ -83,11 +90,7 @@ namespace ECommerceSystem.ServiceLayer
 
         bool modifyProductPrice(Guid sessionID, string storeName, string productInvName, int newPrice);
 
-        bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
-
-        bool modifyProductDiscountType(Guid sessionID, string storeName, string productInvName, Guid productID);
-
-        bool modifyProductPurchaseType(string storeName, string productInvName, Guid productID, PurchaseType purchaseType);
+        bool modifyProductQuantity(Guid sessionID, string storeName, string productInvName, Guid productID, int newQuantity);
 
         List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid sessionID, string storeName);
 

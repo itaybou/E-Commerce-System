@@ -47,8 +47,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         [Required]
         [BsonElement("image")]
         public string ImageUrl { get; set; }
+        [Required]
+        [BsonElement("store")]
+        public string StoreName { get; set; }
 
-        public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid, string imageUrl)
+        public ProductInventory(string name, string description, double price, Category category, List<string> keywords, Guid guid, string imageUrl, string storeName)
         {
             this.Name = name;
             this.Category = category;
@@ -61,22 +64,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             RaterCount = 0;
             Rating = 0;
             ImageUrl = imageUrl;
+            StoreName = storeName;
         }
 
-        public static ProductInventory Create(string productName, string description,
-            double price, int quantity, Category category, List<string> keywords, string imageUrl)
+        public static (ProductInventory, Guid) Create(string productName, string description,
+            double price, int quantity, Category category, List<string> keywords, string imageUrl, string storeName)
         {
             if (price < 0 || quantity < 0)
             {
-                return null;
+                return (null, Guid.Empty);
             }
             var productInvGuid = GenerateId();
             var productGuid = GenerateId();
-            ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid, imageUrl);
+            ProductInventory productInventory = new ProductInventory(productName, description, price, category, keywords, productInvGuid, imageUrl, storeName);
             Product newProduct = new Product(productName, description, quantity, price, productGuid);
             productInventory.ProductList.Add(newProduct);
             DataAccess.Instance.Products.Insert(newProduct);
-            return productInventory;
+            return (productInventory, newProduct.Id);
         }
 
         public Product getProducByID(Guid id)

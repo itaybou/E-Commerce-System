@@ -68,11 +68,14 @@
                     <div class="details col-md-6">
                         <div class="row flex justify-content-between p-2">
                             <div>
-                                <h3 class="product-title">@Model.Name</h3>
+                                <h2 class="product-title">@Model.Name</h2>
                             </div>
                             <div>
                                 <h5><b>Category</b>: @Enum.GetName(typeof(Category), Model.Category)</h5>
                             </div>
+                        </div>
+                        <div class="alert-warning">
+                            <h5><b>Store: </b> @Model.StoreName</h5>
                         </div>
                             <div class="row flex justify-content-between p-2">
                                 <div>
@@ -99,7 +102,17 @@
                                     </a>
                                 </div>
                             </div>
-                            <p class="product-description"><h5 class="text-secondary"><b>Product description:</b></h5><h5> @Model.Description</h5></p>
+                            <p class="product-description">
+                                <h5 class="text-secondary"><b>Product description:</b></h5>
+                                @if (String.IsNullOrEmpty(Model.Description))
+                                {
+                                    <h5 class="text-muted">Not provided</h5>
+                                }
+                                else
+                                {
+                                    <h5> @Model.Description</h5>
+                                }
+                            </p>
                             <div class="alert-info p-1">
                                 <b>Keywords:</b>
                                 @foreach (var keyword in Model.Keywords)

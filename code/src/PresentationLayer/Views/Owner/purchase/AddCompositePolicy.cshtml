@@ -4,7 +4,7 @@
 @using ECommerceSystem.Utilities;
 @model List<SelectListItem>
 @{
-    ViewData["Title"] = "Add Composite Discount";
+    ViewData["Title"] = "Add Composite Purchase Policy";
     var storeName = ViewData["StoreName"];
     var operators = Enum.GetValues(typeof(CompositeType)).Cast<CompositeType>();
     var opTypes = operators.ToDictionary(k => k, v => v.GetStringValue());
@@ -17,10 +17,13 @@
         </a>
         <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
         <div class="form" method="post">
-            <form asp-controller="Owner" asp-action="AddCompositeDiscount" method="post">
+            <div class="alert-warning p-3 m-2">
+                <h5>Can only compose 2 purchase policies.</h5>
+            </div>
+            <form asp-controller="Owner" asp-action="AddCompositePolicy" method="post">
                 <div class="form-group row justify-content-between">
                     <div class="col-md-6">
-                        <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>CREATE DISCOUNT</b></button>
+                        <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>CREATE POLICY</b></button>
                     </div>
                     @if (!ViewContext.ModelState.IsValid)
                     {
@@ -45,22 +48,22 @@
                         <thead class="thead-dark">
                             <tr class="text-left">
                                 <th>Choose</th>
-                                <th>Discount Description</th>
+                                <th>Policy Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{var counter = 0;}
-                            @foreach (var policy in Model)
+                            @foreach (var discount in Model)
                             {
-                                if (!String.IsNullOrEmpty(policy.Text))
+                                if (!String.IsNullOrEmpty(discount.Text))
                                 {
                                     var checkboxName = "selectd" + counter;
                                     <tr class="p-5">
                                         <td>
-                                            <input class="big-checkbox" type="checkbox" id="@checkboxName" name="@checkboxName" value="@policy.Value">
+                                            <input class="big-checkbox" type="checkbox" id="@checkboxName" name="@checkboxName" value="@discount.Value">
                                         </td>
                                         <td class="p-3">
-                                            <label style="white-space: pre-line">@Html.Raw(policy.Text)</label><br>
+                                            <label style="white-space: pre-line">@Html.Raw(discount.Text)</label><br>
                                         </td>
                                     </tr>
                                     counter++;
