@@ -4,33 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     public abstract class CompositeDiscountPolicy : DiscountPolicy
     {
-        private List<DiscountPolicy> _children;
-        protected Guid _ID;
-
-        public List<DiscountPolicy> Children { get => _children; set => _children = value; }
+        [BsonId]
+        public Guid ID { get; set; }
+        public List<DiscountPolicy> Children { get; set; }
 
         protected CompositeDiscountPolicy(Guid ID)
         {
-            _ID = ID;
-            _children = new List<DiscountPolicy>();
+            this.ID = ID;
+            Children = new List<DiscountPolicy>();
         }
 
         protected CompositeDiscountPolicy(Guid ID, List<DiscountPolicy> children)
         {
-            _ID = ID;
-            _children = children;
+            this.ID = ID;
+            Children = children;
         }
 
         public abstract void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
 
         public Guid getID()
         {
-            return _ID;
+            return ID;
         }
 
         public abstract bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
@@ -38,7 +38,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         public void Remove(Guid discountPolicyID)
         {
             List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
-            foreach (DiscountPolicy d in _children)
+            foreach (DiscountPolicy d in Children)
             {
                 if (!d.getID().Equals(discountPolicyID))
                 {
@@ -52,13 +52,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
                 }
             }
 
-            _children = newChildren;
+            Children = newChildren;
         }
 
         public DiscountPolicy getByID(Guid id)
         {
             //check if this contains id
-            foreach (DiscountPolicy d in _children)
+            foreach (DiscountPolicy d in Children)
             {
                 if (d.getID().Equals(id))
                 {
@@ -67,7 +67,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             }
 
             //if this isn`t contains id then check recursively
-            foreach (DiscountPolicy d in _children)
+            foreach (DiscountPolicy d in Children)
             {
                 if (d is CompositeDiscountPolicy)
                 {

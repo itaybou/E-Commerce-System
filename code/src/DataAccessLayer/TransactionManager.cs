@@ -4,6 +4,7 @@ using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Exceptions;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.DataAccessLayer
@@ -47,6 +48,45 @@ namespace ECommerceSystem.DataAccessLayer
             {
                 _users.Update(owner, owner.Guid, u => u.Guid);
                 _stores.Insert(opened);
+            });
+        }
+
+        public async void AddProductDiscountTransaction(Product product, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _products.Update(product, product.Id, p => p.Id);
+                _stores.Update(store, store.Name, s => s.Name);
+            });
+        }
+
+        public async void RemoveProductInventoryTransaction(List<Product> products, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                foreach(var product in products)
+                {
+                    _products.Remove(product, product.Id, p => p.Id);
+                }
+                _stores.Update(store, store.Name, s => s.Name);
+            });
+        }
+
+        public async void RemoveProductTransaction(Product product, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _products.Remove(product, product.Id, p => p.Id);
+                _stores.Update(store, store.Name, s => s.Name);
+            });
+        }
+
+        public async void AddProductPurchasePolicyTransaction(Product product, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _products.Update(product, product.Id, p => p.Id);
+                _stores.Update(store, store.Name, s => s.Name);
             });
         }
     }

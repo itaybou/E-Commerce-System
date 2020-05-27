@@ -122,7 +122,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this.PurchasePolicy.Add(productPurchasePolicy);
-                this.Inventory.getProductById(productID).PurchasePolicy = productPurchasePolicy;
+                var product = this.Inventory.getProductById(productID);
+                product.PurchasePolicy = productPurchasePolicy;
+                DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
             }
 
             return productID;
@@ -149,13 +151,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     }
                     else
                     {
-                        DiscountPolicyTree.Remove(p.PurchasePolicy.ID);
+                        DiscountPolicyTree.Remove(p.Discount.getID());
                     }
-                    AllDiscountsMap.Remove(p.PurchasePolicy.ID);
+                    AllDiscountsMap.Remove(p.Discount.getID());
                 }
             }
 
-            return Inventory.deleteProductInventory(productInvName);
+            var result = Inventory.deleteProductInventory(productInvName);
+            DataAccess.Instance.Transactions.RemoveProductInventoryTransaction(productInv.ProductList, this);
+            return result;
         }
 
         public bool deleteProduct(string loggedInUserName, string productInvName, Guid productID)
@@ -184,6 +188,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     }
                     AllDiscountsMap.Remove(product.PurchasePolicy.ID);
                 }
+                DataAccess.Instance.Transactions.RemoveProductTransaction(product, this);
                 return true;
             }
             else return false;
@@ -461,6 +466,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Guid newID = Guid.NewGuid();
             this.PurchasePolicy.Add(new DaysOffPolicy(daysOff, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -468,6 +474,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Guid newID = Guid.NewGuid();
             this.PurchasePolicy.Add(new LocationPolicy(banLocations, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -475,6 +482,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             Guid newID = Guid.NewGuid();
             this.PurchasePolicy.Add(new MinPricePerStorePolicy(minPrice, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -494,6 +502,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //add the new AND policy to the first level of the tree
             List<PurchasePolicy> newAndchildren = new List<PurchasePolicy> { purchasePolicy1, purchasePolicy2 };
             this.PurchasePolicy.Add(new AndPurchasePolicy(newAndchildren, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -513,6 +522,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //add the new OR policy to the first level of the tree
             List<PurchasePolicy> newOrchildren = new List<PurchasePolicy> { purchasePolicy1, purchasePolicy2 };
             this.PurchasePolicy.Add(new OrPurchasePolicy(newOrchildren, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -532,6 +542,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             //add the new OR policy to the first level of the tree
             List<PurchasePolicy> newXorchildren = new List<PurchasePolicy> { purchasePolicy1, purchasePolicy2 };
             this.PurchasePolicy.Add(new XORPurchasePolicy(newXorchildren, newID));
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -607,6 +618,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             prod.Discount = newDiscount; //add the new discount to the product 
             AllDiscountsMap.Add(newID, newDiscount);
             NotInTreeDiscounts.Add(newID, newDiscount);
+            DataAccess.Instance.Transactions.AddProductDiscountTransaction(prod, this);
             return newID;
         }
 
@@ -628,6 +640,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             prod.Discount = newDiscount; //add the new discount to the product (override if exist old one)
             AllDiscountsMap.Add(newID, newDiscount);
             NotInTreeDiscounts.Add(newID, newDiscount);
+            DataAccess.Instance.Transactions.AddProductDiscountTransaction(prod, this);
             return newID;
         }
 
@@ -642,6 +655,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ConditionalStoreDiscount newDiscount = new ConditionalStoreDiscount(minPriceForDiscount, expDate, percentage, newID);
             StoreLevelDiscounts.Children.Add(newDiscount);
             AllDiscountsMap.Add(newID, newDiscount);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -694,12 +708,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 DiscountPolicy dis = AllDiscountsMap[id];
                 newChildren.Add(dis);
-
             }
 
             AndDiscountPolicy newDiscount = new AndDiscountPolicy(newID, newChildren);
             AllDiscountsMap.Add(newID, newDiscount);
             DiscountPolicyTree.Children.Add(newDiscount);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -732,12 +746,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 DiscountPolicy dis = AllDiscountsMap[id];
                 newChildren.Add(dis);
-
             }
 
             OrDiscountPolicy newDiscount = new OrDiscountPolicy(newID, newChildren);
             DiscountPolicyTree.Children.Add(newDiscount);
             AllDiscountsMap.Add(newID, newDiscount);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 
@@ -770,12 +784,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 DiscountPolicy dis = AllDiscountsMap[id];
                 newChildren.Add(dis);
-
             }
 
             XORDiscountPolicy newDiscount = new XORDiscountPolicy(newID, newChildren);
             DiscountPolicyTree.Children.Add(newDiscount);
             AllDiscountsMap.Add(newID, newDiscount);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
 

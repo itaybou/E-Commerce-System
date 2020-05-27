@@ -1,0 +1,206 @@
+﻿@using ECommerceSystem.Models.PurchasePolicyModels
+@model (string, List<PurchasePolicyModel>)
+@{
+    ViewData["Title"] = "Store Purchase Policies";
+    var storeName = Model.Item1;
+    var policies = Model.Item2;
+}
+
+    <div class="container-fluid w-75">
+        <h1>@ViewData["StoreName"] - Store Purchase Policies</h1>
+        <a href="javascript:void(0);" id="backLink">
+            <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
+                <i class="fas fa-arrow-circle-left"></i>
+                Go Back
+            </div>
+        </a>
+        <div class="row">
+            <div class="col md-12">
+                <h1> <i class="fas fa-funnel-dollar"></i>  <small> - Manage Store Purchase Policies</small></h1>
+            </div>
+            <div class="col justify-content-end align-self-center text-right">
+                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddCompositeDiscount" asp-route-storeName="@storeName">
+                    <i class="fas fa-funnel-dollar"></i>Add Purchase Policy
+                </a>
+            </div>
+        </div>
+
+        <hr>
+        @foreach (var policy in policies)
+        {
+            @if (policy is DaysOffPolicyModel && policy.ID != Guid.Empty)
+            {
+                var p = (DaysOffPolicyModel)policy;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Days Off</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@p.ID</td>
+                            <td>Days Off</td>
+                            <td>
+                                @foreach (var day in p.DaysOff)
+                                {
+                                    <span>
+                                        @day.ToString()
+                                    </span><br />
+                                }
+                            </td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (policy is LocationPolicyModel && policy.ID != Guid.Empty)
+            {
+                var p = (LocationPolicyModel)policy;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Banned Locations</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@p.ID</td>
+                            <td>Banned Locations</td>
+                            <td>
+                                @foreach (var location in p.BannedLocations)
+                                {
+                                    <span>
+                                        @location
+                                    </span><br />
+                                }
+                            </td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (policy is MinPricePerStorePolicyModel && policy.ID != Guid.Empty)
+            {
+                var p = (MinPricePerStorePolicyModel)policy;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Minimum Purchase Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@p.ID</td>
+                            <td>Restricted Purchase Price</td>
+                            <td>
+                                @p.RequiredMinPrice
+                            </td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (policy is ProductQuantityPolicyModel && policy.ID != Guid.Empty)
+            {
+                var p = (ProductQuantityPolicyModel)policy;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Product Name</th>
+                            <th>Minimum Purchase Price</th>
+                            <th>Maximum Purchase Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@p.ID</td>
+                            <td>Product Purchase Quantities</td>
+                            <td>@p.ProductName.</td>
+                            <td>
+                                @p.MinQuantity
+                            </td>
+                            <td>
+                                @p.MaxQuantity
+                            </td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (policy is CompositePurchasePolicyModel && policy.ID != Guid.Empty)
+            {
+                var p = (CompositePurchasePolicyModel)policy;
+                if (p.Children.Count > 1)
+                {
+                    <table class="table table-sm">
+                        <thead class="thead-light">
+                            <tr class="text-left">
+                                <th>#ID</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-left">
+                                <td class="w-25">@p.ID</td>
+                                <td>Composite</td>
+                                <td style="white-space: pre-line">@Html.Raw(p.GetString())</td>
+                                <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
+                                        <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                            Remove <i class="fas fa-archive"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                }
+            }
+
+        }
+    </div>
+

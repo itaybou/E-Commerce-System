@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -42,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             {
                 childrenModels.Add(p.CreateModel());
             }
-            return new CompositePurchasePolicyModel(this._ID, childrenModels, CompositeType.Xor);
+            return new CompositePurchasePolicyModel(this.ID, childrenModels, CompositeType.Xor);
         }
     }
 }

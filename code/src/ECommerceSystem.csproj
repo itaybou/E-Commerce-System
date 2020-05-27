@@ -220,6 +220,7 @@
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Models\CompositeType.cs" />
     <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />

@@ -9,12 +9,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     public class ConditionalStoreDiscount : DiscountType
     {
-
-        private double _requiredPrice;
+        public double RequiredPrice { get; set; }
 
         public ConditionalStoreDiscount(double requiredPrice, DateTime expDate, float percentage, Guid ID) : base(percentage, expDate, ID)
         {
-            _requiredPrice = requiredPrice;
+            RequiredPrice = requiredPrice;
         }
 
         //if the customer have to pay _reauiredPrice, he get discount(by percentage from discountType)
@@ -35,7 +34,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override DiscountPolicyModel CreateModel()
         {
-            return new ConditionalStoreDiscountModel(this._ID, this._requiredPrice, this._expDate, this._percentage);
+            return new ConditionalStoreDiscountModel(this.ID, this.RequiredPrice, this.ExpirationDate, this.Percentage);
         }
 
         //check that the total price > required price
@@ -46,7 +45,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             {
                 totalPrice += prod.Value.totalPrice;
             }
-            return totalPrice >= _requiredPrice;
+            return totalPrice >= RequiredPrice;
         }
     }
 }

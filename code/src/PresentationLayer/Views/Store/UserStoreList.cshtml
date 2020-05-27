@@ -76,10 +76,10 @@
                         <div class="col">
                             <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
                                 <!-- <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                    <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light">
-                                        Close Store <i class="fas fa-store-slash"></i>
-                                    </button>
-                                </form> -->
+        <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light">
+            Close Store <i class="fas fa-store-slash"></i>
+        </button>
+    </form> -->
                                 @if (permissions.PermissionTypes.Contains(PermissionType.WatchPurchaseHistory))
                                 {
                                     <form type="hidden" asp-action="ViewPurchaseHistory" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
@@ -90,7 +90,7 @@
                                 }
                                 @if (permissions.PermissionTypes.Contains(PermissionType.ManagePurchasePolicy))
                                 {
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <form type="hidden" asp-action="StorePurchasePolicies" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
                                         <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
                                             Modify Purchase Policies <i class="fas fa-dollar-sign"></i>
                                         </button>
@@ -98,9 +98,17 @@
                                 }
                                 @if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
                                 {
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                    <form type="hidden" asp-action="CompositeDiscounts" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
                                         <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
                                             Modify Discount Policies <i class="fas fa-percentage"></i>
+                                        </button>
+                                    </form>
+                                }
+                                @if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
+                                {
+                                    <form type="hidden" asp-action="StoreDiscounts" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                        <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                            Store Discounts <i class="fas fa-money-check-alt"></i>
                                         </button>
                                     </form>
                                 }

@@ -1,0 +1,41 @@
+﻿@model PresentationLayer.Models.AddStoreDiscountModel
+@{
+    ViewData["Title"] = "Add Store Discount";
+    var storeName = ViewData["StoreName"];
+}
+
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form">
+            <form asp-controller="Owner" asp-action="AddStoreDiscount" class="login-form" method="post">
+                @if (!ViewContext.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                }
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Minimum Purchase Price For Discount</label>
+                    <input type="number" class="form-control" placeholder="Minimum Purchase Price" asp-for="MinPrice" />
+                </div>
+                <div class="row">
+                    <div class="form-group w-50 col-md-6">
+                        <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                        <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                    </div>
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="password">Discount Expiration</label>
+                        <input type="date" class="form-control" asp-for="ExpDate" />
+                    </div>
+                </div>
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <button type="submit" class="w-50">Add Store Discount</button>
+            </form>
+        </div>
+    </div>
+</div>

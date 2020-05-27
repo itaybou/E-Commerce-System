@@ -4,39 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public abstract class CompositePurchasePolicy : PurchasePolicy
     {
-        private List<PurchasePolicy> _children;
-        protected Guid _ID;
-
-        public List<PurchasePolicy> Children { get => _children; set => _children = value; }
+        [BsonId]
+        public Guid ID { get; set; }
+        public List<PurchasePolicy> Children { get; set; }
 
         public CompositePurchasePolicy(Guid ID)
         {
-            _children = new List<PurchasePolicy>();
-            _ID = ID;
+            Children = new List<PurchasePolicy>();
+            this.ID = ID;
         }
 
         public CompositePurchasePolicy(List<PurchasePolicy> childrens, Guid ID)
         {
-            _children = childrens;
-            _ID = ID;
+            Children = childrens;
+            this.ID = ID;
         }
 
         public abstract bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address);
 
         public Guid getID()
         {
-            return _ID;
+            return ID;
         }
 
         public void Remove(Guid purchasePolicyID)
         {
             List<PurchasePolicy> newChildren = new List<PurchasePolicy>();
-            foreach (PurchasePolicy p in _children)
+            foreach (PurchasePolicy p in Children)
             {
                 if (!p.getID().Equals(purchasePolicyID))
                 {
@@ -49,13 +49,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                     }
                 }
             }
-            _children = newChildren;
+            Children = newChildren;
         }
 
         public PurchasePolicy getByID(Guid ID)
         {
             //check if this contains id
-            foreach (PurchasePolicy p in _children)
+            foreach (PurchasePolicy p in Children)
             {
                 if (p.getID().Equals(ID))
                 {
@@ -64,7 +64,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             }
 
             //if this isn`t contains id then check recursively
-            foreach (PurchasePolicy p in _children)
+            foreach (PurchasePolicy p in Children)
             {
                 if (p is CompositePurchasePolicy)
                 {

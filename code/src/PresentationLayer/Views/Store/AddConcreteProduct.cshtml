@@ -1,0 +1,126 @@
+﻿@using ECommerceSystem.Utilities;
+@using ECommerceSystem.Models;
+@model PresentationLayer.Models.Products.AddConcreteProductModel
+@{
+    ViewData["Title"] = "Add Product Group";
+    var storeName = ViewData["StoreName"];
+    var productName = ViewData["ProductName"];
+}
+
+@section Scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#quantity_limit').change(function () {
+            if ($('#quantity_limit').prop('checked')) {
+                $('#quantity_div').show();
+                $('#quantity_policy').val("true");
+            } else {
+                $('#quantity_div').hide();
+                $('#quantity_policy').val("false");
+            }
+        });
+
+        $("#visible").click(function () {
+            $("#cond-form").hide();
+            $("#vis-form").show();
+            $("#formState").val("visible");
+        });
+
+        $("#conditional").click(function () {
+            $("#vis-form").hide();
+            $("#cond-form").show();
+            $("#formState").val("conditional");
+        });
+});
+</script>
+}
+
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form">
+            <form asp-controller="Owner" asp-action="AddConcreteProduct" class="login-form" method="post">
+                @if (!ViewContext.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                }
+                <h5><b>Product Group:</b> @Model.Name</h5>
+                <div class="form-group">
+                    <label style="text-align: left" for="password">Quantity</h5></label>
+                    <input type="number" class="form-control" placeholder="Quantity" asp-for="Quantity" />
+                </div>
+                <div class="row">
+                    <div class="form-group" style="width:10%">
+                        <input value="" type="checkbox" id="quantity_limit" name="quantity_limit" />
+                    </div>
+                    <div class="">
+                        <h5><label class="col-md-12 control-label"> Purchase Quantity Limitation</label></h5>
+                    </div>
+                </div>
+                <div id="quantity_div" style="display: none">
+                    <div class="row">
+                        <div class="alert-info form-group w-100">
+                            <span>Insert -1 to cancel limitation.</span>
+                        </div>
+                        <div class="form-group w-50 col-md-6">
+                            <label class="row-form-label" style="text-align: left" for="password">Minimum Purchase Quantity</label>
+                            <input class="form-control" type="number" placeholder="Base Price" asp-for="MinQuantity" />
+                        </div>
+                        <div class="form-group w-50 col-md-6">
+                            <label style="text-align: left" for="password">Maximum Purchase Quantity</label>
+                            <input type="number" class="form-control" placeholder="Quantity" asp-for="MaxQuantity" />
+                        </div>
+                    </div>
+                </div>
+                <h5><label class="col-md-12"><b>Set Product Discount:</b></label></h5>
+                <div class="row justify-content-between m-2">
+                    <button type="button" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%">Visible Discount</button>
+                    <button type="button" id="conditional" name="conditional" class="btn btn-warning m-1" style="width: 40%">Conditional Discount</button>
+                </div>
+                <div id="cond-form" name="cond-form" style="display: none;">
+                    <h3>Add Conditional Product Discount</h3>
+                    <div class="form-group">
+                        <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                        <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group w-50 col-md-6">
+                            <label style="text-align: left" for="username">Required Purchase Quantity</label>
+                            <input type="number" class="form-control" placeholder="Required Purchase Quantity" asp-for="RequiredQuantity" />
+                        </div>
+                        <div class="form-group w-50 col-md-6">
+                            <label style="text-align: left" for="password">Discount Expiration</label>
+                            <input type="date" class="form-control" asp-for="ExpDate" />
+                        </div>
+                    </div>
+                </div>
+                <div id="vis-form" name="vis-form" style="display: none;">
+                    <h3>Add Visible Product Discount</h3>
+                    <div class="form-group">
+                        <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                        <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                    </div>
+
+                    <div class="form-group">
+                        <label style="text-align: left" for="password">Discount Expiration</label>
+                        <input type="date" class="form-control" asp-for="ExpDate" />
+                    </div>
+                </div>
+                <input id="formState" name="formState" type="hidden" value="@null" />
+                <input id="quantity_policy" name="quantity_policy" type="hidden" value="false" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <input id="productName" name="productName" type="hidden" value="@productName" />
+                <button type="submit" class="w-50">Add Product To Group</button>
+            </form>
+    </div>
+    </div>
+</div>

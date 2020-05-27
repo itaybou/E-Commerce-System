@@ -40,7 +40,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             {
                 childrenModels.Add(p.CreateModel());
             }
-            return new CompositePurchasePolicyModel(this._ID, childrenModels, CompositeType.And);
+            return new CompositePurchasePolicyModel(this.ID, childrenModels, CompositeType.And);
         }
     }
 }

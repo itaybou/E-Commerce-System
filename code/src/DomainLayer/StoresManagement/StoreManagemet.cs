@@ -6,7 +6,6 @@ using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
@@ -142,8 +141,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.addProduct(activeUser.Name, productInvName, quantity, minQuantity, maxQuantity);
         }
-
-        
 
 
         //@pre - userID exist and subscribed
@@ -672,7 +669,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
-            List<ProductModel> products = storeBoughtProducts.Select(prod => new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount())).ToList();
+            List<ProductModel> products = storeBoughtProducts.Select(prod => 
+            new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description,
+            prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount(),
+            prod.Key.Discount != null ? prod.Key.Discount.CreateModel() : null,
+            prod.Key.PurchasePolicy != null ? prod.Key.PurchasePolicy.CreateModel() : null)).ToList();
             StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products);
 
             store.logPurchase(storePurchaseModel);
@@ -996,6 +997,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.getAllDiscountsForCompose();
         }
-
     }
 }

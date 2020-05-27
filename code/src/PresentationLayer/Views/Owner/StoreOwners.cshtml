@@ -5,7 +5,6 @@
     var storeName = Model.Item2;
     ViewData["Title"] = "Store Owners - " + storeName;
 }
-<input id="store" name="store" type="hidden" value="@storeName" />
 
 @section Scripts
 {
@@ -163,6 +162,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input id="store" name="store" type="hidden" value="@storeName" />
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Assign</button>
                 </div>

@@ -1,8 +1,10 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {

@@ -24,10 +24,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private SystemManager()
         {
             SystemLogger.initLogger();
+            _searchAndFilter = new SearchAndFilter();
             _userManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
             _transactionManager = TransactionManager.Instance;
-            _searchAndFilter = new SearchAndFilter();
         }
 
         public bool makePurchase(Guid userID, double totalPrice, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, IDictionary<Product, int> allProducts,

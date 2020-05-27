@@ -1,5 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace ECommerceSystem.ServiceLayer
             _storeServices = new StoreService();
         }
 
-        public Guid addProduct(Guid sessionID, string storeName, string productInvName, PurchaseType purchaseType, int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             return _storeServices.addProduct(sessionID, storeName, productInvName, quantity, minQuantity, maxQuantity);
         }
@@ -65,14 +67,14 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool deleteProduct(string storeName, string productInvName, Guid productID)
+        public bool deleteProduct(Guid sessionID, string storeName, string productInvName, Guid productID)
         {
-            throw new NotImplementedException();
+            return _storeServices.deleteProductInv(sessionID, storeName, productInvName);
         }
 
-        public bool deleteProductInv(string storeName, string productInvName)
+        public bool deleteProductInv(Guid sessionID, string storeName, string productInvName)
         {
-            throw new NotImplementedException();
+            return _storeServices.deleteProductInv(sessionID, storeName, productInvName);
         }
 
         public bool editPermissions(Guid sessionID, string storeName, string managerUserName, List<PermissionType> permissions)
@@ -258,6 +260,51 @@ namespace ECommerceSystem.ServiceLayer
         public void rateStore(string storeName, int rating)
         {
             _storeServices.rateStore(storeName, rating);
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid sessionID, string storeName)
+        {
+            return _storeServices.getAllStoreLevelDiscounts(sessionID, storeName);
+        }
+
+        public Guid addConditionalStoreDiscount(Guid sessionID, string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            return _storeServices.addConditionalStoreDiscount(sessionID, storeName, percentage, expDate, minPriceForDiscount);
+        }
+
+        public Guid addCondiotionalProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            return _storeServices.addCondiotionalProcuctDiscount(sessionID, storeName, productID, percentage, expDate, minQuantityForDiscount);
+        }
+
+        public Guid addVisibleDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate)
+        {
+            return _storeServices.addVisibleDiscount(sessionID, storeName, productID, percentage, expDate);
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid sessionID, string storeName)
+        {
+            return _storeServices.getAllDiscountsForCompose(sessionID, storeName);
+        }
+
+        public Guid addAndDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
+        {
+            return _storeServices.addAndDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public Guid addOrDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
+        {
+            return _storeServices.addOrDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public Guid addXorDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
+        {
+            return _storeServices.addXorDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid sessionID, string storeName)
+        {
+            return _storeServices.getAllPurchasePolicyByStoreName(sessionID, storeName);
         }
     }
 }

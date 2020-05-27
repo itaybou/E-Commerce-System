@@ -8,11 +8,13 @@ namespace ECommerceSystem.Models.PurchasePolicyModels
 {
     public abstract class PurchasePolicyModel
     {
-        protected Guid ID;
+        public Guid ID { get; set; }
 
         protected PurchasePolicyModel(Guid iD)
         {
             ID = iD;
         }
+
+        public abstract string GetString();
     }
 }

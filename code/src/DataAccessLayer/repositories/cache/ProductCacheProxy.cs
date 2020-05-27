@@ -47,10 +47,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public void CleanCache()
         {
-            foreach (var store in ProductCache)
+            foreach (var product in ProductCache)
             {
-                if (store.Value.CachedTime() > StoreCachedObjectsSecondsTime)
-                    Uncache(store.Key);
+                if (product.Value.CachedTime() > StoreCachedObjectsSecondsTime)
+                    Uncache(product.Key);
             }
         }
 
@@ -66,24 +66,24 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public Product FindOneBy(Expression<Func<Product, bool>> predicate)
         {
-            var store = ProductCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
-            if (store == null)
+            var product = ProductCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
+            if (product == null)
             {
-                store = ProductRepository.FindOneBy(predicate);
-                Cache(store);
+                product = ProductRepository.FindOneBy(predicate);
+                Cache(product);
             }
-            return store;
+            return product;
         }
 
         public Product GetByIdOrNull(Guid id, Expression<Func<Product, Guid>> idFunc)
         {
-            var user = ProductCache.ContainsKey(id) ? ProductCache[id].GetAccessElement() : null;
-            if (user == null)
+            var prod = ProductCache.ContainsKey(id) ? ProductCache[id].GetAccessElement() : null;
+            if (prod == null)
             {
-                user = ProductRepository.GetByIdOrNull(id, idFunc);
-                Cache(user);
+                prod = ProductRepository.GetByIdOrNull(id, idFunc);
+                Cache(prod);
             }
-            return user;
+            return prod;
         }
 
         public void Insert(Product entity)

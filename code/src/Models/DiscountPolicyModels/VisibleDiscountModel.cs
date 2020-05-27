@@ -6,17 +6,24 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.Models.DiscountPolicyModels
 {
-    class VisibleDiscountModel : DiscountPolicyModel
+    public class VisibleDiscountModel : DiscountPolicyModel
     {
-        float _percentage;
-        Guid _productID;
-        DateTime _expDate;
+        public float Percentage { get; set; }
+        public DateTime ExpDate { get; set; }
+        public Guid ProductID { get; set; }
+        public string ProductName { get; set; }
 
-        public VisibleDiscountModel(Guid ID, DateTime expDate, float percentage, Guid productID) : base(ID)
+        public VisibleDiscountModel(Guid ID, DateTime expDate, float percentage, Guid productID, string productName) : base(ID)
         {
-            _percentage = percentage;
-            _productID = productID;
-            _expDate = expDate;
+            Percentage = percentage;
+            ExpDate = expDate;
+            ProductID = productID;
+            ProductName = productName;
+        }
+
+        public override string GetString()
+        {
+            return "Visible Discount for product: " + ProductName + ", id: " + ProductID + "\n" + Percentage + "% discount, Expires: " + ExpDate.ToString("dd/MM/yyyy");
         }
     }
 }

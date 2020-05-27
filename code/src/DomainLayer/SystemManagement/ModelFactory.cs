@@ -14,7 +14,7 @@ namespace ECommerceSystem.Models
 
         public static ProductModel CreateProduct(Product p)
         {
-            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount());
+            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount(), p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null);
         }
 
         public static ProductInventoryModel CreateProductInventory(ProductInventory prod)

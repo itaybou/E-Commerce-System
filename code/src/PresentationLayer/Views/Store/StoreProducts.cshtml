@@ -1,62 +1,90 @@
-﻿@using ECommerceSystem.Models
-@model Tuple<StoreModel, List<ProductModel>>
+﻿@using ECommerceSystem.Models.PurchasePolicyModels
+@using ECommerceSystem.Models
+@model (Tuple<StoreModel, List<ProductModel>>, string)
 @{
     ViewData["Title"] = "Store Inventory";
-    var store = Model.Item1;
-    var products = Model.Item2;
+    var store = Model.Item1.Item1;
+    var products = Model.Item1.Item2;
+    var invId = Model.Item2.ToString();
+    ViewData["StoreName"] = store.Name;
 }
 
-    <div class="container-fluid w-75">
-        <h1>@ViewData["StoreName"] - Store Inventory</h1>
-        <a href="javascript:void(0);" id="backLink">
-            <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
-                <i class="fas fa-arrow-circle-left"></i>
-                Go Back
-            </div>
-        </a>
-        <div class="alert alert-info">
-            <i class="fa fa-info-circle pull-right"></i>  <strong>Click control button to Modify, Remove or Add Concrete products to group.</strong>
+<div class="container-fluid" style="width: 85%">
+    <h1>@ViewData["StoreName"] - Store Products</h1>
+    <a href="javascript:void(0);" id="backLink">
+        <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
         </div>
-        <div class="row">
-            <div class="col md-12">
-                <h1> <i class="fa fa-shopping-cart"></i>  <small> - Manage store inventory</small></h1>
-            </div>
-            <div class="col justify-content-end align-self-center text-right">
-                <a type="button" style="width: 200px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddProduct" asp-route-store="@store.Name">
-                    <i class="fas fa-plus"></i><i class="fas fa-box-open"></i>Add Prodcut
-                </a>
-            </div>
-        </div>
-
-        <hr>
-
-        <table class="table">
-            <thead>
-                <tr class="text-left">
-                    <th>#ID</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in products)
-                {
-                    <tr class="text-left">
-                        <td class="w-25">@product.Id</td>
-                        <td>@product.Name</td>
-                        <td>@product.Quantity</td>
-                        <td>@product.BasePrice</td>
-                        <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
-                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" method="post">
-                                <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
-                                    Remove <i class="fas fa-archive"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    </a>
+    <div class="alert alert-info">
+        <i class="fa fa-info-circle pull-right"></i>  <strong>Click to add product discount or remove product.</strong>
     </div>
+    <div class="row">
+        <div class="col md-12">
+            <h1> <i class="fa fa-shopping-cart"></i>  <small> - Manage store product group under: <b>@products.First().Name</b></small></h1>
+        </div>
+        <div class="col justify-content-end align-self-center text-right">
+            <a type="button" style="width: 200px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddConcreteProduct" asp-route-invId="@invId">
+                <i class="fas fa-plus"></i><i class="fas fa-box-open"></i>Add Prodcut
+            </a>
+        </div>
+    </div>
+
+    <hr>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-left">
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Active Discount</th>
+                <th>Purchase Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr class="text-left">
+                    <td class="w-25">@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Quantity</td>
+                    <td>@product.BasePrice</td>
+                    <td>
+                        @if (product.Discount != null)
+                        {
+                            <span>@product.Discount.GetString()</span>
+                        }
+                        else
+                        {
+                            <span>None</span>
+                        }
+                    </td>
+                    <td style="width: 12%">
+                        @if (product.PurchasePolicy != null)
+                        {
+                            var prod = (ProductQuantityPolicyModel)product.PurchasePolicy;
+                            <span><b>Minimum Purchase Quantity:</b> @prod.MinQuantity</span><br />
+                            <span><b>Maximum Purchase Quantity:</b> @prod.MaxQuantity</span>
+                        }
+                        else
+                        {
+                            <span>None</span>
+                        }
+                    </td>
+                    <td class="text-right align-content-end justify-content-end p-1" style="width: 2%">
+                        <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-danger m-1" asp-action="RemoveProduct" asp-controller="Owner" asp-route-store="@store.Name" asp-route-productName="@product.Name" asp-route-id="@product.Id">
+                            Remove <i class="fas fa-archive"></i>
+                        </a>
+                        <a type="button" style="width: 150px; margin: 0" asp-action="AddProductDiscount" asp-controller="Owner" asp-route-storeName="@store.Name" asp-route-id="@product.Id" class="btn btn-info m-1">
+                            Discount <i class="fas fa-percentage"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

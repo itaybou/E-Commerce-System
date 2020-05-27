@@ -115,3 +115,12 @@ footer {
     .edit-icon a {
         color: #000;
     }
+
+.big-checkbox {
+    width: 30px;
+    height: 30px;
+}
+
+[type="checkbox"] {
+    vertical-align: middle;
+}

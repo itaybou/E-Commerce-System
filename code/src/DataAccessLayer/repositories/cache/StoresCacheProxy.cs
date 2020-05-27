@@ -77,13 +77,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public Store GetByIdOrNull(string id, Expression<Func<Store, string>> idFunc)
         {
-            var user = StoresCache.ContainsKey(id) ? StoresCache[id].GetAccessElement() : null;
-            if (user == null)
+            var store = StoresCache.ContainsKey(id) ? StoresCache[id].GetAccessElement() : null;
+            if (store == null)
             {
-                user = StoreRepository.GetByIdOrNull(id, idFunc);
-                Cache(user);
+                store = StoreRepository.GetByIdOrNull(id, idFunc);
+                Cache(store);
             }
-            return user;
+            return store;
         }
 
         public void Insert(Store entity)

@@ -443,3 +443,10 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ErrorMessage.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\AddStoreDiscount.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\StoreDiscounts.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\AddProductDiscount.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\AddCompositeDiscount.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\StoreDiscountPolicies.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Store\AddConcreteProduct.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\purchase\StorePurchasePolicies.cshtml.g.cs

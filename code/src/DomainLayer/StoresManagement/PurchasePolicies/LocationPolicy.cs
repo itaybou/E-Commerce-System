@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public class LocationPolicy : PurchasePolicy
     {
-        private List<string> _bannedLocation;
-        private Guid _ID;
+        [BsonId]
+        public Guid ID { get; set; }
+        public List<string> BannedLocations { get; set; }
 
         public LocationPolicy(List<string> bannedLocation, Guid ID)
         {
-            this._bannedLocation = bannedLocation;
-            this._ID = ID;
+            this.BannedLocations = bannedLocation;
+            this.ID = ID;
         }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
@@ -25,7 +27,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
                 return false;
             }
 
-            foreach(string s in _bannedLocation)
+            foreach(string s in BannedLocations)
             {
                 if (address.Contains(s))
                 {
@@ -37,12 +39,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 
         public PurchasePolicyModel CreateModel()
         {
-            return new LocationPolicyModel(this._ID, this._bannedLocation);
+            return new LocationPolicyModel(this.ID, this.BannedLocations);
         }
 
         public Guid getID()
         {
-            return _ID;
+            return ID;
         }
     }
 }
