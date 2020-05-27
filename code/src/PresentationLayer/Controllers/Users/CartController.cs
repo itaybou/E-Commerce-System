@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.ServiceLayer;
+﻿using ECommerceSystem.Exceptions;
+using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.User;
 using System;
@@ -27,36 +28,59 @@ namespace PresentationLayer.Controllers.Users
         [Route("Checkout")]
         public IActionResult Checkout()
         {
-            var session = new Guid(HttpContext.Session.Id);
-            var cart = _service.ShoppingCartDetails(session);
-            var cartModel = new CartModel(cart);
-            var model = new CheckoutModel(cartModel);
-            return View(model);
+            try
+            {
+                var session = new Guid(HttpContext.Session.Id);
+                var cart = _service.ShoppingCartDetails(session);
+                var cartModel = new CartModel(cart);
+                var model = new CheckoutModel(cartModel);
+                return View(model);
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+
         }
 
         [HttpPost]
         public IActionResult AddProductToCart(string prodID)
         {
-            var id = new Guid(prodID);
-            var session = new Guid(HttpContext.Session.Id);
-            var store = _service.getProductInventory(id).Item2;
-            var valid = _service.addProductToCart(session, id, store, 1);
-            if (valid)
-                TempData["Notification"] = "Added product to cart!";
-            return RedirectToAction("Index");
+            try
+            {
+                var id = new Guid(prodID);
+                var session = new Guid(HttpContext.Session.Id);
+                var store = _service.getProductInventory(id).Item2;
+                var valid = _service.addProductToCart(session, id, store, 1);
+                if (valid)
+                    TempData["Notification"] = "Added product to cart!";
+                return RedirectToAction("Index");
+          }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Payment(CheckoutModel model)
         {
             //model.Products = Somthing     Get user cart from domain
-            var session = new Guid(HttpContext.Session.Id);
-            var cart = _service.ShoppingCartDetails(session);
-            model.Products = new CartModel(cart).UserCart.Cart.Select(m => m.Value).SelectMany(p => p); // Temp
-            if (ModelState.IsValid)
+            try
             {
+                var session = new Guid(HttpContext.Session.Id);
+                var cart = _service.ShoppingCartDetails(session);
+                model.Products = new CartModel(cart).UserCart.Cart.Select(m => m.Value).SelectMany(p => p); // Temp
+                if (ModelState.IsValid)
+                {
+                }
+                return View("Checkout", model);
             }
-            return View("Checkout", model);
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+
         }
     }
 }

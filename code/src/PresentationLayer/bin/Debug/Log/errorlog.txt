@@ -255,3 +255,183 @@
 2020-05-26 12:23:23.7069 | ERROR: Missing spell checker dictionary file!
 2020-05-26 12:24:29.4375 | ERROR: Missing spell checker dictionary file!
 2020-05-26 12:25:19.0099 | ERROR: Missing spell checker dictionary file!
+2020-05-26 21:53:33.5751 | ERROR: Missing spell checker dictionary file!
+2020-05-26 21:55:15.7630 | ERROR: Missing spell checker dictionary file!
+2020-05-26 22:14:51.5524 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:32:31.0999 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:34:00.4401 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:34:41.7019 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:35:49.4791 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:38:52.6982 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:41:57.3705 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:43:13.2014 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:45:21.5629 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:47:36.0139 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:52:00.6847 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:55:09.8005 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:55:47.9246 | ERROR: Missing spell checker dictionary file!
+2020-05-27 00:56:42.2500 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:07:03.6677 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:08:36.5087 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:10:16.1146 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:12:23.8149 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:18:44.4521 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:32:55.5417 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:33:45.7650 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:39:53.0243 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:40:33.8280 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:41:25.6458 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:48:32.7418 | ERROR: Missing spell checker dictionary file!
+2020-05-27 01:50:50.2250 | ERROR: Missing spell checker dictionary file!
+2020-05-27 02:18:02.9605 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:14:33.1720 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:17:54.3518 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:43:51.5403 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:45:28.5960 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:56:32.0114 | ERROR: Missing spell checker dictionary file!
+2020-05-27 13:58:36.9537 | ERROR: Missing spell checker dictionary file!
+2020-05-27 14:06:57.3605 | ERROR: Missing spell checker dictionary file!
+2020-05-27 14:08:37.6827 | ERROR: Missing spell checker dictionary file!
+2020-05-27 14:09:50.6481 | ERROR: Missing spell checker dictionary file!
+2020-05-27 14:10:42.6808 | ERROR: Missing spell checker dictionary file!
+2020-05-27 16:57:58.8217 | ERROR: Missing spell checker dictionary file!
+2020-05-27 16:58:30.6544 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:01:15.0897 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:01:40.8438 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:03:07.7079 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:05:50.2277 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:09:26.5530 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:09:43.7220 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:10:09.2679 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:11:40.0885 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:12:11.0299 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:12:30.6417 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-27 17:14:23.7826 | ERROR: Missing spell checker dictionary file!
+2020-05-27 17:15:21.3630 | ERROR: System.InvalidOperationException: {document}.Name is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateEquals(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateMethodCall(MethodCallExpression methodCallExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 74
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.FindOneBy(Expression`1 predicate) in C:\Users\סהר\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 103
+2020-05-28 00:32:38.6142 | ERROR: Missing spell checker dictionary file!

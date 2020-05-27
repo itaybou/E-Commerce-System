@@ -1,4 +1,6 @@
-﻿using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -66,12 +68,29 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public ICollection<User> FetchAll()
         {
-            return UserRepository.FetchAll();
+            try
+            {
+                return UserRepository.FetchAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : fetch all users");
+            }
+
         }
 
         public IEnumerable<User> FindAllBy(Expression<Func<User, bool>> predicate)
         {
-            return UserRepository.FindAllBy(predicate);
+            try
+            {
+                return UserRepository.FindAllBy(predicate);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : find all users by predicate");
+            }
         }
 
         public User FindOneBy(Expression<Func<User, bool>> predicate)
@@ -79,7 +98,15 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var user = UsersCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
             if (user == null)
             {
-                user = UserRepository.FindOneBy(predicate);
+                try
+                {
+                    user = UserRepository.FindOneBy(predicate);
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : find user by predicate");
+                }
                 Cache(user);
             }
             return user;
@@ -90,7 +117,16 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var user = UsersCache.ContainsKey(id) ? UsersCache[id].GetAccessElement() : null;
             if (user == null)
             {
-                user = UserRepository.GetByIdOrNull(id, idFunc);
+                try
+                {
+                    user = UserRepository.GetByIdOrNull(id, idFunc);
+
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : get user by id");
+                }
                 Cache(user);
             }
             return user;
@@ -98,52 +134,125 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public void Insert(User entity)
         {
-            UserRepository.Insert(entity);
+            try
+            {
+                UserRepository.Insert(entity);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : insert user");
+            }
+
         }
 
         public IQueryable<User> QueryAll()
         {
-            return UserRepository.QueryAll();
+            try
+            {
+                return UserRepository.QueryAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : query all users");
+            }
+
+
         }
 
         public void Remove(User entity, Guid id, Expression<Func<User, Guid>> idFunc)
         {
             Uncache(id);
-            UserRepository.Remove(entity, id, idFunc);
+            try
+            {
+                UserRepository.Remove(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : remove user");
+            }
+
         }
 
         public void Update(User entity, Guid id, Expression<Func<User, Guid>> idFunc)
         {
-            UserRepository.Update(entity, id, idFunc);
+            try
+            {
+                UserRepository.Update(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : update user");
+            }
+
+
             if (UsersCache.ContainsKey(id))
                 Recache(entity);
         }
 
         public void Upsert(User entity, Guid id, Expression<Func<User, Guid>> idFunc)
         {
-            UserRepository.Upsert(entity, id, idFunc);
+            try
+            {
+                UserRepository.Upsert(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : upsert user");
+            }
+
+
             if (UsersCache.ContainsKey(id))
                 Recache(entity);
         }
 
         public User GetSubscribedUser(string username, string password)
         {
-            var user = UserRepository.GetSubscribedUser(username, password);
-            Cache(user);
-            return user;
+            try
+            {
+                var user = UserRepository.GetSubscribedUser(username, password);
+                Cache(user);
+                return user;
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : get subscribed user");
+            }
         }
 
         public UserShoppingCart GetUserCart(Guid userID)
         {
             if (UsersCache.ContainsKey(userID))
                 return UsersCache[userID].Element.Cart;
+            try
+            {
+                return GetByIdOrNull(userID, u => u.Guid).Cart;
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : get user by id to get cart");
+            }
 
-            return GetByIdOrNull(userID, u => u.Guid).Cart;
         }
 
         public IEnumerable<User> GetSubscribedByUsernameStart(string username)
         {
-            return UserRepository.GetSubscribedByUsernameStart(username);
+            try
+            {
+                return UserRepository.GetSubscribedByUsernameStart(username);
+            }
+
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : get subscribed by username");
+            }
         }
     }
 }

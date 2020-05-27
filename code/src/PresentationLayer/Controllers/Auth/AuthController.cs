@@ -128,7 +128,7 @@ namespace PresentationLayer.Controllers.Auth
                 } 
                 catch(DatabaseException)
                 {
-                    return Redirect("~/Exception/AuthException");
+                    return Redirect("~/Exception/DatabaseException");
                 }
             }
             return Redirect("~/");

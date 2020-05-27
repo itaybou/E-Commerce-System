@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Exceptions;
+using ECommerceSystem.DomainLayer.SystemManagement;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -181,8 +182,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             {
                 var productsPurchased = allProducts.Select(prod =>
                     new Product(prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.CalculateDiscount(), prod.Key.Id)).ToList();
-                user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
-                firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+                try
+                {
+                    user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
+                    firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+                }
+                catch(Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new LogicException("Faild : log user purchase");
+                }
+
             }
         }
 
