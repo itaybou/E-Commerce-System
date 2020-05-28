@@ -314,8 +314,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
+
             INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
-            List<Guid> approvers = agreement.PendingApproval.Select(userName => _userManagement.getUserByName(userName).Guid).ToList();
+
+            List<Guid> approvers = new List<Guid>();
+            AssignOwnerRequestModel request = new AssignOwnerRequestModel(agreement.ID, activeUser.Name, newOwneruserName, storeName);
+            foreach(string approverUserName in agreement.PendingApproval)
+            {
+                User approver = _userManagement.getUserByName(approverUserName);
+                approvers.Add(approver.Guid);
+                approver.addAssignOwnerRequest(request);
+            }
+
             if(approvers.Count != 0)
             {
                 _communication.SendGroupNotification(approvers, notification);
@@ -349,6 +359,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
+            approver.removeAssignOwnerRequest(agreementID);
+
             if (assignOwnerAgreement.isDone())
             {
                 assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
@@ -376,6 +388,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (!store.disapproveAssignOwnerRequest(disapprover.Name, assignOwnerAgreement))
             {
                 return false;
+            }
+
+            //remove the agreement request from all the pending owners:
+            foreach(string ownerUserName in assignOwnerAgreement.PendingApproval)
+            {
+                _userManagement.getUserByName(ownerUserName).removeAssignOwnerRequest(agreementID);
             }
 
             //send disapprove notification to the assignee and assigner

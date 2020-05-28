@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -82,5 +83,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             State.removeAllAssigneeOfStore(storeName);
         }
+
+        public void addAssignOwnerRequest(AssignOwnerRequestModel request)
+        {
+            State.addAssignOwnerRequest(request);
+        }
+
+        public void removeAssignOwnerRequest(Guid agreementID)
+        {
+            State.removeAssignOwnerRequest(agreementID);
+        }
+
+        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser()
+        {
+            return State.getAllAssignOwnerRequestOfUser();
+        }
     }
+
 }

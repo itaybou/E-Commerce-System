@@ -167,6 +167,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _data.Users.Update(user, userID, u => u.Guid);
         }
 
+        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser(Guid userID)
+        {
+            return getUserByGUID(userID, true).getAllAssignOwnerRequestOfUser();
+        }
+
         internal IEnumerable<UserModel> searchUsers(string username)
         {
             var users = _data.Users.GetSubscribedByUsernameStart(username);
