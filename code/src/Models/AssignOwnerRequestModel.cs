@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,11 @@ namespace ECommerceSystem.Models
 {
     public class AssignOwnerRequestModel
     {
-        public Guid AgreementID;
-        public string AssignerUserName;
-        public string AsigneeUserName;
-        public string StoreName;
+        [BsonId]
+        public Guid AgreementID { get; set; }
+        public string AssignerUserName { get; set; }
+        public string AsigneeUserName { get; set; }
+        public string StoreName { get; set; }
 
         public AssignOwnerRequestModel(Guid agreementID, string assignerUserName, string asigneeUserName, string storeName)
         {

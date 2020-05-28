@@ -176,7 +176,8 @@ namespace ECommerceSystem
                     Console.WriteLine("incorrect args for add product inventory");
                     return false;
                 }
-                _storeManagement.addProductInv(userID, args[2], args[3], args[4], price, quantity, category, keywords, minQuantity, maxQuantity);
+                // Added store name to product inventory
+                _storeManagement.addProductInv(userID, args[2], args[3], args[4], price, quantity, category, keywords, minQuantity, maxQuantity, "Moshe Store");
             }
             else
             {

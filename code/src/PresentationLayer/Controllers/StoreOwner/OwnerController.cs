@@ -12,6 +12,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.Products;
 using PresentationLayer.Models.PurchasePolicy;
+using ECommerceSystem.Exceptions;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -91,7 +92,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 var p = _service.getProductInventory(new Guid(id)).Item1;
                 string keywords = "";
                 p.Keywords.ForEach(word => keywords += word + " ");
-                var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords), p.ImageURL);
+                var model = new ProductInventoryModel(p.ID, p.Name, p.Price, p.Description, p.Category, p.Rating, p.RaterCount, new HashSet<string>(p.Keywords), p.ImageURL, store);
                 return View("../Store/ModifyProductGroup", model);
             }
             catch (AuthenticationException)
@@ -173,23 +174,24 @@ namespace PresentationLayer.Controllers.StoreOwner
                     if(model.Keywords != null)
                         model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word)) ;
                     try
-                    if(model.Keywords != null)
-                        model.Keywords.Split(" ").ToList().ForEach(word => keywords.Add(word));
-                    if (quantityLimit && (model.MinQuantity != null && model.MaxQuantity != null))
                     {
-                        if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
-                            model.Quantity, category, keywords, (int)model.MinQuantity, (int)model.MaxQuantity, model.ImageURL) != Guid.Empty)
+                        if (quantityLimit && (model.MinQuantity != null && model.MaxQuantity != null))
                         {
-                            var products = _service.getStoreInfo(storeName);
-                            return View("../Store/StoreInventory", products);
+                            if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                                model.Quantity, category, keywords, (int)model.MinQuantity, (int)model.MaxQuantity, model.ImageURL) != Guid.Empty)
+                            {
+                                var products = _service.getStoreInfo(storeName);
+                                return View("../Store/StoreInventory", products);
+                            }
                         }
-                    } else
-                    {
-                        if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
-                           model.Quantity, category, keywords, -1, -1, model.ImageURL) != Guid.Empty)
+                        else
                         {
-                            var products = _service.getStoreInfo(storeName);
-                            return View("../Store/StoreInventory", products);
+                            if (_service.addProductInv(session, storeName, model.Description, model.Name, model.Price,
+                               model.Quantity, category, keywords, -1, -1, model.ImageURL) != Guid.Empty)
+                            {
+                                var products = _service.getStoreInfo(storeName);
+                                return View("../Store/StoreInventory", products);
+                            }
                         }
                     }
                     catch (AuthenticationException)
@@ -355,8 +357,8 @@ namespace PresentationLayer.Controllers.StoreOwner
             }
         }
 
-        [Authorize(Roles = "Admin, Subscribed")]
         [HttpGet]
+        [Authorize(Roles = "Admin, Subscribed")]
         public JsonResult AssignSearch(string query, string storeName)
         {
             try
@@ -370,21 +372,22 @@ namespace PresentationLayer.Controllers.StoreOwner
 
         }
 
-        [Authorize(Roles = "Admin, Subscribed")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult AssignOwner(string storeName)
         {
-
             var session = new Guid(HttpContext.Session.Id);
             var assignUsername = Request.Form["assignUsername"].ToString();
             if (!String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
             {
                 try
-                if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) == Guid.Empty)
                 {
-                    if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) != Guid.Empty)
+                    if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) == Guid.Empty)
                     {
-                        ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
+                        if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) != Guid.Empty)
+                        {
+                            ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
+                        }
                     }
                 }
                 catch (AuthenticationException)

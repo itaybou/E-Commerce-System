@@ -111,7 +111,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             {
                 try
                 {
-                    user = StoreRepository.GetByIdOrNull(id, idFunc);
+                    store = StoreRepository.GetByIdOrNull(id, idFunc);
                 }
                 catch (Exception e)
                 {
@@ -119,7 +119,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                     throw new DatabaseException("Faild : get store by id");
                 }
 
-                Cache(user);
+                Cache(store);
             }
             return store;
         }

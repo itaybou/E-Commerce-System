@@ -14,8 +14,10 @@
 {
     <script>
         $('.trimDescription').each(function (f) {
-            var newstr = $(this).text().substring(0, 200) + "...";
-            $(this).text(newstr);
+            if ($(this).text() !== null && $(this).text().length !== 0) {
+                var newstr = $(this).text().substring(0, 200) + '...';
+                $(this).text(newstr);
+            }
         });
     </script>
 }

@@ -83,26 +83,26 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             {
                 try
                 {
-                    store = ProductRepository.FindOneBy(predicate);
+                    product = ProductRepository.FindOneBy(predicate);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : find product");
                 }
-                Cache(store);
+                Cache(product);
             }
             return product;
         }
 
         public Product GetByIdOrNull(Guid id, Expression<Func<Product, Guid>> idFunc)
         {
-            var prod = ProductCache.ContainsKey(id) ? ProductCache[id].GetAccessElement() : null;
-            if (prod == null)
+            var product = ProductCache.ContainsKey(id) ? ProductCache[id].GetAccessElement() : null;
+            if (product == null)
             {
                 try
                 {
-                    user = ProductRepository.GetByIdOrNull(id, idFunc);
+                    product = ProductRepository.GetByIdOrNull(id, idFunc);
                 }
                 catch (Exception e)
                 {
@@ -110,9 +110,9 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                     throw new DatabaseException("Faild : get product by id");
                 }
                 
-                Cache(user);
+                Cache(product);
             }
-            return prod;
+            return product;
         }
 
         public void Insert(Product entity)

@@ -17,7 +17,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public List<UserPurchase> PurchaseHistory { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        public Dictionary<Guid,AssignOwnerRequestModel> AssignOwnerRequests { get; set; }
+        public Dictionary<Guid, AssignOwnerRequestModel> AssignOwnerRequests { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign

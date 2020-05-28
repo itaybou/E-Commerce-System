@@ -19,13 +19,13 @@ namespace PresentationLayer.Controllers
 
         public async Task<IActionResult> DatabaseException()
         {
-            var message = new ActionMessageModel("Oops! Something happend. please try again.", Url.Action("Index", "Home"));
+            var message = new ActionMessageModel("Oops! Something happend. please try again later.", Url.Action("Index", "Home"));
             return View("_ErrorMessage", message);
         }
 
         public async Task<IActionResult> LogicException()
         {
-            var message = new ActionMessageModel("Oops! Something happend. please try again.", Url.Action("Index", "Home"));
+            var message = new ActionMessageModel("Oops! Something happend. please check your input or try again later.", Url.Action("Index", "Home"));
             return View("_ErrorMessage", message);
         }
 

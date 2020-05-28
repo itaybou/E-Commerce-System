@@ -379,18 +379,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-
+            AssignOwnerAgreement agreement;
             try
             {
-                AssignOwnerAgreement agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
+                agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
                 if (agreement == null)
                 {
                     return Guid.Empty;
                 }
-
-
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to create owner assigner agreement");
+            }
             INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
-
             List<Guid> approvers = new List<Guid>();
             AssignOwnerRequestModel request = new AssignOwnerRequestModel(agreement.ID, activeUser.Name, newOwneruserName, storeName);
             foreach(string approverUserName in agreement.PendingApproval)
@@ -404,13 +407,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 _communication.SendGroupNotification(approvers, notification);
             }
-            catch (Exception e)
+            else
             {
-                SystemLogger.logger.Error(e.ToString());
-                throw new LogicException("Logic error: faild to create owner assigner agreement");
+                assignOwnerAftterApproval(activeUser, newOwneruserName, storeName); //there is only 1 owner in the store(activeUser), so there is no need to approve
             }
 
-
+            return agreement.ID;
         }
 
         public bool approveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
@@ -435,6 +437,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     return false;
                 }
 
+                approver.removeAssignOwnerRequest(agreementID);
+
                 if (assignOwnerAgreement.isDone())
                 {
                     assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
@@ -442,10 +446,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 return true;
             }
-
-            approver.removeAssignOwnerRequest(agreementID);
-
-            if (assignOwnerAgreement.isDone())
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
@@ -476,6 +476,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     return false;
                 }
 
+                //remove the agreement request from all the pending owners:
+                foreach (string ownerUserName in assignOwnerAgreement.PendingApproval)
+                {
+                    _userManagement.getUserByName(ownerUserName).removeAssignOwnerRequest(agreementID);
+                }
+
                 //send disapprove notification to the assignee and assigner
                 INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name, storeName);
                 _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
@@ -487,18 +493,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 SystemLogger.logger.Error(e.ToString());
                 throw new LogicException("Logic error: faild to  disapprove owner request");
             }
-
-            //remove the agreement request from all the pending owners:
-            foreach(string ownerUserName in assignOwnerAgreement.PendingApproval)
-            {
-                _userManagement.getUserByName(ownerUserName).removeAssignOwnerRequest(agreementID);
-            }
-
-            //send disapprove notification to the assignee and assigner
-            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name, storeName);
-            _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
-            _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
-            return true;
         }
 
 
