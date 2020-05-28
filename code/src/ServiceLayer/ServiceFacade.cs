@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
 using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
@@ -244,6 +245,7 @@ namespace ECommerceSystem.ServiceLayer
 
         public void rateProduct(Guid prodID, int rating)
         {
+            throw new LogicException("");
             _storeServices.rateProduct(prodID, rating);
         }
 

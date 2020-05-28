@@ -219,6 +219,8 @@
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
+    <Compile Include="Exceptions\ExternalSystemExceptions.cs" />
+    <Compile Include="Exceptions\LogicException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Models\AssignOwnerRequestModel.cs" />
     <Compile Include="Models\CompositeType.cs" />

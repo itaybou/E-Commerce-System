@@ -1,4 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -56,12 +58,30 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public ICollection<Store> FetchAll()
         {
-            return StoreRepository.FetchAll();
+            try
+            {
+                return StoreRepository.FetchAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : fetch all stores");
+            }
+
         }
 
         public IEnumerable<Store> FindAllBy(Expression<Func<Store, bool>> predicate)
         {
-            return StoreRepository.FindAllBy(predicate);
+            try
+            {
+                return StoreRepository.FindAllBy(predicate);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : find all by stores");
+            }
+
         }
 
         public Store FindOneBy(Expression<Func<Store, bool>> predicate)
@@ -69,7 +89,16 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var store = StoresCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
             if (store == null)
             {
-                store = StoreRepository.FindOneBy(predicate);
+                try
+                {
+                    store = StoreRepository.FindOneBy(predicate);
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : faild find one store");
+                }
+
                 Cache(store);
             }
             return store;
@@ -80,38 +109,92 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var store = StoresCache.ContainsKey(id) ? StoresCache[id].GetAccessElement() : null;
             if (store == null)
             {
-                store = StoreRepository.GetByIdOrNull(id, idFunc);
-                Cache(store);
+                try
+                {
+                    user = StoreRepository.GetByIdOrNull(id, idFunc);
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : get store by id");
+                }
+
+                Cache(user);
             }
             return store;
         }
 
         public void Insert(Store entity)
         {
-            StoreRepository.Insert(entity);
+            try
+            {
+                StoreRepository.Insert(entity);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : insert store");
+            }
+
         }
 
         public IQueryable<Store> QueryAll()
         {
-            return StoreRepository.QueryAll();
+            try
+            {
+                return StoreRepository.QueryAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : query all stores");
+            }
+
+
         }
 
         public void Remove(Store entity, string id, Expression<Func<Store, string>> idFunc)
         {
             Uncache(id);
-            StoreRepository.Remove(entity, id, idFunc);
+            try
+            {
+                StoreRepository.Remove(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : remove store");
+            }
+
         }
 
         public void Update(Store entity, string id, Expression<Func<Store, string>> idFunc)
         {
-            StoreRepository.Update(entity, id, idFunc);
+            try
+            {
+                StoreRepository.Update(entity, id, idFunc);
+            }
+            
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : update store");
+            }
             if (StoresCache.ContainsKey(id))
                 Recache(entity);
         }
 
         public void Upsert(Store entity, string id, Expression<Func<Store, string>> idFunc)
         {
-            StoreRepository.Upsert(entity, id, idFunc);
+            try
+            {
+                StoreRepository.Upsert(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : upsert store");
+            }  
             if (StoresCache.ContainsKey(id))
                 Recache(entity);
         }

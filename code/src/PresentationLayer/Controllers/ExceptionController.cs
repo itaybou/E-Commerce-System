@@ -16,5 +16,23 @@ namespace PresentationLayer.Controllers
             var message = new ActionMessageModel("Oops! Your session has expired. please login again.", Url.Action("Login", "Auth"));
             return View("_ErrorMessage", message);
         }
+
+        public async Task<IActionResult> DatabaseException()
+        {
+            var message = new ActionMessageModel("Oops! Something happend. please try again.", Url.Action("Index", "Home"));
+            return View("_ErrorMessage", message);
+        }
+
+        public async Task<IActionResult> LogicException()
+        {
+            var message = new ActionMessageModel("Oops! Something happend. please try again.", Url.Action("Index", "Home"));
+            return View("_ErrorMessage", message);
+        }
+
+        public async Task<IActionResult> ExternalSystemException()
+        {
+            var message = new ActionMessageModel("Oops! connection lost with external services. please try again.", Url.Action("Index", "Home"));
+            return View("_ErrorMessage", message);
+        }
     }
 }

@@ -42,6 +42,10 @@ namespace PresentationLayer.Controllers.Store
             {
                 return Redirect("~/Exception/AuthException");
             }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -56,18 +60,34 @@ namespace PresentationLayer.Controllers.Store
         [Route("OpenStore")]
         public IActionResult OpenStore(OpenStoreModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var session = new Guid(HttpContext.Session.Id);
-                var valid = _service.openStore(session, model.StoreName);
-                if (valid)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("UserStoreList", "Store");
+                    var session = new Guid(HttpContext.Session.Id);
+                    var valid = _service.openStore(session, model.StoreName);
+                    if (valid)
+                    {
+                        return RedirectToAction("UserStoreList", "Store");
+                    }
+                    ModelState.AddModelError("OpenStoreError", "Unable to open store, try again later.");
+                    return View("../Store/OpenStore", model);
                 }
-                ModelState.AddModelError("OpenStoreError", "Unable to open store, try again later.");
                 return View("../Store/OpenStore", model);
             }
-            return View("../Store/OpenStore", model);
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [HttpPost]
@@ -78,10 +98,17 @@ namespace PresentationLayer.Controllers.Store
             {
                 var rating_int = Int32.Parse(rating);
                 _service.rateStore(storeName, rating_int);
+                var storeInfo = _service.getAllStoresInfo();
+                return View("StoreList", storeInfo);
             }
-            catch (Exception) { }
-            var storeInfo = _service.getAllStoresInfo();
-            return View("StoreList", storeInfo);
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (Exception)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
     }
 }

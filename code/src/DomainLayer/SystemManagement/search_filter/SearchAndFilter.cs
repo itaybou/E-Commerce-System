@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
+using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
 using System;
@@ -21,6 +22,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public virtual List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)
         {
+
             return storeRatingFilter != null ? _storeManagement.getAllStoreInventoryWithRating(storeRatingFilter) : _storeManagement.getAllStoresProdcutInventories();
         }
 
@@ -57,7 +59,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public List<ProductInventory> filterProducts(List<ProductInventory> products,
             Range<double> priceRangeFilter, Range<double> productRatingFilter, string categoryFilter)
         {
-            var category = categoryFilter == null ? null : EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            Category? category;
+            try
+            {
+                category = categoryFilter == null ? null : EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : cant parse category");
+            }
+           
             Func<ProductInventory, bool> priceRangeFilterPred = p => (priceRangeFilter != null && priceRangeFilter.inRange(p.Price)) || priceRangeFilter == null;
             Func<ProductInventory, bool> productRangeFilterPred = p => (productRatingFilter != null && productRatingFilter.inRange(p.Rating)) || productRatingFilter == null;
             Func<ProductInventory, bool> categoryFilterPred = p => (category != null && p.Category.Equals(category)) || category == null;

@@ -1,4 +1,6 @@
-﻿using ECommerceSystem.DomainLayer.UserManagement;
+﻿using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,29 @@ namespace ECommerceSystem.DataAccessLayer.repositories
 
         public User GetSubscribedUser(string username, string password)
         {
-            return QueryAll().Where(u => u.Name.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
+            try
+            {
+                return QueryAll().Where(u => u.Name.Equals(username) && u.Password.Equals(password)).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : get subscribed user");
+            }
         }
 
         public IEnumerable<User> GetSubscribedByUsernameStart(string username)
         {
-            return QueryAll().Where(user => user.isSubscribed() && user.Name.ToLower().StartsWith(username.ToLower())).ToList();
+            try
+            {
+                return QueryAll().Where(user => user.isSubscribed() && user.Name.ToLower().StartsWith(username.ToLower())).ToList();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : get subscribed user by username");
+            }
+
         }
 
         public void CacheUser(User user)

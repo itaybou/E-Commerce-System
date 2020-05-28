@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 1 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
 using ECommerceSystem.Models;
 
 #line default
@@ -75,7 +75,7 @@ using ECommerceSystem.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 3 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
   
     ViewData["Title"] = "Product";
 
@@ -132,7 +132,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 27 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 27 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                                                     WriteLiteral(Model.ID);
 
 #line default
@@ -152,7 +152,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n    </div>\r\n</section>\r\n\r\n    <div class=\"container\">\r\n        <h1>");
 #nullable restore
-#line 43 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 43 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
        Write(ViewData["Name"]);
 
 #line default
@@ -174,7 +174,7 @@ using ECommerceSystem.Models;
                             <div class=""tab-pane active"" id=""pic-1"">
 ");
 #nullable restore
-#line 57 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 57 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                  if (!String.IsNullOrWhiteSpace(Model.ImageURL))
                                 {
 
@@ -184,7 +184,7 @@ using ECommerceSystem.Models;
             WriteLiteral("                                    <img class=\"card-img-top\"");
             BeginWriteAttribute("src", " src=\"", 2245, "\"", 2266, 1);
 #nullable restore
-#line 59 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 59 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
 WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 
 #line default
@@ -193,7 +193,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
             EndWriteAttribute();
             WriteLiteral(" alt=\"Product image\" width=\"500\" height=\"350\"> <!--user image-->\r\n");
 #nullable restore
-#line 60 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 60 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
                                 else
                                 {
@@ -221,7 +221,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" <!--default image-->\r\n");
 #nullable restore
-#line 64 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 64 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
 
 #line default
@@ -235,7 +235,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
                             <div>
                                 <h3 class=""product-title"">");
 #nullable restore
-#line 71 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 71 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                      Write(Model.Name);
 
 #line default
@@ -243,7 +243,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</h3>\r\n                            </div>\r\n                            <div>\r\n                                <h5><b>Category</b>: ");
 #nullable restore
-#line 74 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 74 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                 Write(Enum.GetName(typeof(Category), Model.Category));
 
 #line default

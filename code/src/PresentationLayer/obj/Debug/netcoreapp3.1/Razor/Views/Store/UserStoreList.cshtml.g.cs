@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 1 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
 using ECommerceSystem.Models;
 
 #line default
@@ -81,7 +81,7 @@ using ECommerceSystem.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 3 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
   
     ViewData["Title"] = "My Stores";
     var StoreProducts = Model.Item1;
@@ -92,7 +92,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("\r\n<div class=\"container py-2\">\r\n    <div class=\"row\">\r\n        <div class=\"col-lg-12 mx-auto\">\r\n            <div class=\"row\">\r\n                <div class=\"col\">\r\n                    <h1>");
 #nullable restore
-#line 14 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 14 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                    Write(ViewData["Title"]);
 
 #line default
@@ -121,7 +121,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                </div>\r\n            </div>\r\n            <!-- List group-->\r\n            <ul class=\"list-group shadow\">\r\n                <!-- list group item-->\r\n");
 #nullable restore
-#line 25 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 25 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                  foreach (var store in StoreProducts.Keys)
                 {
                     var permissions = Permissions[store.Name];
@@ -136,7 +136,7 @@ using ECommerceSystem.Models;
                                 <div class=""media-body order-2 order-lg-1"">
                                     <h3 class=""mt-0 font-weight-bold mb-2"">");
 #nullable restore
-#line 33 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 33 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                       Write(store.Name);
 
 #line default
@@ -144,7 +144,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("</h3>\r\n                                    <ul class=\"list-inline small stars\">\r\n");
 #nullable restore
-#line 35 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 35 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                          for (var i = 0; i < Math.Round(store.Rating); i++)
                                         {
 
@@ -153,14 +153,14 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("                                            <li class=\"list-inline-item m-0\"><span class=\"fa fa-star checked\"></span></li>\r\n");
 #nullable restore
-#line 38 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 38 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                         }
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 39 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 39 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                          for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
                                         {
 
@@ -169,7 +169,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("                                            <li class=\"list-inline-item m-0\"><span class=\"fa fa-star\" style=\"color: grey !important\"></span></li>\r\n");
 #nullable restore
-#line 42 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 42 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                         }
 
 #line default
@@ -177,7 +177,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("                                    </ul>\r\n                                    <span><b>Rated by: </b>");
 #nullable restore
-#line 44 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 44 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                       Write(store.RaterCount);
 
 #line default
@@ -185,7 +185,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral(" customers</span><br />\r\n                                    <span><b>Role: </b>");
 #nullable restore
-#line 45 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 45 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                    Write(Permissions[store.Name].IsOwner ? "Owner" : "Manager");
 
 #line default
@@ -215,7 +215,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 49 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 49 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                              WriteLiteral(store.Name);
 
 #line default
@@ -257,7 +257,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 54 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 54 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                WriteLiteral(store.Name);
 
 #line default
@@ -299,7 +299,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 61 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 61 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                        WriteLiteral(store.Name);
 
 #line default
@@ -319,7 +319,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
 #nullable restore
-#line 66 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 66 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                  if (permissions.PermissionTypes.Contains(PermissionType.AddProductInv) || permissions.PermissionTypes.Contains(PermissionType.DeleteProductInv) || permissions.PermissionTypes.Contains(PermissionType.ModifyProduct))
                                 {
 
@@ -350,7 +350,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 68 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 68 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                        WriteLiteral(store.Name);
 
 #line default
@@ -370,7 +370,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
 #nullable restore
-#line 73 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 73 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                 }
 
 #line default
@@ -382,7 +382,7 @@ using ECommerceSystem.Models;
                             <div class=""row justify-content-lg-start align-self-right text-right float-lg-right"">
                                 <!-- <form type=""hidden"" asp-action=""StoreProductListing"" asp-controller=""Product"" asp-route-storeName=""");
 #nullable restore
-#line 78 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 78 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                                    Write(store.Name);
 
 #line default
@@ -390,7 +390,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("\" method=\"post\">\r\n        <button type=\"submit\" style=\"width: 130px; background-color: orangered\" class=\"btn m-1 text-light\">\r\n            Close Store <i class=\"fas fa-store-slash\"></i>\r\n        </button>\r\n    </form> -->\r\n");
 #nullable restore
-#line 83 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 83 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                  if (permissions.PermissionTypes.Contains(PermissionType.WatchPurchaseHistory))
                                 {
 
@@ -421,7 +421,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 85 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 85 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                          WriteLiteral(store.Name);
 
 #line default
@@ -441,14 +441,14 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
 #nullable restore
-#line 90 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 90 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                 }
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 91 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 91 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                  if (permissions.PermissionTypes.Contains(PermissionType.ManagePurchasePolicy))
                                 {
 
@@ -479,7 +479,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 93 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 93 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                                                                                                            WriteLiteral(store.Name);
 
 #line default
@@ -499,14 +499,14 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
 #nullable restore
-#line 98 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 98 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                 }
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 99 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 99 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                  if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
                                 {
 
@@ -557,7 +557,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n");
 #nullable restore
-#line 106 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
+#line 106 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Store\UserStoreList.cshtml"
                                 }
 
 #line default

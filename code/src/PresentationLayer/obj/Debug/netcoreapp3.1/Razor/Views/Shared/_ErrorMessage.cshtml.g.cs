@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
@@ -59,7 +59,7 @@ using PresentationLayer.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
+#line 2 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
   
     ViewData["Title"] = "Error Message";
 
@@ -73,7 +73,7 @@ using PresentationLayer.Models;
                 <div class=""modal-header alert-danger"">
                     <h5 class=""modal-title"" id=""exampleModalLabel"">");
 #nullable restore
-#line 10 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
+#line 10 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
                                                               Write(ViewData["Title"]);
 
 #line default
@@ -93,7 +93,7 @@ WriteAttributeValue("", 599, Model.RedirectPath, 599, 19, false);
             EndWriteAttribute();
             WriteLiteral(">\r\n                        <span aria-hidden=\"true\">&times;</span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"modal-body\">\r\n                    ");
 #nullable restore
-#line 16 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
+#line 16 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
                Write(Model.Message);
 
 #line default
@@ -136,7 +136,7 @@ WriteAttributeValue("", 977, Model.RedirectPath, 977, 19, false);
             __Microsoft_AspNetCore_Mvc_TagHelpers_ScriptTagHelper.Src = (string)__tagHelperAttribute_1.Value;
             __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_1);
 #nullable restore
-#line 27 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
+#line 27 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_ScriptTagHelper.AppendVersion = true;
 
 #line default
@@ -166,7 +166,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ScriptTagHelper.AppendVersion = true;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n<script>\r\n    $(document).ready(function () {\r\n        $(\"#messageModal\").modal(\'show\');\r\n    });\r\n</script>\r\n<script>\r\nwindow.setTimeout(function () {\r\n        window.location.href = \'");
 #nullable restore
-#line 36 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
+#line 36 "C:\Users\סהר\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_ErrorMessage.cshtml"
                            Write(Model.RedirectPath);
 
 #line default

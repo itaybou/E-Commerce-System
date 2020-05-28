@@ -1,4 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Exceptions;
+using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -56,7 +59,16 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public ICollection<Product> FetchAll()
         {
-            return ProductRepository.FetchAll();
+            try
+            {
+                return ProductRepository.FetchAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : fetch all product repository");
+            }
+            
         }
 
         public IEnumerable<Product> FindAllBy(Expression<Func<Product, bool>> predicate)
@@ -69,8 +81,16 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var product = ProductCache.Values.Select(u => u.Element).AsQueryable().Where(predicate).FirstOrDefault();
             if (product == null)
             {
-                product = ProductRepository.FindOneBy(predicate);
-                Cache(product);
+                try
+                {
+                    store = ProductRepository.FindOneBy(predicate);
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : find product");
+                }
+                Cache(store);
             }
             return product;
         }
@@ -80,38 +100,91 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             var prod = ProductCache.ContainsKey(id) ? ProductCache[id].GetAccessElement() : null;
             if (prod == null)
             {
-                prod = ProductRepository.GetByIdOrNull(id, idFunc);
-                Cache(prod);
+                try
+                {
+                    user = ProductRepository.GetByIdOrNull(id, idFunc);
+                }
+                catch (Exception e)
+                {
+                    SystemLogger.logger.Error(e.ToString());
+                    throw new DatabaseException("Faild : get product by id");
+                }
+                
+                Cache(user);
             }
             return prod;
         }
 
         public void Insert(Product entity)
         {
-            ProductRepository.Insert(entity);
+            try
+            {
+                ProductRepository.Insert(entity);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : insert product");
+            }
+            
         }
 
         public IQueryable<Product> QueryAll()
         {
-            return ProductRepository.QueryAll();
+            try
+            {
+                return ProductRepository.QueryAll();
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : query all products");
+            }
+            
         }
 
         public void Remove(Product entity, Guid id, Expression<Func<Product, Guid>> idFunc)
         {
             Uncache(id);
-            ProductRepository.Remove(entity, id, idFunc);
+            try
+            {
+                ProductRepository.Remove(entity, id, idFunc);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : remove product from DB");
+            }
+            
         }
 
         public void Update(Product entity, Guid id, Expression<Func<Product, Guid>> idFunc)
         {
-            ProductRepository.Update(entity, id, idFunc);
+            try
+            {
+                ProductRepository.Update(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : update product in DB");
+            }
+            
             if (ProductCache.ContainsKey(id))
                 Recache(entity);
         }
 
         public void Upsert(Product entity, Guid id, Expression<Func<Product, Guid>> idFunc)
         {
-            ProductRepository.Upsert(entity, id, idFunc);
+            try
+            {
+                ProductRepository.Upsert(entity, id, idFunc);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new DatabaseException("Faild : upsert product in DB");
+            }
             if (ProductCache.ContainsKey(id))
                 Recache(entity);
         }
