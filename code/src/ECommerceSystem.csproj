@@ -217,6 +217,7 @@
     <Compile Include="CommunicationLayer\WebsocketManager.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\SystemLogger.cs" />
     <Compile Include="DomainLayer\SystemManagement\logger\TraceAttribute.cs" />
+    <Compile Include="DomainLayer\SystemManagement\SystemInitializer.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />

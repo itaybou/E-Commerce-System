@@ -26,7 +26,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         private SystemManager()
         {
-            SystemLogger.initLogger();
             _data = DataAccess.Instance;
             _searchAndFilter = new SearchAndFilter();
             _userManagement = UsersManagement.Instance;

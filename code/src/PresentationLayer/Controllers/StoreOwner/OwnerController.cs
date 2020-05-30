@@ -71,6 +71,20 @@ namespace PresentationLayer.Controllers.StoreOwner
 
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("RemoveOwner")]
+        public IActionResult RemoveOwner(string username, string store)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            if(!_service.removeOwner(session, username, store))
+            {
+                return RedirectToAction("StoreOwners", "Owner", new { error = true });
+            }
+
+            return RedirectToAction("StoreOwners", "Owner", new { storeName = store });
+        }
+
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("RemoveProduct")]
         public IActionResult RemoveProduct(string store, string productName, string id)
@@ -311,6 +325,11 @@ namespace PresentationLayer.Controllers.StoreOwner
                                 return View("../Store/StoreInventory", products);
                             }
                             break;
+                        default:
+                            {
+                                var products = _service.getStoreInfo(storeName);
+                                return View("../Store/StoreInventory", products);
+                            }
                     }
             }
             return View("../Store/AddConcreteProduct", model);
@@ -429,6 +448,12 @@ namespace PresentationLayer.Controllers.StoreOwner
             {
                 var requestCount = Int32.Parse(HttpContext.Session.GetString("RequestCount"));
                 HttpContext.Session.SetString("RequestCount", (requestCount - 1).ToString());
+            } else
+            {
+                var message = new ActionMessageModel("Failed to approve owner. Please try again later.", Url.Action("UserRequests", "User"));
+                var requestCount = Int32.Parse(HttpContext.Session.GetString("RequestCount"));
+                HttpContext.Session.SetString("RequestCount", (requestCount - 1).ToString());
+                return View("_ErrorMessage", message);
             }
             return RedirectToAction("UserRequests", "User"); 
         }
@@ -860,6 +885,8 @@ namespace PresentationLayer.Controllers.StoreOwner
                     ids.Add(new Guid(Request.Form["selectd" + i]));
                 }
             }
+            if(ids.Count == 0)
+                ModelState.AddModelError("AddDiscountNoArgs", "No Discounts selected for composition.");
             if (ModelState.IsValid)
             {
                 switch (op)

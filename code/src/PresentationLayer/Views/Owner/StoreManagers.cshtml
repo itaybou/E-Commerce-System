@@ -188,29 +188,18 @@
                                                 <i class="fa fa-pencil-alt fa-stack-1x fa-inverse"></i>
                                             </span>
                                         </button>
-                                        <form type="hidden" asp-controller="Owner" asp-action="RemoveManager" asp-route-manager="@user.Username" asp-route-storeName="@storeName" method="post">
-                                            <button type="submit" class="btn danger" style="border: none; background-color: none">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x text-danger"></i>
-                                                    <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </button>
-                                        </form>
+                                        @if(User.Identity.Name == userPerm.Item2.AssignedBy)
+                                        {
+                                            <form type="hidden" asp-controller="Owner" asp-action="RemoveManager" asp-route-manager="@user.Username" asp-route-storeName="@storeName" method="post">
+                                                <button type="submit" class="btn danger" style="border: none; background-color: none">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x text-danger"></i>
+                                                        <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </button>
+                                            </form>
+                                        }
                                     </td>
-                                    <!--<td style="width: 10%;">
-        <a href="#" class="table-link">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x text-danger"></i>
-                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </td> -->
                                 </tr>
                                 }
                             </tbody>

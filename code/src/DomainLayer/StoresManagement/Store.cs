@@ -252,7 +252,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             if (StorePermissions.ContainsKey(newOwneruserName)) // newOwneruserName is manager
             {
-                StorePermissions[newOwneruserName].makeOwner();  
+                StorePermissions[newOwneruserName].makeOwner();
+                per = StorePermissions[newOwneruserName];
             }
             else
             {
@@ -400,21 +401,21 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         // @Pre - loggedInUserName is the user who assign managerUserName
         //        managerUserName is manager in this store
-        public bool editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
+        public Permissions editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
         {
             if (!StorePermissions.ContainsKey(managerUserName) || StorePermissions[managerUserName].isOwner()) //The managerUserName isn`t manager
             {
-                return false;
+                return null;
             }
             var assignerID = StorePermissions[managerUserName].AssignedBy;
             var assigner = UsersManagement.Instance.getUserByGUID(assignerID, true);
             if (!assigner.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
             {
-                return false;
+                return null;
             }
 
             StorePermissions[managerUserName].edit(permissions);
-            return true;
+            return StorePermissions[managerUserName];
         }
 
         public Tuple<Store, List<ProductInventory>> getStoreInfo()
@@ -595,7 +596,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private void getAllPurchasePolicyByStoreNameRec(bool storeRoot, PurchasePolicy root, List<PurchasePolicyModel> allPurchasePolicies)
         {
-            if(!storeRoot)
+            if(!storeRoot && allPurchasePolicies.Find(p => p.ID == root.getID()) == null)
                 allPurchasePolicies.Add(root.CreateModel());
 
             if(root is CompositePurchasePolicy)
@@ -889,7 +890,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         private void getAllDiscountsFromTree(bool storeRoot, DiscountPolicy root, List<DiscountPolicyModel> allStoreLevelDiscountPolicies)
         {
-            if(!storeRoot)
+            if(!storeRoot && allStoreLevelDiscountPolicies.Find(p => p.ID == root.getID()) == null)
                 allStoreLevelDiscountPolicies.Add(root.CreateModel());
 
             if (root is CompositeDiscountPolicy)

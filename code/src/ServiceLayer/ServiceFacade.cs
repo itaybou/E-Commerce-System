@@ -76,7 +76,7 @@ namespace ECommerceSystem.ServiceLayer
 
         public bool deleteProduct(Guid sessionID, string storeName, string productInvName, Guid productID)
         {
-            return _storeServices.deleteProductInv(sessionID, storeName, productInvName);
+            return _storeServices.deleteProduct(sessionID, storeName, productInvName, productID);
         }
 
         public bool deleteProductInv(Guid sessionID, string storeName, string productInvName)

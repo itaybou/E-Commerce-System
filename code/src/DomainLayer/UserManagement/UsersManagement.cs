@@ -23,10 +23,18 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             _data = DataAccess.Instance;
             _communication = Communication.Instance;
+        }
 
-            // TODO: REMOVE TO INIT FROM FILE - TEMP
-            _data.Users.Insert(new User(new SystemAdmin("admin", Encryption.encrypt("4dMinnn"), "admin", "admin", "admin@gmail.com")));
-            // TODO: REMOVE TO INIT FROM FILE - TEMP
+        public bool CreateAdmin(string username, string password, string firstname, string lastname, string email)
+        {
+            try
+            {
+                _data.Users.Insert(new User(new SystemAdmin(username, Encryption.encrypt(password), firstname, lastname, email)));
+            } catch(Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public User getUserByGUID(Guid userID, bool authenticate)
@@ -253,24 +261,24 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return ModelFactory.CreateUser(user);
         }
 
-        public void addAssignee(Guid userID, string storeName, Guid assigneeID)
+        public void addAssignee(User user, string storeName, Guid assigneeID)
         {
-            getUserByGUID(userID, true).addAssignee(storeName, assigneeID);
+            user.addAssignee(storeName, assigneeID);
         }
 
-        public bool removeAssignee(Guid userID, string storeName, Guid assigneeID)
+        public bool removeAssignee(User user, string storeName, Guid assigneeID)
         {
-            return getUserByGUID(userID, true).removeAssignee(storeName, assigneeID);
+            return user.removeAssignee(storeName, assigneeID);
         }
 
-        public List<Guid> getAssigneesOfStore(Guid userID, string storeName)
+        public List<Guid> getAssigneesOfStore(User user, string storeName)
         {
-            return getUserByGUID(userID, true).getAssigneesOfStore(storeName);
+            return user.getAssigneesOfStore(storeName);
         }
 
-        public void removeAllAssigneeOfStore(Guid userID, string storeName)
+        public void removeAllAssigneeOfStore(User user, string storeName)
         {
-            getUserByGUID(userID, true).removeAllAssigneeOfStore(storeName);
+            user.removeAllAssigneeOfStore(storeName);
         }
     }
 }

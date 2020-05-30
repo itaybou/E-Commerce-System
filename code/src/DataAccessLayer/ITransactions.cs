@@ -20,6 +20,6 @@ namespace ECommerceSystem.DataAccessLayer
         void ApplyRolePermissionsTransaction(User manager, Store store);
         void PurchaseTransaction(User user, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts);
 
-        void AssignOwnerTransaction(User assigner, User assignee, Store store);
+        void AssignOwnerManagerTransaction(User assigner, User assignee, Store store);
     }
 }

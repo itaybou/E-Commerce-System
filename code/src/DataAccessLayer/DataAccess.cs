@@ -9,14 +9,15 @@ namespace ECommerceSystem.DataAccessLayer
 {
     public class DataAccess : IDataAccess
     {
-        public string ConnectionString => "localhost:27017";//"mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
+        public string ConnectionString => "mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority"; //"localhost:27017";
         public string DatabaseName => "ECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";
 
         private static readonly Lazy<DataAccess> lazy = new Lazy<DataAccess>(() => new DataAccess());
         public static DataAccess Instance => lazy.Value;
 
-        private IDbContext Context { get; }
+        private IDbContext ContextBackup { get; set; }
+        private IDbContext Context { get; set; }
         private IDbContext TestContext { get; }
         public ITransactions Transactions { get; }
 
@@ -26,10 +27,9 @@ namespace ECommerceSystem.DataAccessLayer
             Context = new DbContext(ConnectionString, DatabaseName);
             TestContext = new DbContext(ConnectionString, TestDatabaseName);
             Transactions = new Transactions(Context.Client(), Users, Stores, Products);
-            InitializeDatabase();
         }
 
-        private void InitializeDatabase()
+        public void InitializeDatabase()
         {
             if (!CollectionExists(nameof(Users)))
                 Context.Database().CreateCollection(nameof(Users));
@@ -49,6 +49,11 @@ namespace ECommerceSystem.DataAccessLayer
                 TestContext.Database().CreateCollection(nameof(Products));
         }
 
+        public void DropDatabase()
+        {
+            Context.Client().DropDatabase(DatabaseName);
+        }
+
         public void DropTestDatabase()
         {
             TestContext.Client().DropDatabase(TestDatabaseName);
@@ -60,6 +65,19 @@ namespace ECommerceSystem.DataAccessLayer
             var options = new ListCollectionNamesOptions { Filter = filter };
 
             return Context.Database().ListCollectionNames(options).Any();
+        }
+
+        public void SetTestContext()
+        {
+            InitializeTestDatabase();
+            ContextBackup = Context;
+            Context = TestContext;
+        }
+
+        public void SetDbContext()
+        {
+            DropTestDatabase();
+            Context = ContextBackup;
         }
 
         private IUserRepository users;
@@ -94,41 +112,6 @@ namespace ECommerceSystem.DataAccessLayer
                 if (products == null)
                     products = new ProductCacheProxy(Context, nameof(Products));
                 return products;
-            }
-        }
-
-        private IUserRepository test_users;
-
-        public IUserRepository TestUsers
-        {
-            get
-            {
-                if (test_users == null)
-                    test_users = new UserCacheProxy(TestContext, nameof(Users));
-                return test_users;
-            }
-        }
-
-        private IStoreRepository test_stores;
-
-        public IStoreRepository TestStores
-        {
-            get
-            {
-                if (test_stores == null)
-                    test_stores = new StoresCacheProxy(TestContext, nameof(Stores));
-                return test_stores;
-            }
-        }
-
-        private IProductRepository test_products;
-        public IProductRepository TestProducts
-        {
-            get
-            {
-                if (test_products == null)
-                    test_products = new ProductCacheProxy(TestContext, nameof(Products));
-                return test_products;
             }
         }
     }

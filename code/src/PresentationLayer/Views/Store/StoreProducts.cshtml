@@ -83,13 +83,13 @@
                     }
                 </td>
                 <td class="text-right align-content-end justify-content-end p-1" style="width: 2%">
-                    <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-danger m-1" asp-action="RemoveProduct" asp-controller="Owner" asp-route-store="@store.Name" asp-route-productName="@product.Name" asp-route-id="@product.Id">
+                    <a type="button" style="width: 170px; margin: 0" class="btn btn-outline-danger m-1" asp-action="RemoveProduct" asp-controller="Owner" asp-route-store="@store.Name" asp-route-productName="@product.Name" asp-route-id="@product.Id">
                         Remove <i class="fas fa-archive"></i>
                     </a>
-                    <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-primary m-1" asp-action="ModifyProduct" asp-controller="Owner" asp-route-id="@product.Id" asp-route-store="@store.Name" asp-route-prodName="@product.Name">
+                    <a type="button" style="width: 170px; margin: 0" class="btn btn-outline-primary m-1" asp-action="ModifyProduct" asp-controller="Owner" asp-route-id="@product.Id" asp-route-store="@store.Name" asp-route-prodName="@product.Name">
                         Modify <i class="fas fa-edit"></i>
                     </a>
-                    <a type="button" style="width: 150px; margin: 0" asp-action="AddProductDiscount" asp-controller="Owner" asp-route-storeName="@store.Name" asp-route-id="@product.Id" class="btn btn-info m-1">
+                    <a type="button" style="width: 170px; margin: 0" asp-action="AddProductDiscount" asp-controller="Owner" asp-route-storeName="@store.Name" asp-route-id="@product.Id" class="btn btn-info m-1">
                         Discount <i class="fas fa-percentage"></i>
                     </a>
                 </td>

@@ -75,9 +75,10 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public void makeOwner()
         {
-            foreach (KeyValuePair<PermissionType, bool> per in PermissionTypes)
+            var permissionKeys = PermissionTypes.Keys.ToList();
+            foreach (var per in permissionKeys)
             {
-                PermissionTypes[per.Key] = true;
+                PermissionTypes[per] = true;
             }
             this.IsOwner = true;
         }
@@ -245,13 +246,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return false;
         }
 
-        public bool editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
+        public Permissions editPermissions(string managerUserName, List<PermissionType> permissions, string loggedInUserName)
         {
             if (this.isOwner())
             {
                 return Store.editPermissions(managerUserName, permissions, loggedInUserName);
             }
-            else return false;
+            else return null;
         }
 
         public void rateStore(double rating)

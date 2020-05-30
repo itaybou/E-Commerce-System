@@ -383,7 +383,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            var store = _data.Stores.GetByIdOrNull(storeName, s => s.Name);
+            var store = getStoreByName(storeName);
 
             if (store == null)
             {
@@ -420,7 +420,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                assignOwnerAftterApproval(activeUser, newOwneruserName, storeName); //there is only 1 owner in the store(activeUser), so there is no need to approve
+                if(!assignOwnerAftterApproval(activeUser, newOwneruserName, storeName)) //there is only 1 owner in the store(activeUser), so there is no need to approve
+                    return Guid.Empty;
             }
 
             return agreement.ID;
@@ -453,7 +454,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
                 if (assignOwnerAgreement.isDone())
                 {
-                    assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
+                    return assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
                 }
 
                 return true;
@@ -518,8 +519,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
-                _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
-                _data.Transactions.AssignOwnerTransaction(assigner, assigneeUser, (Store)newOwmerPer.Store);
+                _userManagement.addAssignee(assigner, storeName, assigneeUser.Guid);
+                _data.Transactions.AssignOwnerManagerTransaction(assigner, assigneeUser, (Store)newOwmerPer.Store);
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name, storeName));
                 return true;
             }
@@ -542,7 +543,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
             if (output)
             {
-                var result = _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+                var result = _userManagement.removeAssignee(activeUser, storeName, toRevmoe.Guid);
                 if(result)
                 {
                     var store = getStoreByName(storeName);
@@ -566,7 +567,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name))
             {
                 //remove all the owners\managers that the removed owner assign
-                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
+                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove, storeName); // list of the owners and managers that the removed owner assign
                 if (assignedByRemovedOwner != null)
                 {
                     foreach (Guid assigneeID in assignedByRemovedOwner)
@@ -583,7 +584,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                             output = output && removeManager(toRemove.Guid, assigneeUser.Name, storeName);
                         }
                     }
-                    _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
+                    _userManagement.removeAllAssigneeOfStore(toRemove, storeName);
                 }
                 _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name)); //remove permissions object from the user  
                 return output;
@@ -619,9 +620,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     // Add the permission to the new manager
                     User assigneeUser = _userManagement.getUserByName(newManageruserName);
                     _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
-                    _userManagement.addAssignee(userID, storeName, assigneeUser.Guid);
+                    _userManagement.addAssignee(activeUser, storeName, assigneeUser.Guid);
                     var store = (Store)newManagerPer.Store;
-                    _data.Transactions.ApplyRolePermissionsTransaction(assigneeUser, store);
+                    _data.Transactions.AssignOwnerManagerTransaction(activeUser, assigneeUser, store);
 
                     _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name, storeName));
                     return true;
@@ -657,8 +658,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     // Remove the permission from the user
                     User toRemoveUser = _userManagement.getUserByName(managerUserName);
                     _userManagement.removePermissions(storeName, toRemoveUser);
-                    _userManagement.removeAssignee(userID, storeName, toRemoveUser.Guid);
-                    _data.Transactions.ApplyRolePermissionsTransaction(toRemoveUser, (Store)permission.Store);
+                    _userManagement.removeAssignee(activeUser, storeName, toRemoveUser.Guid);
+                    var store = (Store)permission.Store;
+                    _data.Transactions.AssignOwnerManagerTransaction(activeUser, toRemoveUser, store);
                     _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name, storeName));
                     return true;
                 }
@@ -691,15 +693,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             try
             {
-                var result = permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
-                if(result)
+                var newUserPermissions = permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
+                if(newUserPermissions != null)
                 {
                     var store = (Store)permission.Store;
                     var user = _userManagement.getUserByName(managerUserName);
-                    ((Subscribed)user.State).Permissions[storeName] = permission;
+                    ((Subscribed)user.State).Permissions[storeName] = newUserPermissions;
                     _data.Transactions.ApplyRolePermissionsTransaction(user, store);
+                    return true;
                 }
-                return result;
+                return false;
             }
             catch(Exception e)
             {

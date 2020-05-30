@@ -10,7 +10,7 @@ namespace ECommerceSystem.DataAccessLayer
         public DbContext(string connectionString, string databaseName)
         {
             Configuration = new DatabaseConfiguration(connectionString, databaseName);
-            MongoClient = new MongoClient();//Configuration.ConnectionString);
+            MongoClient = new MongoClient(Configuration.ConnectionString);
         }
 
         public MongoClient Client() => MongoClient;

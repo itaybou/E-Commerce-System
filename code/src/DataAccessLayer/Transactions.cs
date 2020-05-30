@@ -100,7 +100,7 @@ namespace ECommerceSystem.DataAccessLayer
             });
         }
 
-        public async void AssignOwnerTransaction(User assigner, User assignee, Store store)
+        public async void AssignOwnerManagerTransaction(User assigner, User assignee, Store store)
         {
             await BaseTransactionAsync(() =>
             {

@@ -12,5 +12,8 @@ namespace ECommerceSystem.DataAccessLayer
         IUserRepository Users { get; }
         IStoreRepository Stores { get; }
         IProductRepository Products { get; }
+
+        void InitializeDatabase();
+        void DropDatabase();
     }
 }

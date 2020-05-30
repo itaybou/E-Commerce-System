@@ -37,13 +37,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         }
 
         public bool isSubscribed()
-        {
+        {  
             return true;
         }
 
         public void addPermission(Permissions permissions, string storeName)
         {
-            Permissions.Add(storeName, permissions);
+            if (Permissions.ContainsKey(storeName))
+                Permissions[storeName] = permissions;
+            else Permissions.Add(storeName, permissions);
         }
 
         public void removePermissions(string storeName)
