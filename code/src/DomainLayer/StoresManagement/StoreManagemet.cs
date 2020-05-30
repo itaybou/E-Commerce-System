@@ -9,9 +9,9 @@ using System.Linq;
 using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
-using ECommerceSystem.Models.notifications;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Exceptions;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -59,13 +59,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return roleHolders.Select(holder => (ModelFactory.CreateUser(holder.Item1), ModelFactory.CreatePermissions(holder.Item2)));
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid userID, string storeName)
         {
+            User user = isUserIDSubscribed(userID);
+            if (user == null) //The logged in user isn`t subscribed
+            {
+                return (null, null);
+            }
             return (getRoleHolders(storeName, true), storeName);
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid userID, string storeName)
         {
+            User user = isUserIDSubscribed(userID);
+            if (user == null) //The logged in user isn`t subscribed
+            {
+                return (null, null);
+            }
             return (getRoleHolders(storeName, false), storeName);
         }
 
@@ -373,16 +383,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            Permissions activeUserPermissions = activeUser.getPermission(storeName);
+            var store = _data.Stores.GetByIdOrNull(storeName, s => s.Name);
 
-            if (activeUserPermissions == null)
+            if (store == null)
             {
                 return Guid.Empty;
             }
             AssignOwnerAgreement agreement;
             try
             {
-                agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
+                agreement = store.createOwnerAssignAgreement(activeUser, newOwneruserName);
                 if (agreement == null)
                 {
                     return Guid.Empty;
@@ -393,19 +403,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 SystemLogger.logger.Error(e.ToString());
                 throw new LogicException("Logic error: faild to create owner assigner agreement");
             }
-            INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
+            var request = new OwnerAssignRequest(activeUser.Name, newOwneruserName, storeName, agreement.ID, Protocol.AssignRequest);
             List<Guid> approvers = new List<Guid>();
-            AssignOwnerRequestModel request = new AssignOwnerRequestModel(agreement.ID, activeUser.Name, newOwneruserName, storeName);
             foreach(string approverUserName in agreement.PendingApproval)
             {
                 User approver = _userManagement.getUserByName(approverUserName);
                 approvers.Add(approver.Guid);
-                approver.addAssignOwnerRequest(request);
+                approver.addUserRequest(request);
+                _data.Users.Update(approver, approver.Guid, u => u.Guid);
             }
+            _data.Stores.Update(store, store.Name, s => s.Name);
 
             if(approvers.Count != 0)
             {
-                _communication.SendGroupNotification(approvers, notification);
+                _communication.SendGroupNotificationRequest(approvers, request);
             }
             else
             {
@@ -437,7 +448,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     return false;
                 }
 
-                approver.removeAssignOwnerRequest(agreementID);
+                approver.removeUserRequest(agreementID);
+                _data.Transactions.ApplyRolePermissionsTransaction(approver, store);
 
                 if (assignOwnerAgreement.isDone())
                 {
@@ -479,7 +491,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 //remove the agreement request from all the pending owners:
                 foreach (string ownerUserName in assignOwnerAgreement.PendingApproval)
                 {
-                    _userManagement.getUserByName(ownerUserName).removeAssignOwnerRequest(agreementID);
+                    var user = _userManagement.getUserByName(ownerUserName);
+                    user.removeUserRequest(agreementID);
+                    _data.Transactions.ApplyRolePermissionsTransaction(user, store);
                 }
 
                 //send disapprove notification to the assignee and assigner
@@ -505,7 +519,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
                 _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
-
+                _data.Transactions.AssignOwnerTransaction(assigner, assigneeUser, (Store)newOwmerPer.Store);
                 _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name, storeName));
                 return true;
             }
@@ -520,19 +534,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
             if (!_userManagement.isSubscribed(ownerToRemoveUserName)) //ownerToRemoveUserName isn`t subscribed
             {
                 return false;
             }
-            
-
             User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
-            
             bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
             if (output)
             {
-                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+                var result = _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+                if(result)
+                {
+                    var store = getStoreByName(storeName);
+                    _data.Transactions.ApplyRolePermissionsTransaction(toRevmoe, store);
+                }
             }
             return output;
         }
@@ -596,11 +611,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
-            if (activeUserPermissions == null)
-            {
-                return false;
-            }
             try
             {
                 newManagerPer = activeUserPermissions.assignManager(activeUser, newManageruserName);
@@ -610,6 +620,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     User assigneeUser = _userManagement.getUserByName(newManageruserName);
                     _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
                     _userManagement.addAssignee(userID, storeName, assigneeUser.Guid);
+                    var store = (Store)newManagerPer.Store;
+                    _data.Transactions.ApplyRolePermissionsTransaction(assigneeUser, store);
 
                     _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name, storeName));
                     return true;
@@ -646,7 +658,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     User toRemoveUser = _userManagement.getUserByName(managerUserName);
                     _userManagement.removePermissions(storeName, toRemoveUser);
                     _userManagement.removeAssignee(userID, storeName, toRemoveUser.Guid);
-
+                    _data.Transactions.ApplyRolePermissionsTransaction(toRemoveUser, (Store)permission.Store);
                     _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name, storeName));
                     return true;
                 }
@@ -679,7 +691,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             try
             {
-                return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
+                var result = permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
+                if(result)
+                {
+                    var store = (Store)permission.Store;
+                    var user = _userManagement.getUserByName(managerUserName);
+                    ((Subscribed)user.State).Permissions[storeName] = permission;
+                    _data.Transactions.ApplyRolePermissionsTransaction(user, store);
+                }
+                return result;
             }
             catch(Exception e)
             {
@@ -695,7 +715,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             var storeInfo = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
             storeInfo.Item2.ForEach(prod => {
                 if (prod.ID == productInvID)
-                    prod.ProductList.ForEach(p => result.Add(ModelFactory.CreateProduct(p)));
+                    prod.ProductList.ForEach(p => result.Add(ModelFactory.CreateProduct(p, prod.ImageUrl)));
             });
             return Tuple.Create(ModelFactory.CreateStore(storeInfo.Item1), result);
         }
@@ -804,10 +824,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             List<ProductModel> products = storeBoughtProducts.Select(prod => 
             new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description,
-            prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount(),
+            prod.Value, prod.Key.BasePrice,
             prod.Key.Discount != null ? prod.Key.Discount.CreateModel() : null,
             prod.Key.PurchasePolicy != null ? prod.Key.PurchasePolicy.CreateModel() : null)).ToList();
-            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products);
+            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products, DateTime.Now);
 
             store.logPurchase(storePurchaseModel);
 

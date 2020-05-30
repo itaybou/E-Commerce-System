@@ -136,6 +136,19 @@ namespace PresentationLayer.Controllers.Products
             }
 
         }
+
+        [Route("ConcreteProducts")]
+        public IActionResult ConcreteProducts(string prodID, string store, bool listing, bool error = false)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var id = new Guid(prodID);
+            var products = _service.getStoreProductGroup(session, id, store);
+            var redirect = listing ? Url.Action("ProductListing", "Product") : Url.Action("ViewProduct", "Product", new { id = prodID });
+            var model = new ChooseProductModel(store, listing, id, products.Item2, redirect);
+            if(error)
+                ModelState.AddModelError("InvalidProductSelection", "Add To Cart failed: check that product chosen and that quantity is valid for that product and that your cart quantity with required quantity does not exceed available quantity.");
+            return View("_ChooseProductModal", model);
+        }
         
     }
 }

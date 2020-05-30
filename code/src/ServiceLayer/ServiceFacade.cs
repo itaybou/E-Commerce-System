@@ -6,6 +6,7 @@ using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -30,6 +31,11 @@ namespace ECommerceSystem.ServiceLayer
         public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             return _storeServices.addProductInv(sessionID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity, imageUrl);
+        }
+
+        public IEnumerable<INotificationRequest> GetAwaitingRequests(Guid sessionID)
+        {
+            return _userServices.GetAwaitingRequests(sessionID);
         }
 
         public bool addProductToCart(Guid sessionID, Guid productId, string storeName, int quantity)
@@ -63,9 +69,9 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.removeOwner(sessionID, ownerToRemoveUserName, storeName);
         }
 
-        public bool ChangeProductQunatity(Guid productId, int quantity)
+        public bool ChangeProductQunatity(Guid sessionID, Guid productId, int quantity)
         {
-            throw new NotImplementedException();
+            return _userServices.ChangeProductQunatity(sessionID, productId, quantity);
         }
 
         public bool deleteProduct(Guid sessionID, string storeName, string productInvName, Guid productID)
@@ -143,14 +149,14 @@ namespace ECommerceSystem.ServiceLayer
             return _storeServices.openStore(sessionID, name);
         }
 
-        public IEnumerable<StorePurchaseModel> purchaseHistory(string storeName)
+        public IEnumerable<StorePurchaseModel> purchaseHistory(Guid sessionID, string storeName)
         {
-            throw new NotImplementedException();
+            return _storeServices.purchaseHistory(sessionID, storeName);
         }
 
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public async Task<ICollection<ProductModel>> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
-            throw new NotImplementedException();
+            return await _systemServices.purchaseUserShoppingCart(sessionID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
         public (bool, string) register(string uname, string pswd, string fname, string lname, string email)
@@ -163,9 +169,9 @@ namespace ECommerceSystem.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public bool RemoveFromCart(Guid productId)
+        public bool RemoveFromCart(Guid sessionID, Guid productId)
         {
-            throw new NotImplementedException();
+            return _userServices.RemoveFromCart(sessionID, productId);
         }
 
         public bool removeManager(Guid sessionID, string managerUserName, string storeName)
@@ -193,9 +199,9 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.ShoppingCartDetails(sessionID);
         }
 
-        public ICollection<UserPurchaseModel> userPurchaseHistory(string userName)
+        public ICollection<UserPurchaseModel> userPurchaseHistory(Guid sessionID, string userName)
         {
-            throw new NotImplementedException();
+            return _userServices.userPurchaseHistory(sessionID, userName);
         }
 
         public UserModel userDetails(Guid sessionID)
@@ -213,14 +219,14 @@ namespace ECommerceSystem.ServiceLayer
             return _userServices.allUsers(sessionID);
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid sessionID, string storeName)
         {
-            return _storeServices.getStoreOwners(storeName);
+            return _storeServices.getStoreOwners(sessionID, storeName);
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid sessionID, string storeName)
         {
-            return _storeServices.getStoreManagers(storeName);
+            return _storeServices.getStoreManagers(sessionID, storeName);
         }
 
         public IEnumerable<UserModel> searchUsers(string username)

@@ -3,6 +3,7 @@ using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
@@ -21,11 +22,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             _supplySystem = new SupplySystemAdapter();
         }
 
-        public bool paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
             try
             {
-                return _paymentSystem.pay(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+                return await _paymentSystem.pay(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
             }
             catch(Exception e)
             {
@@ -34,11 +35,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             }        
         }
 
-        public bool refundTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> refundTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
             try
             {
-                return _paymentSystem.refund(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+                return await _paymentSystem.refund(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
             }
             catch (Exception e)
             {
@@ -47,11 +48,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             }
         }
 
-        public bool sendPayment(Store store, double amount)
+        public async Task<bool> sendPayment(Store store, double amount)
         {
             try
             {
-                return _paymentSystem.sendPayment(store.Name, amount);
+                return await _paymentSystem.sendPayment(store.Name, amount);
             }
             catch (Exception e)
             {
@@ -60,11 +61,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             }
         }
 
-        public bool supplyTransaction(IDictionary<Product, int> products, string address)
+        public async Task<bool> supplyTransaction(IDictionary<Product, int> products, string address)
         {
             try
             {
-                return _supplySystem.supply(products, address);
+                return await _supplySystem.supply(products, address);
             }
             catch (Exception e)
             {

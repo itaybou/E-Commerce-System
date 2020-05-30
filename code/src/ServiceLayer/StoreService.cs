@@ -352,15 +352,17 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid sessionID, string storeName)
         {
-            return _storeManagement.getStoreOwners(storeName);
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreOwners(userID, storeName);
         }
 
         [Trace("Info")]
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid sessionID, string storeName)
         {
-            return _storeManagement.getStoreManagers(storeName);
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreManagers(userID, storeName);
         }
 
         [Trace("Info")]

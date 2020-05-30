@@ -89,7 +89,7 @@
                     <h3>Add Conditional Product Discount</h3>
                     <div class="form-group">
                         <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
-                        <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                        <input class="form-control" id="vis_percentage" type="number" placeholder="Percentage" asp-for="PercentageCond" />
                     </div>
 
                     <div class="row">
@@ -99,20 +99,20 @@
                         </div>
                         <div class="form-group w-50 col-md-6">
                             <label style="text-align: left" for="password">Discount Expiration</label>
-                            <input type="date" class="form-control" asp-for="ExpDate" />
+                            <input type="date" class="form-control" asp-for="ExpDateCond" />
                         </div>
                     </div>
                 </div>
                 <div id="vis-form" name="vis-form" style="display: none;">
                     <h3>Add Visible Product Discount</h3>
                     <div class="form-group">
-                        <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
-                        <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                        <label class="row-form-label" style="text-align: left">Discount Percentage %</label>
+                        <input class="form-control" id="cond_percentage" type="number" placeholder="Percentage" asp-for="PercentageVis" />
                     </div>
 
                     <div class="form-group">
                         <label style="text-align: left" for="password">Discount Expiration</label>
-                        <input type="date" class="form-control" asp-for="ExpDate" />
+                        <input type="date" class="form-control" asp-for="ExpDateVis" />
                     </div>
                 </div>
                 <input id="formState" name="formState" type="hidden" value="@null" />

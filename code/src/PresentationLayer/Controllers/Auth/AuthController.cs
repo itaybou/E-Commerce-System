@@ -9,6 +9,7 @@ using PresentationLayer.Models;
 using PresentationLayer.Models.Auth;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -50,6 +51,9 @@ namespace PresentationLayer.Controllers.Auth
                 if (valid)
                 {
                     await AuthenticateAsync(guid, model.Username);
+                    var awaitingRequests = _service.GetAwaitingRequests(session);
+                    HttpContext.Session.SetString("RequestCount", awaitingRequests.ToList().Count.ToString());
+                    HttpContext.Session.SetInt32("RequestLogin", 1);
                     var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
                     return View("_ActionMessage", message);
                 }

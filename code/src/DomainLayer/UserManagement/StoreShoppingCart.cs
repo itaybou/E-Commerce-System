@@ -21,11 +21,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             ProductQuantities = new Dictionary<Guid, Tuple<Product, int>>();
         }
 
-        public void AddToCart(Product p, int quantity)
+        public bool AddToCart(Product p, int quantity)
         {
             if (ProductQuantities.ContainsKey(p.Id))
-                ProductQuantities[p.Id] = Tuple.Create(p, ProductQuantities[p.Id].Item2 + 1);
+            {
+                if (ProductQuantities[p.Id].Item2 + quantity > p.Quantity)
+                    return false;
+                ProductQuantities[p.Id] = Tuple.Create(p, ProductQuantities[p.Id].Item2 + quantity);
+            }
             else ProductQuantities.Add(p.Id, Tuple.Create(p, quantity));
+            return true;
         }
 
         public void ChangeProductQuantity(Product p, int quantity)

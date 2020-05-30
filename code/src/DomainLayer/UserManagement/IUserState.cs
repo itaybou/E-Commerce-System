@@ -26,8 +26,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         bool removeAssignee(string storeName, Guid assigneeID);
         List<Guid> getAssigneesOfStore(string storeName);
         void removeAllAssigneeOfStore(string storeName);
-        void addAssignOwnerRequest(AssignOwnerRequestModel request);
-        void removeAssignOwnerRequest(Guid agreementID);
-        List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser();
+        void addUserRequest(INotificationRequest request);
+        void removeUserRequest(Guid agreementID);
+        IEnumerable<INotificationRequest> GetUserRequests();
     }
 }

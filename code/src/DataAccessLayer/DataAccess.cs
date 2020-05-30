@@ -25,7 +25,7 @@ namespace ECommerceSystem.DataAccessLayer
             EntityMap.RegisterClassMaps();
             Context = new DbContext(ConnectionString, DatabaseName);
             TestContext = new DbContext(ConnectionString, TestDatabaseName);
-            Transactions = new TransactionManager(Context.Client(), Users, Stores, Products);
+            Transactions = new Transactions(Context.Client(), Users, Stores, Products);
             InitializeDatabase();
         }
 

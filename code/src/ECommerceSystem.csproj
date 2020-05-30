@@ -167,6 +167,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommunicationLayer\Protocol.cs" />
     <Compile Include="DomainLayer\StoresManagement\AssignOwnerAgreement.cs" />
     <Compile Include="DataAccessLayer\ITransactions.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CacheCleaner.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="DataAccessLayer\serializers\ProductDictionarySerializer.cs" />
     <Compile Include="DataAccessLayer\serializers\ProductLisrSerializer.cs" />
     <Compile Include="DataAccessLayer\serializers\StoreReferenceSerializer.cs" />
-    <Compile Include="DataAccessLayer\TransactionManager.cs" />
+    <Compile Include="DataAccessLayer\Transactions.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
@@ -222,7 +223,6 @@
     <Compile Include="Exceptions\ExternalSystemExceptions.cs" />
     <Compile Include="Exceptions\LogicException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
-    <Compile Include="Models\AssignOwnerRequestModel.cs" />
     <Compile Include="Models\CompositeType.cs" />
     <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
@@ -230,6 +230,7 @@
     <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\VisibleDiscountModel.cs" />
     <Compile Include="Models\notifications\DisappvoveAssignOwnerNotification.cs" />
+    <Compile Include="Models\notifications\INotificationRequest.cs" />
     <Compile Include="Models\notifications\OwnerAssignRequest.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\PermissionType.cs" />

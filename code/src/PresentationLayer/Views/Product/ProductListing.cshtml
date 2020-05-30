@@ -15,8 +15,10 @@
     <script>
         $('.trimDescription').each(function (f) {
             if ($(this).text() !== null && $(this).text().length !== 0) {
-                var newstr = $(this).text().substring(0, 200) + '...';
-                $(this).text(newstr);
+                if ($(this).text().length > 200) {
+                    var newstr = $(this).text().substring(0, 200) + '...';
+                    $(this).text(newstr);
+                }
             }
         });
     </script>
@@ -252,9 +254,9 @@
                                         <p class="btn btn-warning btn-block">@product.Price $</p>
                                     </div>
                                     <div class="col">
-                                        <button type="submit" class="btn btn-success btn-block" data-toggle="modal" data-target="#add-to-cart-modal" data-id="@product.ID">
-                                            <i class="fas fa-list"></i> <!--<i class="fas fa-cart-plus"></i>--> Pick
-                                        </button>
+                                        <a type="submit" class="btn btn-success btn-block" asp-controller="Product" asp-action="ConcreteProducts" asp-route-prodID="@product.ID" asp-route-store="@product.StoreName" asp-route-listing="@true">
+                                            <i class="fas fa-list"></i> <!--<i class="fas fa-cart-plus"></i>--> Choose
+                                        </a>
                                     </div>
                                 </div>
                             </div>

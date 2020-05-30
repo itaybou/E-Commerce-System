@@ -15,7 +15,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class Permissions : IStoreInterface
     {
-        public User AssignedBy { get; set; }
+        public Guid AssignedBy { get; set; }
         public bool IsOwner { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
@@ -24,7 +24,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         [BsonIgnore]
         public IStoreInterface Store { get; set; }
 
-        private Permissions(User assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
+        private Permissions(Guid assignedBy, bool isOwner, Store store, Dictionary<PermissionType, bool> permissions = null)
         {
             this.AssignedBy = assignedBy;
             this.PermissionTypes = permissions;
@@ -37,7 +37,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (assignedBy == null || assignedBy.isSubscribed()) //null if this is the user who open the store
             {
-                Permissions permissions = new Permissions(assignedBy, true, store);
+                var assignerID = assignedBy == null ? Guid.Empty : assignedBy.Guid;
+                Permissions permissions = new Permissions(assignerID, true, store);
                 return permissions;
             }
             else
@@ -50,7 +51,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (assignedBy.isSubscribed())
             {
-                Permissions permissions = new Permissions(assignedBy, false, store);
+                var assignerID = assignedBy == null ? Guid.Empty : assignedBy.Guid;
+                Permissions permissions = new Permissions(assignerID, false, store);
                 return permissions;
             }
             else

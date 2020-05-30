@@ -8,6 +8,8 @@ using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using System;
 using static ECommerceSystem.DomainLayer.UserManagement.Subscribed;
 using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+using ECommerceSystem.Models;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DataAccessLayer.repositories
 {
@@ -124,6 +126,12 @@ namespace ECommerceSystem.DataAccessLayer.repositories
                 user.MapIdMember(u => u.Guid);
             });
 
+            BsonClassMap.RegisterClassMap<OwnerAssignRequest>(request =>
+            {
+                request.SetDiscriminator("OwnerAssignRequest");
+                request.AutoMap();
+            });
+
             BsonClassMap.RegisterClassMap<Subscribed>(user =>
             {
                 user.SetDiscriminator("Subscribed");
@@ -140,6 +148,9 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             BsonClassMap.RegisterClassMap<UserShoppingCart>();
             BsonClassMap.RegisterClassMap<StoreShoppingCart>();
             BsonClassMap.RegisterClassMap<ProductInventory>();
+            BsonClassMap.RegisterClassMap<StorePurchaseModel>();
+            BsonClassMap.RegisterClassMap<UserPurchaseModel>();
+            BsonClassMap.RegisterClassMap<ProductModel>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,14 @@ namespace ECommerceSystem.Models
             return new StoreModel(s.Name, s.Rating, s.RaterCount);
         }
 
+        public static ProductModel CreateProduct(Product p, string imageURL)
+        {
+            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null, imageURL);
+        }
+
         public static ProductModel CreateProduct(Product p)
         {
-            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount(), p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null);
+            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null);
         }
 
         public static ProductInventoryModel CreateProductInventory(ProductInventory prod, string storeName)
@@ -31,14 +37,15 @@ namespace ECommerceSystem.Models
 
         public static StorePurchaseModel CreateStorePurchase(StorePurchase purchase)
         {
-            return new StorePurchaseModel(purchase.User.Name, purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList());
+            return new StorePurchaseModel(purchase.User.Name, purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList(), purchase.PurchaseDate);
         }
 
         public static ShoppingCartModel CreateShoppingCart(UserShoppingCart cart)
         {
             var cartModel = new Dictionary<StoreModel, ICollection<(ProductModel, int)>>();
-            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.Store), s.ProductQuantities.ToList().Select(p => (CreateProduct(p.Value.Item1), p.Value.Item2)).ToList()));
-            return new ShoppingCartModel(cartModel);
+            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.Store), 
+                s.ProductQuantities.ToList().Select(p => (CreateProduct(p.Value.Item1, s.Store.Inventory.getProductByName(p.Value.Item1.Name).ImageUrl), p.Value.Item2)).ToList()));
+            return new ShoppingCartModel(cartModel, cart.getTotalACartPrice());
         }
 
         public static UserPurchaseModel CreateUserPurchase(UserPurchase purcahse)
@@ -51,7 +58,8 @@ namespace ECommerceSystem.Models
 
         public static PermissionModel CreatePermissions(Permissions permissions)
         {
-            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name,
+            var assigner = permissions.AssignedBy == Guid.Empty? null : UsersManagement.Instance.getUserByGUID(permissions.AssignedBy, true);
+            return new PermissionModel(permissions.isOwner(), assigner == null ? null : assigner.Name,
                 permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
         }
 

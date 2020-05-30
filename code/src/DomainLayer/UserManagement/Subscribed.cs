@@ -17,7 +17,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public List<UserPurchase> PurchaseHistory { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        public Dictionary<Guid, AssignOwnerRequestModel> AssignOwnerRequests { get; set; }
+        public Dictionary<Guid, INotificationRequest> UserRequests { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign
@@ -33,7 +33,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             PurchaseHistory = new List<UserPurchase>();
             Permissions = new Dictionary<string, Permissions>();
             Assignees = new Dictionary<string, List<Guid>>();
-            AssignOwnerRequests = new Dictionary<Guid, AssignOwnerRequestModel>();
+            UserRequests = new Dictionary<Guid, INotificationRequest>();
         }
 
         public bool isSubscribed()
@@ -145,19 +145,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             Assignees.Remove(storeName);
         }
 
-        public void addAssignOwnerRequest(AssignOwnerRequestModel request)
+        public void addUserRequest(INotificationRequest request)
         {
-            AssignOwnerRequests.Add(request.AgreementID, request);
+            UserRequests.Add(request.RequestID, request);
         }
 
-        public void removeAssignOwnerRequest(Guid agreementID)
+        public void removeUserRequest(Guid agreementID)
         {
-            AssignOwnerRequests.Remove(agreementID);
+            UserRequests.Remove(agreementID);
         }
 
-        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser()
+        public IEnumerable<INotificationRequest> GetUserRequests()
         {
-            return new List<AssignOwnerRequestModel>(this.AssignOwnerRequests.Values); 
+            return new List<INotificationRequest>(this.UserRequests.Values); 
         }
     }
 }

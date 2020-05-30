@@ -34,7 +34,7 @@ namespace ECommerceSystem.CommunicationLayer.notifications
             var notificationGroups = notification.Messages;
             foreach (var group in notificationGroups.Keys)
             {
-                var notif = notificationGroups[group];
+                var notifications = notificationGroups[group];
                 foreach (var userID in group)
                 {
                     var sessionID = SessionManager.SessionIDByUserID(userID);
@@ -43,14 +43,16 @@ namespace ECommerceSystem.CommunicationLayer.notifications
                         if (WebsocketManager.SessionSockets.ContainsKey(sessionID))
                         {
                             var socket = WebsocketManager.SessionSockets[sessionID];
-                            await SendNotificationAsync(socket, notif);
+                            foreach(var notif in notifications)
+                                await SendNotificationAsync(socket, notif);
                         }
                     }
                     else
                     {
                         if (!NotificationQueues.ContainsKey(userID))
                             NotificationQueues.Add(userID, new ConcurrentQueue<string>());
-                        NotificationQueues[userID].Enqueue(notif);
+                        foreach (var notif in notifications)
+                            NotificationQueues[userID].Enqueue(notif);
                     }
                 }
             }

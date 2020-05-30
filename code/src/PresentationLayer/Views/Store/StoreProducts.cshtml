@@ -48,45 +48,52 @@
         <tbody>
             @foreach (var product in products)
             {
-                <tr class="text-left">
-                    <td class="w-25">@product.Id</td>
-                    <td>@product.Name</td>
+            <tr class="text-left">
+                <td class="w-25">@product.Id</td>
+                <td>@product.Name</td>
+                @if (@product.Quantity == 0)
+                {
+                    <td style="color: red"><b>@product.Quantity</b></td>
+                }
+                else
+                {
                     <td>@product.Quantity</td>
-                    <td>@product.BasePrice</td>
-                    <td>
-                        @if (product.Discount != null)
-                        {
-                            <span>@product.Discount.GetString()</span>
-                        }
-                        else
-                        {
-                            <span>None</span>
-                        }
-                    </td>
-                    <td style="width: 12%">
-                        @if (product.PurchasePolicy != null)
-                        {
-                            var prod = (ProductQuantityPolicyModel)product.PurchasePolicy;
-                            <span><b>Minimum Purchase Quantity:</b> @prod.MinQuantity</span><br />
-                            <span><b>Maximum Purchase Quantity:</b> @prod.MaxQuantity</span>
-                        }
-                        else
-                        {
-                            <span>None</span>
-                        }
-                    </td>
-                    <td class="text-right align-content-end justify-content-end p-1" style="width: 2%">
-                        <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-danger m-1" asp-action="RemoveProduct" asp-controller="Owner" asp-route-store="@store.Name" asp-route-productName="@product.Name" asp-route-id="@product.Id">
-                            Remove <i class="fas fa-archive"></i>
-                        </a>
-                        <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-primary m-1" asp-action="ModifyProduct" asp-controller="Owner" asp-route-id="@product.Id" asp-route-store="@store.Name" asp-route-prodName="@product.Name">
-                            Modify <i class="fas fa-edit"></i>
-                        </a>
-                        <a type="button" style="width: 150px; margin: 0" asp-action="AddProductDiscount" asp-controller="Owner" asp-route-storeName="@store.Name" asp-route-id="@product.Id" class="btn btn-info m-1">
-                            Discount <i class="fas fa-percentage"></i>
-                        </a>
-                    </td>
-                </tr>
+                }
+                <td>@product.BasePrice</td>
+                <td>
+                    @if (product.Discount != null)
+                    {
+                        <span>@product.Discount.GetString()</span>
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
+                <td style="width: 12%">
+                    @if (product.PurchasePolicy != null)
+                    {
+                        var prod = (ProductQuantityPolicyModel)product.PurchasePolicy;
+                        <span><b>Minimum Purchase Quantity:</b> @prod.MinQuantity</span><br />
+                        <span><b>Maximum Purchase Quantity:</b> @prod.MaxQuantity</span>
+                    }
+                    else
+                    {
+                        <span>None</span>
+                    }
+                </td>
+                <td class="text-right align-content-end justify-content-end p-1" style="width: 2%">
+                    <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-danger m-1" asp-action="RemoveProduct" asp-controller="Owner" asp-route-store="@store.Name" asp-route-productName="@product.Name" asp-route-id="@product.Id">
+                        Remove <i class="fas fa-archive"></i>
+                    </a>
+                    <a type="button" style="width: 150px; margin: 0" class="btn btn-outline-primary m-1" asp-action="ModifyProduct" asp-controller="Owner" asp-route-id="@product.Id" asp-route-store="@store.Name" asp-route-prodName="@product.Name">
+                        Modify <i class="fas fa-edit"></i>
+                    </a>
+                    <a type="button" style="width: 150px; margin: 0" asp-action="AddProductDiscount" asp-controller="Owner" asp-route-storeName="@store.Name" asp-route-id="@product.Id" class="btn btn-info m-1">
+                        Discount <i class="fas fa-percentage"></i>
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

@@ -84,19 +84,19 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             State.removeAllAssigneeOfStore(storeName);
         }
 
-        public void addAssignOwnerRequest(AssignOwnerRequestModel request)
+        public void addUserRequest(INotificationRequest request)
         {
-            State.addAssignOwnerRequest(request);
+            State.addUserRequest(request);
         }
 
-        public void removeAssignOwnerRequest(Guid agreementID)
+        public void removeUserRequest(Guid agreementID)
         {
-            State.removeAssignOwnerRequest(agreementID);
+            State.removeUserRequest(agreementID);
         }
 
-        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser()
+        public IEnumerable<INotificationRequest> GetUserRequests()
         {
-            return State.getAllAssignOwnerRequestOfUser();
+            return State.GetUserRequests();
         }
     }
 

@@ -7,9 +7,9 @@ namespace ECommerceSystem.CommunicationLayer.notifications
     {
         protected DateTime _time;
         public (Guid, string) SenderMessage { get; private set; }
-        public IDictionary<ICollection<Guid>, string> Messages { get; private set; }
+        public IDictionary<ICollection<Guid>, ICollection<string>> Messages { get; private set; }
 
-        public Notification(Guid sender, string senderMessage, IDictionary<ICollection<Guid>, string> messages)
+        public Notification(Guid sender, string senderMessage, IDictionary<ICollection<Guid>, ICollection<string>> messages)
         {
             SenderMessage = (sender, senderMessage);
             this._time = DateTime.Now;
@@ -20,24 +20,45 @@ namespace ECommerceSystem.CommunicationLayer.notifications
         {
             SenderMessage = (sender, senderMessage);
             this._time = DateTime.Now;
-            Messages = new Dictionary<ICollection<Guid>, string>();
+            Messages = new Dictionary<ICollection<Guid>, ICollection<string>>();
         }
 
         public Notification()
         {
             SenderMessage = (Guid.Empty, null);
             this._time = DateTime.Now;
-            Messages = new Dictionary<ICollection<Guid>, string>();
+            Messages = new Dictionary<ICollection<Guid>, ICollection<string>>();
         }
 
         public void AddGroupMessage(ICollection<Guid> group, string message)
         {
-            Messages.Add(group, $"Sent at {_time.ToString()}: {message}");
+            var formattedMessage = FormattedMessage(message);
+            if (Messages.ContainsKey(group))
+                Messages[group].Add(formattedMessage);
+            else Messages.Add(group, new List<string>() { formattedMessage });
         }
 
         public void AddPrivateMessage(Guid userID, string message)
         {
-            Messages.Add(new List<Guid>() { userID }, $"Sent at {_time.ToString()}: {message}");
+            Messages.Add(new List<Guid>() { userID }, new List<string>() { FormattedMessage(message) });
+        }
+
+        public void AddGroupRequest(ICollection<Guid> group, char request)
+        {
+            var requestCode = request.ToString();
+            if (Messages.ContainsKey(group))
+                Messages[group].Add(requestCode);
+            else Messages.Add(group, new List<string>() { requestCode });
+        }
+
+        public void AddPrivateRequest(Guid userID, char request)
+        {
+            Messages.Add(new List<Guid>() { userID }, new List<string>() { request.ToString() });
+        }
+
+        private string FormattedMessage(string message)
+        {
+            return $"Sent at {_time.ToString()}: {message}";
         }
     }
 }

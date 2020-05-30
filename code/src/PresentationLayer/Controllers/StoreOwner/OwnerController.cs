@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.Products;
 using PresentationLayer.Models.PurchasePolicy;
 using ECommerceSystem.Exceptions;
+using Microsoft.AspNetCore.Http;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -61,7 +62,7 @@ namespace PresentationLayer.Controllers.StoreOwner
             try
             {
                 var products = _service.getStoreProductGroup(session, prodID, store);
-                return View("../Store/StoreProducts", products);
+                return View("../Store/StoreProducts", (products, id));
             }
             catch (DatabaseException)
             {
@@ -74,6 +75,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("RemoveProduct")]
         public IActionResult RemoveProduct(string store, string productName, string id)
         {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.DeleteProductInv])
+                return Redirect("~/Exception/ManagementException");
             var session = new Guid(HttpContext.Session.Id);
             var prodID = new Guid(id);
             _service.deleteProduct(session, store, productName, prodID);
@@ -140,6 +144,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("RemoveProductInv")]
         public IActionResult RemoveProductInv(string store, string productName)
         {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.DeleteProductInv])
+                return Redirect("~/Exception/ManagementException");
             var session = new Guid(HttpContext.Session.Id);
             _service.deleteProductInv(session, store, productName);
             ViewData["StoreName"] = store;
@@ -151,6 +158,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddProduct")]
         public IActionResult AddProduct(string store)
         {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.AddProductInv])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = store;
             return View("../Store/AddProduct");
         }
@@ -217,6 +227,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("ModifyProduct")]
         public IActionResult ModifyProduct(string store, string id, string prodName)
         {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.ModifyProduct])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = store;
             ViewData["ProductID"] = id;
             ViewData["ProductName"] = prodName;
@@ -248,7 +261,8 @@ namespace PresentationLayer.Controllers.StoreOwner
             var model = new AddConcreteProductModel();
             var (productInv, storeName) = _service.getProductInventory(productInvID);
             model.Name = productInv.Name;
-            model.ExpDate = DateTime.Now;
+            model.ExpDateVis = DateTime.Now;
+            model.ExpDateCond = DateTime.Now;
             ViewData["StoreName"] = storeName;
             ViewData["ProductName"] = model.Name;
             return View("../Store/AddConcreteProduct", model);
@@ -278,7 +292,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 else switch (state)
                     {
                         case "visible":
-                            valid = _service.addVisibleDiscount(session, storeName, productID, model.Percentage, model.ExpDate) != Guid.Empty;
+                            valid = _service.addVisibleDiscount(session, storeName, productID, model.PercentageVis, model.ExpDateVis) != Guid.Empty;
                             if (!valid)
                                 ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
                             else
@@ -288,7 +302,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                             }
                             break;
                         case "conditional":
-                            valid = _service.addCondiotionalProcuctDiscount(session, storeName, productID, model.Percentage, model.ExpDate, (int)model.RequiredQuantity) != Guid.Empty;
+                            valid = _service.addCondiotionalProcuctDiscount(session, storeName, productID, model.PercentageCond, model.ExpDateCond, (int)model.RequiredQuantity) != Guid.Empty;
                             if (!valid)
                                 ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
                             else
@@ -321,11 +335,16 @@ namespace PresentationLayer.Controllers.StoreOwner
         #endregion
 #region Mangers/Owners
         [Authorize(Roles = "Admin, Subscribed")]
-        public IActionResult StoreOwners(string storeName)
+        public IActionResult StoreOwners(string storeName, bool reassignError = false, bool error = false)
         {
             try
             {
-                var owners = _service.getStoreOwners(storeName);
+                var session = new Guid(HttpContext.Session.Id);
+                var owners = _service.getStoreOwners(session, storeName);
+                if(error)
+                    ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
+                if(reassignError)
+                    ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
                 return View("../Owner/StoreOwners", owners);
             }
             catch (AuthenticationException)
@@ -344,7 +363,8 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             try
             {
-                var managers = _service.getStoreManagers(storeName);
+                var session = new Guid(HttpContext.Session.Id);
+                var managers = _service.getStoreManagers(session, storeName);
                 return View("../Owner/StoreManagers", managers);
             }
             catch (AuthenticationException)
@@ -384,10 +404,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 {
                     if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) == Guid.Empty)
                     {
-                        if (_service.createOwnerAssignAgreement(session, assignUsername, storeName) != Guid.Empty)
-                        {
-                            ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already owner.");
-                        }
+                        return RedirectToAction("StoreOwners", "Owner", new { storeName = storeName, error = true });
                     }
                 }
                 catch (AuthenticationException)
@@ -399,9 +416,33 @@ namespace PresentationLayer.Controllers.StoreOwner
                     return Redirect("~/Exception/DatabaseException");
                 }
             }
-            else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
-            var message = new ActionMessageModel("Your request has been sent for approval.", Url.Action("StoreOwners", "Owner"));
+            else return RedirectToAction("StoreOwners", "Owner", new { storeName = storeName, reassignError = true });
+            var message = new ActionMessageModel("Your request has been sent for approval.", Url.Action("StoreOwners", "Owner", new { storeName = storeName }));
             return View("_ActionMessage", message);
+        }
+
+        public IActionResult ApproveOwner(string id, string store)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var requestID = new Guid(id);
+            if(_service.approveAssignOwnerRequest(session, requestID, store))
+            {
+                var requestCount = Int32.Parse(HttpContext.Session.GetString("RequestCount"));
+                HttpContext.Session.SetString("RequestCount", (requestCount - 1).ToString());
+            }
+            return RedirectToAction("UserRequests", "User"); 
+        }
+
+        public IActionResult DenyOwner(string id, string store)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var requestID = new Guid(id);
+            if(_service.disApproveAssignOwnerRequest(session, requestID, store))
+            {
+                var requestCount = Int32.Parse(HttpContext.Session.GetString("RequestCount"));
+                HttpContext.Session.SetString("RequestCount", (requestCount - 1).ToString());
+            }
+            return RedirectToAction("UserRequests", "User");
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -430,7 +471,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                     }
                 }
                 else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
-                var managers = _service.getStoreManagers(storeName);
+                var managers = _service.getStoreManagers(session, storeName);
                 return View("../Owner/StoreManagers", managers);
             }
             catch (AuthenticationException)
@@ -454,7 +495,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 {
                     ModelState.AddModelError("InvalidRemoveOperation", $"Error occured while trying to remove manager '{manager}'. try again later.");
                 }
-                var managers = _service.getStoreManagers(storeName);
+                var managers = _service.getStoreManagers(session, storeName);
                 return View("../Owner/StoreManagers", managers);
             }
             catch (AuthenticationException)
@@ -496,7 +537,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                     }
                 }
                 else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
-                var managers = _service.getStoreManagers(storeName);
+                var managers = _service.getStoreManagers(session, storeName);
                 return View("../Owner/StoreManagers", managers);
             }
             catch (AuthenticationException)
@@ -513,12 +554,28 @@ namespace PresentationLayer.Controllers.StoreOwner
             }
   
         }
+
+        [Route("StorePurchaseHistory")]
+        [Authorize(Roles = "Admin, Subscribed")]
+        public IActionResult StorePurchaseHistory(string store)
+        {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.WatchPurchaseHistory])
+                return Redirect("~/Exception/ManagementException");
+            var session = new Guid(HttpContext.Session.Id);
+            var purchases = _service.purchaseHistory(session, store);
+            return View("../Store/StorePurchaseHistory", (purchases, store));
+        }
+
         #endregion
-#region PurchasePolicy
+        #region PurchasePolicy
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("StorePurchasePolicies")]
         public IActionResult StorePurchasePolicies(string storeName)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManagePurchasePolicy])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
@@ -671,6 +728,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("StoreDiscounts")]
         public IActionResult StoreDiscounts(string storeName)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
@@ -754,6 +814,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("CompositeDiscounts")]
         public IActionResult CompositeDiscounts(string storeName)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var discounts = _service.getAllDiscountsForCompose(session, storeName);

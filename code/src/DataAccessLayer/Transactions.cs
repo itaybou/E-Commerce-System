@@ -5,18 +5,19 @@ using ECommerceSystem.Exceptions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.DataAccessLayer
 {
-    internal class TransactionManager : ITransactions
+    internal class Transactions : ITransactions
     {
         private MongoClient _client;
         private IUserRepository _users;
         private IStoreRepository _stores;
         private IProductRepository _products;
 
-        public TransactionManager(MongoClient client, IUserRepository users, IStoreRepository stores, IProductRepository products)
+        public Transactions(MongoClient client, IUserRepository users, IStoreRepository stores, IProductRepository products)
         {
             _client = client;
             _users = users;
@@ -87,6 +88,43 @@ namespace ECommerceSystem.DataAccessLayer
             {
                 _products.Update(product, product.Id, p => p.Id);
                 _stores.Update(store, store.Name, s => s.Name);
+            });
+        }
+
+        public async void ApplyRolePermissionsTransaction(User manager, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _users.Update(manager, manager.Guid, u => u.Guid);
+                _stores.Update(store, store.Name, s => s.Name);
+            });
+        }
+
+        public async void AssignOwnerTransaction(User assigner, User assignee, Store store)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _stores.Update(store, store.Name, s => s.Name);
+                _users.Update(assigner, assigner.Guid, u => u.Guid);
+                _users.Update(assignee, assignee.Guid, u => u.Guid);
+            });
+        }
+
+        public async void PurchaseTransaction(User user, ICollection<(Store, double, IDictionary<Product, int>)> allStoresProducts)
+        {
+            await BaseTransactionAsync(() =>
+            {
+                _users.Update(user, user.Guid, u => u.Guid);
+                allStoresProducts.ToList().ForEach(storeProducts =>
+                {
+                    var store = storeProducts.Item1;
+                    var products = storeProducts.Item3;
+                    _stores.Update(store, store.Name, s => s.Name);
+                    products.ToList().ForEach(product =>
+                    {
+                        _products.Update(product.Key, product.Key.Id, p => p.Id);
+                    });
+                });
             });
         }
     }

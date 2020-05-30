@@ -150,6 +150,13 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
+        public IEnumerable<INotificationRequest> GetAwaitingRequests(Guid sessionID)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.GetAwaitingRequests(userID);
+        }
+
+        [Trace("Info")]
         public bool isUserAdmin(Guid sessionID)
         {
             var userID = _sessions.ResolveSession(sessionID);
@@ -161,13 +168,6 @@ namespace ECommerceSystem.ServiceLayer
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _management.allUsers(userID);
-        }
-
-        [Trace("Info")]
-        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser(Guid sessionID)
-        {
-            var userID = _sessions.ResolveSession(sessionID);
-            return _management.getAllAssignOwnerRequestOfUser(userID);
         }
 
         internal IEnumerable<UserModel> searchUsers(string username)

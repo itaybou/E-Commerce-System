@@ -59,17 +59,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             return;
         }
 
-        public void addAssignOwnerRequest(AssignOwnerRequestModel request)
+        public void addUserRequest(INotificationRequest request)
         {
             return;
         }
 
-        public void removeAssignOwnerRequest(Guid agreementID)
+        public void removeUserRequest(Guid agreementID)
         {
             return;
         }
 
-        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser()
+        public IEnumerable<INotificationRequest> GetUserRequests()
         {
             return null;
         }

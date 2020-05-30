@@ -1,13 +1,40 @@
-﻿@model PresentationLayer.Models.User.CartModel
+﻿@using ECommerceSystem.Models.DiscountPolicyModels
+@model PresentationLayer.Models.User.CartModel
 @{
     ViewData["Title"] = "User Cart";
-    var Total = @Model.UserCart.Cart.Aggregate(0.0, (sum, curr) =>
-                         sum += curr.Value.Aggregate(0.0, (sum, prod) => sum += prod.Item1.PriceWithDiscount * prod.Item2));
     var TotalBeforeDiscount = @Model.UserCart.Cart.Aggregate(0.0, (sum, curr) =>
                      sum += curr.Value.Aggregate(0.0, (sum, prod) => sum += prod.Item1.BasePrice * prod.Item2));
+    var Total = Model.UserCart.FinalPrice;
 }
-<div class="container mb-4">
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({
+                container: 'body',
+                html: true,
+                placement: 'bottom',
+                sanitize: false,
+                content: function () {
+                    var name = $(this).data("index");
+                    var element = "#PopoverContent-".concat(name);
+                    return $(element).html();
+                }
+            });
+        });
+    </script>
+}
+
+
+<div class="container-fluid w-75">
     <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+    }
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -19,18 +46,28 @@
                             <th scope="col">Available</th>
                             <th scope="col" class="text-center">Quantity</th>
                             <th scope="col" class="text-center">Unit Price</th>
-                            <th scope="col" class="text-center">Discounted Unit Price</th>
                             <th scope="col" class="text-center">Sub-Total</th>
+                            <th scope="col" class="text-center">Discount</th>
                             <th scope="col"> </th>
                         </tr>
                     </thead>
                     <tbody>
+                        @{ var k = 0;}
                         @foreach (var storeProducts in Model.UserCart.Cart)
                         {
                             @foreach (var productQuantity in storeProducts.Value)
                             {
                                 <tr>
-                                    <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                                    <td style="width: 100px">
+                                        @if (!String.IsNullOrWhiteSpace(productQuantity.Item1.ImageURL))
+                                        {
+                                            <img class="card-img-top" src="@productQuantity.Item1.ImageURL" alt="Product image" width="50" height="50"> <!--user image-->
+                                        }
+                                        else
+                                        {
+                                            <img class="card-img-top" src="~/images/unavailable.png" alt="Unavailable Product image" width="50" height="70"> <!--default image-->
+                                        }
+                                    </td>
                                     <td>
                                         <a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@productQuantity.Item1.Id">
                                             @productQuantity.Item1.Name
@@ -38,49 +75,73 @@
                                     </td>
                                     @if (productQuantity.Item1.Quantity >= productQuantity.Item2)
                                     {
-                                        <td>In stock</td>
+                                <td>In stock<br /> Available: @productQuantity.Item1.Quantity</td>
                                     }
                                     else
                                     {
                                         <td style="color: red">Out of stock</td>
                                     }
-                                    <td>
-                                        <input type="number" class="form-control" style="margin-left: auto; margin-right: auto; width: 30%; text-align: center" type="text" value="@productQuantity.Item2" />
-                                    </td>
                                     <td class="text-center">
-                                        @if (productQuantity.Item1.BasePrice != productQuantity.Item1.PriceWithDiscount)
+                                        <span><b>@productQuantity.Item2</b></span>
+                                    </td>
+                                    <td class="text-center">@productQuantity.Item1.BasePrice $</td>
+                                    <td class="text-center">@(productQuantity.Item1.BasePrice * productQuantity.Item2) $</td>
+                                    <td class="text-center">
+                                        @if (productQuantity.Item1.Discount != null)
                                         {
-                                            <span style="color: lightslategrey"><del>@productQuantity.Item1.BasePrice $</del></span>
+                                            var discount = productQuantity.Item1.Discount;
+                                            if (discount is VisibleDiscountModel visible)
+                                            {
+                                                <span>@visible.Percentage%</span>
+                                            }
+                                            else if (discount is ConditionalProductDiscountModel cond)
+                                            {
+                                                <span>@cond.Percentage% </span>
+                                                <br />
+                                                <span>Above @cond.RequiredQuantity Units</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span>None</span>
                                         }
                                     </td>
-                                    <td class="text-center">@productQuantity.Item1.PriceWithDiscount $</td>
-                                    <td class="text-center">@(productQuantity.Item1.PriceWithDiscount * productQuantity.Item1.Quantity) $</td>
-                                    <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button> </td>
+                                    <td class="text-right">
+                                        <section style="display: none">
+                                            <div id="PopoverContent-@k" class="hidden">
+                                                <label class="alert-warning">Currently Available: @productQuantity.Item1.Quantity</label>
+                                                <form type="hidden" asp-action="ChangeProductQuantity" asp-controller="Cart" asp-route-id="@productQuantity.Item1.Id" method="post">
+                                                    <div class="input-group">
+                                                        <input id="quantity" name="quantity" type="number" class="form-control" placeholder="New Quantity"
+                                                               aria-label="0-5" aria-describedby="button-addon1">
+                                                        <div class="input-group-append" id="button-addon1">
+                                                            <button type="submit" class="btn btn-outline-primary" data-toggle="popover" data-placement="bottom"
+                                                                    data-html="true" data-title="Search">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </section>
+                                        <div class="row justify-content-end m-2">
+                                            <a class="btn btn-sm btn-info text-white m-1" data-html='true' data-toggle='popover' data-title="Change Quantity" data-index="@k"><i class="fas fa-hashtag"></i> </a>
+                                            <form type="hidden" asp-action="RemoveFromCart" asp-controller="Cart" asp-route-id="@productQuantity.Item1.Id" method="post">
+                                                <button type="submit" class="btn btn-sm btn-danger m-1"><i class="fa fa-trash"></i> </button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
-
+                                k++;
                             }
                         }
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Before discounts</td>
-                            <td class="text-right">
-                                @TotalBeforeDiscount  $
+                            <td class="text-right alert-success" colspan="8">
+                                <strong>Before Discounts</strong>&nbsp;&nbsp; @TotalBeforeDiscount  $
                             </td>
                         </tr>
-                        <tr class="alert alert-warning" style="font-size: 20px">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>@Total  $</strong></td>
+                        <tr class="alert-warning" style="font-size: 20px">
+                            <td class="text-right alert-warning" colspan="8"><b>Total&nbsp;&nbsp;</b><strong>@Total.ToString("0.000")  $</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -93,7 +154,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 text-right">
-                    <form asp-controller="Cart" asp-action="Checkout" method="post">
+                    <form asp-controller="Cart" asp-action="Checkout">
                         <button type="submit" class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
                     </form>
                 </div>

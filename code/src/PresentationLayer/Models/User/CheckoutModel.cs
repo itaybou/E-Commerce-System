@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.Models;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace PresentationLayer.Models.User
 {
     public class CheckoutModel
     {
-        private IEnumerable<(ProductModel, int)> _products;
+        public ShoppingCartModel Cart { get; set; } = null;
 
         [Required(ErrorMessage = "Missing First name of card holder", AllowEmptyStrings = false)]
         public string FirstName { get; set; }
@@ -39,25 +40,31 @@ namespace PresentationLayer.Models.User
         [Required(ErrorMessage = "Missing shipping postal code", AllowEmptyStrings = false)]
         public int PostCode { get; set; }
 
-        public IEnumerable<(ProductModel, int)> Products
+        public double Total { get; set; } 
+
+        public IEnumerable<(ProductModel, int)> Products { get; set; } = null;
+
+        public CheckoutModel(string fname, string lname, int id, int expMonth, int expYear, int cvv, string address, string city, int postcode)
         {
-            get => _products;
-            set
-            {
-                _products = value;
-                Total = _products.Aggregate(0.0, (sum, prod) => sum += prod.Item1.PriceWithDiscount * prod.Item2);
-            }
+            FirstName = fname;
+            LastName = lname;
+            ID = id;
+            CreditCardExpirationMonth = expMonth;
+            CreditCardExpirationYear = expYear;
+            CVV = cvv;
+            Address = address;
+            City = city;
+            PostCode = postcode;
+            Cart = null;
+            Products = null;
         }
 
-        public double Total { get; set; }
-
-        public CheckoutModel()
+        public CheckoutModel(ShoppingCartModel cart)
         {
-        }
+            Cart = cart;
+            Products = cart.Cart.Values.SelectMany(s => s);
+            Total = Products.Select(p => p.Item1.BasePrice * p.Item2).Aggregate(0.0, (total, current) => total += current);
 
-        public CheckoutModel(CartModel cartModel)
-        {
-            Products = cartModel.UserCart.Cart.Select(s => s.Value).SelectMany(p => p);
         }
     }
 }

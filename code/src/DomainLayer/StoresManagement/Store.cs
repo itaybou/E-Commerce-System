@@ -354,8 +354,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
-            if (!StorePermissions[ownerToRemoveUserName].AssignedBy.Guid.Equals(activeUserID)) //active useer isn`t the user who assign ownerToRemoveUserName
+            var assignerID = StorePermissions[ownerToRemoveUserName].AssignedBy;
+            var assigner = UsersManagement.Instance.getUserByGUID(assignerID, true);
+            if (!assigner.Guid.Equals(activeUserID)) //active useer isn`t the user who assign ownerToRemoveUserName
             {
                 return false;
             }
@@ -371,7 +372,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return null;
             }
 
-            Permissions per = UserManagement.Permissions.CreateManager(loggedInUser, this);
+            Permissions per = Permissions.CreateManager(loggedInUser, this);
             if (per == null) return null;
             StorePermissions.Add(newManageruserName, per);
 
@@ -385,8 +386,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
-            if (!StorePermissions[managerUserName].AssignedBy.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
+            var assignerID = StorePermissions[managerUserName].AssignedBy;
+            var assigner = UsersManagement.Instance.getUserByGUID(assignerID, true);
+            if (!assigner.Name.Equals(loggedInUser.Name)) //check that the logged in the user who assigned userName
             {
                 return false;
             }
@@ -404,8 +406,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
-            if (!StorePermissions[managerUserName].AssignedBy.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
+            var assignerID = StorePermissions[managerUserName].AssignedBy;
+            var assigner = UsersManagement.Instance.getUserByGUID(assignerID, true);
+            if (!assigner.Name.Equals(loggedInUserName)) // The loggedInUserName isn`t the owner who assign managerUserName
             {
                 return false;
             }
@@ -434,6 +437,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Permissions getPermissionByName(string userName)
         {
+            if(userName == null)
+            {
+                return null;
+            }
             if (StorePermissions.ContainsKey(userName))
             {
                 return StorePermissions[userName];
@@ -582,19 +589,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
         {
             List<PurchasePolicyModel> allPurchasePolicies = new List<PurchasePolicyModel>();
-            getAllPurchasePolicyByStoreNameRec(PurchasePolicy, allPurchasePolicies);
+            getAllPurchasePolicyByStoreNameRec(true, PurchasePolicy, allPurchasePolicies);
             return allPurchasePolicies;
         }
 
-        private void getAllPurchasePolicyByStoreNameRec(PurchasePolicy root, List<PurchasePolicyModel> allPurchasePolicies)
+        private void getAllPurchasePolicyByStoreNameRec(bool storeRoot, PurchasePolicy root, List<PurchasePolicyModel> allPurchasePolicies)
         {
-            allPurchasePolicies.Add(root.CreateModel());
+            if(!storeRoot)
+                allPurchasePolicies.Add(root.CreateModel());
 
             if(root is CompositePurchasePolicy)
             {
                 foreach(PurchasePolicy p in ((CompositePurchasePolicy)root).Children)
                 {
-                    getAllPurchasePolicyByStoreNameRec(p, allPurchasePolicies);
+                    getAllPurchasePolicyByStoreNameRec(false, p, allPurchasePolicies);
                 }
             }
         }
@@ -875,19 +883,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<DiscountPolicyModel> getAllStoreLevelDiscounts()
         {
             List<DiscountPolicyModel> allStoreLevelDiscountPolicies = new List<DiscountPolicyModel>();
-            getAllDiscountsFromTree(StoreLevelDiscounts, allStoreLevelDiscountPolicies);
+            getAllDiscountsFromTree(true, StoreLevelDiscounts, allStoreLevelDiscountPolicies);
             return allStoreLevelDiscountPolicies;
         }
 
-        private void getAllDiscountsFromTree(DiscountPolicy root, List<DiscountPolicyModel> allStoreLevelDiscountPolicies)
+        private void getAllDiscountsFromTree(bool storeRoot, DiscountPolicy root, List<DiscountPolicyModel> allStoreLevelDiscountPolicies)
         {
-            allStoreLevelDiscountPolicies.Add(root.CreateModel());
+            if(!storeRoot)
+                allStoreLevelDiscountPolicies.Add(root.CreateModel());
 
             if (root is CompositeDiscountPolicy)
             {
                 foreach (DiscountPolicy d in ((CompositeDiscountPolicy)root).Children)
                 {
-                    getAllDiscountsFromTree(d, allStoreLevelDiscountPolicies);
+                    getAllDiscountsFromTree(false, d, allStoreLevelDiscountPolicies);
                 }
             }
         }
@@ -895,7 +904,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<DiscountPolicyModel> getAllDiscountsForCompose()
         {
             List<DiscountPolicyModel> allDicsountsModels = new List<DiscountPolicyModel>(); //without store level discount
-            getAllDiscountsFromTree(DiscountPolicyTree, allDicsountsModels);
+            getAllDiscountsFromTree(true, DiscountPolicyTree, allDicsountsModels);
 
             //add all the discounts that not exist in the tree
             foreach(var d in NotInTreeDiscounts)

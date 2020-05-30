@@ -19,5 +19,9 @@ namespace ECommerceSystem.CommunicationLayer
         void SendGroupNotification(List<Guid> userIds, string notification);
 
         void SendGroupNotification(List<Guid> userIds, INotitficationType notification);
+
+        void SendPrivateNotificationRequest(Guid userID, INotificationRequest request);
+
+        void SendGroupNotificationRequest(List<Guid> userIds, INotificationRequest request);
     }
 }

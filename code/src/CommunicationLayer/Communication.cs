@@ -72,5 +72,21 @@ namespace ECommerceSystem.CommunicationLayer
             notif.AddGroupMessage(userIds, notification);
             SendNotification(notif);
         }
+
+        public void SendPrivateNotificationRequest(Guid userID, INotificationRequest request)
+        {
+            var notif = new Notification();
+            notif.AddPrivateMessage(userID, request.getMessage());
+            notif.AddPrivateRequest(userID, request.GetRequest());
+            SendNotification(notif);
+        }
+
+        public void SendGroupNotificationRequest(List<Guid> userIds, INotificationRequest request)
+        {
+            var notif = new Notification();
+            notif.AddGroupMessage(userIds, request.getMessage());
+            notif.AddGroupRequest(userIds, request.GetRequest());
+            SendNotification(notif);
+        }
     }
 }

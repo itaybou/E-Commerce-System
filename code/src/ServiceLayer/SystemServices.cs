@@ -5,6 +5,7 @@ using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -62,10 +63,10 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="address"> user address for delivery </param>
         /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         [Trace("Info")]
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public async Task<ICollection<ProductModel>> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            return await _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
         ///// <summary>

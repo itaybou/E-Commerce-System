@@ -29,7 +29,6 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             if (_isRunning) return;
             _isRunning = true;
             cleanCache();
-            Console.Out.WriteLine("cleaner!");
             _isRunning = false;
         }
     }

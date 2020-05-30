@@ -91,7 +91,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                     userCart.StoreCarts.Add(storeCart);
                 }
 
-                storeCart.AddToCart(product, quantity);
+                if (!storeCart.AddToCart(product, quantity))
+                    return false;
                 _data.Users.Update(user, userID, u => u.Guid);
                 _communication.SendPrivateNotification(userID, "Product successfully added to cart!");
                 return true;
@@ -168,11 +169,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             _data.Users.Update(user, userID, u => u.Guid);
         }
 
-        public List<AssignOwnerRequestModel> getAllAssignOwnerRequestOfUser(Guid userID)
-        {
-            return getUserByGUID(userID, true).getAllAssignOwnerRequestOfUser();
-        }
-
         internal IEnumerable<UserModel> searchUsers(string username)
         {
             var users = _data.Users.GetSubscribedByUsernameStart(username);
@@ -201,6 +197,16 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
         }
 
+        public IEnumerable<INotificationRequest> GetAwaitingRequests(Guid userID)
+        {
+            var user = getUserByGUID(userID, true);
+            if(user != null && user.isSubscribed())
+            {
+                return user.GetUserRequests();
+            }
+            throw new LogicException("Unsubscribed users does not hold requests.");
+        }
+
         public void addPermission(User user, Permissions permissions, string storeName)
         {
             user.addPermission(permissions, storeName);
@@ -211,9 +217,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             user.removePermissions(storeName);
         }
 
-        public User getUserByName(string managerUserName)
+        public User getUserByName(string username)
         {
-            return _data.Users.FindOneBy(u => u.Name.Equals(managerUserName));
+            return _data.Users.QueryAll().Where(u => u.Name.Equals(username)).FirstOrDefault();
         }
 
         public bool isSubscribed(string newManageruserName)
@@ -236,7 +242,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 return null;
             }
 
-            return historyUser.getHistoryPurchase().Select(h => ModelFactory.CreateUserPurchase(h)).ToList();
+            return historyUser.getHistoryPurchase().Select(p => ModelFactory.CreateUserPurchase(p)).ToList();
         }
 
         public UserModel userDetails(Guid userID)

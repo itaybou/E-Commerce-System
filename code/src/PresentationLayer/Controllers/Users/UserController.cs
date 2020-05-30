@@ -30,7 +30,24 @@ namespace PresentationLayer.Controllers.Users
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+        }
 
+        public IActionResult UserRequests()
+        {
+            try
+            {
+                var session = new Guid(HttpContext.Session.Id);
+                var requests = _service.GetAwaitingRequests(session);
+                return View("../Notifications/Requests", requests);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
         }
     }
 }

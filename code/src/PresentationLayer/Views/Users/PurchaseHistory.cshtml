@@ -31,38 +31,39 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
-                                                <th scope="col">Product Name</th>
+                                                <th scope="col" style="text-align: center">Product Name</th>
                                                 <th scope="col" class="text-center">Quantity</th>
                                                 <th scope="col" class="text-center">Price</th>
-                                                <th scope="col" class="text-center">Final Price</th>
                                             </tr>
                                         </thead>
                                         @foreach (var product in purchase.ProductsPurchased)
                                         {
                                             <tr class="text-center">
-                                                <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                                                <td>
-                                                    <a asp-controller="Product" asp-action="ViewProduct" asp-route-id="@product.Id">
+                                                <td style="width: 12%">
+                                                    @if (!String.IsNullOrWhiteSpace(product.ImageURL))
+                                                    {
+                                                        <img class="card-img-top" src="@product.ImageURL" alt="Product image" width="50" height="50"> <!--user image-->
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="card-img-top" src="~/images/unavailable.png" alt="Unavailable Product image" width="50" height="50"> <!--default image-->
+                                                    }
+                                                </td>
+                                                <td style="text-align: center">
                                                         @product.Name
-                                                    </a>
                                                 </td>
                                                 <td>
                                                     @product.Quantity
                                                 </td>
                                                 <td>
-                                                    @if (product.BasePrice != product.PriceWithDiscount)
-                                                    {
-                                                        <span style="color: lightslategrey"><del>@product.BasePrice $</del></span>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    @product.PriceWithDiscount $
+                                                    @product.BasePrice $
                                                 </td>
                                             </tr>
                                         }
                                     </table>
                                 </td>
                                 <td>
+                                    <b>ID:</b> @purchase.Id<br />
                                     <b>Name:</b> @purchase.FirstName<br />
                                     <b>Last Name:</b> @purchase.LastName<br />
                                     <b>Credit Card:</b> @purchase.CreditCardNumber

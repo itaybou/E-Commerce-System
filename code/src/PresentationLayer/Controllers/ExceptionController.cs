@@ -9,7 +9,7 @@ namespace PresentationLayer.Controllers
 {
     public class ExceptionController : Controller
     {
-        public async Task<IActionResult> AuthException()
+        public IActionResult AuthException()
         {
             foreach (var cookie in Request.Cookies.Keys)
                 Response.Cookies.Delete(cookie);
@@ -17,21 +17,27 @@ namespace PresentationLayer.Controllers
             return View("_ErrorMessage", message);
         }
 
-        public async Task<IActionResult> DatabaseException()
+        public IActionResult DatabaseException()
         {
             var message = new ActionMessageModel("Oops! Something happend. please try again later.", Url.Action("Index", "Home"));
             return View("_ErrorMessage", message);
         }
 
-        public async Task<IActionResult> LogicException()
+        public IActionResult LogicException()
         {
             var message = new ActionMessageModel("Oops! Something happend. please check your input or try again later.", Url.Action("Index", "Home"));
             return View("_ErrorMessage", message);
         }
 
-        public async Task<IActionResult> ExternalSystemException()
+        public IActionResult ExternalSystemException()
         {
             var message = new ActionMessageModel("Oops! connection lost with external services. please try again.", Url.Action("Index", "Home"));
+            return View("_ErrorMessage", message);
+        }
+
+        public IActionResult ManagementException()
+        {
+            var message = new ActionMessageModel("You are not authorized to perform this action", Url.Action("UserStoreList", "Store"));
             return View("_ErrorMessage", message);
         }
     }

@@ -5,6 +5,7 @@ using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -19,6 +20,8 @@ namespace ECommerceSystem.ServiceLayer
 
         void removeAllUsers();
 
+        IEnumerable<INotificationRequest> GetAwaitingRequests(Guid sessionID);
+
         (bool, string) register(string uname, string pswd, string fname, string lname, string email);
 
         (bool, Guid) login(Guid sessionID, string uname, string pswd);
@@ -29,11 +32,11 @@ namespace ECommerceSystem.ServiceLayer
 
         ShoppingCartModel ShoppingCartDetails(Guid sessionID);
 
-        bool RemoveFromCart(Guid productId);
+        bool RemoveFromCart(Guid sessionID, Guid productId);
 
-        bool ChangeProductQunatity(Guid productId, int quantity);
+        bool ChangeProductQunatity(Guid sessionID, Guid productId, int quantity);
 
-        ICollection<UserPurchaseModel> userPurchaseHistory(string userName);
+        ICollection<UserPurchaseModel> userPurchaseHistory(Guid sessionID, string userName);
 
         UserModel userDetails(Guid sessionID);
 
@@ -96,6 +99,7 @@ namespace ECommerceSystem.ServiceLayer
 
         Guid createOwnerAssignAgreement(Guid sessionID, string newOwneruserName, string storeName);
         bool approveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName);
+        bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName);
         bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName);
         bool assignManager(Guid sessionID, string newManageruserName, string storeName);
 
@@ -103,11 +107,11 @@ namespace ECommerceSystem.ServiceLayer
 
         bool removeManager(Guid sessionID, string managerUserName, string storeName);
 
-        IEnumerable<StorePurchaseModel> purchaseHistory(string storeName);
+        IEnumerable<StorePurchaseModel> purchaseHistory(Guid sessionID, string storeName);
 
-        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName);
+        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid sessionID, string storeName);
 
-        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName);
+        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid sessionID, string storeName);
 
         (ProductInventoryModel, string) getProductInventory(Guid prodID);
 
@@ -120,6 +124,6 @@ namespace ECommerceSystem.ServiceLayer
 
         SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
 
-        ICollection<ProductModel> purchaseUserShoppingCart(Guid userID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address);
+        Task<ICollection<ProductModel>> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address);
     }
 }

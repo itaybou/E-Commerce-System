@@ -1,0 +1,37 @@
+﻿@model PresentationLayer.Models.User.CheckoutModel
+@{
+    ViewData["Title"] = "Choose Product";
+}
+<!-- Modal HTML -->
+<div id="purchaseModal" class="modal fade">
+    <div class="modal-dialog modal-confirm purch">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3>
+                        <i class="fas fa-check-circle text-success"></i>
+                    </h3>
+                </div>
+                <h4 class="modal-title">Awesome!</h4>
+            </div>
+            <div class="modal-body">
+                <h5>Your Payment was successfull!</h5><br />
+                <p class="text-left">Your order is on its way, review your shipping address details:</p><br/>
+                Post Code: @Model.PostCode<br/>
+                Address: @Model.Address, @Model.City
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success btn-block" asp-action="Index" asp-controller="Home">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#purchaseModal").modal({ backdrop: 'static', keyboard: false });
+    });
+</script>
