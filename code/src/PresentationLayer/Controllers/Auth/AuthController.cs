@@ -44,20 +44,36 @@ namespace PresentationLayer.Controllers.Auth
         {
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("Username", model.Username);
-                var session = new Guid(HttpContext.Session.Id);
-                var (valid, guid) = _service.login(session, model.Username, model.Password);
-                if (valid)
+                try
                 {
-                    await AuthenticateAsync(guid, model.Username);
-                    var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
-                    return View("_ActionMessage", message);
+                    HttpContext.Session.SetString("Username", model.Username);
+                    var session = new Guid(HttpContext.Session.Id);
+                    var (valid, guid) = _service.login(session, model.Username, model.Password);
+                    if (valid)
+                    {
+                        await AuthenticateAsync(guid, model.Username);
+                        var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
+                        return View("_ActionMessage", message);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("InvalidRegistration", "invalid credentials");
+                        return View(model);
+                    }
                 }
-                else
+                catch (AuthenticationException)
                 {
-                    ModelState.AddModelError("InvalidRegistration", "invalid credentials");
-                    return View(model);
+                    return Redirect("~/Exception/AuthException");
                 }
+                catch (DatabaseException)
+                {
+                    return Redirect("~/Exception/DatabaseException");
+                }
+                catch (LogicException)
+                {
+                    return Redirect("~/Exception/LogicException");
+                }
+
             }
             return View(model);
         }
@@ -93,15 +109,31 @@ namespace PresentationLayer.Controllers.Auth
         {
             if (ModelState.IsValid)
             {
-                var (valid, error) = _service.register(model.Username, model.Password, model.FirstName, model.LastName, model.Email);
-                if (valid)
+                try
                 {
-                    var message = new ActionMessageModel("Registration was successfull.", Url.Action("Index", "Home"));
-                    return View("_ActionMessage", message);
+                    var (valid, error) = _service.register(model.Username, model.Password, model.FirstName, model.LastName, model.Email);
+                    if (valid)
+                    {
+                        var message = new ActionMessageModel("Registration was successfull.", Url.Action("Index", "Home"));
+                        return View("_ActionMessage", message);
+                    }
+                    ModelState.AddModelError("InvalidRegistration", "invalid credentials.");
+                    ModelState.AddModelError("ValidationError", error);
+                    return View(model);
                 }
-                ModelState.AddModelError("InvalidRegistration", "invalid credentials.");
-                ModelState.AddModelError("ValidationError", error);
-                return View(model);
+                catch (AuthenticationException)
+                {
+                    return Redirect("~/Exception/AuthException");
+                }
+                catch (DatabaseException)
+                {
+                    return Redirect("~/Exception/DatabaseException");
+                }
+                catch (LogicException)
+                {
+                    return Redirect("~/Exception/LogicException");
+                }
+
             }
             return View(model);
         }
@@ -129,6 +161,10 @@ namespace PresentationLayer.Controllers.Auth
                 catch(DatabaseException)
                 {
                     return Redirect("~/Exception/DatabaseException");
+                }
+                catch (LogicException)
+                {
+                    return Redirect("~/Exception/LogicException");
                 }
             }
             return Redirect("~/");

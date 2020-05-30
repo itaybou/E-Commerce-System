@@ -375,3 +375,7 @@
 2020-05-27 14:11:17.7348 | ERROR: Missing spell checker dictionary file!
 2020-05-27 14:23:53.0747 | ERROR: Missing spell checker dictionary file!
 2020-05-27 14:25:46.6809 | ERROR: Missing spell checker dictionary file!
+2020-05-28 18:10:32.0477 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) in E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 34
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 218

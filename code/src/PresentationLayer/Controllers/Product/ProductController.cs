@@ -38,6 +38,10 @@ namespace PresentationLayer.Controllers.Products
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
 
         }
 
@@ -105,6 +109,10 @@ namespace PresentationLayer.Controllers.Products
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
 
         }
 
@@ -129,6 +137,10 @@ namespace PresentationLayer.Controllers.Products
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
             catch (Exception)
             { 

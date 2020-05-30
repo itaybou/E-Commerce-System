@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.Products;
 using PresentationLayer.Models.PurchasePolicy;
 using ECommerceSystem.Exceptions;
+using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models.DiscountPolicyModels;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -49,6 +51,10 @@ namespace PresentationLayer.Controllers.StoreOwner
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
 
         }
 
@@ -61,11 +67,15 @@ namespace PresentationLayer.Controllers.StoreOwner
             try
             {
                 var products = _service.getStoreProductGroup(session, prodID, store);
-                return View("../Store/StoreProducts", products);
+                return View("../Store/StoreProducts", (products,id));
             }
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
 
         }
@@ -76,10 +86,25 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             var session = new Guid(HttpContext.Session.Id);
             var prodID = new Guid(id);
-            _service.deleteProduct(session, store, productName, prodID);
-            ViewData["StoreName"] = store;
-            var products = _service.getStoreInfo(store);
-            return View("../Store/StoreInventory", products);
+            try
+            {
+                _service.deleteProduct(session, store, productName, prodID);
+                ViewData["StoreName"] = store;
+                var products = _service.getStoreInfo(store);
+                return View("../Store/StoreInventory", products);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
 
         [Route("ModifyProductGroup")]
@@ -102,6 +127,10 @@ namespace PresentationLayer.Controllers.StoreOwner
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
 
         }
@@ -141,10 +170,26 @@ namespace PresentationLayer.Controllers.StoreOwner
         public IActionResult RemoveProductInv(string store, string productName)
         {
             var session = new Guid(HttpContext.Session.Id);
-            _service.deleteProductInv(session, store, productName);
-            ViewData["StoreName"] = store;
-            var products = _service.getStoreInfo(store);
-            return View("../Store/StoreInventory", products);
+            try
+            {
+                _service.deleteProductInv(session, store, productName);
+                ViewData["StoreName"] = store;
+                var products = _service.getStoreInfo(store);
+                return View("../Store/StoreInventory", products);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -235,9 +280,25 @@ namespace PresentationLayer.Controllers.StoreOwner
             ViewData["StoreName"] = storeName;
             ViewData["ProductID"] = id;
             ViewData["ProductName"] = productName;
-            _service.modifyProductQuantity(session, storeName, productName, id, model.Quantity);
-            var products = _service.getStoreInfo(storeName);
-            return View("../Store/StoreInventory", products);
+            try
+            {
+                _service.modifyProductQuantity(session, storeName, productName, id, model.Quantity);
+                var products = _service.getStoreInfo(storeName);
+                return View("../Store/StoreInventory", products);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -246,12 +307,27 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             var productInvID = new Guid(invId);
             var model = new AddConcreteProductModel();
-            var (productInv, storeName) = _service.getProductInventory(productInvID);
-            model.Name = productInv.Name;
-            model.ExpDate = DateTime.Now;
-            ViewData["StoreName"] = storeName;
-            ViewData["ProductName"] = model.Name;
-            return View("../Store/AddConcreteProduct", model);
+            try
+            {
+                var (productInv, storeName) = _service.getProductInventory(productInvID);
+                model.Name = productInv.Name;
+                model.ExpDate = DateTime.Now;
+                ViewData["StoreName"] = storeName;
+                ViewData["ProductName"] = model.Name;
+                return View("../Store/AddConcreteProduct", model);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
 
         [HttpPost]
@@ -268,36 +344,51 @@ namespace PresentationLayer.Controllers.StoreOwner
             ViewData["ProductName"] = productName;
             var valid = false;
             var productID = Guid.Empty;
-            if (ModelState.IsValid)
+            try
             {
-                if (quantityLimit)
-                    productID = _service.addProduct(session, storeName, productName, model.Quantity, model.MinQuantity, model.MaxQuantity);
-                else productID = _service.addProduct(session, storeName, productName, model.Quantity, -1, -1);
-                if (productID == Guid.Empty)
-                    ModelState.AddModelError("ProductAddError", "Error occured while trying to add product. check that you paramters are valid.");
-                else switch (state)
-                    {
-                        case "visible":
-                            valid = _service.addVisibleDiscount(session, storeName, productID, model.Percentage, model.ExpDate) != Guid.Empty;
-                            if (!valid)
-                                ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
-                            else
-                            {
-                                var products = _service.getStoreInfo(storeName);
-                                return View("../Store/StoreInventory", products);
-                            }
-                            break;
-                        case "conditional":
-                            valid = _service.addCondiotionalProcuctDiscount(session, storeName, productID, model.Percentage, model.ExpDate, (int)model.RequiredQuantity) != Guid.Empty;
-                            if (!valid)
-                                ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
-                            else
-                            {
-                                var products = _service.getStoreInfo(storeName);
-                                return View("../Store/StoreInventory", products);
-                            }
-                            break;
-                    }
+                if (ModelState.IsValid)
+                {
+                    if (quantityLimit)
+                        productID = _service.addProduct(session, storeName, productName, model.Quantity, model.MinQuantity, model.MaxQuantity);
+                    else productID = _service.addProduct(session, storeName, productName, model.Quantity, -1, -1);
+                    if (productID == Guid.Empty)
+                        ModelState.AddModelError("ProductAddError", "Error occured while trying to add product. check that you paramters are valid.");
+                    else switch (state)
+                        {
+                            case "visible":
+                                valid = _service.addVisibleDiscount(session, storeName, productID, model.Percentage, model.ExpDate) != Guid.Empty;
+                                if (!valid)
+                                    ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
+                                else
+                                {
+                                    var products = _service.getStoreInfo(storeName);
+                                    return View("../Store/StoreInventory", products);
+                                }
+                                break;
+                            case "conditional":
+                                valid = _service.addCondiotionalProcuctDiscount(session, storeName, productID, model.Percentage, model.ExpDate, (int)model.RequiredQuantity) != Guid.Empty;
+                                if (!valid)
+                                    ModelState.AddModelError("ProductAddError", "Product added but discount addition failed, try again later.");
+                                else
+                                {
+                                    var products = _service.getStoreInfo(storeName);
+                                    return View("../Store/StoreInventory", products);
+                                }
+                                break;
+                        }
+                }
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
             return View("../Store/AddConcreteProduct", model);
         }
@@ -336,6 +427,10 @@ namespace PresentationLayer.Controllers.StoreOwner
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
 
         }
 
@@ -354,6 +449,10 @@ namespace PresentationLayer.Controllers.StoreOwner
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
         }
 
@@ -398,6 +497,10 @@ namespace PresentationLayer.Controllers.StoreOwner
                 {
                     return Redirect("~/Exception/DatabaseException");
                 }
+                catch (LogicException)
+                {
+                    return Redirect("~/Exception/LogicException");
+                }
             }
             else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
             var message = new ActionMessageModel("Your request has been sent for approval.", Url.Action("StoreOwners", "Owner"));
@@ -440,6 +543,10 @@ namespace PresentationLayer.Controllers.StoreOwner
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
         }
 
@@ -521,8 +628,24 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
-            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
-            return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+            try
+            {
+                var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -542,42 +665,58 @@ namespace PresentationLayer.Controllers.StoreOwner
             var storeName = Request.Form["storeName"].ToString();
             var state = Request.Form["formState"].ToString();
             ViewData["StoreName"] = storeName;
-            switch (state)
+            try
             {
-                case "days":
-                    var days = new List<DayOfWeek>();
-                    for (var i = 1; i <= 7; i++)
-                    {
-                        if (Request.Form.ContainsKey("day" + i))
+                switch (state)
+                {
+                    case "days":
+                        var days = new List<DayOfWeek>();
+                        for (var i = 1; i <= 7; i++)
                         {
-                            var day = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Request.Form["day" + i].ToString());
-                            if (!days.Contains(day))
-                                days.Add(day);
+                            if (Request.Form.ContainsKey("day" + i))
+                            {
+                                var day = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), Request.Form["day" + i].ToString());
+                                if (!days.Contains(day))
+                                    days.Add(day);
+                            }
                         }
-                    }
-                    if (_service.addDayOffPolicy(session, storeName, days) != Guid.Empty)
-                    {
-                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
-                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
-                    }
-                    break;
-                case "location":
-                    var locations = new List<string>();
-                    model.BannedLocations.Split(",").ToList().ForEach(loc => locations.Add(loc.Trim()));
-                    if (_service.addLocationPolicy(session, storeName, locations) != Guid.Empty)
-                    {
-                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
-                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
-                    }
-                    break;
-                case "price":
-                    if (_service.addMinPriceStorePolicy(session, storeName, model.MinPrice) != Guid.Empty)
-                    {
-                        var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
-                        return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
-                    }
-                    break;
+                        if (_service.addDayOffPolicy(session, storeName, days) != Guid.Empty)
+                        {
+                            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                            return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                        }
+                        break;
+                    case "location":
+                        var locations = new List<string>();
+                        model.BannedLocations.Split(",").ToList().ForEach(loc => locations.Add(loc.Trim()));
+                        if (_service.addLocationPolicy(session, storeName, locations) != Guid.Empty)
+                        {
+                            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                            return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                        }
+                        break;
+                    case "price":
+                        if (_service.addMinPriceStorePolicy(session, storeName, model.MinPrice) != Guid.Empty)
+                        {
+                            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+                            return View("../Owner/purchase/StorePurchasePolicies", (storeName, policies));
+                        }
+                        break;
+                }
             }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
             ModelState.AddModelError("PurchasePolicyAddError", "Unable to add purchase policy at the moment, please try again later.");
 
             ViewData["StoreName"] = storeName;
@@ -588,9 +727,26 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddCompositePolicy")]
         public IActionResult AddCompositePolicy(string storeName)
         {
+            List<PurchasePolicyModel> policies;
             var session = new Guid(HttpContext.Session.Id);
             var selectlist = new List<SelectListItem>();
-            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+            try
+            {
+                 policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+            
             foreach (var policy in policies)
             {
                 selectlist.Add(new SelectListItem
@@ -608,6 +764,8 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddCompositePolicy")]
         public IActionResult AddCompositePolicy(List<SelectListItem> model)
         {
+            List<PurchasePolicyModel> policies;
+            List<SelectListItem> selectlist;
             var session = new Guid(HttpContext.Session.Id);
             var storeName = Request.Form["storeName"].ToString();
             var op = Request.Form["operator"].ToString();
@@ -620,40 +778,58 @@ namespace PresentationLayer.Controllers.StoreOwner
                     ids.Add(new Guid(Request.Form["selectd" + i]));
                 }
             }
-            if (ids.Count != 2)
-                ModelState.AddModelError("AddCompositeCountError", "Can only choose two policies to compose. please choose 2 policies.");
-            else
+            try
             {
-                var id1 = ids.ElementAt(0);
-                var id2 = ids.ElementAt(1);
-                if (ModelState.IsValid)
+                if (ids.Count != 2)
+                    ModelState.AddModelError("AddCompositeCountError", "Can only choose two policies to compose. please choose 2 policies.");
+                else
                 {
-                    switch (op)
+                    var id1 = ids.ElementAt(0);
+                    var id2 = ids.ElementAt(1);
+                    if (ModelState.IsValid)
                     {
-                        case "Or":
-                            if (_service.addOrPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
-                            {
-                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
-                            }
-                            break;
-                        case "And":
-                            if (_service.addAndPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
-                            {
-                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
-                            }
-                            break;
-                        case "Xor":
-                            if (_service.addXorPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
-                            {
-                                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
-                            }
-                            break;
+
+                        switch (op)
+                        {
+                            case "Or":
+                                if (_service.addOrPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                                {
+                                    return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                                }
+                                break;
+                            case "And":
+                                if (_service.addAndPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                                {
+                                    return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                                }
+                                break;
+                            case "Xor":
+                                if (_service.addXorPurchasePolicy(session, storeName, id1, id2) != Guid.Empty)
+                                {
+                                    return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+                                }
+                                break;
+                        }
+                        ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
                     }
-                    ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
                 }
+                selectlist = new List<SelectListItem>();
+                policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
             }
-            var selectlist = new List<SelectListItem>();
-            var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
+
             foreach (var policy in policies)
             {
                 selectlist.Add(new SelectListItem
@@ -673,8 +849,24 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
-            var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
-            return View("../Owner/StoreDiscounts", (storeName, discounts));
+            try
+            {
+                var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
+                return View("../Owner/StoreDiscounts", (storeName, discounts));
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -693,15 +885,31 @@ namespace PresentationLayer.Controllers.StoreOwner
             var session = new Guid(HttpContext.Session.Id);
             var storeName = Request.Form["storeName"].ToString();
             ViewData["StoreName"] = storeName;
-            if (ModelState.IsValid)
+            try
             {
-                if (_service.addConditionalStoreDiscount(session, storeName, model.Percentage, model.ExpDate, (int)model.MinPrice) != Guid.Empty)
+                if (ModelState.IsValid)
                 {
-                    var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
-                    return View("../Owner/StoreDiscounts", (storeName, discounts));
+                    if (_service.addConditionalStoreDiscount(session, storeName, model.Percentage, model.ExpDate, (int)model.MinPrice) != Guid.Empty)
+                    {
+                        var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
+                        return View("../Owner/StoreDiscounts", (storeName, discounts));
+                    }
+                    ModelState.AddModelError("AddStoreDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
                 }
-                ModelState.AddModelError("AddStoreDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
             }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
             return View("../Owner/discounts/AddStoreDiscount", model);
         }
 
@@ -726,26 +934,42 @@ namespace PresentationLayer.Controllers.StoreOwner
             ViewData["StoreName"] = storeName;
             ViewData["ProductID"] = productID;
             if (ModelState.IsValid)
-            {   
-                switch(state)
+            {
+                try
                 {
-                    case "visible":
-                        if (_service.addVisibleDiscount(session, storeName, productID, model.Percentage, model.ExpDate) != Guid.Empty)
-                        {
-                            var products = _service.getStoreInfo(storeName);
-                            return View("../Store/StoreInventory", products);
-                        }
-                        ModelState.AddModelError("AddProductDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
-                        break;
-                    case "conditional":
-                        if (_service.addCondiotionalProcuctDiscount(session, storeName, productID, model.Percentage, model.ExpDate, (int)model.RequiredQuantity) != Guid.Empty)
-                        {
-                            var products = _service.getStoreInfo(storeName);
-                            return View("../Store/StoreInventory", products);
-                        }
-                        ModelState.AddModelError("AddProductDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
-                        break;
+                    switch (state)
+                    {
+                        case "visible":
+                            if (_service.addVisibleDiscount(session, storeName, productID, model.Percentage, model.ExpDate) != Guid.Empty)
+                            {
+                                var products = _service.getStoreInfo(storeName);
+                                return View("../Store/StoreInventory", products);
+                            }
+                            ModelState.AddModelError("AddProductDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
+                            break;
+                        case "conditional":
+                            if (_service.addCondiotionalProcuctDiscount(session, storeName, productID, model.Percentage, model.ExpDate, (int)model.RequiredQuantity) != Guid.Empty)
+                            {
+                                var products = _service.getStoreInfo(storeName);
+                                return View("../Store/StoreInventory", products);
+                            }
+                            ModelState.AddModelError("AddProductDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
+                            break;
+                    }
                 }
+                catch (AuthenticationException)
+                {
+                    return Redirect("~/Exception/AuthException");
+                }
+                catch (DatabaseException)
+                {
+                    return Redirect("~/Exception/DatabaseException");
+                }
+                catch (LogicException)
+                {
+                    return Redirect("~/Exception/LogicException");
+                }
+
             }
             return View("../Owner/discounts/AddProductDiscount", model);
         }
@@ -756,17 +980,49 @@ namespace PresentationLayer.Controllers.StoreOwner
         {
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
-            var discounts = _service.getAllDiscountsForCompose(session, storeName);
-            return View("../Owner/discounts/StoreDiscountPolicies", (storeName, discounts));
+            try
+            {
+                var discounts = _service.getAllDiscountsForCompose(session, storeName);
+                return View("../Owner/discounts/StoreDiscountPolicies", (storeName, discounts));
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("AddCompositeDiscount")]
         public IActionResult AddCompositeDiscount(string storeName, string id)
         {
+            List<DiscountPolicyModel> discounts;
             var session = new Guid(HttpContext.Session.Id);
             var selectlist = new List<SelectListItem>();
-            var discounts = _service.getAllDiscountsForCompose(session, storeName);
+            try
+            {
+                discounts = _service.getAllDiscountsForCompose(session, storeName);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }        
             foreach(var discount in discounts)
             {
                 selectlist.Add(new SelectListItem
@@ -785,6 +1041,8 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddCompositeDiscount")]
         public IActionResult AddCompositeDiscount(List<SelectListItem> model)
         {
+            List<SelectListItem> selectlist;
+            List<DiscountPolicyModel> discounts;
             var session = new Guid(HttpContext.Session.Id);
             var storeName = Request.Form["storeName"].ToString();
             var op = Request.Form["operator"].ToString();
@@ -797,34 +1055,50 @@ namespace PresentationLayer.Controllers.StoreOwner
                     ids.Add(new Guid(Request.Form["selectd" + i]));
                 }
             }
-            if (ModelState.IsValid)
+            try
             {
-                switch (op)
+                if (ModelState.IsValid)
                 {
-                    case "Or":
-                        if(_service.addOrDiscountPolicy(session, storeName, ids) != Guid.Empty)
-                        {
-                            return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
-                        }
-                        break;
-                    case "And":
-                        if(_service.addAndDiscountPolicy(session, storeName, ids) != Guid.Empty)
-                        {
-                            return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
-                        }
-                        break;
-                    case "Xor":
-                        if (_service.addXorDiscountPolicy(session, storeName, ids) != Guid.Empty)
-                        {
-                            return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
-                        }
-                        break;
-                }
-                ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
+                    switch (op)
+                    {
+                        case "Or":
+                            if (_service.addOrDiscountPolicy(session, storeName, ids) != Guid.Empty)
+                            {
+                                return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                        case "And":
+                            if (_service.addAndDiscountPolicy(session, storeName, ids) != Guid.Empty)
+                            {
+                                return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                        case "Xor":
+                            if (_service.addXorDiscountPolicy(session, storeName, ids) != Guid.Empty)
+                            {
+                                return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
+                            }
+                            break;
+                    }
+                    ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
 
+                }
+                 selectlist = new List<SelectListItem>();
+                 discounts = _service.getAllDiscountsForCompose(session, storeName);
             }
-            var selectlist = new List<SelectListItem>();
-            var discounts = _service.getAllDiscountsForCompose(session, storeName);
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+
             foreach (var discount in discounts)
             {
                 selectlist.Add(new SelectListItem
