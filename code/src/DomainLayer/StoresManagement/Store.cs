@@ -185,9 +185,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     }
                     else
                     {
-                        DiscountPolicyTree.Remove(product.PurchasePolicy.ID);
+                        DiscountPolicyTree.Remove(product.Discount.ID);
                     }
-                    AllDiscountsMap.Remove(product.PurchasePolicy.ID);
+                    if(AllDiscountsMap.ContainsKey(product.Discount.getID()))
+                        AllDiscountsMap.Remove(product.Discount.ID);
                 }
                 DataAccess.Instance.Transactions.RemoveProductTransaction(product, this);
                 return true;
@@ -582,9 +583,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 {
                     PurchasePolicy.Children.Add(p);
                 }
-
             }
             PurchasePolicy.Remove(policyID);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
         }
 
         public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName()
@@ -878,6 +879,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             this.AllDiscountsMap.Remove(discountID);
             this.StoreLevelDiscounts.Remove(discountID);
+            DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return true;
         }
 

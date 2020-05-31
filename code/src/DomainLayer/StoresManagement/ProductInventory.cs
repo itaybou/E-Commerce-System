@@ -134,7 +134,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-            ProductList.Remove(product);
+            ProductList = ProductList.Where(p => p.Id != product.Id).ToList();
             DataAccess.Instance.Products.Remove(product, product.Id, p => p.Id);
             return true;
         }

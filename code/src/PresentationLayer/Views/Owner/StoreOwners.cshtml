@@ -62,6 +62,14 @@
         $('#assign-search').on('select2:select', function (e) {
             var username = e.params.data.username;
             $('#assignUsername').val(username);
+            $('#chosen_owner_name').text(username);
+            $('#chosen_div').show();
+        });
+
+        $("#assign-search").on("select2:unselecting", function (e) {
+            $('#chosen_div').hide();
+            $('#chosen_owner_name').text(null);
+            $('#assignUsername').val(null);
         });
     </script>
 }
@@ -119,7 +127,16 @@
                                             @user.Email
                                         </td>
                                         <td>
+                                            @if (String.IsNullOrEmpty(userPerm.Item2.AssignedBy))
+                                            {
+                                                <b>
+                                                    <span class="text-info">Store Opener</span>
+                                                </b>
+                                            }
+                                            else
+                                            {
                                             @userPerm.Item2.AssignedBy
+                                            }
                                         </td>
                                         <td class="text-right">
                                             @if(User.Identity.Name == userPerm.Item2.AssignedBy)
@@ -159,6 +176,13 @@
                     <div class="w-100">
                         <input id="assignUsername" name="assignUsername" type="hidden" value="@null" />
                         <select id="assign-search" class="w-100 assign-search" style="display: flex; width: 100%"></select>
+                    </div>
+                    <div id="chosen_div" class="text-center m-3" style="display: none">
+                        <h5>
+                            You are about to assign
+                            <b><span class="text-info" id="chosen_owner_name" name="chosen_owner_name"></span></b>
+                            to be store owner.
+                        </h5>
                     </div>
                 </div>
                 <div class="modal-footer">

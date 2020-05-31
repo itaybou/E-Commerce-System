@@ -79,7 +79,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                Products.Remove(product);
+                Products = Products.Where(p => p.ID != product.ID).ToList();
                 return true;
             }
         }

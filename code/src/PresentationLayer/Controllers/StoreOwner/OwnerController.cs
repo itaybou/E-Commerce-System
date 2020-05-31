@@ -104,6 +104,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Authorize(Roles = "Admin, Subscribed")]
         public IActionResult ModifyProductGroup(string id, string store)
         {
+            var permissions = _service.getUsernamePermissionTypes(store, User.Identity.Name);
+            if (!permissions[PermissionType.ModifyProduct])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = store;
             try
             {
@@ -472,11 +475,12 @@ namespace PresentationLayer.Controllers.StoreOwner
 
         [Authorize(Roles = "Admin, Subscribed")]
         [HttpPost]
-        public IActionResult AssignManager(string storeName)
+        public IActionResult AssignManager(string storeName, bool novice)
         {
             var session = new Guid(HttpContext.Session.Id);
             List<PermissionType> givenPermissions = new List<PermissionType>();
             var assignUsername = Request.Form["assignUsername"].ToString();
+            var assignUsername2 = Request.Form["assignUsername2"].ToString();
             var permissionTypeEnums = Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>();
             var permissionTypes = permissionTypeEnums.ToDictionary(k => k.GetStringValue(), v => v);
             for (var i = 0; i < permissionTypeEnums.Count(); ++i)
@@ -488,9 +492,15 @@ namespace PresentationLayer.Controllers.StoreOwner
             }
             try
             {
-                if (!String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
+                if (!novice && !String.IsNullOrEmpty(assignUsername) && User.Identity.Name != assignUsername)
                 {
-                    if (!_service.assignManager(session, assignUsername, storeName) || !_service.editPermissions(session, storeName, assignUsername, givenPermissions))
+                        if (!_service.assignManager(session, assignUsername, storeName) || !_service.editPermissions(session, storeName, assignUsername, givenPermissions))
+                        {
+                            ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already manager.");
+                        }
+                } else if(!String.IsNullOrEmpty(assignUsername2) && User.Identity.Name != assignUsername2)
+                {
+                    if (!_service.assignManager(session, assignUsername2, storeName))
                     {
                         ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already manager.");
                     }
@@ -558,7 +568,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 {
                     if (!_service.editPermissions(session, storeName, editUsername, givenPermissions))
                     {
-                        ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already manager.");
+                        ModelState.AddModelError("ErrorAssignSelection", "Error encountred durring assigning process: Check that selected is not already manager or that you assigned this manager.");
                     }
                 }
                 else ModelState.AddModelError("InvalidAssignSelection", "Invalid assign selection: Selection can't be empty and you can't select current active user.");
@@ -596,11 +606,13 @@ namespace PresentationLayer.Controllers.StoreOwner
         #region PurchasePolicy
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("StorePurchasePolicies")]
-        public IActionResult StorePurchasePolicies(string storeName)
+        public IActionResult StorePurchasePolicies(string storeName, bool error = false)
         {
             var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
             if (!permissions[PermissionType.ManagePurchasePolicy])
                 return Redirect("~/Exception/ManagementException");
+            if(error)
+                ModelState.AddModelError("PolicysError", "Unable to complete operation at the moment, please try again later.");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var policies = _service.getAllPurchasePolicyByStoreName(session, storeName);
@@ -611,6 +623,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddPurchasePolicy")]
         public IActionResult AddPurchasePolicy(string storeName)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManagePurchasePolicy])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             return View("../Owner/purchase/AddPurchasePolicy");
         }
@@ -687,6 +702,38 @@ namespace PresentationLayer.Controllers.StoreOwner
 
         [HttpPost]
         [Authorize(Roles = "Admin, Subscribed")]
+        [Route("RemovePurchasePolicy")]
+        public IActionResult RemovePurchasePolicy(string storeName, string policyID)
+        {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManagePurchasePolicy])
+                return Redirect("~/Exception/ManagementException");
+            var session = new Guid(HttpContext.Session.Id);
+            try
+            {
+                var id = new Guid(policyID);
+                if (!_service.removePurchasePolicy(session, storeName, id))
+                {
+                    return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName, error = true });
+                }
+                return RedirectToAction("StorePurchasePolicies", "Owner", new { storeName = storeName });
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
         [Route("AddCompositePolicy")]
         public IActionResult AddCompositePolicy(List<SelectListItem> model)
         {
@@ -751,11 +798,13 @@ namespace PresentationLayer.Controllers.StoreOwner
     #region Discounts
     [Authorize(Roles = "Admin, Subscribed")]
         [Route("StoreDiscounts")]
-        public IActionResult StoreDiscounts(string storeName)
+        public IActionResult StoreDiscounts(string storeName, bool error = false)
         {
             var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
             if (!permissions[PermissionType.ManageDiscounts])
                 return Redirect("~/Exception/ManagementException");
+            if(error)
+                ModelState.AddModelError("DiscountsError", "Unable to complete operation at the moment, please try again later.");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var discounts = _service.getAllStoreLevelDiscounts(session, storeName);
@@ -766,6 +815,9 @@ namespace PresentationLayer.Controllers.StoreOwner
         [Route("AddStoreDiscount")]
         public IActionResult AddStoreDiscount(string storeName)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             return View("../Owner/discounts/AddStoreDiscount");
         }
@@ -790,10 +842,84 @@ namespace PresentationLayer.Controllers.StoreOwner
             return View("../Owner/discounts/AddStoreDiscount", model);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("RemoveDiscount")]
+        public IActionResult RemoveDiscount(string storeName, string discountID, string type, string productID = null)
+        {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
+            var session = new Guid(HttpContext.Session.Id);
+            try
+            {
+                var id = new Guid(discountID);
+                switch(type)
+                {
+                    case "simple":
+                        if(!_service.removeProductDiscount(session, storeName, id, new Guid(productID)))
+                            return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName, error = true });
+                        break;
+                    case "composite":
+                        if (!_service.removeCompositeDiscount(session, storeName, id))
+                            return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName, error = true });
+                        break;
+                }
+                return RedirectToAction("CompositeDiscounts", "Owner", new { storeName = storeName });
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("RemoveStoreDiscount")]
+        public IActionResult RemoveStoreDiscount(string storeName, string discountID)
+        {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
+            var session = new Guid(HttpContext.Session.Id);
+            try
+            {
+                var id = new Guid(discountID);
+                if(!_service.removeStoreLevelDiscount(session, storeName, id))
+                {
+                    return RedirectToAction("StoreDiscounts", "Owner", new { storeName = storeName, error = true });
+                }
+                return RedirectToAction("StoreDiscounts", "Owner", new { storeName = storeName });
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("AddProductDiscount")]
         public IActionResult AddProductDiscount(string storeName, string id)
         {
+            var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
+            if (!permissions[PermissionType.ManageDiscounts])
+                return Redirect("~/Exception/ManagementException");
             ViewData["StoreName"] = storeName;
             ViewData["ProductID"] = id;
             return View("../Owner/discounts/AddProductDiscount");
@@ -837,11 +963,13 @@ namespace PresentationLayer.Controllers.StoreOwner
 
         [Authorize(Roles = "Admin, Subscribed")]
         [Route("CompositeDiscounts")]
-        public IActionResult CompositeDiscounts(string storeName)
+        public IActionResult CompositeDiscounts(string storeName, bool error = false)
         {
             var permissions = _service.getUsernamePermissionTypes(storeName, User.Identity.Name);
             if (!permissions[PermissionType.ManageDiscounts])
                 return Redirect("~/Exception/ManagementException");
+            if (error)
+                ModelState.AddModelError("DiscountsError", "Unable to complete operation at the moment, please try again later.");
             ViewData["StoreName"] = storeName;
             var session = new Guid(HttpContext.Session.Id);
             var discounts = _service.getAllDiscountsForCompose(session, storeName);

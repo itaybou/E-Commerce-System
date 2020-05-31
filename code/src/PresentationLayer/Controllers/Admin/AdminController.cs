@@ -15,11 +15,6 @@ namespace PresentationLayer.Controllers.Admin
             _service = service;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
@@ -31,6 +26,14 @@ namespace PresentationLayer.Controllers.Admin
             {
                 return Redirect("~/Exception/AuthException");
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UserPurchaseHistory(string username)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var purchases = _service.userPurchaseHistory(session, username);
+            return View("../Users/PurchaseHistory", purchases);
         }
     }
 }

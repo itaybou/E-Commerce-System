@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
+using ECommerceSystem.Exceptions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -31,12 +32,19 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void InitializeDatabase()
         {
-            if (!CollectionExists(nameof(Users)))
-                Context.Database().CreateCollection(nameof(Users));
-            if (!CollectionExists(nameof(Stores)))
-                Context.Database().CreateCollection(nameof(Stores));
-            if (!CollectionExists(nameof(Products)))
-                Context.Database().CreateCollection(nameof(Products));
+            try
+            {
+                if (!CollectionExists(nameof(Users)))
+                    Context.Database().CreateCollection(nameof(Users));
+                if (!CollectionExists(nameof(Stores)))
+                    Context.Database().CreateCollection(nameof(Stores));
+                if (!CollectionExists(nameof(Products)))
+                    Context.Database().CreateCollection(nameof(Products));
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("Drop database failed");
+            }
         }
 
         public void InitializeTestDatabase()
@@ -51,7 +59,13 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void DropDatabase()
         {
-            Context.Client().DropDatabase(DatabaseName);
+            try
+            {
+                Context.Client().DropDatabase(DatabaseName);
+            } catch(Exception)
+            {
+                throw new DatabaseException("Drop database failed");
+            }
         }
 
         public void DropTestDatabase()

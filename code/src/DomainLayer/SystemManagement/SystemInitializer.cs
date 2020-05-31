@@ -4,6 +4,7 @@ using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.DomainLayer.TransactionManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +26,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         {
             var initFilePath = GetInitFilePath();
             Console.WriteLine("Starting System Initialization.");
-            InitSystem();
+            try
+            {
+                InitSystem();
+            } catch(Exception)
+            {
+                return;
+            }
             Console.WriteLine("Finished initializing system.");
             if (initFilePath != null)
             {
@@ -33,13 +40,36 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 initWithInput(initFilePath);
                 Console.WriteLine("Initial data loaded, initialization process is done!");
             }
+            else Console.WriteLine("Missing init file. init from file aborted.");
         }
 
         private void InitSystem()
         {
             // Initialize Singleton Constructors
-            SystemLogger.initLogger();
-            Console.WriteLine("Intialized System Logger.");
+            try
+            {
+                SystemLogger.initLogger();
+                Console.WriteLine("Intialized System Logger.");
+                InitDatabase();
+                _communication = Communication.Instance;
+                Console.WriteLine("Intialized Communication and Websockets.");
+                Console.WriteLine("Initializing Domain.");
+                _usersManagement = UsersManagement.Instance;
+                Console.WriteLine("Intialized User Management.");
+                _storeManagement = StoreManagement.Instance;
+                Console.WriteLine("Intialized Stores Management.");
+                _transactionManager = TransactionManager.Instance;
+                Console.WriteLine("Initialized Transaction Manager, Established connection with external systems.");
+                _systemManagement = SystemManager.Instance;
+                Console.WriteLine("Initialized System Manager, Spell Checker and Search And Filter system.");
+            } catch(DatabaseException)
+            {
+                Console.WriteLine("Initialization failed. connection timeout to database. try to initialize again.");
+            }
+        }
+
+        private void InitDatabase()
+        {
             Console.WriteLine("Initializing DataAcces, establishing database communication.");
             _data = DataAccess.Instance;
             Console.WriteLine("Intialized DataAccess, Database communication established.");
@@ -49,24 +79,21 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             Console.WriteLine("Creating database.");
             _data.InitializeDatabase();
             Console.WriteLine("Database created.");
-            _communication = Communication.Instance;
-            Console.WriteLine("Intialized Communication and Websockets.");
-            Console.WriteLine("Initializing Domain.");
-            _usersManagement = UsersManagement.Instance;
-            Console.WriteLine("Intialized User Management.");
-            _storeManagement = StoreManagement.Instance;
-            Console.WriteLine("Intialized Stores Management.");
-            _transactionManager = TransactionManager.Instance;
-            Console.WriteLine("Initialized Transaction Manager, Established connection with external systems.");
-            _systemManagement = SystemManager.Instance;
-            Console.WriteLine("Initialized System Manager, Spell Checker and Search And Filter system.");
         }
 
         private string GetInitFilePath()
         {
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            return projectDirectory + RELATIVE_INIT_FILE_PATH;
+            if(File.Exists(projectDirectory + RELATIVE_INIT_FILE_PATH))
+                return projectDirectory + RELATIVE_INIT_FILE_PATH;
+            else
+            {
+                projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.FullName;
+                if (File.Exists(projectDirectory + RELATIVE_INIT_FILE_PATH))
+                    return null;
+                return projectDirectory + RELATIVE_INIT_FILE_PATH;
+            }
         }
 
         private void initWithInput(string path)

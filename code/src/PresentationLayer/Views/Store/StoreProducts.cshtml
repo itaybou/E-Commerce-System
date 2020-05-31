@@ -22,7 +22,21 @@
     </div>
     <div class="row">
         <div class="col md-12">
-            <h1> <i class="fa fa-shopping-cart"></i>  <small> - Manage store product group under: <b>@products.First().Name</b></small></h1>
+
+            @if (products.Count != 0)
+            {
+                <h1>
+                    <i class="fa fa-shopping-cart"></i>
+                    <small> - Manage store product group under: <b>@products.First().Name</b></small>
+                </h1>
+            }
+            else
+            {
+                <h1>
+                    <i class="fa fa-shopping-cart"></i>
+                    <small> - Manage store product group</small>
+                </h1>
+            }
         </div>
         <div class="col justify-content-end align-self-center text-right">
             <a type="button" style="width: 200px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddConcreteProduct" asp-route-invId="@invId">

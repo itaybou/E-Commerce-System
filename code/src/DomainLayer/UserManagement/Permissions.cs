@@ -445,7 +445,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             if (this.canManageDiscounts())
             {
-                return Store.removeCompositeDiscount(discountID);
+                return Store.removeStoreLevelDiscount(discountID);
             }
             else return false;
         }

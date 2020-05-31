@@ -332,5 +332,25 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _storeServices.addXorPurchasePolicy(sessionID, storeName, ID1, ID2);
         }
+
+        public bool removeProductDiscount(Guid sessionID, string storeName, Guid discountID, Guid productID)
+        {
+            return _storeServices.removeProductDiscount(sessionID, storeName, discountID, productID);
+        }
+
+        public bool removeCompositeDiscount(Guid sessionID, string storeName, Guid discountID)
+        {
+            return _storeServices.removeCompositeDiscount(sessionID, storeName, discountID);
+        }
+
+        public bool removeStoreLevelDiscount(Guid sessionID, string storeName, Guid discountID)
+        {
+            return _storeServices.removeStoreLevelDiscount(sessionID, storeName, discountID);
+        }
+
+        public bool removePurchasePolicy(Guid sessionID, string storeName, Guid policyID)
+        {
+            return _storeServices.removePurchasePolicy(sessionID, storeName, policyID);
+        }
     }
 }
