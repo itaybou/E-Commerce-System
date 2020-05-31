@@ -101,15 +101,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             Guid productID = Inventory.addProductInv(productName, description, price, quantity, category, keywords, imageUrl, Name);
+            var product = this.Inventory.getProductById(productID);
 
             if (minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this.PurchasePolicy.Add(productPurchasePolicy);
-                var product = this.Inventory.getProductById(productID);
                 product.PurchasePolicy = productPurchasePolicy;
-                DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
             }
+            DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
             return productID;
         }
 
@@ -119,14 +119,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Guid addProduct(string loggedInUserName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             Guid productID = Inventory.addProduct(productInvName, quantity);
+            var product = this.Inventory.getProductById(productID);
             if (minQuantity != -1 && maxQuantity != -1)
             {
                 ProductQuantityPolicy productPurchasePolicy = new ProductQuantityPolicy(minQuantity, maxQuantity, productID, Guid.NewGuid());
                 this.PurchasePolicy.Add(productPurchasePolicy);
-                var product = this.Inventory.getProductById(productID);
                 product.PurchasePolicy = productPurchasePolicy;
-                DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
             }
+            DataAccess.Instance.Transactions.AddProductPurchasePolicyTransaction(product, this);
 
             return productID;
         }

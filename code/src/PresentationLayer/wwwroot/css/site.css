@@ -121,6 +121,16 @@ footer {
     height: 30px;
 }
 
-[type="checkbox"] {
+.big-radio {
+    width: 30px;
+    height: 30px;
+}
+
+input[type="checkbox"] {
     vertical-align: middle;
+}
+
+input[type=radio] {
+    width: 30px;
+    height: 30px;
 }

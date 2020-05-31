@@ -101,7 +101,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
                 if (!storeCart.AddToCart(product, quantity))
                     return false;
-                _data.Users.Update(user, userID, u => u.Guid);
+                if(user.isSubscribed())
+                    _data.Users.Update(user, userID, u => u.Guid);
                 _communication.SendPrivateNotification(userID, "Product successfully added to cart!");
                 return true;
             }

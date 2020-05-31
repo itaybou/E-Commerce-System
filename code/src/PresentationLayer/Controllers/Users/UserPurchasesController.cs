@@ -1,9 +1,7 @@
 ﻿using ECommerceSystem.Exceptions;
-using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace PresentationLayer.Controllers.Users
 {

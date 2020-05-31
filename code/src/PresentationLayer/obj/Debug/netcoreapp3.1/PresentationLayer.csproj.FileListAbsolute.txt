@@ -457,3 +457,4 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.pdb
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.genruntimeconfig.cache
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Stores.cshtml.g.cs

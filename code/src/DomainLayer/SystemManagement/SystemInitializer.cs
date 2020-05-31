@@ -65,6 +65,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             } catch(DatabaseException)
             {
                 Console.WriteLine("Initialization failed. connection timeout to database. try to initialize again.");
+                throw new DatabaseException("init failed");
             }
         }
 

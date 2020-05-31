@@ -2,9 +2,26 @@
 @{
     ViewData["Title"] = "Choose Product";
     var products = Model.Products;
-    var details = products.First();
+    var details = products != null && products.Count() > 0 ? products.First() : null;
     var store = Model.Store;
 }
+
+@section Scripts 
+{
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', "#products li", function (e) {
+                var index = $("#products li").css('background-color', '').index(this);
+                $(this).css('background-color', '#D9EDF7');
+                $('input[name="product_select"]').eq(index).prop('checked', true);
+                $('.product_check').not(index).hide();
+                $('.product_check').eq(index).show();
+                $('#is_selected').hide();
+            });
+        });
+    </script>
+}
+
 <div class="container justify-content-center align-items-center p-5 m-5 w-100">
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -17,6 +34,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <span class="m-0 p-0"><small>Click on specific product details to select.</small></span>
                         @if (!ViewContext.ModelState.IsValid)
                         {
                             <div class="alert alert-danger">
@@ -32,36 +50,41 @@
                             </div>
                         </div>
                         @{ var prodDisplayCounter = 0;}
-                        <ul class="list-group" style="overflow: scroll; max-height: 400px; height: 400px; margin-bottom: 10px; overflow-x: hidden;">
+                        <ul class="list-group secondNav" id="products" style="overflow: scroll; max-height: 400px; height: 400px; margin-bottom: 10px; overflow-x: hidden;">
                             @foreach (var product in products.Where(p => p.Quantity > 0))
                             {
                                 prodDisplayCounter++;
-                                <li class="list-group-item justify-content-between" style="display: table-cell">
-                                    <input type="radio" name="product_select" id="product_select" value="@product.Id" />
-                                    &nbsp;<i class="fas fa-clipboard-check text-success"></i>
-                                    <br />
-                                    <b>Available Quantity:</b> @product.Quantity
-                                    <br />
-                                    <b>Discount: </b>
-                                    @if (product.Discount != null)
-                                    {
-                                        @product.Discount.GetString()
-                                    }
-                                    else
-                                    {
-                                        <span>None</span>
-                                    }
-                                    <br />
-                                    <b>Purchase Policy: </b>
-                                    @if (product.PurchasePolicy != null)
-                                    {
-                                        @product.PurchasePolicy.GetString()
-                                    }
-                                    else
-                                    {
-                                        <span>None</span>
-                                    }
-
+                                <li class="list-group-item justify-content-between nav-item" style="display: table-cell">
+                                    <div class="row justify-content-between">
+                                        <div>
+                                            <input type="radio" class="big-radio" style="display: none" name="product_select" id="product_select" value="@product.Id" />
+                                            <b>Available Quantity:</b> @product.Quantity
+                                            <br />
+                                            <b>Discount: </b>
+                                            @if (product.Discount != null)
+                                            {
+                                                @product.Discount.GetString()
+                                            }
+                                            else
+                                            {
+                                                <span>None</span>
+                                            }
+                                            <br />
+                                            <b>Purchase Policy: </b>
+                                            @if (product.PurchasePolicy != null)
+                                            {
+                                                @product.PurchasePolicy.GetString()
+                                            }
+                                            else
+                                            {
+                                                <span>None</span>
+                                            }
+                                        </div>
+                                        <div class="product_check m-2 text-center" style="display: none">
+                                            <small>Selected</small>
+                                            <h3><i class="fas fa-check" style="color: #31708F"></i></h3>
+                                        </div>
+                                    </div>
                                 </li>
                             }
                         </ul>
@@ -81,7 +104,7 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label style="text-align: left" for="password">Add Quantity</label>
+                                <label style="text-align: left" for="password">Add Quantity<span id="is_selected" class="text-danger">- None Selected</span></label>
                                 <input type="number" class="form-control" placeholder="Quantity" id="quantity" name="quantity" />
                             </div>
                             <button type="submit" class="btn btn-success btn-block">
