@@ -22,9 +22,18 @@ namespace PresentationLayer.Controllers.Admin
             {
                 var userList = _service.allUsers(new Guid(HttpContext.Session.Id));
                 return View("Users", userList);
-            } catch(AuthenticationException)
+            }
+            catch (AuthenticationException)
             {
                 return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
         }
 

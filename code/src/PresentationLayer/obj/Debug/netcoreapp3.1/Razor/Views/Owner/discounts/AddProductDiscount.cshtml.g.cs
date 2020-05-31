@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
@@ -68,7 +68,7 @@ using PresentationLayer.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
   
     ViewData["Title"] = "Add Product Discount";
     var storeName = ViewData["StoreName"];
@@ -107,7 +107,7 @@ using PresentationLayer.Models;
         </a>
         <h2 style=""font-family: Roboto"">");
 #nullable restore
-#line 33 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 33 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
                                    Write(ViewData["Title"]);
 
 #line default
@@ -115,7 +115,7 @@ using PresentationLayer.Models;
 #nullable disable
             WriteLiteral(" - ");
 #nullable restore
-#line 33 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 33 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
                                                         Write(storeName);
 
 #line default
@@ -127,7 +127,7 @@ using PresentationLayer.Models;
             <button type=""submit"" id=""conditional"" name=""conditional"" class=""btn btn-warning m-1"" style=""width: 40%""><b>Conditional Discount</b></button>
 ");
 #nullable restore
-#line 37 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 37 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
              if (!ViewContext.ModelState.IsValid)
             {
 
@@ -141,7 +141,7 @@ using PresentationLayer.Models;
             __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ValidationSummaryTagHelper>();
             __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper);
 #nullable restore
-#line 40 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 40 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSummary = global::Microsoft.AspNetCore.Mvc.Rendering.ValidationSummary.All;
 
 #line default
@@ -158,7 +158,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                </div>\r\n");
 #nullable restore
-#line 42 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 42 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
             }
 
 #line default
@@ -177,7 +177,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_2);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_3);
 #nullable restore
-#line 49 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 49 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Percentage);
 
 #line default
@@ -202,7 +202,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_1);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_4);
 #nullable restore
-#line 55 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 55 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.RequiredQuantity);
 
 #line default
@@ -226,7 +226,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_5);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_1);
 #nullable restore
-#line 59 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 59 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.ExpDate);
 
 #line default
@@ -243,7 +243,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 WriteLiteral("\r\n                    </div>\r\n                </div>\r\n                <input id=\"formState1\" name=\"formState\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 2993, "\"", 3006, 1);
 #nullable restore
-#line 62 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 62 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 3001, null, 3001, 5, false);
 
 #line default
@@ -253,7 +253,7 @@ WriteAttributeValue("", 3001, null, 3001, 5, false);
                 WriteLiteral(" />\r\n                <input id=\"storeName\" name=\"storeName\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 3080, "\"", 3098, 1);
 #nullable restore
-#line 63 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 63 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 3088, storeName, 3088, 10, false);
 
 #line default
@@ -263,7 +263,7 @@ WriteAttributeValue("", 3088, storeName, 3088, 10, false);
                 WriteLiteral(" />\r\n                <input id=\"ProductID\" name=\"ProductID\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 3172, "\"", 3183, 1);
 #nullable restore
-#line 64 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 64 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 3180, id, 3180, 3, false);
 
 #line default
@@ -304,7 +304,7 @@ WriteAttributeValue("", 3180, id, 3180, 3, false);
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_2);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_3);
 #nullable restore
-#line 73 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 73 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Percentage);
 
 #line default
@@ -328,7 +328,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_5);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_1);
 #nullable restore
-#line 78 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 78 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.ExpDate);
 
 #line default
@@ -345,7 +345,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 WriteLiteral("\r\n                </div>\r\n                <input id=\"formState2\" name=\"formState\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 4160, "\"", 4173, 1);
 #nullable restore
-#line 80 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 80 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 4168, null, 4168, 5, false);
 
 #line default
@@ -355,7 +355,7 @@ WriteAttributeValue("", 4168, null, 4168, 5, false);
                 WriteLiteral(" />\r\n                <input id=\"storeName\" name=\"storeName\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 4247, "\"", 4265, 1);
 #nullable restore
-#line 81 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 81 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 4255, storeName, 4255, 10, false);
 
 #line default
@@ -365,7 +365,7 @@ WriteAttributeValue("", 4255, storeName, 4255, 10, false);
                 WriteLiteral(" />\r\n                <input id=\"ProductID\" name=\"ProductID\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 4339, "\"", 4350, 1);
 #nullable restore
-#line 82 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
+#line 82 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddProductDiscount.cshtml"
 WriteAttributeValue("", 4347, id, 4347, 3, false);
 
 #line default

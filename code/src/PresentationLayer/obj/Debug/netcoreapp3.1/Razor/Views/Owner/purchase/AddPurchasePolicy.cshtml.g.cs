@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 using ECommerceSystem.Utilities;
 
 #line default
@@ -80,7 +80,7 @@ using ECommerceSystem.Utilities;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 3 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
   
     ViewData["Title"] = "Add Purchase Policy";
     var storeName = ViewData["StoreName"];
@@ -137,7 +137,7 @@ using ECommerceSystem.Utilities;
         </a>
         <h2 style=""font-family: Roboto"">");
 #nullable restore
-#line 60 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 60 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                    Write(ViewData["Title"]);
 
 #line default
@@ -145,7 +145,7 @@ using ECommerceSystem.Utilities;
 #nullable disable
             WriteLiteral(" - ");
 #nullable restore
-#line 60 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 60 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                                         Write(storeName);
 
 #line default
@@ -158,7 +158,7 @@ using ECommerceSystem.Utilities;
             <button type=""submit"" id=""days"" name=""days"" class=""btn btn-warning m-1"" style=""width: 30%""><b>Days Off</b></button>
 ");
 #nullable restore
-#line 65 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 65 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
              if (!ViewContext.ModelState.IsValid)
             {
 
@@ -172,7 +172,7 @@ using ECommerceSystem.Utilities;
             __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ValidationSummaryTagHelper>();
             __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper);
 #nullable restore
-#line 68 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 68 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSummary = global::Microsoft.AspNetCore.Mvc.Rendering.ValidationSummary.All;
 
 #line default
@@ -189,7 +189,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                </div>\r\n");
 #nullable restore
-#line 70 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 70 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
             }
 
 #line default
@@ -214,7 +214,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_3);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_4);
 #nullable restore
-#line 79 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 79 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_TextAreaTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.BannedLocations);
 
 #line default
@@ -231,7 +231,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_TextAreaTagHelper.For = ModelExpressionPro
                 WriteLiteral("\r\n                    </div>\r\n                </div>\r\n                <input id=\"formState2\" name=\"formState\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 3334, "\"", 3347, 1);
 #nullable restore
-#line 82 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 82 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 WriteAttributeValue("", 3342, null, 3342, 5, false);
 
 #line default
@@ -241,7 +241,7 @@ WriteAttributeValue("", 3342, null, 3342, 5, false);
                 WriteLiteral(" />\r\n                <input id=\"storeName\" name=\"storeName\" type=\"hidden\"");
                 BeginWriteAttribute("value", " value=\"", 3421, "\"", 3439, 1);
 #nullable restore
-#line 83 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 83 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 WriteAttributeValue("", 3429, storeName, 3429, 10, false);
 
 #line default
@@ -273,7 +273,7 @@ WriteAttributeValue("", 3429, storeName, 3429, 10, false);
             __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fcfcf606b4336dbdacd51c5ac0e35f146701e48819734", async() => {
                 WriteLiteral("\r\n                <div class=\"form-group\">\r\n                    <h3>Add Days Off Policy</h3>\r\n                    <h5><label>Amount of days</label></h5>\r\n                    <select class=\"form-control\" onchange=\"getval(this);\">\r\n");
 #nullable restore
-#line 93 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 93 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                          for (var i = 1; i <= 7; i++)
                         {
 
@@ -283,7 +283,7 @@ WriteAttributeValue("", 3429, storeName, 3429, 10, false);
                 WriteLiteral("                            ");
                 __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fcfcf606b4336dbdacd51c5ac0e35f146701e48820588", async() => {
 #nullable restore
-#line 95 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 95 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                                                 Write(i);
 
 #line default
@@ -295,7 +295,7 @@ WriteAttributeValue("", 3429, storeName, 3429, 10, false);
                 __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_OptionTagHelper);
                 BeginWriteTagHelperAttribute();
 #nullable restore
-#line 95 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 95 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                WriteLiteral(i);
 
 #line default
@@ -314,7 +314,7 @@ WriteAttributeValue("", 3429, storeName, 3429, 10, false);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n");
 #nullable restore
-#line 96 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 96 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                         }
 
 #line default
@@ -322,7 +322,7 @@ WriteAttributeValue("", 3429, storeName, 3429, 10, false);
 #nullable disable
                 WriteLiteral("                    </select>\r\n                </div>\r\n");
 #nullable restore
-#line 99 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 99 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                  for (var i = 1; i <= 7; i++)
                 {
                     var d = "d" + i;
@@ -396,7 +396,7 @@ WriteAttributeValue("", 4536, null, 4536, 5, false);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n");
 #nullable restore
-#line 106 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 106 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                              foreach (var day in days)
                             {
 
@@ -406,7 +406,7 @@ WriteAttributeValue("", 4536, null, 4536, 5, false);
                 WriteLiteral("                                ");
                 __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fcfcf606b4336dbdacd51c5ac0e35f146701e48827682", async() => {
 #nullable restore
-#line 108 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 108 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                                                       Write(day);
 
 #line default
@@ -418,7 +418,7 @@ WriteAttributeValue("", 4536, null, 4536, 5, false);
                 __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_OptionTagHelper);
                 BeginWriteTagHelperAttribute();
 #nullable restore
-#line 108 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 108 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                                    WriteLiteral(day);
 
 #line default
@@ -437,7 +437,7 @@ WriteAttributeValue("", 4536, null, 4536, 5, false);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n");
 #nullable restore
-#line 109 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 109 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                             }
 
 #line default
@@ -445,7 +445,7 @@ WriteAttributeValue("", 4536, null, 4536, 5, false);
 #nullable disable
                 WriteLiteral("                        </select>\r\n                    </div>\r\n");
 #nullable restore
-#line 112 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 112 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
                 }
 
 #line default
@@ -505,7 +505,7 @@ WriteAttributeValue("", 5102, storeName, 5102, 10, false);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_3);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_12);
 #nullable restore
-#line 123 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
+#line 123 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\purchase\AddPurchasePolicy.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.MinPrice);
 
 #line default

@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
@@ -63,7 +63,7 @@ using PresentationLayer.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
   
     ViewData["Title"] = "Manage Users";
 
@@ -72,7 +72,7 @@ using PresentationLayer.Models;
 #nullable disable
             WriteLiteral("\r\n<<div class=\"container\">\r\n    <h1 style=\"font-family: Roboto\">");
 #nullable restore
-#line 7 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 7 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                Write(ViewData["Title"]);
 
 #line default
@@ -99,7 +99,7 @@ using PresentationLayer.Models;
                             <tbody>
 ");
 #nullable restore
-#line 26 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 26 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                  foreach (var user in Model)
                                 {
 
@@ -125,7 +125,7 @@ using PresentationLayer.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                        </td>\r\n                                        <td>\r\n                                            ");
 #nullable restore
-#line 33 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 33 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                        Write(user.Username);
 
 #line default
@@ -133,7 +133,7 @@ using PresentationLayer.Models;
 #nullable disable
             WriteLiteral("\r\n                                        </td>\r\n                                        <td>");
 #nullable restore
-#line 35 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 35 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                        Write(user.Fname);
 
 #line default
@@ -141,7 +141,7 @@ using PresentationLayer.Models;
 #nullable disable
             WriteLiteral("</td>\r\n                                        <td>\r\n                                            ");
 #nullable restore
-#line 37 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 37 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                        Write(user.Lname);
 
 #line default
@@ -149,7 +149,7 @@ using PresentationLayer.Models;
 #nullable disable
             WriteLiteral("\r\n                                        </td>\r\n                                        <td>\r\n                                            ");
 #nullable restore
-#line 40 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 40 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                        Write(user.Email);
 
 #line default
@@ -206,7 +206,7 @@ using PresentationLayer.Models;
                         ");
             WriteLiteral("                    </a>\r\n                                        </td>\r\n                                    </tr>\r\n");
 #nullable restore
-#line 63 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
+#line 63 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Admin\Users.cshtml"
                                 }
 
 #line default

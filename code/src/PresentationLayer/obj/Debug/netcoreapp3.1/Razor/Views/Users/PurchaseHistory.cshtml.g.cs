@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
 using ECommerceSystem.Models;
 
 #line default
@@ -67,7 +67,7 @@ using ECommerceSystem.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 3 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
   
     ViewData["Title"] = "Purchase History";
 
@@ -76,7 +76,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("\r\n<div class=\"container-fluid w-75\">\r\n    <h1 style=\"font-family: Roboto\">");
 #nullable restore
-#line 8 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 8 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
                                Write(ViewData["Title"]);
 
 #line default
@@ -99,7 +99,7 @@ using ECommerceSystem.Models;
                     <tbody>
 ");
 #nullable restore
-#line 23 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 23 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
                          foreach (var purchase in Model)
                         {
 
@@ -108,7 +108,7 @@ using ECommerceSystem.Models;
 #nullable disable
             WriteLiteral("                            <tr>\r\n                                <td class=\"text-xl-left\">\r\n                                    <h6><b>");
 #nullable restore
-#line 27 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 27 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
                                       Write(purchase.PurchaseDate);
 
 #line default
@@ -216,7 +216,7 @@ WriteAttributeValue("", 2413, product.ImageURL, 2413, 17, false);
 #nullable disable
             WriteLiteral(" $\r\n                                                </td>\r\n                                            </tr>\r\n");
 #nullable restore
-#line 62 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
+#line 62 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Users\PurchaseHistory.cshtml"
                                         }
 
 #line default

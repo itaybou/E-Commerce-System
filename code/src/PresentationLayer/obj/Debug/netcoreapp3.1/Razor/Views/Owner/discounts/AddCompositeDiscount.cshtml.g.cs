@@ -13,42 +13,42 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
 using System.Text.RegularExpressions;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
 using ECommerceSystem.Utilities.extensions;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 3 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
 using ECommerceSystem.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 4 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
 using ECommerceSystem.Utilities;
 
 #line default
@@ -91,7 +91,7 @@ using ECommerceSystem.Utilities;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 6 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 6 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
   
     ViewData["Title"] = "Add Composite Discount";
     var storeName = ViewData["StoreName"];
@@ -109,7 +109,7 @@ using ECommerceSystem.Utilities;
         </a>
         <h2 style=""font-family: Roboto"">");
 #nullable restore
-#line 18 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 18 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                    Write(ViewData["Title"]);
 
 #line default
@@ -117,7 +117,7 @@ using ECommerceSystem.Utilities;
 #nullable disable
             WriteLiteral(" - ");
 #nullable restore
-#line 18 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 18 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                                         Write(storeName);
 
 #line default
@@ -175,7 +175,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                             <select class=""form-control"" id=""operator"" name=""operator"">
 ");
 #nullable restore
-#line 35 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 35 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                  foreach (var op in opTypes.Keys)
                                 {
 
@@ -185,7 +185,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 WriteLiteral("                                    ");
                 __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "82698de7ecd9b007e360e34842f70f175acae04911424", async() => {
 #nullable restore
-#line 37 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 37 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                                                          Write(opTypes[op]);
 
 #line default
@@ -197,7 +197,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_OptionTagHelper);
                 BeginWriteTagHelperAttribute();
 #nullable restore
-#line 37 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 37 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                        WriteLiteral(op);
 
 #line default
@@ -216,7 +216,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n");
 #nullable restore
-#line 38 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 38 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                 }
 
 #line default
@@ -237,14 +237,14 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                         <tbody>
 ");
 #nullable restore
-#line 52 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 52 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                               var counter = 0;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 53 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 53 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                              foreach (var policy in Model)
                             {
                                 if (!String.IsNullOrEmpty(policy.Text))
@@ -284,7 +284,7 @@ WriteAttributeValue("", 3114, policy.Value, 3114, 13, false);
                 EndWriteAttribute();
                 WriteLiteral(">\r\n                                        </td>\r\n                                        <td class=\"p-3\">\r\n                                            <label style=\"white-space: pre-line\">");
 #nullable restore
-#line 63 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 63 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                                                             Write(Html.Raw(policy.Text));
 
 #line default
@@ -292,7 +292,7 @@ WriteAttributeValue("", 3114, policy.Value, 3114, 13, false);
 #nullable disable
                 WriteLiteral("</label><br>\r\n                                        </td>\r\n                                    </tr>\r\n");
 #nullable restore
-#line 66 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
+#line 66 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Owner\discounts\AddCompositeDiscount.cshtml"
                                     counter++;
                                 }
                             }

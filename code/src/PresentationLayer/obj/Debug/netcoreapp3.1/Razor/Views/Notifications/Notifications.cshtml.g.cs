@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
 using Microsoft.AspNetCore.Http;
 
 #line default
@@ -41,7 +41,7 @@ using Microsoft.AspNetCore.Http;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 3 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
   
     ViewData["Title"] = "Recent Notifications";
     var notificationCount = Context.Session.GetString("NotificationCount");
@@ -68,7 +68,7 @@ using Microsoft.AspNetCore.Http;
 #nullable disable
             WriteLiteral("                <h4 class=\"text-info\">You have no notifications currently.</h4>\r\n");
 #nullable restore
-#line 15 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 15 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
             }
             else
             {
@@ -90,7 +90,7 @@ WriteAttributeValue("", 660, Url.Action("RemoveAllNotifications", "Notification"
             EndWriteAttribute();
             WriteLiteral(">\r\n                    Clear All\r\n                </button>\r\n");
 #nullable restore
-#line 21 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 21 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
             }
 
 #line default
@@ -98,7 +98,7 @@ WriteAttributeValue("", 660, Url.Action("RemoveAllNotifications", "Notification"
 #nullable disable
             WriteLiteral("        </div>\r\n            <table class=\"w-100\">\r\n");
 #nullable restore
-#line 24 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 24 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
                  foreach (var notification in Model)
                 {
 
@@ -130,7 +130,7 @@ WriteAttributeValue("", 1274, Url.Action("RemoveNotification", "Notification", n
                                     <div class=""col-md-12"">
                                         ");
 #nullable restore
-#line 37 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 37 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
                                    Write(notification.Value.Item1);
 
 #line default
@@ -138,7 +138,7 @@ WriteAttributeValue("", 1274, Url.Action("RemoveNotification", "Notification", n
 #nullable disable
             WriteLiteral("\r\n                                    </div>\r\n                                    <div class=\"col-md-12\">\r\n                                        <strong>Recieved at:</strong> ");
 #nullable restore
-#line 40 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 40 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
                                                                  Write(notification.Value.Item2);
 
 #line default
@@ -146,7 +146,7 @@ WriteAttributeValue("", 1274, Url.Action("RemoveNotification", "Notification", n
 #nullable disable
             WriteLiteral("\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </td>\r\n                    </tr>\r\n");
 #nullable restore
-#line 46 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
+#line 46 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Notifications\Notifications.cshtml"
                 }
 
 #line default

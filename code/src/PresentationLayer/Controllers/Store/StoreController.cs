@@ -46,6 +46,10 @@ namespace PresentationLayer.Controllers.Store
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
 
         [Authorize(Roles = "Admin, Subscribed")]
@@ -104,6 +108,10 @@ namespace PresentationLayer.Controllers.Store
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
             catch (Exception)
             {
