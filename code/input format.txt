@@ -1,4 +1,0 @@
-register <username> <password> <first name> <last name> <mail>
-login <username> <password>
-open-store <username> <store name>
-//add-product-inventory <username> <store name> <description> <product name> <price> <quantity> <category> <min quantity> <max qauantity> <keywords>?
