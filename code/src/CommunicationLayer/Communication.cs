@@ -1,6 +1,5 @@
 ﻿using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.CommunicationLayer.sessions;
-using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -15,6 +14,7 @@ namespace ECommerceSystem.CommunicationLayer
         public static Communication Instance => lazy.Value;
 
         public delegate Task NotificationHandler(INotification notification);
+
         static public event NotificationHandler NotificationSubscribers;
 
         private readonly WebsocketManager WebSockets;
@@ -39,7 +39,9 @@ namespace ECommerceSystem.CommunicationLayer
         public async Task HandleHttpRequest(HttpContext httpContext, Func<Task> next)
         {
             if (httpContext.WebSockets.IsWebSocketRequest)
+            {
                 await WebSockets.HandleConnection(httpContext);
+            }
             else await next();
         }
 
@@ -68,6 +70,22 @@ namespace ECommerceSystem.CommunicationLayer
         {
             var notif = new Notification();
             notif.AddGroupMessage(userIds, notification);
+            SendNotification(notif);
+        }
+
+        public void SendPrivateNotificationRequest(Guid userID, INotificationRequest request)
+        {
+            var notif = new Notification();
+            notif.AddPrivateMessage(userID, request.getMessage());
+            notif.AddPrivateRequest(userID, request.GetRequest());
+            SendNotification(notif);
+        }
+
+        public void SendGroupNotificationRequest(List<Guid> userIds, INotificationRequest request)
+        {
+            var notif = new Notification();
+            notif.AddGroupMessage(userIds, request.getMessage());
+            notif.AddGroupRequest(userIds, request.GetRequest());
             SendNotification(notif);
         }
     }

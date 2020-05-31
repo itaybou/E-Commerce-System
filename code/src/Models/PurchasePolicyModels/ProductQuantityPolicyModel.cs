@@ -8,13 +8,22 @@ namespace ECommerceSystem.Models.PurchasePolicyModels
 {
     public class ProductQuantityPolicyModel : PurchasePolicyModel
     {
-        protected int _minQuantity;
-        protected int _maxQuantity;
+        public Guid ProductID { get; set; }
+        public string ProductName { get; set; }
+        public int MinQuantity { get; set; }
+        public int MaxQuantity { get; set; }
 
-        public ProductQuantityPolicyModel(Guid ID, int minQuantity, int maxQuantity) : base(ID)
+        public ProductQuantityPolicyModel(Guid ID, string productName, int minQuantity, int maxQuantity, Guid productID) : base(ID)
         {
-            _minQuantity = minQuantity;
-            _maxQuantity = maxQuantity;
+            MinQuantity = minQuantity;
+            MaxQuantity = maxQuantity;
+            ProductName = productName;
+            ProductID = productID;
+        }
+
+        public override string GetString()
+        {
+            return "Product: " + ProductName + ", ID: " + ProductID + " can be purchased only in quantities in range " + MinQuantity + "-" + MaxQuantity;
         }
     }
 }

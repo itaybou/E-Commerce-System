@@ -1,6 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.spell_checker;
-using ECommerceSystem.Utilities;
+using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
 using ECommerceSystem.Utilities;
 using System;
@@ -22,17 +22,18 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public virtual List<ProductInventory> getProductInventories(Range<double> storeRatingFilter)
         {
-            return storeRatingFilter != null ?_storeManagement.getAllStoreInventoryWithRating(storeRatingFilter) : _storeManagement.getAllStoresProdcutInventories();
+
+            return storeRatingFilter != null ? _storeManagement.getAllStoreInventoryWithRating(storeRatingFilter) : _storeManagement.getAllStoresProdcutInventories();
         }
 
-       public (List<ProductInventory>, List<string>) getAllProducts(Range<double> storeRatingFilter)
+        public (List<ProductInventory>, List<string>) getAllProducts(Range<double> storeRatingFilter)
         {
             return (getProductInventories(storeRatingFilter), new List<string>());
         }
 
         public (List<ProductInventory>, List<string>) searchProductsByCategory(string category, Range<double> storeRatingFilter)
         {
-            if(!EnumMethods.GetValues(typeof(Category)).Contains(category.ToUpper()))
+            if (!EnumMethods.GetValues(typeof(Category)).Contains(category.ToUpper()))
             {
                 return (new List<ProductInventory>(), new List<string>());
             }
@@ -55,10 +56,20 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             return (result, corrected);
         }
 
-        public List<ProductInventory> filterProducts(List<ProductInventory> products, 
+        public List<ProductInventory> filterProducts(List<ProductInventory> products,
             Range<double> priceRangeFilter, Range<double> productRatingFilter, string categoryFilter)
         {
-            var category = categoryFilter == null ? null : EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            Category? category;
+            try
+            {
+                category = categoryFilter == null ? null : EnumMethods.GetValues(typeof(Category)).Contains(categoryFilter.ToUpper()) ? (Category?)Enum.Parse(typeof(Category), categoryFilter.ToUpper()) : null;
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : cant parse category");
+            }
+           
             Func<ProductInventory, bool> priceRangeFilterPred = p => (priceRangeFilter != null && priceRangeFilter.inRange(p.Price)) || priceRangeFilter == null;
             Func<ProductInventory, bool> productRangeFilterPred = p => (productRatingFilter != null && productRatingFilter.inRange(p.Rating)) || productRatingFilter == null;
             Func<ProductInventory, bool> categoryFilterPred = p => (category != null && p.Category.Equals(category)) || category == null;
@@ -69,7 +80,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         public SearchResultModel getProductSearchResults(string prodName, List<string> keywords, string category,
             Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            if(prodName != null)
+            if (prodName != null)
             {
                 var searchResult = searchProductsByName(prodName, storeRatingFilter);
                 return generateSearchResult(filterProducts(searchResult.Item1, priceFilter, productRatingFilter, category), searchResult.Item2);

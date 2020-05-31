@@ -1,15 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @model IDictionary<Guid, (string, DateTime)>
 @{
-    ViewData["Title"] = "Notifications";
+    ViewData["Title"] = "Recent Notifications";
     var notificationCount = Context.Session.GetString("NotificationCount");
 }
 
 <div class="container">
     <div class="row justify-content-between">
-        <h2>Recent Notifications:</h2>
+        <h2>@ViewData["Title"]:</h2>
         <div class="justify-content-center">
-            @if (notificationCount == null)
+            @if (notificationCount == null || notificationCount == "0")
             {
                 <h4 class="text-info">You have no notifications currently.</h4>
             }
@@ -47,5 +47,3 @@
             </table>
         </div>
 </div>
-
-

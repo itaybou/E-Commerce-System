@@ -1,11 +1,8 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystem.Models
 {
@@ -16,41 +13,53 @@ namespace ECommerceSystem.Models
             return new StoreModel(s.Name, s.Rating, s.RaterCount);
         }
 
+        public static ProductModel CreateProduct(Product p, string imageURL)
+        {
+            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null, imageURL);
+        }
+
         public static ProductModel CreateProduct(Product p)
         {
-            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount());
+            return new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.Discount != null ? p.Discount.CreateModel() : null, p.PurchasePolicy != null ? p.PurchasePolicy.CreateModel() : null);
+        }
+
+        public static ProductInventoryModel CreateProductInventory(ProductInventory prod, string storeName)
+        {
+            return new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl, storeName);
         }
 
         public static SearchResultModel CreateSearchResult(List<ProductInventory> prods, List<string> suggestions)
         {
-            var products = new List<ProductModel>();
-            prods.ForEach(prod => prod.ProductList.ForEach(p => products.Add(new ProductModel(p.Id, p.Name, p.Description, p.Quantity, p.BasePrice, p.CalculateDiscount()))));
+            var products = new List<ProductInventoryModel>();
+            prods.ForEach(prod => products.Add(new ProductInventoryModel(prod.ID, prod.Name, prod.Price, prod.Description, prod.Category, prod.Rating, prod.RaterCount, prod.Keywords, prod.ImageUrl, prod.StoreName)));
             return new SearchResultModel(products, suggestions);
         }
 
         public static StorePurchaseModel CreateStorePurchase(StorePurchase purchase)
         {
-            return new StorePurchaseModel(purchase.User.Name(), purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList());
+            return new StorePurchaseModel(purchase.User.Name, purchase.TotalPrice, purchase.ProductsPurchased.Select(p => CreateProduct(p)).ToList(), purchase.PurchaseDate);
         }
 
         public static ShoppingCartModel CreateShoppingCart(UserShoppingCart cart)
         {
             var cartModel = new Dictionary<StoreModel, ICollection<(ProductModel, int)>>();
-            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.store), s.Products.ToList().Select(p => (CreateProduct(p.Key), p.Value)).ToList()));
-            return new ShoppingCartModel(cartModel);
+            cart.StoreCarts.ForEach(s => cartModel.Add(CreateStore(s.Store), 
+                s.ProductQuantities.ToList().Select(p => (CreateProduct(p.Value.Item1, s.Store.Inventory.getProductByName(p.Value.Item1.Name).ImageUrl), p.Value.Item2)).ToList()));
+            return new ShoppingCartModel(cartModel, cart.getTotalACartPrice());
         }
 
         public static UserPurchaseModel CreateUserPurchase(UserPurchase purcahse)
         {
             return new UserPurchaseModel(purcahse.PurchaseDate, purcahse.TotalPrice, purcahse.ProductsPurchased.Select(p => CreateProduct(p)).ToList(),
-                purcahse.PaymentShippingMethod.FirstName, purcahse.PaymentShippingMethod.LastName, purcahse.PaymentShippingMethod.Id,
+                purcahse.PaymentShippingMethod.Firstname, purcahse.PaymentShippingMethod.Lastname, purcahse.PaymentShippingMethod.Id,
                 purcahse.PaymentShippingMethod.CreditCardNumber, purcahse.PaymentShippingMethod.ExpirationCreditCard,
                 purcahse.PaymentShippingMethod.CVV, purcahse.PaymentShippingMethod.Address);
         }
 
         public static PermissionModel CreatePermissions(Permissions permissions)
         {
-            return new PermissionModel(permissions.isOwner(), permissions.AssignedBy == null ? null : permissions.AssignedBy.Name(),
+            var assigner = permissions.AssignedBy == Guid.Empty? null : UsersManagement.Instance.getUserByGUID(permissions.AssignedBy, true);
+            return new PermissionModel(permissions.isOwner(), assigner == null ? null : assigner.Name,
                 permissions.StoreName(), permissions.PermissionTypes.Where(p => p.Value).Select(p => p.Key));
         }
 
@@ -58,8 +67,8 @@ namespace ECommerceSystem.Models
         {
             if (!user.isSubscribed())
                 return null;
-            var state = (Subscribed)user._state;
-            return new UserModel(user.Guid, state._uname, state._details.Fname, state._details.Lname, state._details.Email);
+            var state = (Subscribed)user.State;
+            return new UserModel(user.Guid, state.Username, state.Details.FirstName, state.Details.LastName, state.Details.Email);
         }
     }
 }

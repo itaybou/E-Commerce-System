@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/navbar.css" />
     <link rel="stylesheet" type="text/css" href="~/css/auth/auth.css">
     <link rel="stylesheet" type="text/css" href="~/css/listing/product_page.css">
+    <link rel="stylesheet" type="text/css" href="~/css/spinner.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" rel="stylesheet" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
@@ -31,6 +32,7 @@
     <footer class="border-top footer text-muted bg-dark">
         <partial name="_Footer" />
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/session.js" asp-append-version="true"></script>
@@ -40,5 +42,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @RenderSection("Scripts", required: false)
+    @section Scripts
+    {
+        @if (TempData["Notification"] != null)
+        {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    toastr.info("@(TempData["Notification"] as string)", "Notification",
+                        { timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1000, onclick: null,});
+                });
+            </script>
+        }
+    }
 </body>
 </html>

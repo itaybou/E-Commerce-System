@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystemAcceptanceTests.adapters;
+﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
     //section 4 requirements set up
 
     [TestFixture()]
-    abstract class StoreOwnerTests
+    internal abstract class StoreOwnerTests
     {
         protected IBridgeAdapter _bridge;
 
         //product details:
         protected string _productName, _description, _discontType, _purchaseType, _storeName;
+
         protected double _price;
         protected int _quantity, _discountPercentage;
         protected string _category;
@@ -23,12 +21,14 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
         //users details:
         protected string _ownerUserName;
+
         protected string _userName;
         protected string _managerUserName; // with default permissions
         protected string _pswd, _fname, _lname, _email;
 
         //store details:
         protected string _discountPolicy;
+
         protected string _purchasePolicy;
 
         [OneTimeSetUp]

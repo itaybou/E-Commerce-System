@@ -6,9 +6,10 @@ SetupSessionUpdater("/Home/KeepSessionAlive");
 
 function SetupSessionUpdater(actionUrl) {
     keepSessionAliveUrl = actionUrl;
-    var container = $("#body");
-    container.mousemove(function () { keepSessionAlive = true; });
-    container.keydown(function () { keepSessionAlive = true; });
+    //var container = $("#body");
+    keepSessionAlive = true;
+    //container.mousemove(function () { keepSessionAlive = true; });
+    //container.keydown(function () { keepSessionAlive = true; });
     CheckToKeepSessionAlive();
 }
 
@@ -27,4 +28,3 @@ function KeepSessionAlive() {
     }
     CheckToKeepSessionAlive();
 }
-

@@ -1,1 +1,3 @@
 C:\My Files\School\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא ליישום פרוייקט תוכנה\Workspace\Version 1\E-Commerce-System\code\src\obj\Release\ECommerceSystem.csproj.CoreCompileInputs.cache
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Release\ECommerceSystem.exe.config
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Release\ECommerceSystem.csproj.CoreCompileInputs.cache

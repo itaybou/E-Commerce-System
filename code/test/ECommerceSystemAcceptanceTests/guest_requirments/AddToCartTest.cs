@@ -1,8 +1,6 @@
 ﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
@@ -26,7 +24,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
-            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } } );
+            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } });
             _bridge.logout();
         }
 
@@ -41,7 +39,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         [TestCase()]
         public void TestAddToCart()
         {
-
             var prod = _bridge.AddTocart(1, 20);
             Assert.AreEqual(prod["store1"][1], 20);
             _bridge.login(uname, pswd);

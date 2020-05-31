@@ -1,30 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
     public abstract class DiscountType : DiscountPolicy
     {
-        protected float _percentage;
-        protected DateTime _expDate;
-        protected Guid _ID;
+        [BsonId]
+        public Guid ID { get; set; }
+        public float Percentage { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
-        protected DiscountType(float percentage, DateTime expDate, Guid ID)
+        protected DiscountType(float percentage, DateTime expDate, Guid id)
         {
-            _percentage = percentage;
-            _expDate = expDate;
-            _ID = ID;
+            Percentage = percentage;
+            ExpirationDate = expDate;
+            ID = id;
         }
 
-        public float Percentage { get => _percentage; set => _percentage = value; }
 
         public abstract void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);
         public abstract DiscountPolicyModel CreateModel();
 
         public Guid getID()
         {
-            return _ID;
+            return ID;
         }
 
         public abstract bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products);

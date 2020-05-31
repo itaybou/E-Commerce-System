@@ -1,12 +1,13 @@
 ﻿@using ECommerceSystem.Models;
+@using ECommerceSystem.Utilities.extensions;
 @model (IEnumerable<(UserModel, PermissionModel)>, string)
 @{
     var users = Model.Item1;
     var storeName = Model.Item2;
     ViewData["Title"] = "Store Managers - " + storeName;
     ViewData["StoreName"] = storeName;
-    var permissionTypes = PermissionType.Descriptions().Keys;
-    var permissionTypesEnum = PermissionType.Descriptions().Values;
+    var permissionTypeEnum = Enum.GetValues(typeof(PermissionType)).Cast<PermissionType>();
+    var permissionTypes = permissionTypeEnum.ToDictionary(k => k.GetStringValue(), v => v);
 }
 
 <input id="store" name="store" type="hidden" value="@storeName" />
@@ -25,7 +26,6 @@
             escapeMarkup: function (markup) { return markup; },
             ajax: {
                 cache: false,
-                //type: "GET",
                 delay: 250,
                 url: '/Owner/AssignSearch',
                 dataType: 'json',
@@ -71,8 +71,19 @@
             console.log(permissions);
             $('input[type=checkbox]').prop('checked', false);
             $('#assignUsername').val(username);
+            $('#assignUsername2').val(username);
+            var is_manager = false;
             for (var i = 0; i < permissions.length; i++) {
-                $("#permission_" + i).prop("checked", permissions[i] ? 1 : 0);
+                if (permissions[i]) {
+                    $('#permission_select').hide();
+                    $('#is_manager').show();
+                    is_manager = true;
+                    break;
+                }
+            }
+            if (!is_manager) {
+                $('#is_manager').hide();
+                $('#permission_select').show();
             }
             if (username !== undefined) {
                 $('#permissions').show(300);
@@ -91,7 +102,7 @@
             const permStr = permissions.split(",");
             const perm = permStr.map(p => p == 'True' ? true : false);
             $('#editUsername').val(username);
-            $('#editUsernameTxt').text(username);
+            $('.editUsernameTxt').text(username);
             for (var i = 0; i < perm.length; i++) {
                 $("#permission2_" + i).prop("checked", perm[i] ? 1 : 0);
             }
@@ -141,7 +152,6 @@
 
                                     var user = userPerm.Item1;
                                     var permissions = userPerm.Item2;
-
                                 <tr>
                                     <td>
                                         <img src="~/images/anonymous.png" alt="" height="42" width="42">
@@ -165,7 +175,7 @@
                                             {
 
                                                 <li>
-                                                    <small><b>@permission.Value</b></small>
+                                                    <small><b>@permission.GetStringValue()</b></small>
                                                 </li>
 
                                             }
@@ -173,11 +183,11 @@
                                     </td>
                                     <td style="width: 8%">
                                         @{
-                                            var perms = new bool[permissionTypesEnum.Count];
+                                            var perms = new bool[permissionTypeEnum.Count()];
                                             var userPermissions = userPerm.Item2.PermissionTypes.ToList();
-                                            for (var i = 0; i < permissionTypesEnum.Count; i++)
+                                            for (var i = 0; i < permissionTypeEnum.Count(); i++)
                                             {
-                                                if (userPermissions.Contains(permissionTypesEnum.ElementAt(i)))
+                                                if (userPermissions.Contains(permissionTypeEnum.ElementAt(i)))
                                                     perms[i] = true;
                                             }
                                             var permStr = string.Join(",", perms);
@@ -188,30 +198,18 @@
                                                 <i class="fa fa-pencil-alt fa-stack-1x fa-inverse"></i>
                                             </span>
                                         </button>
-                                        <form type="hidden" asp-controller="Owner" asp-action="RemoveManager" asp-route-manager="@user.Username" asp-route-storeName="@storeName" method="post">
-                                            <button type="submit" class="btn danger" style="border: none; background-color: none">
-                                                <span class="fa-stack">
-                                                    <i class="fa fa-square fa-stack-2x text-danger"></i>
-                                                    <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </button>
-                                        </form>
+                                        @if(User.Identity.Name == userPerm.Item2.AssignedBy)
+                                        {
+                                            <form type="hidden" asp-controller="Owner" asp-action="RemoveManager" asp-route-manager="@user.Username" asp-route-storeName="@storeName" method="post">
+                                                <button type="submit" class="btn danger" style="border: none; background-color: none">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x text-danger"></i>
+                                                        <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </button>
+                                            </form>
+                                        }
                                     </td>
-                                    <!--<td style="width: 10%;">
-        <a href="#" class="table-link">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x text-danger"></i>
-                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </td> -->
-
                                 </tr>
                                 }
                             </tbody>
@@ -226,7 +224,7 @@
 <div class="modal fade" id="add-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="height: 50%">
-            <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" class="login-form" method="post">
+            <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" asp-route-novice="@false" class="login-form" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">@("Assign manager")</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -241,24 +239,35 @@
                     <div id="permissions" class="w-100" style="display:none">
                         <br />
                         <h5>Set manager permissions:</h5>
-                        <ul class="list-group list-group-flush">
-                            @{var counter = 0; }
+                        <ul id="permission_select" class="list-group list-group-flush">
+                            @{
+                            var counter = 0;
+                            }
                             @foreach (var permDesc in permissionTypes)
-                            {
+                            {   
                                 <li class="list-group-item">
-                                    <input type="checkbox" id="permission_@counter" name="permission_@counter" value="@permDesc">
-                                    <label>@permDesc</label>
+                                    <input type="checkbox" id="permission_@counter" name="permission_@counter" value="@permDesc.Key">
+                                    <label>@permDesc.Key</label>
                                 </li>
                                 counter++;
                             }
                         </ul>
+                        <div id="is_manager" style="display: none">
+                            <h4 class="text-danger">Already manager/owner</h4>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
+                    <button type="submit" class="btn btn-primary">Assign Selected</button>
                 </div>
             </form>
+            <div class="flex">
+                <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" asp-route-novice="@true" class="text-center" method="post">
+                    <input id="assignUsername2" name="assignUsername2" type="hidden" value="@null" />
+                    <button type="submit" class="btn btn-success m-3" style="width: 85%">Assign As Novice</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -268,7 +277,7 @@
         <div class="modal-content" style="height: 50%">
             <form asp-controller="Owner" asp-action="EditManagerPermissions" asp-route-storeName="@storeName" class="login-form" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">@("Edit manager permission for ")<span class="editUsernameTxt" /></h5>
+                    <h5 class="modal-title">@("Edit manager permission for user ")<span class="editUsernameTxt" /></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -282,8 +291,8 @@
                             @foreach (var permDesc in permissionTypes)
                             {
                                 <li class="list-group-item">
-                                    <input type="checkbox" id="permission2_@counter2" name="permission2_@counter2" value="@permDesc">
-                                    <label>@permDesc</label>
+                                    <input type="checkbox" id="permission2_@counter2" name="permission2_@counter2" value="@permDesc.Key">
+                                    <label>@permDesc.Key</label>
                                 </li>
                                 counter2++;
                             }

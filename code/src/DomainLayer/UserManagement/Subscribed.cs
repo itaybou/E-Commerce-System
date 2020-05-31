@@ -1,70 +1,71 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
 using System;
+﻿using ECommerceSystem.DataAccessLayer;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public class Subscribed : IUserState
+    public class Subscribed : IUserState, ISupportInitialize
     {
-        public string _uname;
-        public string _pswd;
-        private List<UserPurchase> _purchaseHistory;
-        public UserDetails _details { get; set; }
-        public List<UserPurchase> PurchaseHistory { get => _purchaseHistory; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public UserDetails Details { get; set; }
+        public List<UserPurchase> PurchaseHistory { get; set; }
 
-        private Dictionary<string, Permissions> _permisions;  //store name --> permission
-        private Dictionary<string, List<Guid>> _assignees;  //store name --> list of the owners\managers that this user assign
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<Guid, INotificationRequest> UserRequests { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<string, List<Guid>> Assignees { get; set; }  //store name --> list of the owners\managers that this user assign
+
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        public Dictionary<string, Permissions> Permissions { get; set; }
 
         public Subscribed(string uname, string pswd, string fname, string lname, string email)
         {
-            _uname = uname;
-            _pswd = pswd;
-            _details = new UserDetails(fname, lname, email);
-            _purchaseHistory = new List<UserPurchase>();
-            _permisions = new Dictionary<string, Permissions>();
-            _assignees = new Dictionary<string, List<Guid>>();
+            Username = uname;
+            Password = pswd;
+            Details = new UserDetails(fname, lname, email);
+            PurchaseHistory = new List<UserPurchase>();
+            Permissions = new Dictionary<string, Permissions>();
+            Assignees = new Dictionary<string, List<Guid>>();
+            UserRequests = new Dictionary<Guid, INotificationRequest>();
         }
 
         public bool isSubscribed()
-        {
+        {  
             return true;
         }
 
         public void addPermission(Permissions permissions, string storeName)
         {
-            _permisions.Add(storeName, permissions);
+            if (Permissions.ContainsKey(storeName))
+                Permissions[storeName] = permissions;
+            else Permissions.Add(storeName, permissions);
         }
 
         public void removePermissions(string storeName)
         {
-            _permisions.Remove(storeName);
+            Permissions.Remove(storeName);
         }
 
         public Permissions getPermission(string storeName)
         {
-            if (_permisions.ContainsKey(storeName))
+            if (Permissions.ContainsKey(storeName))
             {
-                return _permisions[storeName];
+                return Permissions[storeName];
             }
             else return null;
         }
 
 
-        public string Name()
-        {
-            return _uname;
-        }
-
         public void logPurchase(UserPurchase purchase)
         {
-            _purchaseHistory.Add(purchase);
-        }
-
-        public string Password()
-        {
-            return _pswd;
+            PurchaseHistory.Add(purchase);
         }
 
         public virtual bool isSystemAdmin()
@@ -74,48 +75,56 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public class UserDetails
         {
-            private string _fname;
-            private string _lname;
-            private string _email;
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Email { get; set; }
 
             public UserDetails(string fname, string lname, string email)
             {
-                _fname = fname;
-                _lname = lname;
-                _email = email;
+                FirstName = fname;
+                LastName = lname;
+                Email = email;
             }
-
-            public string Fname { get => _fname; set => _fname = value; }
-            public string Lname { get => _lname; set => _lname = value; }
-            public string Email { get => _email; set => _email = value; }
         }
-
 
         public void addAssignee(string storeName, Guid assigneeID)
         {
-            if (!_assignees.ContainsKey(storeName))
+            if (!Assignees.ContainsKey(storeName))
             {
                 List<Guid> assgneedList = new List<Guid>() { assigneeID };
-                _assignees.Add(storeName, assgneedList);
+                Assignees.Add(storeName, assgneedList);
             }
             else
             {
-                _assignees[storeName].Add(assigneeID);
+                Assignees[storeName].Add(assigneeID);
             }
         }
 
+        public void BeginInit()
+        {
+            return;
+        }
+
+        public void EndInit()
+        {
+            foreach(var perm in Permissions)
+            {
+                if (perm.Value.Store == null)
+                    perm.Value.Store = DataAccess.Instance.Stores.GetByIdOrNull(perm.Key, s => s.Name);
+            }
+        }
         public bool removeAssignee(string storeName, Guid assigneeID)
         {
-            if (!_assignees.ContainsKey(storeName) || _assignees[storeName] == null || !_assignees[storeName].Contains(assigneeID))
+            if (!Assignees.ContainsKey(storeName) || Assignees[storeName] == null || !Assignees[storeName].Contains(assigneeID))
             {
                 return false;
             }
             else
             {
-                _assignees[storeName].Remove(assigneeID);
-                if(_assignees[storeName].Count == 0)
+                Assignees[storeName].Remove(assigneeID);
+                if(Assignees[storeName].Count == 0)
                 {
-                    _assignees.Remove(storeName);
+                    Assignees.Remove(storeName);
                 }
                 return true;
             }
@@ -123,19 +132,34 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public List<Guid> getAssigneesOfStore(string storeName)
         {
-            if (!_assignees.ContainsKey(storeName))
+            if (!Assignees.ContainsKey(storeName))
             {
                 return null; 
             }
             else
             {
-                return _assignees[storeName];
+                return Assignees[storeName];
             }
         }
 
         public void removeAllAssigneeOfStore(string storeName)
         {
-            _assignees.Remove(storeName);
+            Assignees.Remove(storeName);
+        }
+
+        public void addUserRequest(INotificationRequest request)
+        {
+            UserRequests.Add(request.RequestID, request);
+        }
+
+        public void removeUserRequest(Guid agreementID)
+        {
+            UserRequests.Remove(agreementID);
+        }
+
+        public IEnumerable<INotificationRequest> GetUserRequests()
+        {
+            return new List<INotificationRequest>(this.UserRequests.Values); 
         }
     }
 }

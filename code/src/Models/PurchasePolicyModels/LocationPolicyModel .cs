@@ -8,11 +8,22 @@ namespace ECommerceSystem.Models.PurchasePolicyModels
 {
     public class LocationPolicyModel : PurchasePolicyModel
     {
-        protected List<string> bannedLocations;
+        public List<string> BannedLocations { get; set; }
 
         public LocationPolicyModel(Guid ID, List<string> bannedLocations) : base(ID)
         {
-            this.bannedLocations = bannedLocations;
+            this.BannedLocations = bannedLocations;
+        }
+
+        public override string GetString()
+        {
+            var builder = new StringBuilder();
+            builder.Append("Banned purchase locations: ");
+            foreach(var location in BannedLocations)
+            {
+                builder.Append(location + ", ");
+            }
+            return builder.ToString();
         }
     }
 }

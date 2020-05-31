@@ -1,0 +1,102 @@
+﻿@using ECommerceSystem.Models.DiscountPolicyModels
+@using ECommerceSystem.Models.PurchasePolicyModels
+@using ECommerceSystem.Models
+@model (IEnumerable<StorePurchaseModel>, string)
+@{
+    ViewData["Title"] = "Store Purchase History";
+    var store = Model.Item2;
+    var purchases = Model.Item1;
+}
+
+<div class="container-fluid w-75">
+    <h1 style="font-family: Roboto">@ViewData["Title"] - @store</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Purchase Date</th>
+                            <th scope="col" class="text-left">Purchasing Username</th>
+                            <th scope="col">Prodcuts Purchased</th>
+                            <th scope="col" class="text-center">Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var purchase in purchases)
+                        {
+                            <tr>
+                                <td class="text-xl-left">
+                                    <h6><b>@purchase.PurchaseDate</b></h6>
+                                </td>
+                                <td>
+                                    <b>@purchase.Username</b>
+                                </td>
+                                <td class="w-50">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col" style="text-align: center">Product Name</th>
+                                                <th scope="col" class="text-center">Quantity</th>
+                                                <th scope="col" class="text-center">Price</th>
+                                                <th scope="col" class="text-center">Discount</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var product in purchase.ProductsPurchased)
+                                        {
+                                            <tr class="text-center">
+                                                <td style="width: 12%">
+                                                    @if (!String.IsNullOrWhiteSpace(product.ImageURL))
+                                                    {
+                                                        <img class="card-img-top" src="@product.ImageURL" alt="Product image" width="50" height="50"> <!--user image-->
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="card-img-top" src="~/images/unavailable.png" alt="Unavailable Product image" width="50" height="50"> <!--default image-->
+                                                    }
+                                                </td>
+                                                <td style="text-align: center">
+                                                    @product.Name
+                                                </td>
+                                                <td>
+                                                    @product.Quantity
+                                                </td>
+                                                <td>
+                                                    @product.BasePrice $
+                                                </td>
+                                                <td>
+                                                    @if (product.Discount != null)
+                                                    {
+                                                        var discount = product.Discount;
+                                                        if (discount is VisibleDiscountModel visible)
+                                                        {
+                                                            <span>@visible.Percentage%</span>
+                                                        }
+                                                        else if (discount is ConditionalProductDiscountModel cond)
+                                                        {
+                                                            <span>@cond.Percentage% </span>
+                                                            <br />
+                                                            <span>Above @cond.RequiredQuantity Units</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>None</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </td>
+                                <td class="text-center alert-warning">
+                                    <h5><strong>@purchase.TotalPrice.ToString("0.000") $</strong></h5>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

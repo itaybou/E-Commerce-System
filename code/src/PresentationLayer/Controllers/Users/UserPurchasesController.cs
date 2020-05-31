@@ -1,46 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
+using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace PresentationLayer.Controllers.Users
 {
     public class UserPurchasesController : Controller
     {
+        private IService _service;
+
+        public UserPurchasesController(IService service)
+        {
+            _service = service;
+        }
+
         [Route("Users/PurchaseHistory")]
         public IActionResult Index()
         {
-            var purchases = new List<UserPurchaseModel>()
+            var session = new Guid(HttpContext.Session.Id);
+            try
             {
-                {new UserPurchaseModel(DateTime.Now, 200.5, new List<ProductModel> {
-                     { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                }, "My Name", "LastName", 213213, "324234-423423", DateTime.Now, 433, "My Address, NY, 32") },
-                {new UserPurchaseModel(DateTime.Now, 200.5, new List<ProductModel> {
-                     { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                }, "My Name", "LastName", 213213, "324234-423423", DateTime.Now, 433, "My Address, NY, 32") },
-                {new UserPurchaseModel(DateTime.Now, 200.5, new List<ProductModel> {
-                     { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                }, "My Name", "LastName", 213213, "324234-423423", DateTime.Now, 433, "My Address, NY, 32") },
-                {new UserPurchaseModel(DateTime.Now, 200.5, new List<ProductModel> {
-                     { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                    { new ProductModel(Guid.NewGuid(), "ProductStore1", "this is a long description", 5, 30.5, 25.5) },
-                }, "My Name", "LastName", 213213, "324234-423423", DateTime.Now, 433, "My Address, NY, 32") },
-
-            };
-            return View("../Users/PurchaseHistory", purchases);
+                var purchases = _service.userPurchaseHistory(session, User.Identity.Name);
+                return View("../Users/PurchaseHistory", purchases);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+    }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+}
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
     }
 }

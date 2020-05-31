@@ -1,27 +1,23 @@
-﻿using NUnit.Framework;
-using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.Models;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 {
     [TestFixture()]
     public class ProductInventoryTests
     {
-
-        string productName = "Iphone", description = "description";
-        PurchaseType purchaseType = new ImmediatePurchase();
-        double price = 100;
-        int quantity = 5;
-        Category category = Category.CELLPHONES;
-        List<string> keywords = new List<string>();
+        private string productName = "Iphone", description = "description";
+        private PurchaseType purchaseType = new ImmediatePurchase();
+        private double price = 100;
+        private int quantity = 5;
+        private Category category = Category.CELLPHONES;
+        private List<string> keywords = new List<string>();
         private Guid productID;
-        Guid productInvID = Guid.NewGuid();
-        ProductInventory productInv;
+        private Guid productInvID = Guid.NewGuid();
+        private ProductInventory productInv;
 
         [OneTimeSetUp]
         public void setUpFixture()
@@ -45,8 +41,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void CreateTest()
         {
-            Assert.NotNull(ProductInventory.Create(productName, description,  price, quantity, category, keywords));
-            Assert.Null(ProductInventory.Create(productName, description,-5, quantity, category, keywords)); // price < 0 null
+            Assert.NotNull(ProductInventory.Create(productName, description, price, quantity, category, keywords));
+            Assert.Null(ProductInventory.Create(productName, description, -5, quantity, category, keywords)); // price < 0 null
             Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords)); // quantity > 0 null
         }
 
@@ -70,7 +66,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void deleteProductTest()
         {
             Assert.False(productInv.deleteProduct(Guid.NewGuid()), "delete non exist id product"); // non exist id product
-            Guid guid = productInv.addProduct( 10, 50);
+            Guid guid = productInv.addProduct(10, 50);
             Assert.True(productInv.deleteProduct(guid), "Fail to delete exist product");
             Assert.Null(productInv.getProducByID(guid), "Fail to delete exist product");
         }
@@ -84,10 +80,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductTest()
         {
-            Assert.AreEqual(Guid.Empty, productInv.addProduct( -1, 50), "Add new product with negative quantity successed");
-            Assert.AreEqual(Guid.Empty, productInv.addProduct( 10, -2), "Add new product with negative price successed");
+            Assert.AreEqual(Guid.Empty, productInv.addProduct(-1, 50), "Add new product with negative quantity successed");
+            Assert.AreEqual(Guid.Empty, productInv.addProduct(10, -2), "Add new product with negative price successed");
 
-            Guid guid = productInv.addProduct( 10, 50);
+            Guid guid = productInv.addProduct(10, 50);
             Assert.AreNotEqual(Guid.Empty, guid);
             Assert.NotNull(productInv.getProducByID(guid), "Fail to add a product");
         }
@@ -125,6 +121,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         //    productInv.rateProduct(2.0);
         //    Assert.AreEqual(3.5, productInv.Rating);
         //}
-
     }
 }

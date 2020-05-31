@@ -1,0 +1,45 @@
+﻿@using ECommerceSystem.Utilities;
+@using ECommerceSystem.Models;
+@model ECommerceSystem.Models.ProductInventoryModel;
+@{
+    ViewData["Title"] = "Modify Product Group";
+    var categories = EnumMethods.GetValues(typeof(Category));
+    var storeName = ViewData["StoreName"];
+    var oldName = Model.Name;
+}
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form">
+            <form asp-controller="Owner" asp-action="ModifyProductGroup" class="login-form" method="post">
+                @if (!ViewContext.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                }
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Name</label>
+                    <input type="text" class="form-control" placeholder="Product Name" asp-for="Name" />
+                </div>
+                <div class="row">
+                    <div class="form-group w-50 col-md-6">
+                        <label class="row-form-label" style="text-align: left" for="password">Base Price</label>
+                        <input class="form-control" type="number" placeholder="Base Price" asp-for="Price" />
+                    </div>
+                    <!-- <div class="form-group name1 col-md-6">
+            <label class="row-form-label" style="text-align: left" for="password">Discounted Price</label>
+            <input type="number" placeholder="Discounted Price" asp-for="PriceWithDiscount" />
+        </div>-->
+                </div>
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <input id="oldName" name="oldName" type="hidden" value="@oldName" />
+                <button type="submit" class="w-50">Modify Product Group</button>
+            </form>
+        </div>
+    </div>
+</div>

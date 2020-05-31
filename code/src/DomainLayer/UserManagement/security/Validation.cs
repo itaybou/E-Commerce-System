@@ -1,5 +1,4 @@
 ﻿using ECommerceSystem.Utilities;
-using System;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
@@ -13,7 +12,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security
         {
             error = null;
             try
-            { 
+            {
                 var addr = new MailAddress(email);
                 return addr.Address == email;
             }

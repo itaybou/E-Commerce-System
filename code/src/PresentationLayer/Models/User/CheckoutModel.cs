@@ -1,52 +1,70 @@
-﻿using ECommerceSystem.Models;
-using System;
+﻿using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PresentationLayer.Models.User
 {
     public class CheckoutModel
     {
-        private IEnumerable<(ProductModel, int)> _products;
-        
+        public ShoppingCartModel Cart { get; set; } = null;
+
         [Required(ErrorMessage = "Missing First name of card holder", AllowEmptyStrings = false)]
         public string FirstName { get; set; }
+
         [Required(ErrorMessage = "Missing Last name of card holder", AllowEmptyStrings = false)]
         public string LastName { get; set; }
+
         [Required(ErrorMessage = "Missing ID of card holder", AllowEmptyStrings = false)]
         public int ID { get; set; }
+
         [Required(ErrorMessage = "Missing Credit Card number", AllowEmptyStrings = false)]
         public string CreditCardNumber { get; set; }
+
         [Required(ErrorMessage = "Missing Credit Card expiration year", AllowEmptyStrings = false)]
         public int CreditCardExpirationYear { get; set; }
+
         [Required(ErrorMessage = "Missing Credit Card expiration month", AllowEmptyStrings = false)]
         public int CreditCardExpirationMonth { get; set; }
+
         [Required(ErrorMessage = "Missing Credit Card CVC", AllowEmptyStrings = false)]
         public int CVV { get; set; }
+
         [Required(ErrorMessage = "Missing shipping address", AllowEmptyStrings = false)]
         public string Address { get; set; }
+
         [Required(ErrorMessage = "Missing shipping city", AllowEmptyStrings = false)]
         public string City { get; set; }
+
         [Required(ErrorMessage = "Missing shipping postal code", AllowEmptyStrings = false)]
         public int PostCode { get; set; }
-        public IEnumerable<(ProductModel, int)> Products 
-        { get => _products;
-            set {
-                _products = value;
-                Total = _products.Aggregate(0.0, (sum, prod) => sum += prod.Item1.PriceWithDiscount * prod.Item2);
-            }
-        }
-        public double Total { get; set; }
 
-        public CheckoutModel()
+        public double Total { get; set; } 
+
+        public IEnumerable<(ProductModel, int)> Products { get; set; } = null;
+
+        public CheckoutModel(string fname, string lname, int id, int expMonth, int expYear, int cvv, string address, string city, int postcode)
         {
+            FirstName = fname;
+            LastName = lname;
+            ID = id;
+            CreditCardExpirationMonth = expMonth;
+            CreditCardExpirationYear = expYear;
+            CVV = cvv;
+            Address = address;
+            City = city;
+            PostCode = postcode;
+            Cart = null;
+            Products = null;
         }
 
-        public CheckoutModel(CartModel cartModel)
+        public CheckoutModel(ShoppingCartModel cart)
         {
-            Products = cartModel.UserCart.Cart.Select(s => s.Value).SelectMany(p => p);
+            Cart = cart;
+            Products = cart.Cart.Values.SelectMany(s => s);
+            Total = Products.Select(p => p.Item1.BasePrice * p.Item2).Aggregate(0.0, (total, current) => total += current);
+
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.UserManagement;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
-    class ProxyBridge : IBridgeAdapter
+    internal class ProxyBridge : IBridgeAdapter
     {
         private IBridgeAdapter _real;
 
@@ -187,7 +184,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             {
                 _real.openStoreWithProducts(userID, storeName, ownerName, products);
             }
-
         }
 
         public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()

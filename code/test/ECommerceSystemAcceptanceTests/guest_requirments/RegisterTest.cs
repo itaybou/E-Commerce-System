@@ -1,6 +1,5 @@
 ﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
@@ -62,7 +61,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void TestRegistrationUserAlreadyExists()
         {
             var pswd = "H3lloWorld";
-            Assert.True(_bridge.register(uname, pswd, fname, lname, email));    
+            Assert.True(_bridge.register(uname, pswd, fname, lname, email));
             Assert.False(_bridge.IsUserLogged(uname));  // not logged after registration
             Assert.True(_bridge.IsUserSubscribed(uname));  // Registration succeded, user is subscribed
             Assert.False(_bridge.register(uname, "V4lidPass", "user2", "lname2", "mail2@mail.com"));    // try to register again with the same username

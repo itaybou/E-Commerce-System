@@ -21,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         public override bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
             bool output = true;
-            foreach(PurchasePolicy p in base.Children)
+            foreach (PurchasePolicy p in base.Children)
             {
                 output = output && p.canBuy(products, totalPrice, address);
             }
@@ -40,7 +40,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             {
                 childrenModels.Add(p.CreateModel());
             }
-            return new CompositePurchasePolicyModel(this._ID, childrenModels, CompositeType.And);
+            return new CompositePurchasePolicyModel(this.ID, childrenModels, CompositeType.And);
         }
     }
 }

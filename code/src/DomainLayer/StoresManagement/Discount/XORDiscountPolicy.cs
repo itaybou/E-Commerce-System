@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -21,7 +22,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         private Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> clone(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
             Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> cloneProducts = new Dictionary<Guid, (double basePrice, int quantity, double totalPrice)>();
-            foreach(var prod in products)
+            foreach (var prod in products)
             {
                 cloneProducts.Add(prod.Key, (prod.Value.basePrice, prod.Value.quantity, prod.Value.totalPrice));
             }
@@ -32,16 +33,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         private double sumPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
             double sum = 0;
-            foreach(var prod in products)
+            foreach (var prod in products)
             {
                 sum += prod.Value.totalPrice;
             }
             return sum;
         }
-        
+
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-
             if (Children.Count == 0)
             {
                 return;
@@ -69,8 +69,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-
-            foreach(DiscountPolicy d in Children)
+            foreach (DiscountPolicy d in Children)
             {
                 if (d.isSatisfied(products))
                     return true;
@@ -86,7 +85,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             {
                 childrenModels.Add(d.CreateModel());
             }
-            return new CompositeDiscountPolicyModel(this._ID, childrenModels, CompositeType.Xor);
+            return new CompositeDiscountPolicyModel(this.ID, childrenModels, CompositeType.Xor);
         }
     }
 }

@@ -1,34 +1,24 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.Utilities;
+using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace ECommerceSystem
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            SystemLogger.initLogger();
-            hello("helloworld", 3, 4.5);
-
-        }
-        
-        [Trace("info")]
-        public static int hello(string s, int i, double b)
-        {
-            return world(5);
-        }
-
-        [Trace("info")]
-        public static int world(int i)
-        {
-            SystemLogger.LogError("hello world");
-            return 1;
+            var initializer = new SystemInitializer();
+            initializer.Initialize();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadLine();
         }
     }
 }

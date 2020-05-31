@@ -8,11 +8,22 @@ namespace ECommerceSystem.Models.PurchasePolicyModels
 {
     public class DaysOffPolicyModel : PurchasePolicyModel
     {
-        protected List<DayOfWeek> daysOff;
+        public List<DayOfWeek> DaysOff { get; set; }
 
         public DaysOffPolicyModel(Guid ID, List<DayOfWeek> daysOff) : base(ID)
         {
-            this.daysOff = daysOff;
+            this.DaysOff = daysOff;
+        }
+
+        public override string GetString()
+        {
+            var builder = new StringBuilder();
+            builder.Append("Store Days off: ");
+            foreach (var day in DaysOff)
+            {
+                builder.Append(day.ToString() + ", ");
+            }
+            return builder.ToString();
         }
     }
 }

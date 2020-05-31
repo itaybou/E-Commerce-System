@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
     // Requirment 4.3
     [TestFixture()]
-    class AssignOwnerTest : StoreOwnerTests
+    internal class AssignOwnerTest : StoreOwnerTests
     {
-        string _newOwner1;
-        string _newOwner2;
+        private string _newOwner1;
+        private string _newOwner2;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()

@@ -27,10 +27,19 @@ socket.onmessage = function (event) {
         url: '/Notification/Notification',
         data: { notification: event.data },
         success: function (event) {
-            toastr.success(event.notification, "Notification",
-                {
-                    timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1000,
-                    onclick: null,});
+            if (event.success === true) {
+                toastr.success(event.notification, "Notification",
+                    {
+                        timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1500,
+                        onclick: null,
+                    });
+            } else {
+                toastr.info(event.notification, "Request",
+                    {
+                        timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1500,
+                        onclick: null,
+                    });
+            }
         }
     });
 };

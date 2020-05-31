@@ -1,0 +1,87 @@
+﻿@model PresentationLayer.Models.AddProductDiscountModel
+@{
+    ViewData["Title"] = "Add Product Discount";
+    var storeName = ViewData["StoreName"];
+    var id = ViewData["ProductID"];
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#visible").click(function () {
+                $("#cond-form").hide();
+                $("#vis-form").show();
+                $("#formState2").val("visible");
+            });
+
+            $("#conditional").click(function () {
+                $("#vis-form").hide();
+                $("#cond-form").show();
+                $("#formState1").val("conditional");
+            });
+        });
+    </script>
+}
+
+<div class="container">
+    <div class="register-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="row login-form justify-content-between m-4">
+            <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>Visible Discount</b></button>
+            <button type="submit" id="conditional" name="conditional" class="btn btn-warning m-1" style="width: 40%"><b>Conditional Discount</b></button>
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+        </div>
+        <div class="form" id="cond-form" name="cond-form" style="display: none;">
+            <form asp-controller="Owner" asp-action="AddProductDiscount" class="login-form" method="post">
+                <h3>Add Conditional Product Discount</h3>
+                <div class="form-group">
+                    <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                    <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                </div>
+
+                <div class="row">
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="username">Required Purchase Quantity</label>
+                        <input type="number" class="form-control" placeholder="Required Purchase Quantity" asp-for="RequiredQuantity" />
+                    </div>
+                    <div class="form-group w-50 col-md-6">
+                        <label style="text-align: left" for="password">Discount Expiration</label>
+                        <input type="date" class="form-control" asp-for="ExpDate" />
+                    </div>
+                </div>
+                <input id="formState1" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <input id="ProductID" name="ProductID" type="hidden" value="@id" />
+                <button type="submit" class="w-50">Add Store Discount</button>
+            </form>
+        </div>
+        <div class="form" id="vis-form" name="vis-form" style="display: none;">
+            <h3>Add Visible Product Discount</h3>
+            <form asp-controller="Owner" asp-action="AddProductDiscount" class="login-form" method="post">
+                <div class="form-group">
+                    <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                    <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                </div>
+
+                <div class="form-group">
+                    <label style="text-align: left" for="password">Discount Expiration</label>
+                    <input type="date" class="form-control" asp-for="ExpDate" />
+                </div>
+                <input id="formState2" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <input id="ProductID" name="ProductID" type="hidden" value="@id" />
+                <button type="submit" class="w-50">Add Product Discount</button>
+            </form>
+        </div>
+    </div>
+</div>

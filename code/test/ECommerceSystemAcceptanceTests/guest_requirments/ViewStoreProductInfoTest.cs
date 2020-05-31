@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
@@ -26,7 +25,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
-            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } } );
+            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } });
             _bridge.logout();
         }
 

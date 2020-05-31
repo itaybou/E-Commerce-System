@@ -1,0 +1,80 @@
+﻿@using System.Text.RegularExpressions
+@using ECommerceSystem.Utilities.extensions;
+@using ECommerceSystem.Models;
+@using ECommerceSystem.Utilities;
+@model List<SelectListItem>
+@{
+    ViewData["Title"] = "Add Composite Purchase Policy";
+    var storeName = ViewData["StoreName"];
+    var operators = Enum.GetValues(typeof(CompositeType)).Cast<CompositeType>();
+    var opTypes = operators.ToDictionary(k => k, v => v.GetStringValue());
+}
+<div class="container-fluid">
+    <div class="login-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 15%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form" method="post">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+            <div class="alert-warning p-3 m-2">
+                <h5>Can only compose 2 purchase policies.</h5>
+            </div>
+            <form asp-controller="Owner" asp-action="AddCompositePolicy" method="post">
+                <div class="form-group row justify-content-between">
+                    <div class="col-md-6">
+                        <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>CREATE POLICY</b></button>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label style="text-align: left" for="password">Discount Operation</label>
+                            <select class="form-control" id="operator" name="operator">
+                                @foreach (var op in opTypes.Keys)
+                                {
+                                    <option value="@op" class="dropdown-item">@opTypes[op]</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex" style="display:block">
+                    <table class=" table table-striped">
+                        <thead class="thead-dark">
+                            <tr class="text-left">
+                                <th>Choose</th>
+                                <th>Policy Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{var counter = 0;}
+                            @foreach (var discount in Model)
+                            {
+                                if (!String.IsNullOrEmpty(discount.Text))
+                                {
+                                    var checkboxName = "selectd" + counter;
+                                    <tr class="p-5">
+                                        <td>
+                                            <input class="big-checkbox" type="checkbox" id="@checkboxName" name="@checkboxName" value="@discount.Value">
+                                        </td>
+                                        <td class="p-3">
+                                            <label style="white-space: pre-line">@Html.Raw(discount.Text)</label><br>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+            </form>
+        </div>
+    </div>
+</div>
+

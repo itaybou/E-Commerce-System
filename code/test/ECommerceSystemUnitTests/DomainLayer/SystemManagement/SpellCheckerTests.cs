@@ -34,7 +34,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(File.Exists(SPELL_CHECK_FILE_NAME));
         }
 
-
         //Tests to check the spellChecker returns the requested words.
         [Test()]
         public void CorrectTest()

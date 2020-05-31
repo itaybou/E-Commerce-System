@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.UserManagement;
+using System;
 using System.Collections.Generic;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
@@ -7,13 +8,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
     {
         private User _user;
         private double _totalPrice;
-        private List <Product> _productsPurchased;
+        private List<Product> _productsPurchased;
+        public DateTime PurchaseDate { get; set; }
 
-        public StorePurchase(User user, double totalPrice, List<Product> productsPurchased)
+        public StorePurchase(User user, double totalPrice, List<Product> productsPurchased, DateTime purchaseDate)
         {
             _user = user;
             _totalPrice = totalPrice;
             _productsPurchased = productsPurchased;
+            PurchaseDate = purchaseDate;
         }
 
         public User User { get => _user; }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 {
@@ -20,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override void calculateTotalPrice(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            foreach(DiscountPolicy d in base.Children)
+            foreach (DiscountPolicy d in base.Children)
             {
                 d.calculateTotalPrice(products);
             }
@@ -44,7 +45,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
             {
                 childrenModels.Add(d.CreateModel());
             }
-            return new CompositeDiscountPolicyModel(this._ID, childrenModels, CompositeType.Or);
+            return new CompositeDiscountPolicyModel(this.ID, childrenModels, CompositeType.Or);
         }
     }
 }

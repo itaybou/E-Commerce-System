@@ -1,5 +1,6 @@
-﻿@using ECommerceSystem.Models;
-@model (Dictionary<StoreModel, List<ProductModel>>, IDictionary<string, PermissionModel>)
+﻿@using ECommerceSystem.Utilities.extensions;
+@using ECommerceSystem.Models;
+@model (Dictionary<StoreModel, List<ProductInventoryModel>>, IDictionary<string, PermissionModel>)
 @{
     ViewData["Title"] = "My Stores";
     var StoreProducts = Model.Item1;
@@ -25,93 +26,111 @@
                 @foreach (var store in StoreProducts.Keys)
                 {
                     var permissions = Permissions[store.Name];
-                    <li class="list-group-item">
-                        <!-- Custom content-->
-                        <div class="row">
-                            <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
-                                <div class="media-body order-2 order-lg-1">
-                                    <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
-                                    <ul class="list-inline small stars">
-                                        @for (var i = 0; i < Math.Round(store.Rating); i++)
+                <li class="list-group-item">
+                    <!-- Custom content-->
+                    <div class="row">
+                        <div class="col media align-items-lg-center flex-column flex-lg-row p-3">
+                            <div class="media-body order-2 order-lg-1">
+                                <h3 class="mt-0 font-weight-bold mb-2">@store.Name</h3>
+                                <ul class="list-inline small stars">
+                                    @for (var i = 0; i < Math.Round(store.Rating); i++)
                                         {
-                                            <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
+                                    <li class="list-inline-item m-0"><span class="fa fa-star checked"></span></li>
                                         }
-                                        @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
+                                    @for (var i = 1; i <= 5 - Math.Round(store.Rating); i++)
                                         {
-                                            <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
+                                    <li class="list-inline-item m-0"><span class="fa fa-star" style="color: grey !important"></span></li>
                                         }
-                                    </ul>
-                                    <span><b>Rated by: </b>@store.RaterCount customers</span><br />
-                                    <span><b>Role: </b>@(Permissions[store.Name].IsOwner ? "Owner" : "Manager")</span>
-                                </div>
+                                </ul>
+                                <span><b>Rated by: </b>@store.RaterCount customers</span><br />
+                                <span><b>Role: </b>@(permissions.IsOwner ? "Owner" : "Manager")</span>
                             </div>
-                                <div class="col justify-content-center align-self-center text-right">
-                                    <form type="hidden" asp-action="StoreOwners" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            Owners <i class="fas fa-crown"></i>
-                                        </button>
-                                    </form>
-                                    <form type="hidden" asp-action="StoreManagers" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            Managers <i class="fas fa-user-tie"></i>
-                                        </button>
-                                    </form>
-
-                                </div>
-                                <div class="col justify-content-center align-self-center text-right">
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                            View Products <i class="fas fa-store"></i>
-                                        </button>
-                                    </form>
-                                    @if(permissions.PermissionTypes.Contains(PermissionType.AddProductInv) || permissions.PermissionTypes.Contains(PermissionType.DeleteProductInv) || permissions.PermissionTypes.Contains(PermissionType.ModifyProduct)) 
+                        </div>
+                        @if(!permissions.IsOwner)
+                            {
+                        <div class="col p-2" style="color: dimgray">
+                            <small><b>Store Permissions:</b></small><br />
+                            @foreach(var perm in permissions.PermissionTypes)
                                     {
-                                        <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                            <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
-                                                Manage Inventory <i class="fas fa-warehouse"></i>
-                                            </button>
-                                        </form>
+                            <span class="m-0 p-0">
+                                <small>@perm.GetStringValue()</small>
+                            </span><br />
                                     }
-                                </div>
                         </div>
-                        <div class="col">
-                            <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
-                                <!-- <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                    <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light" >
-                                        Close Store <i class="fas fa-store-slash"></i>
-                                    </button>
-                                </form> -->
-                                @if (permissions.PermissionTypes.Contains(PermissionType.WatchPurchaseHistory))
-                                {
-                                    <form type="hidden" asp-action="ViewPurchaseHistory" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1">
-                                            Purchase History <i class="fas fa-history"></i>
-                                        </button>
-                                    </form>
-                                }
-                                @if (permissions.PermissionTypes.Contains(PermissionType.ManagePurchasePolicy))
-                                {
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
-                                            Modify Purchase Policies <i class="fas fa-dollar-sign"></i>
-                                        </button>
-                                    </form>
-                                }
-                                @if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
-                                {
-                                    <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
-                                        <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
-                                            Modify Discount Policies <i class="fas fa-percentage"></i>
-                                        </button>
-                                    </form>
-                                }
-                                </div>
-                        </div>
-                    </li>
-                        <!-- End -->
                             }
+                        <div class="col justify-content-center align-self-center text-right">
+                            <form type="hidden" asp-action="StoreOwners" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                    Owners <i class="fas fa-crown"></i>
+                                </button>
+                            </form>
+                            <form type="hidden" asp-action="StoreManagers" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                    Managers <i class="fas fa-user-tie"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col justify-content-center align-self-center text-right">
+                            <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                    View Products <i class="fas fa-store"></i>
+                                </button>
+                            </form>
+                            @if (permissions.PermissionTypes.Contains(PermissionType.AddProductInv) || permissions.PermissionTypes.Contains(PermissionType.DeleteProductInv) || permissions.PermissionTypes.Contains(PermissionType.ModifyProduct))
+                                {
+                            <form type="hidden" asp-action="StoreProductsView" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1 ml-lg-5 order-1 order-lg-2">
+                                    Manage Inventory <i class="fas fa-warehouse"></i>
+                                </button>
+                            </form>
+                                }
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row justify-content-lg-start align-self-right text-right float-lg-right">
+                            <!-- <form type="hidden" asp-action="StoreProductListing" asp-controller="Product" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 130px; background-color: orangered" class="btn m-1 text-light">
+                                    Close Store <i class="fas fa-store-slash"></i>
+                                </button>
+                            </form> -->
+                            @if (permissions.PermissionTypes.Contains(PermissionType.WatchPurchaseHistory))
+                                {
+                            <form type="hidden" asp-action="StorePurchaseHistory" asp-controller="Owner" asp-route-store="@store.Name" method="post">
+                                <button type="submit" style="width: 200px" class="btn btn-outline-primary m-1">
+                                    Purchase History <i class="fas fa-history"></i>
+                                </button>
+                            </form>
+                                }
+                            @if (permissions.PermissionTypes.Contains(PermissionType.ManagePurchasePolicy))
+                                {
+                            <form type="hidden" asp-action="StorePurchasePolicies" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                    Modify Purchase Policies <i class="fas fa-dollar-sign"></i>
+                                </button>
+                            </form>
+                                }
+                            @if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
+                                {
+                            <form type="hidden" asp-action="CompositeDiscounts" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                    Modify Discount Policies <i class="fas fa-percentage"></i>
+                                </button>
+                            </form>
+                                }
+                            @if (permissions.PermissionTypes.Contains(PermissionType.ManageDiscounts))
+                                {
+                            <form type="hidden" asp-action="StoreDiscounts" asp-controller="Owner" asp-route-storeName="@store.Name" method="post">
+                                <button type="submit" style="width: 250px" class="btn btn-outline-primary m-1">
+                                    Store Discounts <i class="fas fa-money-check-alt"></i>
+                                </button>
+                            </form>
+                                }
+                        </div>
+                    </div>
+                </li>
+ <!-- End -->
+                }
             </ul> <!-- End -->
         </div>
     </div>
 </div>
-

@@ -2,10 +2,29 @@
 @using ECommerceSystem.Models;
 @model PresentationLayer.Models.AddProductModel
 @{
-    ViewData["Title"] = "Add Product";
+    ViewData["Title"] = "Add Product Group";
     var categories = EnumMethods.GetValues(typeof(Category));
     var storeName = ViewData["StoreName"];
 }
+
+@section Scripts
+{
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#quantity_limit').change(function () {
+            if ($('#quantity_limit').prop('checked')) {
+                $('#quantity_div').show();
+                $('#quantity_policy').val("true");
+        } else {
+            $('#quantity_div').hide();
+            $('#quantity_policy').val("false");
+        }
+        });
+    });
+    </script>
+}
+
 <div class="container">
     <div class="register-page">
         <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 20%" href="javascript:void(0);" id="backLink">
@@ -41,7 +60,7 @@
                 <div class="row">
                     <div class="form-group w-50 col-md-6">
                         <label class="row-form-label" style="text-align: left" for="password">Base Price</label>
-                        <input class="form-control" type="number" placeholder="Base Price" asp-for="BasePrice" />
+                        <input class="form-control" type="number" placeholder="Base Price" asp-for="Price" />
                     </div>
                     <div class="form-group w-50 col-md-6">
                         <label style="text-align: left" for="password">Quantity</label>
@@ -53,23 +72,41 @@
         </div>-->
                 </div>
                 <div class="row">
-                    <div class="form-group w-50 col-md-6">
-                        <label style="text-align: left" for="password">Minimum Quantity Per Purchase</label>
-                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MinPurchaseQuantity" />
+                    <div class="form-group" style="width:10%">
+                        <input value="" type="checkbox" id="quantity_limit" name="quantity_limit" />
                     </div>
-                    <div class="form-group w-50 col-md-6">
-                        <label style="text-align: left" for="password">Maximum Quantity Per Purchase</label>
-                        <input type="number" class="form-control" placeholder="Quantity" asp-for="MaxPurchaseQuantity" />
+                    <div class="">
+                        <h5><label class="col-md-12 control-label"> Purchase Quantity Limitation</label></h5>
                     </div>
+                </div>
+                <div id="quantity_div" style="display: none">
+                    <div class="row">
+                        <div class="alert-info form-group w-100">
+                            <span>Insert -1 to cancel limitation.</span>
+                        </div>
+                        <div class="form-group w-50 col-md-6">
+                            <label class="row-form-label" style="text-align: left" for="password">Minimum Purchase Quantity</label>
+                            <input class="form-control" type="number" placeholder="Minimum Purchase Quantity" asp-for="MinQuantity" />
+                        </div>
+                        <div class="form-group w-50 col-md-6">
+                            <label style="text-align: left" for="password">Maximum Purchase Quantity</label>
+                            <input type="number" class="form-control" placeholder="Maximum Purchase Quantity" asp-for="MaxQuantity" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="text-align: left" for="username">Image URL</label>
+                    <input type="text" class="form-control" placeholder="Image URL(optional)" asp-for="ImageURL" />
                 </div>
                 <div class="row">
                     <div class="form-group w-50 col-md-12">
                         <label style="text-align: left" for="password">Keywords (Seperate with spaces)</label>
-                        <textarea rows="2" type="text" class="form-control" placeholder="Keyowrds" asp-for="Keywords"></textarea>
+                        <textarea rows="2" type="text" class="form-control" placeholder="Keyowrds (optional)" asp-for="Keywords"></textarea>
                     </div>
                 </div>
                 <input id="storeName" name="storeName" type="hidden" value="@storeName" />
-                <button type="submit" class="w-50">Add Product</button>
+                <input id="quantity_policy" name="quantity_policy" type="hidden" value="false" />
+                <button type="submit" class="w-50">Add Product Group</button>
             </form>
         </div>
     </div>

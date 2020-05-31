@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECommerceSystem.Models
+﻿namespace ECommerceSystem.Models
 {
-    class RemoveManagerNotification : INotitficationType
+    internal class RemoveManagerNotification : INotitficationType
     {
-        string _revmovedManager;
-        string _revmover;
-        string _storeName;
+        private string _revmovedManager;
+        private string _revmover;
+        private string _storeName;
 
         public RemoveManagerNotification(string revmovedManager, string revmover, string storeName)
         {

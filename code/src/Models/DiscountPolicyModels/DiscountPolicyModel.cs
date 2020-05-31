@@ -8,11 +8,13 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
 {
     public abstract class DiscountPolicyModel
     {
-        Guid _ID;
+        public Guid ID { get; set; }
 
-        protected DiscountPolicyModel(Guid ID)
+        protected DiscountPolicyModel(Guid id)
         {
-            _ID = ID;
+            ID = id;
         }
+
+        public abstract string GetString();
     }
 }

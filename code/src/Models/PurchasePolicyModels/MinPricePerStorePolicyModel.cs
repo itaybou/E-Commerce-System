@@ -8,11 +8,16 @@ namespace ECommerceSystem.Models.PurchasePolicyModels
 {
     public class MinPricePerStorePolicyModel : PurchasePolicyModel
     {
-        protected double _requiredMinPrice;
+        public double RequiredMinPrice { get; set; }
 
         public MinPricePerStorePolicyModel(Guid ID, double requiredMinPrice) : base(ID)
         {
-            _requiredMinPrice = requiredMinPrice;
+            RequiredMinPrice = requiredMinPrice;
+        }
+
+        public override string GetString()
+        {
+            return "Minimun Purchase Price: " + RequiredMinPrice; 
         }
     }
 }

@@ -1,46 +1,44 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
-using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.CommunicationLayer.notifications;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class StoreManagement
     {
-        private List<Store> _stores;
         private UsersManagement _userManagement;
-        private Communication _communication;
+        private ICommunication _communication;
+        private IDataAccess _data;
 
         private static readonly Lazy<StoreManagement> lazy = new Lazy<StoreManagement>(() => new StoreManagement());
-
         public static StoreManagement Instance => lazy.Value;
-
-        public List<Store> Stores { get => _stores; set => _stores = value; }
 
         private StoreManagement()
         {
             _communication = Communication.Instance;
-            this._userManagement = UsersManagement.Instance;
-            this._stores = new List<Store>();
+            _data = DataAccess.Instance;
+            _userManagement = UsersManagement.Instance;
         }
 
         private IEnumerable<(UserModel, PermissionModel)> getRoleHolders(string storeName, bool owner)
         {
             var roleHolders = new List<(User, Permissions)>();
-            var permissions = Stores.Select(store => {
+            var permissions = _data.Stores.FetchAll().Select(store =>
+            {
                 if (store.Name.Equals(storeName))
                 {
-                    return store.Premmisions;
+                    return store.StorePermissions;
                 }
                 return null;
             });
@@ -61,36 +59,38 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return roleHolders.Select(holder => (ModelFactory.CreateUser(holder.Item1), ModelFactory.CreatePermissions(holder.Item2)));
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid userID, string storeName)
         {
+            User user = isUserIDSubscribed(userID);
+            if (user == null) //The logged in user isn`t subscribed
+            {
+                return (null, null);
+            }
             return (getRoleHolders(storeName, true), storeName);
         }
 
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid userID, string storeName)
         {
+            User user = isUserIDSubscribed(userID);
+            if (user == null) //The logged in user isn`t subscribed
+            {
+                return (null, null);
+            }
             return (getRoleHolders(storeName, false), storeName);
         }
-
 
         // Return the user that logged in to the system if the user is subscribed
         // If the user isn`t subscribed return null
         private User isUserIDSubscribed(Guid userID)
         {
-            var user = _userManagement.getUserByGUID(userID);
+            var user = _userManagement.getUserByGUID(userID, false);
             return user.isSubscribed() ? user : null;
         }
 
         // Return null if the name isn`t exist
         public Store getStoreByName(string name)
         {
-            foreach (Store store in _stores)
-            {
-                if (store.Name.Equals(name))
-                {
-                    return store;
-                }
-            }
-            return null;
+            return _data.Stores.GetByIdOrNull(name, s => s.Name);
         }
 
         //@pre - userID exist and subscribed
@@ -98,32 +98,38 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             User activeUser = isUserIDSubscribed(userID); //check if if exist and subscribed
             if (activeUser == null) //userID isn`t exist or the user isn`t subscribed
-            {
                 return false;
-            }
-
 
             if (getStoreByName(name) != null) //name already exist
-            {
                 return false;
+
+            Store newStore = new Store(activeUser.Name, name); //sync - make user.name property
+
+            try
+            {
+                Permissions permissions = Permissions.CreateOwner(null, newStore);
+                newStore.addOwner(activeUser.Name, permissions);
+                _userManagement.addPermission(activeUser, permissions, newStore.Name);
             }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to add product inventory");
+            }
+            _data.Transactions.OpenStoreTransaction(activeUser, newStore);
+             return true;
+            
 
-            Store newStore = new Store(activeUser.Name(), name); //sync - make user.name property
 
-            Permissions permissions = Permissions.CreateOwner(null, newStore);
-            newStore.addOwner(activeUser.Name(), permissions);
-            _userManagement.addPermission(activeUser, permissions, newStore.Name);
-
-            _stores.Add(newStore);
-            return true;
         }
 
         //*********Add, Delete, Modify Products*********
 
         //@pre - userID exist and subscribed
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity)
+        public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
+            Guid result;
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
@@ -134,8 +140,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-
-            return permission.addProductInv(activeUser.Name(), productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity);
+            try
+            {
+                result = permission.addProductInv(activeUser.Name, productInvName, description, price, quantity, categoryName, keywords, minQuantity, maxQuantity, imageUrl);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to add product inventory");
+            }
+            _data.Stores.Update((Store)permission.Store, storeName, s => s.Name);
+            return result;
         }
 
         //@pre - userID exist and subscribed
@@ -154,10 +169,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addProduct(activeUser.Name(), productInvName, quantity, minQuantity, maxQuantity);
+            try
+            {
+                return permission.addProduct(activeUser.Name, productInvName, quantity, minQuantity, maxQuantity);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to add product");
+            }
+            
         }
-
-        
 
 
         //@pre - userID exist and subscribed
@@ -175,7 +197,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.deleteProductInventory(activeUser.Name(), productInvName);
+            try
+            {
+                return permission.deleteProductInventory(activeUser.Name, productInvName);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to delete product inventory");
+            }
+           
         }
 
         //@pre - userID exist and subscribed
@@ -193,7 +224,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.deleteProduct(activeUser.Name(), productInvName, productID);
+            try
+            {
+                return permission.deleteProduct(activeUser.Name, productInvName, productID);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to delete product");
+            }
+            
         }
 
         //@pre - userID exist and subscribed
@@ -211,7 +251,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductName(activeUser.Name(), newProductName, oldProductName);
+            try
+            {
+                return permission.modifyProductName(activeUser.Name, newProductName, oldProductName);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to modify product name");
+            }           
         }
 
         //@pre - userID exist and subscribed
@@ -228,12 +276,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductPrice(activeUser.Name(), productInvName, newPrice);
+            try
+            {
+                return permission.modifyProductPrice(activeUser.Name, productInvName, newPrice);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to modify product price");
+            }          
         }
 
         internal IDictionary<PermissionType, bool> getUserPermissionTypes(string storeName, string username)
         {
-            return Stores.Find(store => store.Name.Equals(storeName)).getUsernamePermissionTypes(username);
+            return _data.Stores.FindOneBy(store => store.Name.Equals(storeName)).getUsernamePermissionTypes(username);
         }
 
         //@pre - userID exist and subscribed
@@ -250,7 +306,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.modifyProductQuantity(activeUser.Name(), productInvName, productID, newQuantity);
+            try
+            {
+                return permission.modifyProductQuantity(activeUser.Name, productInvName, productID, newQuantity);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to modify product quantity");
+            }
         }
 
         public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
@@ -319,27 +383,45 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            Permissions activeUserPermissions = activeUser.getPermission(storeName);
+            var store = getStoreByName(storeName);
 
-            if (activeUserPermissions == null)
+            if (store == null)
             {
                 return Guid.Empty;
             }
-            AssignOwnerAgreement agreement = activeUserPermissions.createOwnerAssignAgreement(activeUser, newOwneruserName);
-            if(agreement == null)
+            AssignOwnerAgreement agreement;
+            try
             {
-                return Guid.Empty;
+                agreement = store.createOwnerAssignAgreement(activeUser, newOwneruserName);
+                if (agreement == null)
+                {
+                    return Guid.Empty;
+                }
             }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to create owner assigner agreement");
+            }
+            var request = new OwnerAssignRequest(activeUser.Name, newOwneruserName, storeName, agreement.ID, Protocol.AssignRequest);
+            List<Guid> approvers = new List<Guid>();
+            foreach(string approverUserName in agreement.PendingApproval)
+            {
+                User approver = _userManagement.getUserByName(approverUserName);
+                approvers.Add(approver.Guid);
+                approver.addUserRequest(request);
+                _data.Users.Update(approver, approver.Guid, u => u.Guid);
+            }
+            _data.Stores.Update(store, store.Name, s => s.Name);
 
-            INotitficationType notification = new OwnerAssignRequest(newOwneruserName, storeName, agreement.ID);
-            List<Guid> approvers = agreement.PendingApproval.Select(userName => _userManagement.getUserByName(userName).Guid).ToList();
             if(approvers.Count != 0)
             {
-                _communication.SendGroupNotification(approvers, notification);
+                _communication.SendGroupNotificationRequest(approvers, request);
             }
             else
             {
-                assignOwnerAftterApproval(activeUser, newOwneruserName, storeName); //there is only 1 owner in the store(activeUser), so there is no need to approve
+                if(!assignOwnerAftterApproval(activeUser, newOwneruserName, storeName)) //there is only 1 owner in the store(activeUser), so there is no need to approve
+                    return Guid.Empty;
             }
 
             return agreement.ID;
@@ -359,19 +441,29 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User approver = _userManagement.getUserByGUID(userID);
-
-            if (!store.approveAssignOwnerRequest(approver.Name(), assignOwnerAgreement))
+            User approver = _userManagement.getUserByGUID(userID, true);
+            try
             {
-                return false;
-            }
+                if (!store.approveAssignOwnerRequest(approver.Name, assignOwnerAgreement))
+                {
+                    return false;
+                }
 
-            if (assignOwnerAgreement.isDone())
+                approver.removeUserRequest(agreementID);
+                _data.Transactions.ApplyRolePermissionsTransaction(approver, store);
+
+                if (assignOwnerAgreement.isDone())
+                {
+                    return assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID, true), assignOwnerAgreement.AsigneeUserName, storeName);
+                }
+
+                return true;
+            }
+            catch (Exception e)
             {
-                assignOwnerAftterApproval(_userManagement.getUserByGUID(assignOwnerAgreement.AssignerID), assignOwnerAgreement.AsigneeUserName, storeName);
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to create approve owner request");
             }
-
-            return true;
         }
 
         public bool disApproveAssignOwnerRequest(Guid userID, Guid agreementID, string storeName)
@@ -388,18 +480,34 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User disapprover = _userManagement.getUserByGUID(userID);
+            User disapprover = _userManagement.getUserByGUID(userID, true);
 
-            if (!store.disapproveAssignOwnerRequest(disapprover.Name(), assignOwnerAgreement))
+            try
             {
-                return false;
-            }
+                if (!store.disapproveAssignOwnerRequest(disapprover.Name, assignOwnerAgreement))
+                {
+                    return false;
+                }
 
-            //send disapprove notification to the assignee and assigner
-            INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name(), storeName);
-            _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
-            _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
-            return true;
+                //remove the agreement request from all the pending owners:
+                foreach (string ownerUserName in assignOwnerAgreement.PendingApproval)
+                {
+                    var user = _userManagement.getUserByName(ownerUserName);
+                    user.removeUserRequest(agreementID);
+                    _data.Transactions.ApplyRolePermissionsTransaction(user, store);
+                }
+
+                //send disapprove notification to the assignee and assigner
+                INotitficationType notitfication = new DisappvoveAssignOwnerNotification(assignOwnerAgreement.AsigneeUserName, disapprover.Name, storeName);
+                _communication.SendPrivateNotification(assignOwnerAgreement.AssignerID, notitfication);
+                _communication.SendPrivateNotification(_userManagement.getUserByName(assignOwnerAgreement.AsigneeUserName).Guid, notitfication);
+                return true;
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to  disapprove owner request");
+            }
         }
 
 
@@ -411,9 +519,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 User assigneeUser = _userManagement.getUserByName(newOwneruserName);
                 _userManagement.addPermission(assigneeUser, newOwmerPer, storeName);
-                _userManagement.addAssignee(assigner.Guid, storeName, assigneeUser.Guid);
-
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name(), storeName));
+                _userManagement.addAssignee(assigner, storeName, assigneeUser.Guid);
+                _data.Transactions.AssignOwnerManagerTransaction(assigner, assigneeUser, (Store)newOwmerPer.Store);
+                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignOwnerNotification(newOwneruserName, assigner.Name, storeName));
                 return true;
             }
             else
@@ -427,19 +535,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
             if (!_userManagement.isSubscribed(ownerToRemoveUserName)) //ownerToRemoveUserName isn`t subscribed
             {
                 return false;
             }
-            
-
             User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
-            
             bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
             if (output)
             {
-                _userManagement.removeAssignee(activeUserID, storeName, toRevmoe.Guid);
+                var result = _userManagement.removeAssignee(activeUser, storeName, toRevmoe.Guid);
+                if(result)
+                {
+                    var store = getStoreByName(storeName);
+                    _data.Transactions.ApplyRolePermissionsTransaction(toRevmoe, store);
+                }
             }
             return output;
         }
@@ -455,29 +564,29 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name()))
+            if (removerUserPermissions.removeOwner(removerUser.Guid, toRemove.Name))
             {
                 //remove all the owners\managers that the removed owner assign
-                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove.Guid, storeName); // list of the owners and managers that the removed owner assign
+                List<Guid> assignedByRemovedOwner = _userManagement.getAssigneesOfStore(toRemove, storeName); // list of the owners and managers that the removed owner assign
                 if (assignedByRemovedOwner != null)
                 {
                     foreach (Guid assigneeID in assignedByRemovedOwner)
                     {
-                        User assigneeUser = _userManagement.getUserByGUID(assigneeID);
+                        User assigneeUser = _userManagement.getUserByGUID(assigneeID, true);
                         Permissions asigneePermissions = assigneeUser.getPermission(storeName);
 
                         if (asigneePermissions.isOwner())
                         {
-                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID), storeName);
+                            output = output && removeOwnerRec(toRemove, _userManagement.getUserByGUID(assigneeID, true), storeName);
                         }
                         else
                         {
-                            output = output && removeManager(toRemove.Guid, assigneeUser.Name(), storeName);
+                            output = output && removeManager(toRemove.Guid, assigneeUser.Name, storeName);
                         }
                     }
-                    _userManagement.removeAllAssigneeOfStore(toRemove.Guid, storeName);
+                    _userManagement.removeAllAssigneeOfStore(toRemove, storeName);
                 }
-                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name())); //remove permissions object from the user  
+                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name)); //remove permissions object from the user  
                 return output;
             }
             else return false;
@@ -487,6 +596,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public bool assignManager(Guid userID, string newManageruserName, string storeName)
         {
             User activeUser = isUserIDSubscribed(userID);
+            Permissions newManagerPer;
             if (activeUser == null) //The logged in user isn`t subscribed
             {
                 return false;
@@ -502,26 +612,29 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
-            if(activeUserPermissions == null)
+            try
             {
-                return false; 
+                newManagerPer = activeUserPermissions.assignManager(activeUser, newManageruserName);
+                if (newManagerPer != null)
+                {
+                    // Add the permission to the new manager
+                    User assigneeUser = _userManagement.getUserByName(newManageruserName);
+                    _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
+                    _userManagement.addAssignee(activeUser, storeName, assigneeUser.Guid);
+                    var store = (Store)newManagerPer.Store;
+                    _data.Transactions.AssignOwnerManagerTransaction(activeUser, assigneeUser, store);
+
+                    _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name, storeName));
+                    return true;
+                }
+                else
+                    return false;
             }
-
-            Permissions newManagerPer =  activeUserPermissions.assignManager(activeUser, newManageruserName);
-
-            if (newManagerPer != null)
+            catch (Exception e)
             {
-                // Add the permission to the new manager
-                User assigneeUser = _userManagement.getUserByName(newManageruserName);
-                _userManagement.addPermission(assigneeUser, newManagerPer, storeName);
-                _userManagement.addAssignee(userID, storeName, assigneeUser.Guid); 
-
-                _communication.SendPrivateNotification(assigneeUser.Guid, new AssignManagerNotification(newManageruserName, activeUser.Name(), storeName));
-                return true;
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Logic error: faild to  assign manager");
             }
-            else
-                return false;
         }
 
         //@pre - userID exist and subscribed
@@ -532,27 +645,34 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return false;
             }
-
             Permissions permission = activeUser.getPermission(storeName);
             if (permission == null)
             {
                 return false;
             }
-
-
-            bool isSuccess = permission == null ? false : permission.removeManager(activeUser, managerUserName);
-            if (isSuccess)
+            try
             {
-                // Remove the permission from the user
-                User toRemoveUser = _userManagement.getUserByName(managerUserName);
-                _userManagement.removePermissions(storeName, toRemoveUser);
-                _userManagement.removeAssignee(userID, storeName, toRemoveUser.Guid);
-
-                _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name(), storeName));
-                return true;
+                bool isSuccess = permission == null ? false : permission.removeManager(activeUser, managerUserName);
+                if (isSuccess)
+                {
+                    // Remove the permission from the user
+                    User toRemoveUser = _userManagement.getUserByName(managerUserName);
+                    _userManagement.removePermissions(storeName, toRemoveUser);
+                    _userManagement.removeAssignee(activeUser, storeName, toRemoveUser.Guid);
+                    var store = (Store)permission.Store;
+                    _data.Transactions.AssignOwnerManagerTransaction(activeUser, toRemoveUser, store);
+                    _communication.SendPrivateNotification(toRemoveUser.Guid, new RemoveManagerNotification(managerUserName, activeUser.Name, storeName));
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
-                return false;
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : remove manager");
+            }
+
         }
 
         //*********Edit permmiossions*********
@@ -571,23 +691,71 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name());
+            try
+            {
+                var newUserPermissions = permission.editPermissions(managerUserName, permissiosnNames, activeUser.Name);
+                if(newUserPermissions != null)
+                {
+                    var store = (Store)permission.Store;
+                    var user = _userManagement.getUserByName(managerUserName);
+                    ((Subscribed)user.State).Permissions[storeName] = newUserPermissions;
+                    _data.Transactions.ApplyRolePermissionsTransaction(user, store);
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : edit permissions");
+            }
+            
         }
 
-        public Tuple<StoreModel, List<ProductModel>> getStoreProducts(string storeName)
+        public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid productInvID, string storeName)
         {
-            var info = _stores.Find(s => s.Name.Equals(storeName)).getStoreInfo();
-            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
+            var result = new List<ProductModel>();
+            var storeInfo = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
+            storeInfo.Item2.ForEach(prod => {
+                if (prod.ID == productInvID)
+                    prod.ProductList.ForEach(p => result.Add(ModelFactory.CreateProduct(p, prod.ImageUrl)));
+            });
+            return Tuple.Create(ModelFactory.CreateStore(storeInfo.Item1), result);
         }
 
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresProducts()
+        public void rateProduct(Guid id, int rating)
         {
-            var storeProdcuts = new Dictionary<StoreModel, List<ProductModel>>();
-            _stores.ForEach(s =>
+            var store = _data.Stores.FindOneBy(s => s.Inventory.Products.Any(p => p.ID == id));
+            var products = store.Inventory.Products;
+            products.ForEach(p =>
+            {
+                if (p.ID == id)
+                    p.rateProduct(rating);
+            });
+            _data.Stores.Update(store, store.Name, s => s.Name);
+        }
+
+        public void rateStore(string storeName, int rating)
+        {
+            var store = _data.Stores.GetByIdOrNull(storeName, s => s.Name);
+            store.rateStore(rating);
+            _data.Stores.Update(store, store.Name, s => s.Name);
+        }
+
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreProducts(string storeName)
+        {
+            var info = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
+            return Tuple.Create(ModelFactory.CreateStore(info.Item1), info.Item2.Select(p => ModelFactory.CreateProductInventory(p, storeName)).ToList());
+        }
+
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresProducts()
+        {
+            var storeProdcuts = new Dictionary<StoreModel, List<ProductInventoryModel>>();
+            _data.Stores.FetchAll().ToList().ForEach(s =>
                 {
                     var storeInfo = s.getStoreInfo();
                     storeProdcuts.Add(ModelFactory.CreateStore(storeInfo.Item1),
-                            storeInfo.Item2.Select(p => ModelFactory.CreateProduct(p)).ToList());
+                            storeInfo.Item2.Select(p => ModelFactory.CreateProductInventory(p, storeInfo.Item1.Name)).ToList());
                 }
             );
             return storeProdcuts;
@@ -596,24 +764,24 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoresProdcutInventories()
         {
             var allProducts = new List<ProductInventory>();
-            foreach (Store store in _stores)
+            var stores = _data.Stores.FetchAll();
+            foreach (Store store in stores)
             {
                 allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
             return allProducts;
         }
 
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
-            foreach (Store store in _stores)
+            var stores = _data.Stores.FetchAll();
+            foreach (Store store in stores)
             {
-                foreach(var prodInv in store.Inventory)
+                foreach (var prodInv in store.Inventory.Products)
                 {
-                    foreach(var prod in prodInv.ProductList)
-                    {
-                        if(prod.Id.Equals(prodID))
-                            return (ModelFactory.CreateProduct(prodInv.ProductList.First()), store.Name);
-                    }
+                    if (prodInv.ID.Equals(prodID))
+                        return (ModelFactory.CreateProductInventory(prodInv, store.Name), store.Name);
+                    
                 }
             }
             return (null, null);
@@ -622,7 +790,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public List<ProductInventory> getAllStoreInventoryWithRating(Range<double> storeRatingFilter)
         {
             var allProducts = new List<ProductInventory>();
-            foreach (Store store in _stores.Where(s => storeRatingFilter.inRange(s.Rating)))
+            var stores = _data.Stores.FindAllBy(s => s.Rating.CompareTo(storeRatingFilter.min) >= 0 && s.Rating.CompareTo(storeRatingFilter.max) <= 0);
+            foreach (Store store in stores)
             {
                 allProducts = allProducts.Concat(store.Inventory.Products).ToList();
             }
@@ -631,7 +800,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User activeUser = _userManagement.getUserByGUID(userID);
+            User activeUser = _userManagement.getUserByGUID(userID, true);
             if (activeUser == null)
             {
                 return null;
@@ -656,8 +825,12 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public void logStorePurchase(Store store, User user, double totalPrice, IDictionary<Product, int> storeBoughtProducts)
         {
-            List<ProductModel> products = storeBoughtProducts.Select(prod => new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description, prod.Value, prod.Key.BasePrice, prod.Key.CalculateDiscount())).ToList();
-            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name(), totalPrice, products);
+            List<ProductModel> products = storeBoughtProducts.Select(prod => 
+            new ProductModel(prod.Key.Id, prod.Key.Name, prod.Key.Description,
+            prod.Value, prod.Key.BasePrice,
+            prod.Key.Discount != null ? prod.Key.Discount.CreateModel() : null,
+            prod.Key.PurchasePolicy != null ? prod.Key.PurchasePolicy.CreateModel() : null)).ToList();
+            StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products, DateTime.Now);
 
             store.logPurchase(storePurchaseModel);
 
@@ -666,7 +839,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public void sendPurchaseNotification(Store store, string username)
         {
             List<Guid> notificationsUsers = new List<Guid>();
-            foreach (string manager in store.Premmisions.Keys) //for each owner/manager
+            foreach (string manager in store.StorePermissions.Keys) //for each owner/manager
             {
                 notificationsUsers.Add(_userManagement.getUserByName(manager).Guid);
             }
@@ -675,8 +848,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IDictionary<string, PermissionModel> getUserPermissions(Guid userID)
         {
-            var user = _userManagement.getUserByGUID(userID);
-            var dict = _stores.ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name())).
+            var user = _userManagement.getUserByGUID(userID, true);
+            var dict = _data.Stores.FetchAll().ToDictionary(s => s.Name, s => s.getPermissionByName(user.Name)).
                 Where(k => k.Value != null).ToDictionary(k => k.Key, k => ModelFactory.CreatePermissions(k.Value));
             return dict;
         }
@@ -698,7 +871,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addDayOffPolicy(daysOff);
+            try
+            {
+                return permission.addDayOffPolicy(daysOff);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : Add Day Off Policy");
+            }
+
         }
 
         public Guid addLocationPolicy(Guid userID, string storeName, List<string> banLocations)
@@ -714,7 +896,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addLocationPolicy(banLocations);
+            try
+            {
+                return permission.addLocationPolicy(banLocations);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Location Policy");
+            }
+            
         }
 
         public Guid addMinPriceStorePolicy(Guid userID, string storeName, double minPrice)
@@ -730,7 +921,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addMinPriceStorePolicy(minPrice);
+            try
+            {
+                return permission.addMinPriceStorePolicy(minPrice);
+            }
+            
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Min Price Store Policy");
+            }
         }
 
         public Guid addAndPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
@@ -746,7 +946,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addAndPurchasePolicy(ID1, ID2);
+            try
+            {
+                return permission.addAndPurchasePolicy(ID1, ID2);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add And Purchase Policy");
+            }
+            
         }
 
         public Guid addOrPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
@@ -762,7 +971,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addOrPurchasePolicy(ID1, ID2);
+            try
+            {
+                return permission.addOrPurchasePolicy(ID1, ID2);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add OR Purchase Policy");
+            }
+            
         }
 
         public Guid addXorPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
@@ -778,8 +996,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addXorPurchasePolicy(ID1, ID2);
+            try
+            {
+                return permission.addXorPurchasePolicy(ID1, ID2);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Xor Purchase Policy");
+            }
+            
         }
+
         //*********REMOVE*********
 
         public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
@@ -795,16 +1023,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            permission.removePurchasePolicy(policyID);
-            return true;
+            try
+            {
+                permission.removePurchasePolicy(policyID);
+                return true;
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : remove Purchase Policy");
+            }
+
         }
 
-
-
-
-
         //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
-
 
         //*********ADD*********
         public Guid addVisibleDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate)
@@ -820,7 +1052,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addVisibleDiscount(productID, percentage, expDate);
+            try
+            {
+                return permission.addVisibleDiscount(productID, percentage, expDate);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Visible Discount");
+            }
+
         }
 
         public Guid addCondiotionalProcuctDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
@@ -836,7 +1077,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
+            try
+            {
+                return permission.addCondiotionalProcuctDiscount(productID, percentage, expDate, minQuantityForDiscount);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Condiotional Procuct Discount");
+            }
+
         }
 
         public Guid addConditionalStoreDiscount(Guid userID, string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
@@ -852,12 +1102,20 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
-        } 
+            try
+            {
+                return permission.addConditionalStoreDiscount(percentage, expDate, minPriceForDiscount);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Conditional Store Discount");
+            }
+
+        }
 
         public Guid addAndDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
         {
-
             User activeUser = isUserIDSubscribed(userID);
             if (activeUser == null) //The logged in user isn`t subscribed
             {
@@ -869,7 +1127,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addAndDiscountPolicy(IDs);
+            try
+            {
+                return permission.addAndDiscountPolicy(IDs);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add And Discount Policy");
+            }
+
         }
 
         //*********REMOVE*********
@@ -886,7 +1153,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addOrDiscountPolicy(IDs);
+            try
+            {
+                return permission.addOrDiscountPolicy(IDs);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Or Discount Policy");
+            }
+
         }
 
         public Guid addXorDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
@@ -902,7 +1178,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return Guid.Empty;
             }
 
-            return permission.addXorDiscountPolicy(IDs);
+            try
+            {
+                return permission.addXorDiscountPolicy(IDs);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add Xor Discount Policy");
+            }
+
         }
 
         public bool removeProductDiscount(Guid userID, string storeName, Guid discountID, Guid productID)
@@ -918,7 +1203,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.removeProductDiscount(discountID, productID);
+            try
+            {
+                return permission.removeProductDiscount(discountID, productID);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : remove Product Discount");
+            }
+
         }
 
         public bool removeCompositeDiscount(Guid userID, string storeName, Guid discountID)
@@ -934,7 +1228,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.removeCompositeDiscount(discountID);
+            try
+            {
+                return permission.removeCompositeDiscount(discountID);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : remove Composite Discount");
+            }
+            
         }
 
         public bool removeStoreLevelDiscount(Guid userID, string storeName, Guid discountID)
@@ -950,7 +1253,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            return permission.removeStoreLevelDiscount(discountID);
+            try
+            {
+                return permission.removeStoreLevelDiscount(discountID);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : remove Store Level Discount");
+            }
+
+
         }
 
 
@@ -985,7 +1298,5 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.getAllDiscountsForCompose();
         }
-
     }
-
 }

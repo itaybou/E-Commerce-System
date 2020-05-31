@@ -1,29 +1,46 @@
-﻿using System;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
     public class Product
     {
-        private Guid _id;
-        private string _name;
-        private string _description;
-        private int _quantity;
-        private double _basePrice;
-        private DiscountType _discount;
-        private PurchaseType _purchaseType;
-        private ProductQuantityPolicy purchasePolicy;
+        [BsonId]
+        public Guid Id { get; set; }
+        [Required]
+        [BsonElement("name")]
+        public string Name { get; set; }
+        [Required]
+        [BsonElement("description")]
+        public string Description { get; set; }
+        [Required]
+        [BsonElement("quantity")]
+        public int Quantity { get; set; }
+        [Required]
+        [BsonElement("price")]
+        public double BasePrice { get; set; }
+        [Required]
+        [BsonElement("discount")]
+        public DiscountType Discount { get; set; }
+        [Required]
+        [BsonElement("purchase")]
+        public PurchaseType PurchaseType { get; set; }
+        [Required]
+        [BsonElement("purchase_policy")]
+        public ProductQuantityPolicy PurchasePolicy { get; set; }
 
-        public Product(string name, string description,  int quantity, double price, Guid guid)
+        public Product(string name, string description, int quantity, double price, Guid guid)
         {
-            this._name = name;
-            this._description = description;
-            this._quantity = quantity;
-            this._discount = null;
-            this._purchaseType = null;
-            this._basePrice = price;
-            this._id = guid;
+            this.Name = name;
+            this.Description = description;
+            this.Quantity = quantity;
+            this.Discount = null;
+            this.PurchaseType = null;
+            this.BasePrice = price;
+            this.Id = guid;
         }
 
         /// <summary>
@@ -32,19 +49,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         /// <returns>Price after discount</returns>
         public double CalculateDiscount()
         {
-            return _discount == null ? _basePrice : _basePrice; // TODO: update return value of the calaulated discount or percentage
+            return Discount == null ? BasePrice : BasePrice; // TODO: update return value of the calaulated discount or percentage
             //_discount.CalculateDiscount(_basePrice);
         }
-
-        public Guid Id { get => _id;}
-        public double BasePrice { get => _basePrice; set => _basePrice = value; }
-        public int Quantity { get => _quantity; set => _quantity = value; }
-        public DiscountType Discount { get => _discount; set => _discount = value; }
-        public PurchaseType PurchaseType { get => _purchaseType; set => _purchaseType = value; }
-        public string Name { get => _name; set => _name = value; }
-        public string Description { get => _description; set => _description = value; }
-        public ProductQuantityPolicy PurchasePolicy { get => purchasePolicy; set => purchasePolicy = value; }
-
         public void increaseProductQuantity(int quantity)
         {
             lock (this)

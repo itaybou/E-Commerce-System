@@ -6,24 +6,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class Guest : IUserState
     {
+        public string Username { get; set; }
+        public string Password { get; set; }
+
         public bool isSubscribed()
         {
             return false;
         }
 
-        public string Name()
-        {
-            return "";
-        }
-
         public void logPurchase(UserPurchase purchase)
         {
             throw new NotSupportedException();
-        }
-
-        public string Password()
-        {
-            return null;
         }
 
         public bool isSystemAdmin()
@@ -35,7 +28,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             return; // guest dont have permissions
         }
-
 
         public void removePermissions(string storeName)
         {
@@ -65,6 +57,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void removeAllAssigneeOfStore(string storeName)
         {
             return;
+        }
+
+        public void addUserRequest(INotificationRequest request)
+        {
+            return;
+        }
+
+        public void removeUserRequest(Guid agreementID)
+        {
+            return;
+        }
+
+        public IEnumerable<INotificationRequest> GetUserRequests()
+        {
+            return null;
         }
     }
 }

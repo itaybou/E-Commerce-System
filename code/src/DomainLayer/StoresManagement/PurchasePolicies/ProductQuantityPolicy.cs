@@ -3,43 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
     public class ProductQuantityPolicy : PurchasePolicy
     {
-        int _min;
-        int _max;
-        Guid _productID;
-        Guid _ID;
+        [BsonId]
+        public Guid ID { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+        public Guid ProductID { get; set; }
 
-        public ProductQuantityPolicy(int min, int max, Guid productID, Guid ID)
+        public ProductQuantityPolicy(int min, int max, Guid productID, Guid Id)
         {
-            this._min = min;
-            this._max = max;
-            this._productID = productID;
-            this._ID = ID;
+            this.Min = min;
+            this.Max = max;
+            ProductID = productID;
+            ID = Id;
         }
-
-        public Guid ID { get => _ID; set => _ID = value; }
 
         public bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
-            if (!products.ContainsKey(_productID)) return true; //the product isn`t exist in the current purchase
+            if (!products.ContainsKey(ProductID)) return true; //the product isn`t exist in the current purchase
 
-            int quantity = products[_productID];
-            return quantity >= _min && quantity <= _max;
+            int quantity = products[ProductID];
+            return quantity >= Min && quantity <= Max;
         }
 
         public PurchasePolicyModel CreateModel()
         {
-            return new ProductQuantityPolicyModel(this.ID, this._min, this._max);
+            var product = DataAccess.Instance.Products.GetByIdOrNull(ProductID, p => p.Id);
+            return new ProductQuantityPolicyModel(this.ID, product.Name, this.Min, this.Max, product.Id);
         }
 
         public Guid getID()
         {
-            return _ID;
+            return ID;
         }
     }
 }

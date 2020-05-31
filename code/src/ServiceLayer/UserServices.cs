@@ -1,11 +1,9 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
-using ECommerceSystem.CommunicationLayer.sessions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -149,6 +147,13 @@ namespace ECommerceSystem.ServiceLayer
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _management.userDetails(userID);
+        }
+
+        [Trace("Info")]
+        public IEnumerable<INotificationRequest> GetAwaitingRequests(Guid sessionID)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.GetAwaitingRequests(userID);
         }
 
         [Trace("Info")]

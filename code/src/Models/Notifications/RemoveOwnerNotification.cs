@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECommerceSystem.Models
+﻿namespace ECommerceSystem.Models
 {
-    class RemoveOwnerNotification : INotitficationType
+    internal class RemoveOwnerNotification : INotitficationType
     {
-        string _revmovedOwner;
-        string _revmover;
-        string _storeName;
+        private string _revmovedOwner;
+        private string _revmover;
+        private string _storeName;
 
         public RemoveOwnerNotification(string revmovedOwner, string revmover, string storeName)
         {

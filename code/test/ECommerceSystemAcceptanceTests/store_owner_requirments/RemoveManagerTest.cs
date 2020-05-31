@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
     // Requirment 4.7
     [TestFixture()]
-    class RemoveManagerTest : StoreOwnerTests
+    internal class RemoveManagerTest : StoreOwnerTests
     {
-        string _otherManager;
+        private string _otherManager;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -23,7 +18,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.assignManager(_otherManager, _storeName);
             _bridge.logout();
         }
-
 
         [TestCase()]
         public void removeManagerSuccess()
@@ -37,7 +31,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         [TestCase()]
         public void removeManagerFail()
         {
-
             Assert.False(_bridge.removeManager(_otherManager, _storeName), "remove manager as a guest successed");
 
             _bridge.login(_userName, _pswd);
@@ -61,8 +54,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.removeManager(_otherManager, _storeName), "remove manager by not the assignee owner successed");
 
             _bridge.logout();
-
         }
-
     }
 }

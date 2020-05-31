@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.ServiceLayer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ECommerceSystem.ServiceLayer;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using ECommerceSystem.CommunicationLayer;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using System;
 
 namespace PresentationLayer
 {
@@ -29,6 +26,8 @@ namespace PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<DataAccess>(
+                 Configuration.GetSection(nameof(DataAccess)));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IService, ServiceFacade>();
             services.AddAuthorization(options =>
@@ -40,14 +39,20 @@ namespace PresentationLayer
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
             }).AddCookie(options =>
             {
                 options.LoginPath = "/auth/login";
                 options.LogoutPath = "/auth/logout";
+                options.Cookie.Name = "ECommerceCookie";
             });
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddHttpContextAccessor();
+            (new SystemInitializer()).Initialize();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +66,6 @@ namespace PresentationLayer
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

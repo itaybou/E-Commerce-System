@@ -25,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         public HashSet<string> readDictionaryFromText()
         {
-            if(!File.Exists(SPELL_CHECK_WORDS_TXT))
+            if (!File.Exists(SPELL_CHECK_WORDS_TXT))
             {
                 SystemLogger.logger.Error("Missing spell checker dictionary file!");
                 return null;

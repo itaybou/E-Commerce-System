@@ -1,29 +1,31 @@
-﻿using ECommerceSystem.Models;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using ECommerceSystem.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
-    public class Inventory : IEnumerable<ProductInventory>
+    public class Inventory
     {
-        private List<ProductInventory> _products;
-        public List<ProductInventory> Products { get => _products; set => _products = value;
-        }
+        public List<ProductInventory> Products { get; set; }
 
         public Inventory()
         {
-            _products = new List<ProductInventory>();
+            Products = new List<ProductInventory>();
         }
-        
+
+        public Inventory(List<ProductInventory> products)
+        {
+            Products = products;
+        }
+
         //Return null if there isn`t product with name
         public ProductInventory getProductByName(string name)
         {
-            foreach (ProductInventory p in _products)
+            foreach (ProductInventory p in Products)
             {
                 if (p.Name.Equals(name))
                 {
@@ -35,9 +37,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Product getProductById(Guid id)
         {
-            foreach (ProductInventory p in _products)
+            foreach (ProductInventory p in Products)
             {
-                foreach (Product prod in p)
+                foreach (Product prod in p.ProductList)
                 {
                     if (prod.Id.Equals(id))
                     {
@@ -49,7 +51,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         }
 
         //return product(not product inventory!) id, return -1 in case of fail
-        public Guid addProductInv(string productName, string description, double price, int quantity, Category category, List<string> keywords)
+        public Guid addProductInv(string productName, string description, double price, int quantity, Category category, List<string> keywords, string imageUrl, string storeName)
         {
             if (productName.Equals(""))
             {
@@ -59,13 +61,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return Guid.Empty;
             }
-            ProductInventory productInventory = ProductInventory.Create(productName, description,  price, quantity, category, keywords);
-            if(productInventory == null)
+            var result = ProductInventory.Create(productName, description, price, quantity, category, keywords, imageUrl, storeName);
+            if (result.Item1 == null)
             {
                 return Guid.Empty;
             }
-            _products.Add(productInventory);
-            return productInventory.ID;
+            Products.Add(result.Item1);
+            return result.Item2; // product id
         }
 
         public bool deleteProductInventory(string productName)
@@ -77,7 +79,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                _products.Remove(product);
+                Products = Products.Where(p => p.ID != product.ID).ToList();
                 return true;
             }
         }
@@ -103,7 +105,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductPrice(string productName, int newPrice)
         {
-            if(newPrice <= 0)
+            if (newPrice <= 0)
             {
                 return false;
             }
@@ -115,7 +117,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                productInventory.Price = newPrice;
+                productInventory.modifyPrice(newPrice);
                 return true;
             }
         }
@@ -143,8 +145,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             else
             {
-                var id = productInventory.addProduct( quantity, productInventory.Price);
-                if (id != Guid.Empty){
+                var id = productInventory.addProduct(quantity, productInventory.Price);
+                if (id != Guid.Empty)
+                {
                     return id;
                 }
                 else
@@ -169,7 +172,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public bool modifyProductDiscountType(string productInvName, Guid productID, DiscountType newDiscount)
         {
-            if(newDiscount.Percentage < 0)
+            if (newDiscount.Percentage < 0)
             {
                 return false;
             }
@@ -196,19 +199,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return productInventory.modifyProductPurchaseType(productID, purchaseType);
             }
-        }
-
-        public IEnumerator<ProductInventory> GetEnumerator()
-        {
-            foreach(var product in _products)
-            {
-                yield return product;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

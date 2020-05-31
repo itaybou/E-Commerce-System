@@ -1,0 +1,141 @@
+﻿@using System.Web
+@using ECommerceSystem.Models.DiscountPolicyModels
+@model (string, List<DiscountPolicyModel>)
+@{
+    ViewData["Title"] = "Store Discount Policies";
+    var storeName = Model.Item1;
+    var discounts = Model.Item2;
+}
+
+    <div class="container-fluid w-75">
+        <h1>@ViewData["StoreName"] - Store Discount Policies</h1>
+        <a href="javascript:void(0);" id="backLink">
+            <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
+                <i class="fas fa-arrow-circle-left"></i>
+                Go Back
+            </div>
+        </a>
+        <div class="row">
+            <div class="col md-12">
+                <h1> <i class="fas fa-percentage"></i>  <small> - Manage Store Discount Policies</small></h1>
+            </div>
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+            <div class="col justify-content-end align-self-center text-right">
+                <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddCompositeDiscount" asp-route-storeName="@storeName">
+                    <i class="fas fa-percentage"></i>Add Discount Policy
+                </a>
+            </div>
+        </div>
+
+        <hr>
+        @foreach (var discount in discounts)
+        {
+            @if (discount is ConditionalProductDiscountModel && discount.ID != Guid.Empty)
+            {
+                var d = (ConditionalProductDiscountModel)discount;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Product Name</th>
+                            <th>Required Purchase Quantity</th>
+                            <th>Percentage</th>
+                            <th>Expiration Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@d.ID</td>
+                            <td>Conditional</td>
+                            <td>@d.ProductName</td>
+                            <td>@d.RequiredQuantity</td>
+                            <td>@d.Percentage</td>
+                            <td>@d.ExpDate</td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="RemoveDiscount" asp-controller="Owner" asp-route-type="simple" asp-route-discountID="@d.ID" asp-route-storeName="@storeName" asp-route-productID="@d.ProductID" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (discount is VisibleDiscountModel && discount.ID != Guid.Empty)
+            {
+                var d = (VisibleDiscountModel)discount;
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Product Name</th>
+                            <th>Percentage</th>
+                            <th>Expiration Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@d.ID</td>
+                            <td class="w-25">Visible</td>
+                            <td>@d.ProductName</td>
+                            <td>@d.Percentage</td>
+                            <td>@d.ExpDate</td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="RemoveDiscount" asp-controller="Owner" asp-route-type="simple" asp-route-discountID="@d.ID" asp-route-storeName="@storeName" asp-route-productID="@d.ProductID" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+            @if (discount is CompositeDiscountPolicyModel && discount.ID != Guid.Empty)
+            {
+                var d = (CompositeDiscountPolicyModel)discount;
+                if (d.Children.Count > 1)
+                {
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                        <tr class="text-left">
+                            <th>#ID</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-left">
+                            <td class="w-25">@d.ID</td>
+                            <td>Composite</td>
+                            <td style="white-space: pre-line">@Html.Raw(d.GetString())</td>
+                            <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                                <form type="hidden" asp-action="RemoveDiscount" asp-controller="Owner" asp-route-type="composite" asp-route-discountID="@d.ID" asp-route-storeName="@storeName" method="post">
+                                    <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                        Remove <i class="fas fa-archive"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                    }
+                }
+
+            }
+    </div>
+

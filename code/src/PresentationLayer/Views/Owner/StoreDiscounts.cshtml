@@ -1,0 +1,72 @@
+﻿@using ECommerceSystem.Models.DiscountPolicyModels
+@model (string, List<DiscountPolicyModel>)
+@{
+    ViewData["Title"] = "Store Discounts";
+    var storeName = Model.Item1;
+    var discounts = Model.Item2;
+}
+
+<div class="container-fluid w-75">
+    <h1>@ViewData["StoreName"] - Store Discounts</h1>
+    <a href="javascript:void(0);" id="backLink">
+        <div class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 8%">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </div>
+    </a>
+    <div class="row">
+        <div class="col md-12">
+            <h1> <i class="fas fa-percentage"></i>  <small> - Manage Global Store Discounts</small></h1>
+        </div>
+        @if (!ViewContext.ModelState.IsValid)
+        {
+            <div class="alert alert-danger m-2">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        }
+        <div class="col justify-content-end align-self-center text-right">
+            <a type="button" style="width: 300px" class="btn btn-lg btn-success" asp-controller="Owner" asp-action="AddStoreDiscount" asp-route-storeName="@storeName">
+                <i class="fas fa-percentage"></i>Add Store Discount
+            </a>
+        </div>
+    </div>
+
+    <hr>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr class="text-left">
+                <th>#ID</th>
+                <th>Required Purchase Price</th>
+                <th>Percantage</th>
+                <th>Expiration Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var discount in discounts)
+            {
+                @if (discount is ConditionalStoreDiscountModel)
+                {
+                    var d = (ConditionalStoreDiscountModel)discount;
+                    <tr class="text-left">
+                        <td class="w-25">@d.ID</td>
+                        <td>@d.RequiredPrice</td>
+                        <td>@d.Percentage</td>
+                        <td>@d.ExpDate</td>
+                        <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
+                            <form type="hidden" asp-action="RemoveStoreDiscount" asp-controller="Owner" asp-route-storeName="@storeName" asp-route-discountID="@d.ID" method="post">
+                                <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
+                                    Remove <i class="fas fa-archive"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</div>
+
+

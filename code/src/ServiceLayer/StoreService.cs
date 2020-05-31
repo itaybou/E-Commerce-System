@@ -1,10 +1,7 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.DomainLayer.StoresManagement.Discount;
-using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Models;
-using ECommerceSystem.CommunicationLayer.sessions;
 using System;
 using System.Collections.Generic;
 using ECommerceSystem.Models.PurchasePolicyModels;
@@ -23,27 +20,34 @@ namespace ECommerceSystem.ServiceLayer
             _sessions = SessionController.Instance;
         }
 
-        public void removeAllStores()
-        {
-            _storeManagement.Stores.Clear();
-        }
+        //public void removeAllStores()
+        //{
+        //    _storeManagement.Stores.Clear();
+        //}
 
         [Trace("Info")]
         //Usecase - 2.4
-        public Tuple<StoreModel, List<ProductModel>> getStoreInfo(string storeName)
+        public Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName)
         {
             return _storeManagement.getStoreProducts(storeName);
         }
 
         [Trace("Info")]
-        public Dictionary<StoreModel, List<ProductModel>> getAllStoresInfo()
+        public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid sessionID, Guid productInvID, string storeName)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreProductGroup(productInvID, storeName);
+        }
+
+        [Trace("Info")]
+        public Dictionary<StoreModel, List<ProductInventoryModel>> getAllStoresInfo()
         {
             return _storeManagement.getAllStoresProducts();
         }
 
         [Trace("Info")]
         //Usecase - 3.2
-        public bool openStore(Guid sessionID, string name) 
+        public bool openStore(Guid sessionID, string name)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.openStore(userID, name);
@@ -51,10 +55,10 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.1
-        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity) // -1 if not needed in both
+        public Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl) // -1 if not needed in both
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _storeManagement.addProductInv(userID, storeName, description, productInvName,  price, quantity, category, keywords, minQuantity, maxQuantity);
+            return _storeManagement.addProductInv(userID, storeName, description, productInvName, price, quantity, category, keywords, minQuantity, maxQuantity, imageUrl);
         }
 
         [Trace("Info")]
@@ -67,7 +71,7 @@ namespace ECommerceSystem.ServiceLayer
 
         [Trace("Info")]
         //Usecase - 4.1.3
-        public Guid addProduct(Guid sessionID, string storeName, string productInvName,  int quantity, int minQuantity, int maxQuantity)
+        public Guid addProduct(Guid sessionID, string storeName, string productInvName, int quantity, int minQuantity, int maxQuantity)
         {
             var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addProduct(userID, storeName, productInvName, quantity, minQuantity, maxQuantity);
@@ -184,45 +188,52 @@ namespace ECommerceSystem.ServiceLayer
 
         //*********ADD*********
         [Trace("Info")]
-        public Guid addDayOffPolicy(Guid userID, string storeName, List <DayOfWeek> daysOff)
+        public Guid addDayOffPolicy(Guid sessionID, string storeName, List <DayOfWeek> daysOff)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.AddDayOffPolicy(userID, storeName, daysOff);
         }
 
         [Trace("Info")]
-        public Guid addLocationPolicy(Guid userID, string storeName, List<string> banLocations)
+        public Guid addLocationPolicy(Guid sessionID, string storeName, List<string> banLocations)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addLocationPolicy(userID, storeName, banLocations);
         }
 
         [Trace("Info")]
-        public Guid addMinPriceStorePolicy(Guid userID, string storeName, double minPrice)
+        public Guid addMinPriceStorePolicy(Guid sessionID, string storeName, double minPrice)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addMinPriceStorePolicy(userID, storeName, minPrice);
         }
 
         [Trace("Info")]
-        public Guid addAndPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        public Guid addAndPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addAndPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
         [Trace("Info")]
-        public Guid addOrPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        public Guid addOrPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addOrPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
         [Trace("Info")]
-        public Guid addXorPurchasePolicy(Guid userID, string storeName, Guid ID1, Guid ID2)
+        public Guid addXorPurchasePolicy(Guid sessionID, string storeName, Guid ID1, Guid ID2)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addXorPurchasePolicy(userID, storeName, ID1, ID2);
         }
 
         //*********REMOVE*********
         [Trace("Info")]
-        public bool removePurchasePolicy(Guid userID, string storeName, Guid policyID)
+        public bool removePurchasePolicy(Guid sessionID, string storeName, Guid policyID)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.removePurchasePolicy(userID, storeName, policyID);
         }
 
@@ -235,90 +246,101 @@ namespace ECommerceSystem.ServiceLayer
 
         //*********gett all policies for gui*********
         [Trace("Info")]
-        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid sessionID, string storeName)
         {
-            return _storeManagement.getAllPurchasePolicyByStoreName(userid, storeName);
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getAllPurchasePolicyByStoreName(userID, storeName);
         } 
 
 
 
         //*********Manage Dicsount Policy  --   REQUIREMENT 4.2*********
 
-
         //*********ADD*********
 
         //if the product already have discount, the new discount override the old
         [Trace("Info")]
-        public Guid addVisibleDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate)
+        public Guid addVisibleDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addVisibleDiscount(userID, storeName, productID, percentage, expDate);
         }
 
         [Trace("Info")]
-        public Guid addCondiotionalProcuctDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        public Guid addCondiotionalProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addCondiotionalProcuctDiscount(userID, storeName, productID, percentage, expDate, minQuantityForDiscount);
         }
 
         [Trace("Info")]
-        public Guid addConditionalStoreDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, int minPriceForDiscount)
+        public Guid addConditionalStoreDiscount(Guid sessionID, string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addConditionalStoreDiscount(userID, storeName, percentage, expDate, minPriceForDiscount);
         }
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
         [Trace("Info")]
-        public Guid addAndDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        public Guid addAndDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addAndDiscountPolicy(userID, storeName, IDs);
         }
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
         [Trace("Info")]
-        public Guid addOrDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        public Guid addOrDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addOrDiscountPolicy(userID, storeName, IDs);
         }
 
         //cant compose store level discount
         //@pre - IDs doesn`t contain store level discount id
         [Trace("Info")]
-        public Guid addXorDiscountPolicy(Guid userID, string storeName, List<Guid> IDs)
+        public Guid addXorDiscountPolicy(Guid sessionID, string storeName, List<Guid> IDs)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.addXorDiscountPolicy(userID, storeName, IDs);
         }
 
         //*********REMOVE*********
         [Trace("Info")]
-        public bool removeProductDiscount(Guid userID, string storeName, Guid discountID, Guid productID)
+        public bool removeProductDiscount(Guid sessionID, string storeName, Guid discountID, Guid productID)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.removeProductDiscount(userID, storeName, discountID, productID);
         }
 
         [Trace("Info")]
-        public bool removeCompositeDiscount(Guid userID, string storeName, Guid discountID)
+        public bool removeCompositeDiscount(Guid sessionID, string storeName, Guid discountID)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.removeCompositeDiscount(userID, storeName, discountID);
         }
 
         [Trace("Info")]
-        public bool removeStoreLevelDiscount(Guid userID, string storeName, Guid discountID)
+        public bool removeStoreLevelDiscount(Guid sessionID, string storeName, Guid discountID)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.removeStoreLevelDiscount(userID, storeName, discountID);
         }
 
         [Trace("Info")]
-        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid userID, string storeName)
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(Guid sessionID, string storeName)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.getAllStoreLevelDiscounts(userID, storeName);
         }
 
         //return all store discounts without store level discount
         [Trace("Info")]
-        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid userID, string storeName)
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(Guid sessionID, string storeName)
         {
+            var userID = _sessions.ResolveSession(sessionID);
             return _storeManagement.getAllDiscountsForCompose(userID, storeName);
         }
 
@@ -330,21 +352,35 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(Guid sessionID, string storeName)
         {
-            return _storeManagement.getStoreOwners(storeName);
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreOwners(userID, storeName);
         }
 
         [Trace("Info")]
-        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(string storeName)
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreManagers(Guid sessionID, string storeName)
         {
-            return _storeManagement.getStoreManagers(storeName);
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.getStoreManagers(userID, storeName);
         }
 
         [Trace("Info")]
-        public (ProductModel, string) getProductInventory(Guid prodID)
+        public (ProductInventoryModel, string) getProductInventory(Guid prodID)
         {
             return _storeManagement.getProductInventory(prodID);
+        }
+
+        [Trace("Info")]
+        public void rateProduct(Guid prodID, int rating)
+        {
+            _storeManagement.rateProduct(prodID, rating);
+        }
+
+        [Trace("Info")]
+        public void rateStore(string storeName, int rating)
+        {
+            _storeManagement.rateStore(storeName, rating);
         }
     }
 }

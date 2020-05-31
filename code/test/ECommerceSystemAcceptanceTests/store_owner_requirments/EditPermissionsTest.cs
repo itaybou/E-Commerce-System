@@ -1,19 +1,13 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ECommerceSystem.DomainLayer.UserManagement;
-using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
-
     // Requirment 4.6
     [TestFixture()]
-    class EditPermissionsTest : StoreOwnerTests
+    internal class EditPermissionsTest : StoreOwnerTests
     {
-        List <PermissionType> _permissions;
+        private List<PermissionType> _permissions;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -44,7 +38,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.login(_managerUserName, _pswd);
             Assert.False(_bridge.editPermissions(_storeName, _managerUserName, _permissions), "edit permissions as a manager successed");
             _bridge.logout();
-
 
             _bridge.login(_ownerUserName, _pswd);
             Assert.False(_bridge.editPermissions("not exist", _managerUserName, _permissions), "edit permissions of not exist store successed");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerceSystem.Models.PurchasePolicyModels;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
 {
@@ -17,16 +18,15 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
         {
         }
 
-        public override bool canBuy(IDictionary <Guid, int> products, double totalPrice, string address)
+        public override bool canBuy(IDictionary<Guid, int> products, double totalPrice, string address)
         {
-
-            if(base.Children.Count == 0)
+            if (base.Children.Count == 0)
             {
                 return true;
             }
 
             int counter = 0;
-            foreach(PurchasePolicy p in base.Children)
+            foreach (PurchasePolicy p in base.Children)
             {
                 if (p.canBuy(products, totalPrice, address))
                 {
@@ -43,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies
             {
                 childrenModels.Add(p.CreateModel());
             }
-            return new CompositePurchasePolicyModel(this._ID, childrenModels, CompositeType.Xor);
+            return new CompositePurchasePolicyModel(this.ID, childrenModels, CompositeType.Xor);
         }
     }
 }

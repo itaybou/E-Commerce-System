@@ -1,18 +1,14 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
     // Requirment 4.10 and 6.4.2
     [TestFixture()]
-    class StorePurchaseHistoryTest : StoreOwnerTests
+    internal class StorePurchaseHistoryTest : StoreOwnerTests
     {
-
-        Guid _productID;
+        private Guid _productID;
 
         [OneTimeSetUp]
         public new void oneTimeSetup()
@@ -23,14 +19,13 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             //_bridge.logout();
 
             _bridge.login(_userName, _pswd);
-            bool susccess =_bridge.PurchaseProducts(new Dictionary<Guid, int>() { {_productID, 1} }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
+            bool susccess = _bridge.PurchaseProducts(new Dictionary<Guid, int>() { { _productID, 1 } }, _fname, _lname, "123456789", "1234123412341234", DateTime.Today.ToString(), "123", "address");
             _bridge.logout();
         }
 
         [TestCase()]
         public void storePurchaseHistorySuccess()
         {
-
             List<Tuple<Guid, int>> products = new List<Tuple<Guid, int>>(); // product id --> quantity
             products.Add(Tuple.Create(_productID, 1));
             List<Tuple<string, List<Tuple<Guid, int>>, double>> expectedHistory = new List<Tuple<string, List<Tuple<Guid, int>>, double>>();
@@ -46,13 +41,11 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             CollectionAssert.AreEquivalent(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
 
-
             //system admin
             _bridge.login("admin", "4dMinnn");
             CollectionAssert.AreEquivalent(expectedHistory, _bridge.StorePurchaseHistory(_storeName), "fail to return purchase history of store");
             _bridge.logout();
         }
-
 
         [TestCase()]
         public void storePurchaseHistoryFail()
@@ -61,13 +54,10 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.Null(_bridge.StorePurchaseHistory("not exist"), "purchase history of not exist store successed");
             _bridge.logout();
 
-
             Assert.Null(_bridge.StorePurchaseHistory(_storeName), "purchase history with guest successed");
             _bridge.login(_userName, _pswd);
             Assert.Null(_bridge.StorePurchaseHistory(_storeName), "purchase history with regular user successed");
             _bridge.logout();
         }
-
-
     }
 }

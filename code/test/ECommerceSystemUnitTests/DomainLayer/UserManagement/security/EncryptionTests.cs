@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
 {
@@ -28,8 +27,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.security.Tests
         {
             Assert.AreEqual(Encryption.encrypt(_testString2), Encryption.encrypt("p4ssWordMOCk")); // Same string
             Assert.AreEqual(Encryption.encrypt(_testString1), Encryption.encrypt("this is a sample TEST STRING with numbers 231345 and signs $#@#@%#$!@#&*()<> SmAlL AND biG lettErs!")); // Same string
-
         }
-
     }
 }

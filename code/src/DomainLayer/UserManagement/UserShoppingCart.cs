@@ -1,55 +1,40 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
-    public class UserShoppingCart : IEnumerable<Product>
+    public class UserShoppingCart
     {
-        private List<StoreShoppingCart> _storeCarts;
+        public Guid UserID { get; set; }
+        public List<StoreShoppingCart> StoreCarts { get; set; }
 
-        public List<StoreShoppingCart> StoreCarts { get => _storeCarts; set => _storeCarts = value; }
-
-        public UserShoppingCart()
+        public UserShoppingCart(Guid userID)
         {
-            _storeCarts = new List<StoreShoppingCart>();
+            StoreCarts = new List<StoreShoppingCart>();
+            UserID = userID;
         }
 
         public double getTotalACartPrice()
         {
-            return _storeCarts.Aggregate(0.0, (total, cart) => total + cart.getTotalCartPrice());
+            return StoreCarts.Aggregate(0.0, (total, cart) => total + cart.getTotalCartPrice());
         }
 
         public ICollection<(Store, double, IDictionary<Product, int>)> getProductsStoreAndTotalPrices()
         {
             var result = new List<(Store, double, IDictionary<Product, int>)>();
-            foreach(var storeCart in StoreCarts)
+            foreach (var storeCart in StoreCarts)
             {
-                result.Add((storeCart.store, storeCart.getTotalCartPrice(), storeCart.Products));
+                var dict = storeCart.ProductQuantities.ToDictionary(k => k.Value.Item1, v => v.Value.Item2);
+                result.Add((storeCart.Store, storeCart.getTotalCartPrice(), dict));
             }
             return result;
         }
 
         public IDictionary<Product, int> getAllCartProductsAndQunatities()
         {
-            return StoreCarts.SelectMany(storeCart => storeCart.Products).ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-
-        public IEnumerator<Product> GetEnumerator()
-        {
-            foreach (var storeCart in _storeCarts)
-            {
-                foreach (var product in storeCart.Products.Keys.ToList())
-                {
-                    yield return product;
-                }
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            return StoreCarts.SelectMany(storeCart => storeCart.ProductQuantities).ToDictionary(pair => pair.Value.Item1, pair => pair.Value.Item2);
         }
     }
 }

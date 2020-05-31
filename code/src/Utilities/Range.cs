@@ -1,6 +1,4 @@
-﻿using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using System;
-using System.Diagnostics;
+﻿using System;
 
 namespace ECommerceSystem.Utilities
 {

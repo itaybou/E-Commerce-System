@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECommerceSystem.Models
+﻿namespace ECommerceSystem.Models
 {
-    class PurchaseNotification : INotitficationType
+    internal class PurchaseNotification : INotitficationType
     {
-        string _username;
-        string _storeName;
+        private string _username;
+        private string _storeName;
 
         public PurchaseNotification(string username, string storeName)
         {

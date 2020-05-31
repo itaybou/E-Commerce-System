@@ -1,6 +1,5 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
-using ECommerceSystem.DomainLayer.SystemManagement;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private Product product4;
         private Guid _userID;
 
-
         [SetUp]
         public void setUp()
         {
@@ -36,13 +34,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement = UsersManagement.Instance;
             _userManagement.register("user1", "pA55word", "user", "last", "mail@mail");
             _userManagement.login("user1", "pA55word");
-            _store1 = new Store( "owner1", "store1");
-            _store2 = new Store( "owner2", "store2");
-            product1 = new Product(null, null,   20, 20, Guid.NewGuid());
-            product2 = new Product(null, null,  20, 20, Guid.NewGuid());
-            product3 = new Product(null, null,  20, 20, Guid.NewGuid());
-            product4 = new Product(null, null,  20, 20, Guid.NewGuid());
-            _userID= _userManagement.getUserByName("user1").Guid;
+            _store1 = new Store("owner1", "store1");
+            _store2 = new Store("owner2", "store2");
+            product1 = new Product(null, null, 20, 20, Guid.NewGuid());
+            product2 = new Product(null, null, 20, 20, Guid.NewGuid());
+            product3 = new Product(null, null, 20, 20, Guid.NewGuid());
+            product4 = new Product(null, null, 20, 20, Guid.NewGuid());
+            _userID = _userManagement.getUserByName("user1").Guid;
             var store1_products = new Dictionary<Product, int>()
             {
                 {product1, 5 },
@@ -68,11 +66,20 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             StoreManagement.Instance.Stores.Clear();
         }
 
+        [Test()]
+        public void makePurchaseSuccessTest()
+        {
+            Assert.True(_systemManager.makePurchase(_userID,   _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
+            Assert.AreEqual(product1.Quantity, 15); // First product quantity decreased (first store purchased from)
+            Assert.AreEqual(product2.Quantity,10);
+            Assert.AreEqual(product3.Quantity, 18);
+            Assert.AreEqual(product4.Quantity, 0);
+        }
 
         [Test()]
         public void makePurchaseFaildBadCreditCardDetailsTest()
         {
-            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV /10, _address));
+            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address));
             Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
         }
 
@@ -86,7 +93,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
             Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
         }
-
 
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryCorrectAfterPurchaseTest()

@@ -1,93 +1,103 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
-using ECommerceSystem.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ECommerceSystem.Models;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public class User
     {
-        public IUserState _state { get; set; }
-        public UserShoppingCart _cart { get; set; }
-        public Guid Guid { get => _guid; set => _guid = value; }
-
-        Guid _guid;
+        public Guid Guid { get; set; }
+        public IUserState State { get; set; }
+        public UserShoppingCart Cart { get; set; }
+        public string Name { get => State.Username; }
+        public string Password { get => State.Password; }
 
         public User()
         {
-            _state = new Guest();
-            _cart = new UserShoppingCart();
-            _guid = Guid.NewGuid();
+            State = new Guest();
+            Guid = Guid.NewGuid();
+            Cart = new UserShoppingCart(Guid);
         }
 
         public User(IUserState state)
         {
-            _state = state;
-            _cart = new UserShoppingCart();
-            _guid = Guid.NewGuid();
+            State = state;
+            Guid = Guid.NewGuid();
+            Cart = new UserShoppingCart(Guid);
         }
 
         public User(IUserState state, Guid guid)
         {
-            _state = state;
-            _cart = new UserShoppingCart();
-            _guid = guid;
+            State = state;
+            Guid = guid;
+            Cart = new UserShoppingCart(Guid);
         }
 
         public bool isSubscribed()
         {
-            return this._state.isSubscribed();
-        }
-
-        public string Name()
-        {
-            return _state.Name();
+            return this.State.isSubscribed();
         }
 
         public void addPermission(Permissions permissions, string storeName)
         {
-            _state.addPermission(permissions, storeName);
+            State.addPermission(permissions, storeName);
         }
 
         public void removePermissions(string storeName)
         {
-            _state.removePermissions(storeName);
+            State.removePermissions(storeName);
         }
 
         public bool isSystemAdmin()
         {
-            return _state.isSystemAdmin();
+            return State.isSystemAdmin();
         }
 
         //Assume _state is subsbcribed
         public List<UserPurchase> getHistoryPurchase()
         {
-            return ((Subscribed)_state).PurchaseHistory;
+            return ((Subscribed)State).PurchaseHistory;
         }
 
         public Permissions getPermission(string storeName)
         {
-            return _state.getPermission(storeName);
+            return State.getPermission(storeName);
         }
 
         public void addAssignee(string storeName, Guid assigneeID)
         {
-            _state.addAssignee(storeName, assigneeID);
+            State.addAssignee(storeName, assigneeID);
         }
 
         public bool removeAssignee(string storeName, Guid assigneeID)
         {
-            return _state.removeAssignee(storeName, assigneeID);
+            return State.removeAssignee(storeName, assigneeID);
         }
 
         public List<Guid> getAssigneesOfStore(string storeName)
         {
-            return _state.getAssigneesOfStore(storeName);
+            return State.getAssigneesOfStore(storeName);
         }
 
         public void removeAllAssigneeOfStore(string storeName)
         {
-            _state.removeAllAssigneeOfStore(storeName);
+            State.removeAllAssigneeOfStore(storeName);
+        }
+
+        public void addUserRequest(INotificationRequest request)
+        {
+            State.addUserRequest(request);
+        }
+
+        public void removeUserRequest(Guid agreementID)
+        {
+            State.removeUserRequest(agreementID);
+        }
+
+        public IEnumerable<INotificationRequest> GetUserRequests()
+        {
+            return State.GetUserRequests();
         }
     }
+
 }

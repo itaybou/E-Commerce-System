@@ -1,11 +1,5 @@
-﻿using ECommerceSystem.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PresentationLayer.Models
 {
@@ -13,14 +7,14 @@ namespace PresentationLayer.Models
     {
         [DisplayName("Username")]
         [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("Category")]
         [Required(ErrorMessage = "Please Provide Category", AllowEmptyStrings = false)]
-        public string? Category { get; set; }
+        public string Category { get; set; }
 
         [DisplayName("Descrption")]
-        public string Description { get ; set; }
+        public string Description { get; set; }
 
         [DisplayName("Quantity")]
         [Required(ErrorMessage = "Please Provide Quantity", AllowEmptyStrings = false)]
@@ -28,15 +22,18 @@ namespace PresentationLayer.Models
 
         [DisplayName("Price")]
         [Required(ErrorMessage = "Please Provide Price", AllowEmptyStrings = false)]
-        public double BasePrice { get; set; }
+        public double Price { get; set; }
 
         [DisplayName("Keywords")]
         public string Keywords { get; set; }
 
-        [DisplayName("MinPurchaseQuantity")]
-        public int MinPurchaseQuantity { get; set; }
+        [DisplayName("Image URL")]
+        public string ImageURL { get; set; }
 
-        [DisplayName("MaxPuchaesQuantity")]
-        public int MaxPurchaseQuantity { get; set; }
+        [DisplayName("Minimum Purchase Quantity")]
+        public int? MinQuantity { get; set; }
+
+        [DisplayName("Maximum Purchase Quantity")]
+        public int? MaxQuantity { get; set; }
     }
 }

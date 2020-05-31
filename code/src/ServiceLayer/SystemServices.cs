@@ -1,10 +1,11 @@
-﻿using ECommerceSystem.DomainLayer.SystemManagement;
+﻿using ECommerceSystem.CommunicationLayer.sessions;
+using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
-using ECommerceSystem.Utilities;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
-using ECommerceSystem.CommunicationLayer.sessions;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.ServiceLayer
 {
@@ -50,9 +51,8 @@ namespace ECommerceSystem.ServiceLayer
             return _systemManager.SearchAndFilterSystem.getProductSearchResults(null, keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
-
         /// <summary>
-        /// purchase process of user shopping cart 
+        /// purchase process of user shopping cart
         /// </summary>
         /// <param name="firstName"> first name of the user</param>
         /// <param name="lastName"> last name of the user </param>
@@ -63,14 +63,14 @@ namespace ECommerceSystem.ServiceLayer
         /// <param name="address"> user address for delivery </param>
         /// <returns>List of unavailable products if there are any or null if succeeded purchase</returns>
         [Trace("Info")]
-        public ICollection<ProductModel> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
+        public async Task<ICollection<ProductModel>> purchaseUserShoppingCart(Guid sessionID, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var userID = _sessions.ResolveSession(sessionID);
-            return _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+            return await _systemManager.purchaseUserShoppingCart(userID, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         }
 
         ///// <summary>
-        ///// purchase process of specific product 
+        ///// purchase process of specific product
         ///// </summary>
         ///// <param name="product"> the product the user want to buy and the store that own the product</param>
         ///// <param name="firstName">first name of the user</param>
@@ -87,9 +87,8 @@ namespace ECommerceSystem.ServiceLayer
         //    return _systemManager.purchaseProduct(product, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
         //}
 
-
         ///// <summary>
-        ///// purchase process of specific products 
+        ///// purchase process of specific products
         ///// </summary>
         ///// <param name="products"> all the products the user want to buy and the stores that own the products</param>
         ///// <param name="firstName">first name of the user</param>

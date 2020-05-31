@@ -6,17 +6,22 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.Models.DiscountPolicyModels
 {
-    class ConditionalStoreDiscountModel : DiscountPolicyModel
+    public class ConditionalStoreDiscountModel : DiscountPolicyModel
     {
-        double _requiredPrice;
-        float _percentage;
-        DateTime _expDate;
+        public double RequiredPrice { get; set; }
+        public float Percentage { get; set; }
+        public DateTime ExpDate { get; set; }
 
         public ConditionalStoreDiscountModel(Guid ID, double requiredPrice, DateTime expDate, float percentage) : base(ID)
         {
-            _requiredPrice = requiredPrice;
-            _percentage = percentage;
-            _expDate = expDate;
+            RequiredPrice = requiredPrice;
+            Percentage = percentage;
+            ExpDate = expDate;
+        }
+
+        public override string GetString()
+        {
+            return "Store discount: Buy above " + RequiredPrice + " and get " + Percentage + "% discount, expires: " + ExpDate.ToString("dd/MM/yyyy");
         }
     }
 }

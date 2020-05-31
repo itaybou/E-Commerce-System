@@ -1,8 +1,6 @@
 ﻿using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace ECommerceSystemAcceptanceTests.guest_requirments
 {
@@ -12,7 +10,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
     {
         private string uname, pswd;
         private IBridgeAdapter _bridge;
-        string firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address;
+        private string firstName, lastName, id, creditCardNumber, creditExpiration, cvv, address;
 
         [OneTimeSetUp]
         public void oneTimeSetup()
@@ -35,7 +33,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
-            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } } );
+            _bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } });
             _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product4" }, { "product5" }, { "product6" } });
             _bridge.openStoreWithProducts("store2", uname, new List<string>() { { "product4" }, { "product5" }, { "product6" }, { "product7" } });
             _bridge.logout();
@@ -47,6 +45,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             _bridge.usersCleanUp();
             _bridge.storesCleanUp();
         }
+
         /*
         [TestCase()]
         public void TestPurchaseCart()

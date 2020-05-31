@@ -1,6 +1,9 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
@@ -19,24 +22,56 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             _supplySystem = new SupplySystemAdapter();
         }
 
-        public bool paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
-            return _paymentSystem.pay(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+            try
+            {
+                return await _paymentSystem.pay(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+            }
+            catch(Exception e)
+            {
+                SystemLogger.logger.Error(e.Message);
+                throw new ExternalSystemException("Faild : payment failure");
+            }        
         }
 
-        public bool refundTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> refundTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
-            return _paymentSystem.refund(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+            try
+            {
+                return await _paymentSystem.refund(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.Message);
+                throw new ExternalSystemException("Faild : refund failure");
+            }
         }
 
-        public bool sendPayment(Store store, double amount)
+        public async Task<bool> sendPayment(Store store, double amount)
         {
-            return _paymentSystem.sendPayment(store.Name, amount);
+            try
+            {
+                return await _paymentSystem.sendPayment(store.Name, amount);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.Message);
+                throw new ExternalSystemException("Faild : send payment to store failure");
+            }
         }
 
-        public bool supplyTransaction(IDictionary<Product, int> products, string address)
+        public async Task<bool> supplyTransaction(IDictionary<Product, int> products, string address)
         {
-            return _supplySystem.supply(products, address);
+            try
+            {
+                return await _supplySystem.supply(products, address);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.Message);
+                throw new ExternalSystemException("Faild : supply transaction");
+            }
         }
     }
 }

@@ -6,11 +6,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 {
     public interface IUserState
     {
+        string Username { get; set; }
+
+        string Password { get; set; }
+
         bool isSubscribed();
-
-        string Name();
-
-        string Password();
 
         void logPurchase(UserPurchase userPurchase);
 
@@ -26,5 +26,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         bool removeAssignee(string storeName, Guid assigneeID);
         List<Guid> getAssigneesOfStore(string storeName);
         void removeAllAssigneeOfStore(string storeName);
+        void addUserRequest(INotificationRequest request);
+        void removeUserRequest(Guid agreementID);
+        IEnumerable<INotificationRequest> GetUserRequests();
     }
 }
