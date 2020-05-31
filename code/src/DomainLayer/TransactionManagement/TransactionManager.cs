@@ -31,7 +31,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             catch(Exception e)
             {
                 SystemLogger.logger.Error(e.Message);
-                throw new ExternalSystemExceptions("Faild : payment failure");
+                throw new ExternalSystemException("Faild : payment failure");
             }        
         }
 
@@ -44,7 +44,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.Message);
-                throw new ExternalSystemExceptions("Faild : refund failure");
+                throw new ExternalSystemException("Faild : refund failure");
             }
         }
 
@@ -57,7 +57,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.Message);
-                throw new ExternalSystemExceptions("Faild : send payment to store failure");
+                throw new ExternalSystemException("Faild : send payment to store failure");
             }
         }
 
@@ -70,7 +70,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.Message);
-                throw new ExternalSystemExceptions("Faild : supply transaction");
+                throw new ExternalSystemException("Faild : supply transaction");
             }
         }
     }

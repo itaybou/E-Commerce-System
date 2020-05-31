@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
 using Microsoft.AspNetCore.Http;
 
 #line default
@@ -77,7 +77,7 @@ using Microsoft.AspNetCore.Http;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
+#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
   
     var notificationCount = Context.Session.GetString("NotificationCount");
     var requestCount = Context.Session.GetString("RequestCount");
@@ -102,7 +102,7 @@ using Microsoft.AspNetCore.Http;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        </div>\r\n        <div class=\"flex-row d-flex\">\r\n            <span class=\"align-content-between m-2\">\r\n                Welcome <b>");
 #nullable restore
-#line 14 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
+#line 14 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
                        Write(User.Identity.IsAuthenticated ? User.Identity.Name : "Guest");
 
 #line default
@@ -110,7 +110,7 @@ using Microsoft.AspNetCore.Http;
 #nullable disable
             WriteLiteral("</b>\r\n            </span>\r\n            <!--User Requests-->\r\n");
 #nullable restore
-#line 17 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
+#line 17 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Shared\_UserControls.cshtml"
              if (User.Identity.IsAuthenticated)
             {
 

@@ -241,10 +241,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             User historyUser = getUserByName(userName);
             User user = getUserByGUID(userID, true);
 
-            if (!user.isSystemAdmin())
-            {
-                return null;
-            }
             if (historyUser == null || !historyUser.isSubscribed())
             {
                 return null;

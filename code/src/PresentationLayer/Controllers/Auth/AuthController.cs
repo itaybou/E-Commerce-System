@@ -52,18 +52,18 @@ namespace PresentationLayer.Controllers.Auth
                     var (valid, guid) = _service.login(session, model.Username, model.Password);
                     if (valid)
                     {
+                        await AuthenticateAsync(guid, model.Username);
+                        var awaitingRequests = _service.GetAwaitingRequests(session);
+                        HttpContext.Session.SetString("RequestCount", awaitingRequests.ToList().Count.ToString());
+                        HttpContext.Session.SetInt32("RequestLogin", 1);
+                        var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
+                        return View("_ActionMessage", message);
                     }
                     else
                     {
                         ModelState.AddModelError("InvalidRegistration", "invalid credentials");
                         return View(model);
                     }
-                    await AuthenticateAsync(guid, model.Username);
-                    var awaitingRequests = _service.GetAwaitingRequests(session);
-                    HttpContext.Session.SetString("RequestCount", awaitingRequests.ToList().Count.ToString());
-                    HttpContext.Session.SetInt32("RequestLogin", 1);
-                    var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
-                    return View("_ActionMessage", message);
                 }
                 catch (AuthenticationException)
                 {

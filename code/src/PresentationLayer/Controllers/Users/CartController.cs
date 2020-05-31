@@ -28,8 +28,19 @@ namespace PresentationLayer.Controllers.Users
             if (error)
                 ModelState.AddModelError("CartError", "Unavailable product quantity.");
             var sessionID = new Guid(HttpContext.Session.Id);
-            var cart = _service.ShoppingCartDetails(sessionID);
-            return View(new CartModel(cart));
+            try
+            {
+                var cart = _service.ShoppingCartDetails(sessionID);
+                return View(new CartModel(cart));
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
 
         [Route("Checkout")]
@@ -55,6 +66,10 @@ namespace PresentationLayer.Controllers.Users
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
         }
 
@@ -91,6 +106,10 @@ namespace PresentationLayer.Controllers.Users
                 }
                 return RedirectToAction("ConcreteProducts", "Product", new { prodID = invID, store = store, listing = listing, error = true });
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
@@ -110,7 +129,16 @@ namespace PresentationLayer.Controllers.Users
                     return RedirectToAction("Index", "Cart", new { error = true });
                 }
                 return RedirectToAction("Index", "Cart", new { error = false });
-            } catch(Exception e)
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (Exception)
             {
                 return RedirectToAction("Index", "Cart", new { error = true});
             }
@@ -129,7 +157,15 @@ namespace PresentationLayer.Controllers.Users
                 }
                 return RedirectToAction("Index", "Cart", new { error = false });
             }
-            catch (Exception e)
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (Exception)
             {
                 return RedirectToAction("Index", "Cart", new { error = true });
             }
@@ -165,9 +201,17 @@ namespace PresentationLayer.Controllers.Users
                 }
                 return RedirectToAction("Checkout", "Cart", new { error = true, formError = false, unavailable = notAvaiableProducts });
             }
+            catch(ExternalSystemException)
+            {
+                return Redirect("~/Exception/ExternalSystemException");
+            }
             catch (DatabaseException)
             {
                 return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
             }
             catch (Exception) 
             {

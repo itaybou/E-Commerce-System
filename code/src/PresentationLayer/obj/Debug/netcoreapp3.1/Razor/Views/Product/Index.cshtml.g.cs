@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
 using ECommerceSystem.Models;
 
 #line default
@@ -78,7 +78,7 @@ using ECommerceSystem.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
   
     ViewData["Title"] = "Product";
 
@@ -135,7 +135,7 @@ using ECommerceSystem.Models;
             }
             BeginWriteTagHelperAttribute();
 #nullable restore
-#line 27 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 27 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                                                     WriteLiteral(Model.ID);
 
 #line default
@@ -155,7 +155,7 @@ using ECommerceSystem.Models;
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n    </div>\r\n</section>\r\n\r\n    <div class=\"container\">\r\n        <h1>");
 #nullable restore
-#line 43 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 43 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
        Write(ViewData["Name"]);
 
 #line default
@@ -177,7 +177,7 @@ using ECommerceSystem.Models;
                             <div class=""tab-pane active"" id=""pic-1"">
 ");
 #nullable restore
-#line 57 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 57 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                  if (!String.IsNullOrWhiteSpace(Model.ImageURL))
                                 {
 
@@ -187,7 +187,7 @@ using ECommerceSystem.Models;
             WriteLiteral("                                    <img class=\"card-img-top\"");
             BeginWriteAttribute("src", " src=\"", 2245, "\"", 2266, 1);
 #nullable restore
-#line 59 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 59 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
 WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 
 #line default
@@ -196,7 +196,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
             EndWriteAttribute();
             WriteLiteral(" alt=\"Product image\" width=\"500\" height=\"350\"> <!--user image-->\r\n");
 #nullable restore
-#line 60 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 60 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
                                 else
                                 {
@@ -224,7 +224,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" <!--default image-->\r\n");
 #nullable restore
-#line 64 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 64 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
 
 #line default
@@ -238,7 +238,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
                             <div>
                                 <h2 class=""product-title"">");
 #nullable restore
-#line 71 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 71 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                      Write(Model.Name);
 
 #line default
@@ -246,7 +246,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</h2>\r\n                            </div>\r\n                            <div>\r\n                                <h5><b>Category</b>: ");
 #nullable restore
-#line 74 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 74 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                 Write(Enum.GetName(typeof(Category), Model.Category));
 
 #line default
@@ -254,7 +254,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</h5>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"alert-warning\">\r\n                            <h5><b>Store: </b> ");
 #nullable restore
-#line 78 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 78 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                           Write(Model.StoreName);
 
 #line default
@@ -262,7 +262,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</h5>\r\n                        </div>\r\n                            <div class=\"row flex justify-content-between p-2\">\r\n                                <div>\r\n                                    <h5><i class=\"fas fa-star checked\"></i><strong> ");
 #nullable restore
-#line 82 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 82 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                                                Write(Math.Round(Model.Rating, 2));
 
 #line default
@@ -270,7 +270,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral(" Rating</strong></h5>\r\n                                </div>\r\n                                <div>\r\n                                    <h5><i class=\"far fa-thumbs-up\"></i><strong> ");
 #nullable restore
-#line 85 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 85 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                                                             Write(Model.RaterCount);
 
 #line default
@@ -301,7 +301,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
                                 <h5 class=""text-secondary""><b>Product description:</b></h5>
 ");
 #nullable restore
-#line 107 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 107 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                  if (String.IsNullOrEmpty(Model.Description))
                                 {
 
@@ -310,7 +310,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("                                    <h5 class=\"text-muted\">Not provided</h5>\r\n");
 #nullable restore
-#line 110 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 110 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
                                 else
                                 {
@@ -320,7 +320,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("                                    <h5> ");
 #nullable restore
-#line 113 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 113 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                     Write(Model.Description);
 
 #line default
@@ -328,7 +328,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</h5>\r\n");
 #nullable restore
-#line 114 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 114 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
 
 #line default
@@ -336,7 +336,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("                            </p>\r\n                            <div class=\"alert-info p-1\">\r\n                                <b>Keywords:</b>\r\n");
 #nullable restore
-#line 118 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 118 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                  foreach (var keyword in Model.Keywords)
                                 {
 
@@ -345,7 +345,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("                                    <span>");
 #nullable restore
-#line 120 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 120 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                       Write(keyword + " | ");
 
 #line default
@@ -353,7 +353,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("</span>\r\n");
 #nullable restore
-#line 121 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 121 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                 }
 
 #line default
@@ -361,7 +361,7 @@ WriteAttributeValue("", 2251, Model.ImageURL, 2251, 15, false);
 #nullable disable
             WriteLiteral("                            </div>\r\n                            <h4 class=\"price p-1\">\r\n                                current price:\r\n                                <span>");
 #nullable restore
-#line 125 "E:\לימודים\שנה ג'\סמסטר ו'\סדנא\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
+#line 125 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Product\Index.cshtml"
                                  Write(Model.Price);
 
 #line default

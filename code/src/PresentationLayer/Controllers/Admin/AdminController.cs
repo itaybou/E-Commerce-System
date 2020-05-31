@@ -41,8 +41,23 @@ namespace PresentationLayer.Controllers.Admin
         public IActionResult UserPurchaseHistory(string username)
         {
             var session = new Guid(HttpContext.Session.Id);
-            var purchases = _service.userPurchaseHistory(session, username);
-            return View("../Users/PurchaseHistory", purchases);
+            try
+            {
+                var purchases = _service.userPurchaseHistory(session, username);
+                return View("../Users/PurchaseHistory", purchases);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
     }
 }

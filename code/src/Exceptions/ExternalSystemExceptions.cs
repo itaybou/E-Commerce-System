@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ECommerceSystem.Exceptions
 {
-    public class ExternalSystemExceptions : Exception
+    public class ExternalSystemException : Exception
     {
-        public ExternalSystemExceptions(string message) : base(message) { }
+        public ExternalSystemException(string message) : base(message) { }
     }
 }
