@@ -71,9 +71,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         private void InitDatabase()
         {
-            Console.WriteLine("Initializing DataAcces, establishing database communication.");
+            Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
             _data = DataAccess.Instance;
             Console.WriteLine("Intialized DataAccess, Database communication established.");
+            Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
             Console.WriteLine("Resetting database.");
             _data.DropDatabase();
             Console.WriteLine("Database reset.");
@@ -100,7 +101,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private void initWithInput(string path)
         {
             string[] lines = File.ReadAllLines(path);
-
 
             foreach (string line in lines)
             {

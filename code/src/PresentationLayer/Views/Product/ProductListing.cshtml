@@ -169,7 +169,7 @@
                                 <form asp-controller="Product" asp-action="ProductListing" method="post">
                                     <div>
                                         <button type="submit" style="font-size: 10px" class="col w-25 btn btn-sm btn-outline-warning" asp-route-searchInput="@Model.SearchInput"
-                                                asp-route-searchType="@Model.SearchType" asp-route-from="0" asp-route-to="0"
+                                                asp-route-searchType="@Model.SearchType" asp-route-from="@(0)" asp-route-to="@(Int32.MaxValue)"
                                                 asp-route-prodRating="@Model.ProductRatingFilter" asp-route-storeRating="@Model.StoreRatingFilter" asp-route-category="@Model.Category">
                                             <i class="fas fa-caret-left"></i> Clear
                                         </button>

@@ -21,9 +21,11 @@ namespace PresentationLayer.Controllers.Users
             _service = service;
         }
 
-        public IActionResult Index(bool error = false, bool empty = false)
+        public IActionResult Index(bool error = false, bool empty = false, bool quantityError = false)
         {
-            if(empty)
+            if (quantityError)
+                ModelState.AddModelError("CartEmptyError", "Some of the items in your cart are currently out of stock, please remove them before continuing to checkout.");
+            if (empty)
                 ModelState.AddModelError("CartEmptyError", "Your shopping cart is empty. add products to cart in order to checkout.");
             if (error)
                 ModelState.AddModelError("CartError", "Unavailable product quantity.");
@@ -50,6 +52,10 @@ namespace PresentationLayer.Controllers.Users
             {
                 var session = new Guid(HttpContext.Session.Id);
                 var cart = _service.ShoppingCartDetails(session);
+                foreach(var store in cart.Cart)
+                    foreach(var product in store.Value)
+                        if(product.Item1.Quantity <= 0)
+                            return RedirectToAction("Index", "Cart", new { quantityError = true });
                 var model = new CheckoutModel(cart);
                 if(error && !formError)
                 {

@@ -48,6 +48,10 @@ namespace PresentationLayer.Controllers.Users
             {
                 return Redirect("~/Exception/DatabaseException");
             }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
         }
     }
 }

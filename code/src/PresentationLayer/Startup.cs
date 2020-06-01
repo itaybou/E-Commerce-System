@@ -41,8 +41,9 @@ namespace PresentationLayer
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie(options =>
             {
-                options.LoginPath = "/auth/login";
-                options.LogoutPath = "/auth/logout";
+                options.AccessDeniedPath = "/Unauthorized";
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
                 options.Cookie.Name = "ECommerceCookie";
             });
             services.AddSession(options =>

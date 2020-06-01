@@ -40,5 +40,11 @@ namespace PresentationLayer.Controllers
             var message = new ActionMessageModel("You are not authorized to perform this action", Url.Action("UserStoreList", "Store"));
             return View("_ErrorMessage", message);
         }
+
+        public IActionResult UnauthorizedException()
+        {
+            var message = new ActionMessageModel("You are not authorized to perform this action", Url.Action("Index", "Home"));
+            return View("_ErrorMessage", message);
+        }
     }
 }

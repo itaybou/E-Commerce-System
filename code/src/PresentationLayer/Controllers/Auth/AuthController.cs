@@ -29,6 +29,12 @@ namespace PresentationLayer.Controllers.Auth
             return View();
         }
 
+        [Route("Unauthorized")]
+        public IActionResult Unauthorized()
+        {
+            return Redirect("~/Exception/UnauthorizedException");
+        }
+
         [Route("Login")]
         public IActionResult Login()
         {
