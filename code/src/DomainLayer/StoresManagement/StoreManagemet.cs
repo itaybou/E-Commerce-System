@@ -317,6 +317,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
         }
 
+
         public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(Guid userid, string storeName)
         {
             User activeUser = isUserIDSubscribed(userid);
@@ -1085,6 +1086,32 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new LogicException("Faild : add Condiotional Procuct Discount");
+            }
+
+        }
+
+        public Guid addConditionalCompositeProcuctDiscount(Guid userID, string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            User activeUser = isUserIDSubscribed(userID);
+            if (activeUser == null) //The logged in user isn`t subscribed
+            {
+                return Guid.Empty;
+            }
+            Permissions permission = activeUser.getPermission(storeName);
+            if (permission == null)
+            {
+                return Guid.Empty;
+            }
+
+
+            try
+            {
+                return permission.addConditionalCompositeProcuctDiscount(productID, percentage, expDate, conditionalTree);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.ToString());
+                throw new LogicException("Faild : add composite condiotional Procuct Discount");
             }
 
         }

@@ -274,6 +274,13 @@ namespace ECommerceSystem.ServiceLayer
         }
 
         [Trace("Info")]
+        public Guid addConditionalCompositeProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _storeManagement.addConditionalCompositeProcuctDiscount(userID, storeName, productID, percentage, expDate, conditionalTree);
+        }
+
+        [Trace("Info")]
         public Guid addConditionalStoreDiscount(Guid sessionID, string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
         {
             var userID = _sessions.ResolveSession(sessionID);

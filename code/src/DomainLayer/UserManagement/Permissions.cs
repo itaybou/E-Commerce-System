@@ -378,6 +378,15 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return Guid.Empty;
         }
 
+        public Guid addConditionalCompositeProcuctDiscount(Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            if (this.canManageDiscounts())
+            {
+                return Store.addConditionalCompositeProcuctDiscount(productID, percentage, expDate, conditionalTree);
+            }
+            else return Guid.Empty;
+        }
+
         public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
         {
             if (this.isOwner())
@@ -476,5 +485,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             }
             else return null;
         }
+
+
     }
 }

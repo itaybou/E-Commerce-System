@@ -91,5 +91,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         bool removeStoreLevelDiscount(Guid discountID);
         List<DiscountPolicyModel> getAllStoreLevelDiscounts();
         List<DiscountPolicyModel> getAllDiscountsForCompose();
+        Guid addConditionalCompositeProcuctDiscount(Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree);
     }
 }

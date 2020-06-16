@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities.extensions;
 
@@ -37,6 +38,30 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             }
             builder.Append("</ul>");
             return builder.ToString();
+        }
+
+        public override DiscountPolicy ModelToOrigin()
+        {
+            List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
+            foreach(DiscountPolicyModel child in this.Children)
+            {
+                newChildren.Add(child.ModelToOrigin());
+            }
+            if (this.Type.Equals(CompositeType.Or))
+            {
+                return new OrDiscountPolicy(Guid.NewGuid(), newChildren);
+            }
+            else if (this.Type.Equals(CompositeType.And))
+            {
+                return new AndDiscountPolicy(Guid.NewGuid(), newChildren);
+            }
+            else if (this.Type.Equals(CompositeType.Xor))
+            {
+                return new XORDiscountPolicy(Guid.NewGuid(), newChildren);
+            }
+            else
+                return null;
+
         }
     }
 }
