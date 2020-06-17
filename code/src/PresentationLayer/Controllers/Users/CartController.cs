@@ -12,14 +12,9 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers.Users
 {
-    public class CartController : Controller
+    public class CartController : BaseController
     {
-        private IService _service;
-
-        public CartController(IService service)
-        {
-            _service = service;
-        }
+        public CartController(IService service) : base(service) { }
 
         public IActionResult Index(bool error = false, bool empty = false, bool quantityError = false)
         {
@@ -192,16 +187,17 @@ namespace PresentationLayer.Controllers.Users
                 var cvv = Int32.Parse(Request.Form["CVV"].ToString());
                 var address = Request.Form["Address"].ToString();
                 var city = Request.Form["City"].ToString();
+                var country = Request.Form["Country"].ToString();
                 var postcode = Int32.Parse(Request.Form["PostCode"].ToString());
                 ICollection<ProductModel> notAvaiableProducts = null;
                 if (ModelState.IsValid)
                 {
                     var expirationDate = new DateTime(expYear, expMonth, 1);
-                    var expandedAddress = address + ", " + city;
-                    notAvaiableProducts = await _service.purchaseUserShoppingCart(session, firstname, lastname, id, credit, expirationDate, cvv, address);
+                    var expandedAddress = address + ", " + city + ", " + country + ", " + postcode;
+                    notAvaiableProducts = await _service.purchaseUserShoppingCart(session, firstname, lastname, id, credit, expirationDate, cvv, expandedAddress);
                     if (notAvaiableProducts == null) // purchase succeeded
                     {
-                        var model = new CheckoutModel(firstname, lastname, id, expMonth, expYear, cvv, address, city, postcode);
+                        var model = new CheckoutModel(firstname, lastname, id, expMonth, expYear, cvv, address, city, country, postcode);
                         return View("_PurchaseSuccessModal", model);
                     }
                 }

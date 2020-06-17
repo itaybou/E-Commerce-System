@@ -5,14 +5,9 @@ using System;
 
 namespace PresentationLayer.Controllers.Users
 {
-    public class UserPurchasesController : Controller
+    public class UserPurchasesController : BaseController
     {
-        private IService _service;
-
-        public UserPurchasesController(IService service)
-        {
-            _service = service;
-        }
+        public UserPurchasesController(IService service) : base(service) { }
 
         [Route("Users/PurchaseHistory")]
         public IActionResult Index()

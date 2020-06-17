@@ -5,7 +5,6 @@
   },
   "projects": {
     "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
-      "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj",
         "projectName": "ECommerceSystem",
@@ -91,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

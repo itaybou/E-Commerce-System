@@ -8,6 +8,9 @@ using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement
 {
@@ -28,7 +31,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             Console.WriteLine("Starting System Initialization.");
             try
             {
-                InitSystem();
+                var externalURL = GetExternalSystemsURLFromInitFile(initFilePath);
+                InitSystem(externalURL);
             } catch(Exception)
             {
                 return;
@@ -43,7 +47,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             else Console.WriteLine("Missing init file. init from file aborted.");
         }
 
-        private void InitSystem()
+        private void InitSystem(string externalURL)
         {
             // Initialize Singleton Constructors
             try
@@ -58,14 +62,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 Console.WriteLine("Intialized User Management.");
                 _storeManagement = StoreManagement.Instance;
                 Console.WriteLine("Intialized Stores Management.");
-                _transactionManager = TransactionManager.Instance;
-                Console.WriteLine("Initialized Transaction Manager, Established connection with external systems.");
+                InitExternalSystems(externalURL);
                 _systemManagement = SystemManager.Instance;
                 Console.WriteLine("Initialized System Manager, Spell Checker and Search And Filter system.");
             } catch(DatabaseException)
             {
                 Console.WriteLine("Initialization failed. connection timeout to database. try to initialize again.");
                 throw new DatabaseException("init failed");
+            } catch(ExternalSystemException)
+            {
+                Console.WriteLine("Initialization failed. external system handshake failed.");
+                throw new ExternalSystemException("init failed");
             }
         }
 
@@ -83,6 +90,24 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             Console.WriteLine("Database created.");
         }
 
+        private async void InitExternalSystems(string externalURL)
+        {
+            Console.WriteLine("Initializing External Systems");
+            _transactionManager = TransactionManager.Instance;
+            Console.WriteLine("Initialized Transaction Manager");
+            Console.WriteLine("Establishing connection to external systems");
+            try
+            {
+                await _transactionManager.ConnectExternal(externalURL);
+            }
+            catch (ExternalSystemException)
+            {
+                Console.WriteLine("Initialization failed. external system handshake failed.");
+                throw new ExternalSystemException("init failed");
+            }
+            Console.WriteLine("Handshake with external systems established. external systems are active.");
+        }
+
         private string GetInitFilePath()
         {
             string workingDirectory = Environment.CurrentDirectory;
@@ -98,6 +123,24 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
         }
 
+        private string GetExternalSystemsURLFromInitFile(string path)
+        {
+            try
+            {
+                var externalTags = File.ReadAllLines(path).Where(line => line.StartsWith("<external_url>") && line.EndsWith("</external_url>"));
+                var url = Regex.Replace(externalTags.First(), @"<[^>]+>| ", "").Trim();
+                if (String.IsNullOrEmpty(url))
+                {
+                    throw new ArgumentException("init fail");
+                }
+                return url;
+            } catch(Exception)
+            {
+                Console.WriteLine("No external systems url provided in init file. aborting init.");
+                throw new ArgumentException("init fail");
+            }
+        }
+
         private void initWithInput(string path)
         {
             string[] lines = File.ReadAllLines(path);
@@ -110,6 +153,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     Console.WriteLine("empty line in the input file");
                     return;
                 }
+                if (args[0].StartsWith("<external_url>"))
+                    continue;
                 switch (args[0])
                 {
                     case "register":

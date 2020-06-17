@@ -3,12 +3,14 @@ using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
     public class TransactionManager
     {
+        private IExternalSupplyPayment _external;
         private IPaymentSystem _paymentSystem;
         private ISupplySystem _supplySystem;
 
@@ -16,13 +18,30 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
 
         public static TransactionManager Instance => lazy.Value;
 
+        private readonly HttpClient _client;
+
         private TransactionManager()
         {
-            _paymentSystem = new PaymentSystemAdapter();
-            _supplySystem = new SupplySystemAdapter();
+            _client = new HttpClient();
+            _external = new ExternalSupplyPayment(_client);
+            _paymentSystem = new PaymentSystemAdapter(_external);
+            _supplySystem = new SupplySystemAdapter(_external);
         }
 
-        public async Task<bool> paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> ConnectExternal(string url)
+        {
+            try
+            {
+                return await _external.ConnectExternal(url);
+            }
+            catch (Exception e)
+            {
+                SystemLogger.logger.Error(e.Message);
+                throw new ExternalSystemException("Faild : payment failure");
+            }
+        }
+
+        public async Task<(bool, int)> paymentTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
         {
             try
             {
@@ -35,11 +54,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             }        
         }
 
-        public async Task<bool> refundTransaction(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV)
+        public async Task<bool> refundTransaction(int transactionID)
         {
             try
             {
-                return await _paymentSystem.refund(amount, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV);
+                return await _paymentSystem.refund(transactionID);
             }
             catch (Exception e)
             {
@@ -61,11 +80,11 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             }
         }
 
-        public async Task<bool> supplyTransaction(IDictionary<Product, int> products, string address)
+        public async Task<(bool, int)> supplyTransaction(IDictionary<Product, int> products, IDictionary<string, string> shippment_details, string name)
         {
             try
             {
-                return await _supplySystem.supply(products, address);
+                return await _supplySystem.supply(products, shippment_details, name);
             }
             catch (Exception e)
             {

@@ -11,14 +11,9 @@ using System.Linq;
 
 namespace PresentationLayer.Controllers.Products
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
-        private IService _service;
-
-        public ProductController(IService service)
-        {
-            _service = service;
-        }
+        public ProductController(IService service) : base(service) { }
 
         [AllowAnonymous]
         [Route("Product/ViewProduct/{id}")]

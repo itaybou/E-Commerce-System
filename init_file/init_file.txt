@@ -1,3 +1,4 @@
+<external_url>https://cs-bgu-wsep.herokuapp.com/</external_url>
 create-admin u1 Aa123456 f l u2@gmail.com
 register u2 Aa123456 f l u2@gmail.com
 register u3 Aa123456 f l u3@gmail.com

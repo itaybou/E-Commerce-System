@@ -5,14 +5,9 @@ using System;
 
 namespace PresentationLayer.Controllers.Users
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        private IService _service;
-
-        public UserController(IService service)
-        {
-            _service = service;
-        }
+        public UserController(IService service) : base(service) { }
 
         public IActionResult Index()
         {
