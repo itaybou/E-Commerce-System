@@ -14,23 +14,23 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
     {
         public AndDiscountPolicy conditionTree { get; set; }
 
-        public ConditionalCompositeProductDicountPolicy(float percentage, DateTime expDate, Guid ID, Guid productID, AndDiscountPolicy conditionTree) : base(percentage, expDate, ID, productID)
+        private ConditionalCompositeProductDicountPolicy(float percentage, DateTime expDate, Guid ID, Guid productID, AndDiscountPolicy conditionTree) : base(percentage, expDate, ID, productID)
         {
             this.conditionTree = conditionTree;
             
         }
 
-        //public ConditionalCompositeProductDicountPolicy Create(float percentage, DateTime expDate, Guid ID, Guid productID, AndDiscountPolicy conditionTree)
-        //{
-        //    if (isConditionalProductTree(conditionTree))
-        //    {
-        //        return new ConditionalCompositeProductDicountPolicy(percentage, expDate.Date, ID, productID, conditionTree);
-        //    }
-        //    else
-        //        return null;
-        //}
+        public static ConditionalCompositeProductDicountPolicy Create(float percentage, DateTime expDate, Guid ID, Guid productID, AndDiscountPolicy conditionTree)
+        {
+            if (isConditionalProductTree(conditionTree))
+            {
+                return new ConditionalCompositeProductDicountPolicy(percentage, expDate.Date, ID, productID, conditionTree);
+            }
+            else
+                return null;
+        }
 
-        private bool isConditionalProductTree(CompositeDiscountPolicy tree)
+        private static bool isConditionalProductTree(CompositeDiscountPolicy tree)
         {
             foreach(DiscountPolicy d in tree.Children)
             {
@@ -68,7 +68,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         //check that the quantity of product id > required quantity
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            return this.conditionTree.isSatisfied(products);
+            return DateTime.Compare(this.ExpirationDate, DateTime.Today) >= 0 && this.conditionTree.isSatisfied(products);
         }
     }
 }

@@ -138,3 +138,5 @@ C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-C
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csproj.CoreCompileInputs.cache
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.dll
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version2\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.pdb
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csprojAssemblyReference.cache
+C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemAcceptanceTests\obj\Debug\ECommerceSystemAcceptanceTests.csproj.CoreCompileInputs.cache

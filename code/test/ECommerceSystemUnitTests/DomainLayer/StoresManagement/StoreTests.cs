@@ -111,7 +111,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         {
             _store = new Store("owner", "store");
 
-            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords);
+            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords, "", "store");
 
             _store.assignOwner(_owner, "anotherOwner");
             //_store.assignManager(_owner, "newManager");
@@ -201,11 +201,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             fewPermissions.Add(PermissionType.DeleteProductInv);
             fewPermissions.Add(PermissionType.WatchAndComment);
 
-            Assert.False(_store.editPermissions(_newManager.Name, emptyPermissions, _regularUser.Name), "Edit permiossions for manager by regular successed");
-            Assert.False(_store.editPermissions(_newManager.Name, emptyPermissions, _permitManager.Name), "Edit permiossions for manager by another manager successed");
-            Assert.False(_store.editPermissions(_newManager.Name, emptyPermissions, _anotherOwner.Name), "Edit permiossions for manager by owner who isn`t his asignee successed");
+            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _regularUser.Name), "Edit permiossions for manager by regular successed");
+            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _permitManager.Name), "Edit permiossions for manager by another manager successed");
+            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _anotherOwner.Name), "Edit permiossions for manager by owner who isn`t his asignee successed");
 
-            Assert.True(_store.editPermissions(_newManager.Name, emptyPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
+            Assert.NotNull(_store.editPermissions(_newManager.Name, emptyPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
             //check that newManager dont have permissions:
             Assert.False(_store.getPermissionByName(_newManager.Name).canAddProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to add product");
             Assert.False(_store.getPermissionByName(_newManager.Name).canDeleteProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to delete product");
@@ -213,7 +213,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             Assert.False(_store.getPermissionByName(_newManager.Name).canWatchAndomment(), "Permissions edited to empty permissions list successed but the manager still have permission to watch and comment");
             Assert.False(_store.getPermissionByName(_newManager.Name).canWatchPurchaseHistory(), "Permissions edited to empty permissions list successed but the manager still have permission to watch history");
 
-            Assert.True(_store.editPermissions(_newManager.Name, fewPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
+            Assert.NotNull(_store.editPermissions(_newManager.Name, fewPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
             //check that newManager dont have permissions:
             Assert.True(_store.getPermissionByName(_newManager.Name).canAddProduct(), "Permissions edited to esuccessed but the manager dont have permission to add product");
             Assert.True(_store.getPermissionByName(_newManager.Name).canDeleteProduct(), "Permissions edited to esuccessed but the manager dont have permission to delete product");

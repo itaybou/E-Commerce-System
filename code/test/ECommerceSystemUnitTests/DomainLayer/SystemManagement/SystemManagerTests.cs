@@ -63,13 +63,15 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [TearDown]
         public void tearDown()
         {
-            StoreManagement.Instance.Stores.Clear();
+            //StoreManagement.Instance.Stores.Clear();
         }
 
         [Test()]
         public void makePurchaseSuccessTest()
         {
-            Assert.True(_systemManager.makePurchase(_userID,   _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address));
+            var ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address);
+            ans.Wait();
+            Assert.True(ans.Result);
             Assert.AreEqual(product1.Quantity, 15); // First product quantity decreased (first store purchased from)
             Assert.AreEqual(product2.Quantity,10);
             Assert.AreEqual(product3.Quantity, 18);
@@ -79,15 +81,23 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void makePurchaseFaildBadCreditCardDetailsTest()
         {
-            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address));
-            Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
+            var ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address);
+            ans.Wait();
+            Assert.False(ans.Result);
+            ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address);
+            ans.Wait();
+            Assert.False(ans.Result);
+
+            //Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address));
+            //Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
         }
 
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryUpdateAfterPurchaseTest()
         {
-            _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
+            var ans= _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
                 _creditCardNumber, _expirationCreditCard, _CVV, _address);
+            ans.Wait();
             Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
             Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
             Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
@@ -97,8 +107,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryCorrectAfterPurchaseTest()
         {
-            _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
+            var ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id,
                 _creditCardNumber, _expirationCreditCard, _CVV, _address);
+            ans.Wait();
             Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
             Assert.False(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
             Assert.False(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
@@ -115,7 +126,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             store2_cart.AddToCart(product3, 12);
             store2_cart.AddToCart(product4, 9);
 
-            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID));
+            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID,true));
             userCart.StoreCarts.Add(store1_cart);
             userCart.StoreCarts.Add(store2_cart);
 
@@ -137,11 +148,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             store2_cart.AddToCart(product3, 25);
             store2_cart.AddToCart(product4, 9);
 
-            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID));
+            UserShoppingCart userCart = _userManagement.getUserCart(_userManagement.getUserByGUID(_userID, true));
             userCart.StoreCarts.Add(store1_cart);
             userCart.StoreCarts.Add(store2_cart);
 
-            List<ProductModel> unavailablePRoducts = _systemManager.purchaseUserShoppingCart(_userID, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address);
+             var ans = _systemManager.purchaseUserShoppingCart(_userID, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV, _address);
+            ans.Wait();
+            List<ProductModel> unavailablePRoducts = ans.Result;
             Assert.AreEqual(product3.Id, unavailablePRoducts.ElementAt(0).Id);
             Assert.AreEqual(product1.Quantity, 20);
             Assert.AreEqual(product2.Quantity, 20);

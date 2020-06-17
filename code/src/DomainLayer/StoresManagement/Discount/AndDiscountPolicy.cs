@@ -32,6 +32,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
+            
             foreach (DiscountPolicy d in Children)
             {
                 if (!d.isSatisfied(products))

@@ -30,7 +30,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void setUp()
         {
             inventory = new Inventory();
-            pInv = ProductInventory.Create(productName, description, price, quantity, category, keywords);
+            pInv = ProductInventory.Create(productName, description, price, quantity, category, keywords, "", "store").Item1;
             productInvID = pInv.ID;
             productID = pInv.ProductList.First().Id;
             inventory.Products.Add(pInv);
@@ -45,7 +45,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void addProductInvSuccessTest()
         {
-            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", 100, 100, Category.ELECTRONICS, keywords), "Failed to add productInv to inventory");
+            Assert.AreNotEqual(Guid.Empty, inventory.addProductInv("Galaxy", "samsung", 100, 100, Category.ELECTRONICS, keywords,"","store"), "Failed to add productInv to inventory");
         }
 
         [Test()]

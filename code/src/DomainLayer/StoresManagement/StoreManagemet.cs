@@ -1325,5 +1325,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
             return permission.getAllDiscountsForCompose();
         }
+
+        public ICollection<Store> getAllStores()
+        {
+            return _data.Stores.FetchAll();
+        }
     }
 }

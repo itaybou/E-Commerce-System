@@ -36,7 +36,7 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         {
             DiscountPolicy newCond = this.productTreeModel.ModelToOrigin();
 
-            return new ConditionalCompositeProductDicountPolicy(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, (AndDiscountPolicy)newCond);
+            return ConditionalCompositeProductDicountPolicy.Create(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, (AndDiscountPolicy)newCond);
         }
     }
 }

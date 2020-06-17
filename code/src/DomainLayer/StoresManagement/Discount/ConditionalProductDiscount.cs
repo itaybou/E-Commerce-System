@@ -39,7 +39,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         //check that the quantity of product id > required quantity
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            return products.ContainsKey(ProductID) && products[ProductID].quantity >= RequiredQuantity;
+            return DateTime.Compare(this.ExpirationDate,DateTime.Today)>=0 && products.ContainsKey(ProductID) && products[ProductID].quantity >= RequiredQuantity;
         }
     }
 }

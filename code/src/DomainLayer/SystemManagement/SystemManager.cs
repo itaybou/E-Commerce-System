@@ -153,5 +153,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             return true;
         }
 
+        public ICollection<Store> getAllStores()
+        {
+            return _data.Stores.FetchAll();
+        }
+
     }
 }
