@@ -37,6 +37,9 @@ namespace PresentationLayer.Models.User
         [Required(ErrorMessage = "Missing shipping city", AllowEmptyStrings = false)]
         public string City { get; set; }
 
+        [Required(ErrorMessage = "Missing shipping country", AllowEmptyStrings = false)]
+        public string Country { get; set; }
+
         [Required(ErrorMessage = "Missing shipping postal code", AllowEmptyStrings = false)]
         public int PostCode { get; set; }
 
@@ -44,7 +47,7 @@ namespace PresentationLayer.Models.User
 
         public IEnumerable<(ProductModel, int)> Products { get; set; } = null;
 
-        public CheckoutModel(string fname, string lname, int id, int expMonth, int expYear, int cvv, string address, string city, int postcode)
+        public CheckoutModel(string fname, string lname, int id, int expMonth, int expYear, int cvv, string address, string city, string country, int postcode)
         {
             FirstName = fname;
             LastName = lname;
@@ -54,6 +57,7 @@ namespace PresentationLayer.Models.User
             CVV = cvv;
             Address = address;
             City = city;
+            Country = country;
             PostCode = postcode;
             Cart = null;
             Products = null;

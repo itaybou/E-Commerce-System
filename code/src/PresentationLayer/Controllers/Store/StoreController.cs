@@ -10,14 +10,9 @@ using ECommerceSystem.Exceptions;
 
 namespace PresentationLayer.Controllers.Store
 {
-    public class StoreController : Controller
+    public class StoreController : BaseController
     {
-        private IService _service;
-
-        public StoreController(IService service)
-        {
-            _service = service;
-        }
+        public StoreController(IService service) : base(service) { }
 
         public IActionResult Index()
         {

@@ -20,14 +20,9 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 namespace PresentationLayer.Controllers.StoreOwner
 {
     [Authorize(Roles = "Admin, Subscribed")]
-    public class OwnerController : Controller
+    public class OwnerController : BaseController
     {
-        private IService _service;
-
-        public OwnerController(IService service)
-        {
-            _service = service;
-        }
+        public OwnerController(IService service) : base(service) { }
 
         public IActionResult Index()
         {

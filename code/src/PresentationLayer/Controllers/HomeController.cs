@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECommerceSystem.ServiceLayer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PresentationLayer.Models;
@@ -6,18 +7,17 @@ using System.Diagnostics;
 
 namespace PresentationLayer.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IService service, ILogger<HomeController> logger) : base(service)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("alive", "alive");
             return View();
         }
 

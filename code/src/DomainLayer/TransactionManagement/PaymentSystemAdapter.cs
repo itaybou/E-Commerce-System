@@ -1,32 +1,29 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
     public class PaymentSystemAdapter : IPaymentSystem
     {
-        public async Task<bool> pay(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int cVV)
+        private IExternalSupplyPayment External;
+        
+        public PaymentSystemAdapter(IExternalSupplyPayment external)
         {
-            if (cVV.ToString().Length != 3)
-            {
-                return false;
-            }
-
-            if (amount <= 0)
-            {
-                return false;
-            }
-
-            if (expirationCreditCard < DateTime.Now)
-            {
-                return false;
-            }
-            return true;
+            External = external;
         }
 
-        public async Task<bool> refund(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int cVV)
+        public async Task<(bool, int)> pay(double amount, string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int cVV)
         {
-            return true;
+            var month = expirationCreditCard.Month.ToString();
+            var year = expirationCreditCard.Year.ToString();
+            var holderName = firstName + lastName;
+            return await External.pay(creditCardNumber, month, year, holderName, cVV.ToString(), id.ToString());
+        }
+
+        public async Task<bool> refund(int transactionID)
+        {
+            return await External.cancelPay(transactionID.ToString());
         }
 
         public async Task<bool> sendPayment(string storeName, double amount)

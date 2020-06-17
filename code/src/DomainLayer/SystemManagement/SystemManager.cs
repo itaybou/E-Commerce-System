@@ -37,9 +37,19 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
-            if (await _transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)) // pay for entire cart
+            var splitted_address = address.Split(',').Select(d => d.Trim()).ToArray();
+            var shippment_details = new Dictionary<string, string>()
             {
-                if (await _transactionManager.supplyTransaction(allProducts, address))  // supply all prodcuts by quantity
+                {"address", splitted_address[0] },
+                {"city", splitted_address[1] },
+                {"country", splitted_address[2] },
+                {"zip", splitted_address[3] }
+            };
+            var transaction_details = await _transactionManager.paymentTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV); // pay for entire cart
+            if (transaction_details.Item1)
+            {
+                var supply_details = await _transactionManager.supplyTransaction(allProducts, shippment_details, firstName + lastName);
+                if (supply_details.Item1)  // supply all prodcuts by quantity
                 {
                     var user = _userManagement.getUserByGUID(userID, false);
                     foreach (var (store, storePayment, storeBoughtProducts) in storeProducts)                                                             // send payment to all stores bought from
@@ -50,7 +60,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     }
                     purchased = true;
                 }
-                else if (!(await _transactionManager.refundTransaction(totalPrice, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV)))   // if supply failed, refund user
+                else if (!(await _transactionManager.refundTransaction(transaction_details.Item2)))   // if supply failed, refund user
                 {
                     SystemLogger.LogError("Refund transaction failed to credit card: " + creditCardNumber);
                 }

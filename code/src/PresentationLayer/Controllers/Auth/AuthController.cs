@@ -15,14 +15,9 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.Controllers.Auth
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
-        private IService _service;
-
-        public AuthController(IService service)
-        {
-            _service = service;
-        }
+        public AuthController(IService service) : base(service) { }
 
         public IActionResult Index()
         {
@@ -60,8 +55,9 @@ namespace PresentationLayer.Controllers.Auth
                     {
                         await AuthenticateAsync(guid, model.Username);
                         var awaitingRequests = _service.GetAwaitingRequests(session);
-                        HttpContext.Session.SetString("RequestCount", awaitingRequests.ToList().Count.ToString());
-                        HttpContext.Session.SetInt32("RequestLogin", 1);
+                        HttpContext.Session.SetString("RequestCount", awaitingRequests.Count().ToString());
+                        if (awaitingRequests.Count() != 0)
+                            HttpContext.Session.SetInt32("RequestLogin", 1);
                         var message = new ActionMessageModel("Logged in successfully.\nWelcome back!", Url.Action("Index", "Home"));
                         return View("_ActionMessage", message);
                     }

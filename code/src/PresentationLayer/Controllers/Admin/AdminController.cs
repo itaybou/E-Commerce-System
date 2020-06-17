@@ -7,14 +7,9 @@ using System.Linq;
 
 namespace PresentationLayer.Controllers.Admin
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
-        private IService _service;
-
-        public AdminController(IService service)
-        {
-            _service = service;
-        }
+        public AdminController(IService service) : base(service) { }
 
         [Authorize(Roles = "Admin")]
         public IActionResult Users()

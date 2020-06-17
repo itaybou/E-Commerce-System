@@ -1,11 +1,14 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerceSystem.DomainLayer.TransactionManagement
 {
     internal interface ISupplySystem
     {
-        Task<bool> supply(IDictionary<Product, int> products, string address);
+        Task<(bool, int)> supply(IDictionary<Product, int> products, IDictionary<string, string> shippment_details, string name);
+
+        Task<bool> cancelSupply(int transactionID);
     }
 }
