@@ -9,5 +9,7 @@ namespace ECommerceSystem.CommunicationLayer
     public static class Protocol
     {
         public const char AssignRequest = (char)0x06;
+
+        public const char NewVisitRequest = (char)0x07;
     }
 }

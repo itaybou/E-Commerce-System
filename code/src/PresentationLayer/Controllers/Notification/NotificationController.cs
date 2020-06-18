@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECommerceSystem.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -11,6 +13,7 @@ namespace PresentationLayer.Controllers.Notification
     public class NotificationController : Controller
     {
         private const char AssignRequest = (char)0x06;
+        private const char NewVisitRequest = (char)0x07;
 
         private ConcurrentDictionary<Guid, (string, DateTime)> SessionNotifications
         {
@@ -79,6 +82,36 @@ namespace PresentationLayer.Controllers.Notification
                         } else HttpContext.Session.SetInt32("RequestLogin", 0);
                     } catch(Exception) { }
                     return Json(new { success = false, notification = "New Assign owner request is pending for your response." });
+                case (char)(NewVisitRequest + UserTypes.Guests):
+                    {
+                        var count = HttpContext.Session.GetInt32("guests");
+                        HttpContext.Session.SetInt32("guests", (int)count++);
+                    }
+                    break;
+                case (char)(NewVisitRequest + UserTypes.Subscribed):
+                    {
+                        var count = HttpContext.Session.GetInt32("subscribed");
+                        HttpContext.Session.SetInt32("subscribed", (int)count++);
+                    }
+                    break;
+                case (char)(NewVisitRequest + UserTypes.StoreManagers):
+                    {
+                        var count = HttpContext.Session.GetInt32("managers");
+                        HttpContext.Session.SetInt32("managers", (int)count++);
+                    }
+                    break;
+                case (char)(NewVisitRequest + UserTypes.StoreOwners):
+                    {
+                        var count = HttpContext.Session.GetInt32("owners");
+                        HttpContext.Session.SetInt32("owners", (int)count++);
+                    }
+                    break;
+                case (char)(NewVisitRequest + UserTypes.Admins):
+                    {
+                        var count = HttpContext.Session.GetInt32("admins");
+                        HttpContext.Session.SetInt32("admins", (int)count++);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -90,7 +123,9 @@ namespace PresentationLayer.Controllers.Notification
         {
             char requestCode;
             if (notification.Length == 1 && Char.TryParse(notification, out requestCode))
-                return RedirectToAction("RequestNotification", "Notification", new { request = requestCode });
+                if (requestCode >= NewVisitRequest && HttpContext.Session.GetString("statistics").Equals("off"))
+                    return Ok();
+                else return RedirectToAction("RequestNotification", "Notification", new { request = requestCode });
             var notifications = SessionNotifications;
             notifications.TryAdd(Guid.NewGuid(), (notification, DateTime.Now));
             SessionNotifications = notifications;

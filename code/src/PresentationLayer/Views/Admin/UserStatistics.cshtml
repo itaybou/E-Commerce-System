@@ -1,0 +1,31 @@
+﻿@model PresentationLayer.Models.User.UserStatisticsModel
+@{
+    ViewData["Title"] = "User Statistics";
+}
+
+<<div class="container">
+    <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+    <h6>Presenting user usage statistics for dates: @Model.From.Date to @Model.To.Date</h6>
+    <div class="justify-content-between">
+        <form asp-controller="Admin" asp-action="UserStatistics" method="post">
+            <div class="form-group w-50 col-md-6">
+                <label style="text-align: left" for="password">Display from date:</label>
+                <input type="date" class="form-control" asp-for="From" />
+            </div>
+            <div class="form-group w-50 col-md-6">
+                <label style="text-align: left" for="password">Display to date:</label>
+                <input type="date" class="form-control" asp-for="To" />
+            </div>
+            <div class="col-md-6">
+                <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>APPLY</b></button>
+            </div>
+        </form>
+    </div>
+    <div class="well bs-component">
+        <div class="row">
+            <div class="col-xs-12">
+                <partial name="_StatisticsPartialView" />
+            </div>
+        </div>
+    </div>
+</div>

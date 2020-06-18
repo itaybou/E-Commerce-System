@@ -921,3 +921,130 @@
    at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
    at ECommerceSystem.DataAccessLayer.repositories.Repository`2.GetByIdOrNull(K id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 32
    at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 114
+2020-06-17 17:53:39.4193 | ERROR: System.ArgumentNullException: Value cannot be null.
+   at System.Threading.Monitor.ReliableEnter(Object obj, Boolean& lockTaken)
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 38
+2020-06-17 17:53:39.5773 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : update user statistics
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 52
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserStatisticsCacheProxy.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserStatisticsCacheProxy.cs:line 220
+2020-06-17 18:37:01.4719 | ERROR: Failed to create handshake with external systems
+2020-06-17 18:40:04.3696 | ERROR: System.Collections.Generic.KeyNotFoundException: The given key 'Guest' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 44
+2020-06-17 18:40:05.4848 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : update user statistics
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 52
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserStatisticsCacheProxy.UpdateStatistics(String type) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserStatisticsCacheProxy.cs:line 220
+2020-06-18 13:21:26.6476 | ERROR: System.TimeoutException: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "ReplicaSet", Type : "ReplicaSet", State : "Disconnected", Servers : [], DnsMonitorException : "DnsClient.DnsResponseException: Query 2327 => _mongodb._tcp.ecommercesystem-lczqf.azure.mongodb.net IN SRV on fdb0:5d9d:5b5:0:16ae:dbff:fec6:8db8:53 failed with an error.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [fdb0:5d9d:5b5:0:16ae:dbff:fec6:8db8]:53
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.<>c.<ConnectAsync>b__27_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location where exception was thrown ---
+   at DnsClient.DnsTcpMessageHandler.ClientPool.GetNextClient()
+   at DnsClient.DnsTcpMessageHandler.QueryAsync(IPEndPoint server, DnsRequestMessage request, CancellationToken cancellationToken, Action`1 cancelationCallback)
+   at System.Threading.Tasks.TaskExtensions.WithCancellation[T](Task`1 task, CancellationToken cancellationToken, Action onCancel)
+   at DnsClient.DnsTcpMessageHandler.Query(IPEndPoint endpoint, DnsRequestMessage request, TimeSpan timeout)
+   at DnsClient.LookupClient.ResolveQuery(IReadOnlyList`1 servers, DnsQuerySettings settings, DnsMessageHandler handler, DnsRequestMessage request, LookupClientAudit audit)
+   --- End of inner exception stack trace ---
+   at DnsClient.LookupClient.ResolveQuery(IReadOnlyList`1 servers, DnsQuerySettings settings, DnsMessageHandler handler, DnsRequestMessage request, LookupClientAudit audit)
+   at DnsClient.LookupClient.QueryInternal(DnsQuestion question, DnsQuerySettings queryOptions, IReadOnlyCollection`1 servers)
+   at DnsClient.LookupClient.Query(DnsQuestion question)
+   at DnsClient.LookupClient.Query(String query, QueryType queryType, QueryClass queryClass)
+   at MongoDB.Driver.Core.Misc.DnsClientWrapper.ResolveSrvRecords(String service, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Clusters.DnsMonitor.Monitor()" }.
+   at MongoDB.Driver.Core.Clusters.Cluster.ThrowTimeoutException(IServerSelector selector, ClusterDescription description)
+   at MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChangedHelper.HandleCompletedTask(Task completedTask)
+   at MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChanged(IServerSelector selector, ClusterDescription description, Task descriptionChangedTask, TimeSpan timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Clusters.Cluster.SelectServer(IServerSelector selector, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.AreSessionsSupportedAfterServerSelection(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.AreSessionsSupported(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.StartImplicitSession(CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.StartImplicitSession(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.GetByIdOrNull(K id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 32
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetByIdOrNull(Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 122
+2020-06-18 13:21:38.2618 | ERROR: System.TimeoutException: A timeout occured after 30000ms selecting a server using CompositeServerSelector{ Selectors = MongoDB.Driver.MongoClient+AreSessionsSupportedServerSelector, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 } }. Client view of cluster state is { ClusterId : "1", ConnectionMode : "ReplicaSet", Type : "ReplicaSet", State : "Disconnected", Servers : [], DnsMonitorException : "DnsClient.DnsResponseException: Query 2327 => _mongodb._tcp.ecommercesystem-lczqf.azure.mongodb.net IN SRV on fdb0:5d9d:5b5:0:16ae:dbff:fec6:8db8:53 failed with an error.
+ ---> System.Net.Internals.SocketExceptionFactory+ExtendedSocketException (10061): No connection could be made because the target machine actively refused it. [fdb0:5d9d:5b5:0:16ae:dbff:fec6:8db8]:53
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw(Exception source)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.<>c.<ConnectAsync>b__27_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location where exception was thrown ---
+   at DnsClient.DnsTcpMessageHandler.ClientPool.GetNextClient()
+   at DnsClient.DnsTcpMessageHandler.QueryAsync(IPEndPoint server, DnsRequestMessage request, CancellationToken cancellationToken, Action`1 cancelationCallback)
+   at System.Threading.Tasks.TaskExtensions.WithCancellation[T](Task`1 task, CancellationToken cancellationToken, Action onCancel)
+   at DnsClient.DnsTcpMessageHandler.Query(IPEndPoint endpoint, DnsRequestMessage request, TimeSpan timeout)
+   at DnsClient.LookupClient.ResolveQuery(IReadOnlyList`1 servers, DnsQuerySettings settings, DnsMessageHandler handler, DnsRequestMessage request, LookupClientAudit audit)
+   --- End of inner exception stack trace ---
+   at DnsClient.LookupClient.ResolveQuery(IReadOnlyList`1 servers, DnsQuerySettings settings, DnsMessageHandler handler, DnsRequestMessage request, LookupClientAudit audit)
+   at DnsClient.LookupClient.QueryInternal(DnsQuestion question, DnsQuerySettings queryOptions, IReadOnlyCollection`1 servers)
+   at DnsClient.LookupClient.Query(DnsQuestion question)
+   at DnsClient.LookupClient.Query(String query, QueryType queryType, QueryClass queryClass)
+   at MongoDB.Driver.Core.Misc.DnsClientWrapper.ResolveSrvRecords(String service, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Clusters.DnsMonitor.Monitor()" }.
+   at MongoDB.Driver.Core.Clusters.Cluster.ThrowTimeoutException(IServerSelector selector, ClusterDescription description)
+   at MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChangedHelper.HandleCompletedTask(Task completedTask)
+   at MongoDB.Driver.Core.Clusters.Cluster.WaitForDescriptionChanged(IServerSelector selector, ClusterDescription description, Task descriptionChangedTask, TimeSpan timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Clusters.Cluster.SelectServer(IServerSelector selector, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.AreSessionsSupportedAfterServerSelection(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.AreSessionsSupported(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoClient.StartImplicitSession(CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.StartImplicitSession(CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefault[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at MongoDB.Driver.IFindFluentExtensions.FirstOrDefault[TDocument,TProjection](IFindFluent`2 find, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.GetByIdOrNull(K id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 32
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetByIdOrNull(Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 122
+2020-06-18 14:33:08.8736 | ERROR: System.InvalidOperationException: {document}{_id}.Date is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(BinaryExpression binaryExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateAndAlso(BinaryExpression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindAllBy(Expression`1 predicate) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 81
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 24
+2020-06-18 14:33:08.9288 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get user statistics in range 18/06/2020 0:00:00 - 18/06/2020 0:00:00
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 30
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserStatisticsCacheProxy.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserStatisticsCacheProxy.cs:line 207
+2020-06-18 14:33:34.6187 | ERROR: System.InvalidOperationException: {document}{_id}.Date is not supported.
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.GetFieldExpression(Expression expression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(Expression variableExpression, ExpressionType operatorType, ConstantExpression constantExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateComparison(BinaryExpression binaryExpression)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.TranslateAndAlso(BinaryExpression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate(Expression node, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.Linq.Translators.PredicateTranslator.Translate[TDocument](Expression`1 predicate, IBsonSerializer`1 parameterSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.ExpressionFilterDefinition`1.Render(IBsonSerializer`1 documentSerializer, IBsonSerializerRegistry serializerRegistry)
+   at MongoDB.Driver.MongoCollectionImpl`1.CreateFindOperation[TProjection](FilterDefinition`1 filter, FindOptions`2 options)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FindAllBy(Expression`1 predicate) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 81
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 24
+2020-06-18 14:33:34.6804 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get user statistics in range 18/06/2020 0:00:00 - 18/06/2020 0:00:00
+   at ECommerceSystem.DataAccessLayer.repositories.UserStatisticsRepository.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserStatisticsRepository.cs:line 30
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserStatisticsCacheProxy.GetStatisticsByRange(DateTime from, DateTime to) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserStatisticsCacheProxy.cs:line 207

@@ -78,6 +78,7 @@ namespace ECommerceSystem.CommunicationLayer
             var notif = new Notification();
             notif.AddPrivateMessage(userID, request.getMessage());
             notif.AddPrivateRequest(userID, request.GetRequest());
+            notif.NotifyPast = request.NotifyPast;
             SendNotification(notif);
         }
 
@@ -86,6 +87,15 @@ namespace ECommerceSystem.CommunicationLayer
             var notif = new Notification();
             notif.AddGroupMessage(userIds, request.getMessage());
             notif.AddGroupRequest(userIds, request.GetRequest());
+            notif.NotifyPast = request.NotifyPast;
+            SendNotification(notif);
+        }
+
+        public void NotifyConnection(List<Guid> userIds, UserTypes typeConnected)
+        {
+            var notif = new Notification();
+            notif.AddGroupRequest(userIds, (char)(Protocol.NewVisitRequest + (int)typeConnected));
+            notif.NotifyPast = false;
             SendNotification(notif);
         }
     }

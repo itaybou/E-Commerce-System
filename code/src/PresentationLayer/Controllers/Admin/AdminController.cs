@@ -1,8 +1,12 @@
 ﻿using ECommerceSystem.Exceptions;
+using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PresentationLayer.Models.User;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PresentationLayer.Controllers.Admin
@@ -14,8 +18,11 @@ namespace PresentationLayer.Controllers.Admin
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
+            var session = new Guid(HttpContext.Session.Id);
             try
             {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
                 var userList = _service.allUsers(new Guid(HttpContext.Session.Id));
                 return View("Users", userList);
             }
@@ -36,8 +43,11 @@ namespace PresentationLayer.Controllers.Admin
         [Authorize(Roles = "Admin")]
         public IActionResult Stores()
         {
+            var session = new Guid(HttpContext.Session.Id);
             try
             {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
                 var storeInfo = _service.getAllStoresInfo().Keys.ToList();
                 return View("Stores", storeInfo);
             }
@@ -61,6 +71,8 @@ namespace PresentationLayer.Controllers.Admin
             var session = new Guid(HttpContext.Session.Id);
             try
             {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
                 var purchases = _service.userPurchaseHistory(session, username);
                 return View("../Users/PurchaseHistory", purchases);
             }
@@ -84,6 +96,8 @@ namespace PresentationLayer.Controllers.Admin
             var session = new Guid(HttpContext.Session.Id);
             try
             {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
                 var purchases = _service.purchaseHistory(session, store);
                 return View("../Store/StorePurchaseHistory", (purchases, store));
             }
@@ -99,6 +113,98 @@ namespace PresentationLayer.Controllers.Admin
             {
                 return Redirect("~/Exception/LogicException");
             }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UserStatistics()
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            try
+            {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
+                return View("../Admin/UserStatistics", new UserStatisticsModel());
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult UserStatistics(UserStatisticsModel model)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            try
+            {
+                if (!_service.isUserAdmin(session))
+                    throw new AuthenticationException("Session expired");
+                var stats = _service.GetUserStatistics(session, model.From, model.To);
+                var currentDate = DateTime.Now.Date;
+                HttpContext.Session.SetInt32("guests", (int)stats.Statistics[UserTypes.Guests]);
+                HttpContext.Session.SetInt32("subscribed", (int)stats.Statistics[UserTypes.Subscribed]);
+                HttpContext.Session.SetInt32("managers", (int)stats.Statistics[UserTypes.StoreManagers]);
+                HttpContext.Session.SetInt32("owners", (int)stats.Statistics[UserTypes.StoreOwners]);
+                HttpContext.Session.SetInt32("admins", (int)stats.Statistics[UserTypes.Admins]);
+                if(model.From <= currentDate && model.To >= currentDate)
+                    HttpContext.Session.SetString("statistics", "on");
+                else HttpContext.Session.SetString("statistics", "off");
+                return View("../Admin/UserStatistics", stats);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
+        public ActionResult GetStatisticsData()
+        {
+            try
+            {
+                var guests = HttpContext.Session.GetInt32("guests");
+                var subscribed = HttpContext.Session.GetInt32("subscribed");
+                var managers = HttpContext.Session.GetInt32("managers");
+                var owners = HttpContext.Session.GetInt32("owners");
+                var admins = HttpContext.Session.GetInt32("admins");
+
+                // Setting.  
+                var graphData = new[]
+                {
+                    new { Type = "Guests", Count = guests},
+                    new { Type = "Subscribed", Count = subscribed},
+                    new { Type = "Store Managers", Count = managers},
+                    new { Type = "Store Owners", Count = owners},
+                    new { Type = "Admins", Count = admins},
+                };
+
+                // Loading drop down lists.  
+                return Json(graphData);
+            }
+            catch (Exception e)
+            {
+                // Info  
+                Console.Write(e);
+            }
+
+            // Return info.  
+            return Ok();
         }
     }
 }

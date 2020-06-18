@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace ECommerceSystem.DataAccessLayer.repositories
 {
     // T is repository entity type, K is the key type for that entity
-    public class Repository<T, K> : IRepository<T, K> where T : class where K : notnull
+    public class Repository<T, K> : IRepository<T, K> where T : class
     {
         private IDbContext Context { get; }
         private string RepositoryName { get; }

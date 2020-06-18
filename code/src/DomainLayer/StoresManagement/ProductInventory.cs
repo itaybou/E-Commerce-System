@@ -93,7 +93,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             Price = newPrice;
             ProductList.ForEach(p => {
                 p.BasePrice = newPrice;
-                DataAccess.Instance.Products.Update(p, p.Id, p => p.Id);
+                DataAccess.Instance.Products.Update(p, p.Id, prod => prod.Id);
             });
         }
 
@@ -103,7 +103,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             foreach (Product p in ProductList)
             {
                 p.Name = newProductName;
-                DataAccess.Instance.Products.Update(p, p.Id, p => p.Id);
+                DataAccess.Instance.Products.Update(p, p.Id, prod => prod.Id);
             }
         }
 
