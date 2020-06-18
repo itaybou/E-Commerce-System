@@ -24,11 +24,13 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         public void setUpFixture()
         {
             keywords.Add("phone");
+            
         }
 
         [SetUp]
         public void setUp()
         {
+            DataAccessLayer.DataAccess.Instance.SetTestContext();
             inventory = new Inventory();
             pInv = ProductInventory.Create(productName, description, price, quantity, category, keywords, "", "store").Item1;
             productInvID = pInv.ID;
@@ -39,7 +41,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [TearDown]
         public void tearDown()
         {
-            inventory.Products.Clear();
+            //inventory.Products.Clear();
+            DataAccessLayer.DataAccess.Instance.DropTestDatabase();
+
         }
 
         [Test()]

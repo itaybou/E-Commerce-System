@@ -11,6 +11,7 @@ namespace ECommerceSystem.DataAccessLayer
     public class DataAccess : IDataAccess
     {
         public string ConnectionString => "mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority"; //"localhost:27017";
+        public string TestConnectionString => "mongodb://localhost:27017";
         public string DatabaseName => "ECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";
 
@@ -26,7 +27,7 @@ namespace ECommerceSystem.DataAccessLayer
         {
             EntityMap.RegisterClassMaps();
             Context = new DbContext(ConnectionString, DatabaseName);
-            TestContext = new DbContext(ConnectionString, TestDatabaseName);
+            TestContext = new DbContext(TestConnectionString, TestDatabaseName);
             Transactions = new Transactions(Context.Client(), Users, Stores, Products);
         }
 

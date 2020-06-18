@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,11 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public override string GetString()
         {
             return "Visible Discount for product: " + ProductName + ", id: " + ProductID + "\n" + Percentage + "% discount, Expires: " + ExpDate.ToString("dd/MM/yyyy");
+        }
+
+        public override DiscountPolicy ModelToOrigin()
+        {
+            return new VisibleDiscount(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID);
         }
     }
 }
