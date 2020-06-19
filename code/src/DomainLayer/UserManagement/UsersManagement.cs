@@ -75,26 +75,29 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         private void UpdateStatisticsByUserType(User user)
         {
-            var type = UserTypes.Subscribed;
+            if (user != null)
+            {
+                var type = UserTypes.Subscribed;
 
-            if (user.isSystemAdmin())
-            {
-                UpdateUserStatistics(UserTypes.Admins);
-                type = UserTypes.Admins;
-            }
-            else if (((Subscribed)user.State).Permissions.Any(p => p.Value.IsOwner))
-            {
-                UpdateUserStatistics(UserTypes.StoreOwners);
-                type = UserTypes.StoreOwners;
-            }
-            else if (((Subscribed)user.State).Permissions.Count > 0)
-            {
-                UpdateUserStatistics(UserTypes.StoreManagers);
-                type = UserTypes.StoreManagers;
-            }
-            else UpdateUserStatistics(UserTypes.Subscribed);
+                if (user.isSystemAdmin())
+                {
+                    UpdateUserStatistics(UserTypes.Admins);
+                    type = UserTypes.Admins;
+                }
+                else if (((Subscribed)user.State).Permissions.Any(p => p.Value.IsOwner))
+                {
+                    UpdateUserStatistics(UserTypes.StoreOwners);
+                    type = UserTypes.StoreOwners;
+                }
+                else if (((Subscribed)user.State).Permissions.Count > 0)
+                {
+                    UpdateUserStatistics(UserTypes.StoreManagers);
+                    type = UserTypes.StoreManagers;
+                }
+                else UpdateUserStatistics(UserTypes.Subscribed);
 
-            NotifyVisit(type);
+                NotifyVisit(type);
+            }
         }
 
         public void NotifyVisit(UserTypes type)

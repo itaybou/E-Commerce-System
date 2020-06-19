@@ -123,7 +123,16 @@ namespace PresentationLayer.Controllers.Admin
             {
                 if (!_service.isUserAdmin(session))
                     throw new AuthenticationException("Session expired");
-                return View("../Admin/UserStatistics", new UserStatisticsModel());
+                var model = new UserStatisticsModel();
+                var stats = _service.GetUserStatistics(session, model.From, model.To);
+                HttpContext.Session.SetInt32("guests", (int)stats.Statistics[UserTypes.Guests]);
+                HttpContext.Session.SetInt32("subscribed", (int)stats.Statistics[UserTypes.Subscribed]);
+                HttpContext.Session.SetInt32("managers", (int)stats.Statistics[UserTypes.StoreManagers]);
+                HttpContext.Session.SetInt32("owners", (int)stats.Statistics[UserTypes.StoreOwners]);
+                HttpContext.Session.SetInt32("admins", (int)stats.Statistics[UserTypes.Admins]);
+                HttpContext.Session.SetString("stats_date_from", model.From.ToString());
+                HttpContext.Session.SetString("stats_date_to", model.To.ToString());
+                return RedirectToAction("DisplayUserStatistics");
             }
             catch (AuthenticationException)
             {
@@ -149,16 +158,14 @@ namespace PresentationLayer.Controllers.Admin
                 if (!_service.isUserAdmin(session))
                     throw new AuthenticationException("Session expired");
                 var stats = _service.GetUserStatistics(session, model.From, model.To);
-                var currentDate = DateTime.Now.Date;
                 HttpContext.Session.SetInt32("guests", (int)stats.Statistics[UserTypes.Guests]);
                 HttpContext.Session.SetInt32("subscribed", (int)stats.Statistics[UserTypes.Subscribed]);
                 HttpContext.Session.SetInt32("managers", (int)stats.Statistics[UserTypes.StoreManagers]);
                 HttpContext.Session.SetInt32("owners", (int)stats.Statistics[UserTypes.StoreOwners]);
                 HttpContext.Session.SetInt32("admins", (int)stats.Statistics[UserTypes.Admins]);
-                if(model.From <= currentDate && model.To >= currentDate)
-                    HttpContext.Session.SetString("statistics", "on");
-                else HttpContext.Session.SetString("statistics", "off");
-                return View("../Admin/UserStatistics", stats);
+                HttpContext.Session.SetString("stats_date_from", model.From.ToString());
+                HttpContext.Session.SetString("stats_date_to", model.To.ToString());
+                return RedirectToAction("DisplayUserStatistics");
             }
             catch (AuthenticationException)
             {
@@ -174,6 +181,42 @@ namespace PresentationLayer.Controllers.Admin
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult DisplayUserStatistics()
+        {
+            try
+            {
+                var dateFrom = DateTime.Parse(HttpContext.Session.GetString("stats_date_from"));
+                var dateTo = DateTime.Parse(HttpContext.Session.GetString("stats_date_to"));
+                var currentDate = DateTime.Now.Date;
+                if (dateFrom <= currentDate && dateTo >= currentDate)
+                    HttpContext.Session.SetString("statistics", "on");
+                else HttpContext.Session.SetString("statistics", "off");
+                var model = new UserStatisticsModel(dateFrom, dateTo);
+                var guests = HttpContext.Session.GetInt32("guests");
+                return View("../Admin/UserStatistics", model);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult RefreshStatistics()
+        {
+            return PartialView("../Admin/_UserStatisticsPartial");
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult GetStatisticsData()
         {
             try
@@ -184,6 +227,8 @@ namespace PresentationLayer.Controllers.Admin
                 var owners = HttpContext.Session.GetInt32("owners");
                 var admins = HttpContext.Session.GetInt32("admins");
 
+                if (guests == 0 && subscribed == 0 && managers == 0 && owners == 0 && admins == 0)
+                    return Json(new { empty = true});
                 // Setting.  
                 var graphData = new[]
                 {

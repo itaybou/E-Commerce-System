@@ -26,15 +26,29 @@ socket.onmessage = function (event) {
         type: 'POST',
         url: '/Notification/Notification',
         data: { notification: event.data },
-        success: function (event) {
-            if (event.success === true) {
-                toastr.success(event.notification, "Notification",
+        success: function (message) {
+            if (message.success === true) {
+                toastr.success(message.notification, "Notification",
                     {
                         timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1500,
                         onclick: null,
                     });
-            } else {
-                toastr.info(event.notification, "Request",
+            } else if (message.stats === true) {
+                $.ajax({
+                    url: "/Admin/RefreshStatistics",
+                    type: "get",
+                    data: $("form").serialize(), //if you need to post Model data, use this
+                    success: function (result) {
+                        $("#stats_partial").html(result);
+                        toastr.warning(message.notification, "New Site Visit",
+                            {
+                                timeOut: 1500, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1500,
+                                onclick: null,
+                        });
+                    }
+                });
+            } else if (message.success === false) {
+                toastr.info(message.notification, "Request",
                     {
                         timeOut: 3000, closeButton: true, positionClass: "toast-bottom-left", toastClass: 'alert', extendedTimeOut: 1500,
                         onclick: null,

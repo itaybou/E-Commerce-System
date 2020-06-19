@@ -94,7 +94,8 @@ namespace ECommerceSystem.CommunicationLayer
         public void NotifyConnection(List<Guid> userIds, UserTypes typeConnected)
         {
             var notif = new Notification();
-            notif.AddGroupRequest(userIds, (char)(Protocol.NewVisitRequest + (int)typeConnected));
+            var opCode = (char)(Protocol.NewVisitRequest + (int)typeConnected);
+            notif.AddGroupRequest(userIds, opCode);
             notif.NotifyPast = false;
             SendNotification(notif);
         }

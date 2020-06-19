@@ -13,7 +13,7 @@ namespace ECommerceSystem.DataAccessLayer
     public class DataAccess : IDataAccess
     {
         public string LocalConnectionString => "mongodb://localhost:27017";
-        public string ConnectionString => "mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
+        public string ConnectionString => "mongodb://localhost:27017";//"mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
         public string DatabaseName => "ECommerceSystem";
         public string LocalDatabaseName => "LocalECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";

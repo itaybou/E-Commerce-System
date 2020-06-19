@@ -29,7 +29,7 @@ namespace PresentationLayer.Controllers
                     _service.GuestStatistics(session);
                 }
             }
-            else if (User.IsInRole("Admin") && !context.RouteData.Values["Action"].Equals("UserStatistics"))
+            else if (User.IsInRole("Admin") && !IsStatisticsController(context))
             {
                 HttpContext.Session.SetString("statistics", "off");
                 HttpContext.Session.SetInt32("guests", 0);
@@ -39,6 +39,15 @@ namespace PresentationLayer.Controllers
                 HttpContext.Session.SetInt32("admins", 0);
             }
             base.OnActionExecuting(context);
+        }
+
+        public bool IsStatisticsController(ActionExecutingContext context)
+        {
+            return context.RouteData.Values["Action"].Equals("GetStatisticsData") ||
+                context.RouteData.Values["Action"].Equals("UserStatistics") ||
+                context.RouteData.Values["Action"].Equals("DisplayUserStatistics") ||
+                context.RouteData.Values["Action"].Equals("RefreshStatistics") ||
+                context.RouteData.Values["Action"].Equals("_UserStatisticsPartial");
         }
     }
 }

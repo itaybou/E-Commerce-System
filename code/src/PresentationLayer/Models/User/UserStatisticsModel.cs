@@ -19,5 +19,11 @@ namespace PresentationLayer.Models.User
             From = DateTime.Now.Date;
             To = DateTime.Now.Date;
         }
+
+        public UserStatisticsModel(DateTime from, DateTime to)
+        {
+            From = from;
+            To = to;
+        }
     }
 }
