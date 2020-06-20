@@ -37,6 +37,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public void Remove(Guid discountPolicyID)
         {
+            
             List<DiscountPolicy> newChildren = new List<DiscountPolicy>();
             foreach (DiscountPolicy d in Children)
             {

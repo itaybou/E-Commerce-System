@@ -33,7 +33,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
-            return true;
+            return DateTime.Compare(this.ExpirationDate, DateTime.Today) >= 0;
         }
     }
 }

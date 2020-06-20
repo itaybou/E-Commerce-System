@@ -25,16 +25,16 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             var purchasePolicy = new ImmediatePurchase();
             _products = new List<ProductInventory>()
             {
-                { ProductInventory.Create("Dell XPS 15inch", "Laptop", 1600.0, 30, Category.ELECTRONICS, new List<string>() { "Laptop", "Computer", "PC"})},
-                { ProductInventory.Create("Sony DSLR Camera", "Best camera",  500.0, 20, Category.CAMERASPHOTOS, new List<string>() { "Camera", "DSLR", "Sony"})},
-                { ProductInventory.Create("Google Pixel 4", "New google phone",  700.0, 10, Category.CELLPHONES, new List<string>() { "Google", "Pixel", "Phone"})},
-                { ProductInventory.Create("Google Pixel 4", "New google phone", 700.0, 10, Category.ELECTRONICS, new List<string>() { "Google", "Pixel", "Phone"})},
-                { ProductInventory.Create("Western Digital 4TB HardDrive", "4TB Harddrive",  100.0, 100, Category.ELECTRONICS, new List<string>() { "WD", "Harddrive"})},
-                { ProductInventory.Create("Dyson V11", "Vaccum cleaner",300.0, 5, Category.HOMEGARDEN, new List<string>() { "Dyson", "Vaccum"})},
-                { ProductInventory.Create("Logitech MX Master 3", "Computer mice",110.0, 300, Category.ELECTRONICS, new List<string>() { "Logitech", "Mice"})},
-                { ProductInventory.Create("Linkin Park - Meteora", "Nu-Metal music album", 20.0, 2, Category.MUSIC, new List<string>() { "Music", "LP", "Nu-Metal"})},
-                { ProductInventory.Create("Windows 10 Home", "Microsoft Operatin system", 25.0, 5000, Category.SOFTWARE, new List<string>() { "OS", "Microsoft", "Windows"})},
-                { ProductInventory.Create("iPhone 11 XL", "Apple new smartphone",  800.0, 30, Category.CELLPHONES, new List<string>() { "Apple", "Smartphone", "Phone"})},
+                { ProductInventory.Create("Dell XPS 15inch", "Laptop", 1600.0, 30, Category.ELECTRONICS, new List<string>() { "Laptop", "Computer", "PC"}, "", store.Name).Item1},
+                { ProductInventory.Create("Sony DSLR Camera", "Best camera",  500.0, 20, Category.CAMERASPHOTOS, new List<string>() { "Camera", "DSLR", "Sony"}, "", store.Name).Item1},
+                { ProductInventory.Create("Google Pixel 4", "New google phone",  700.0, 10, Category.CELLPHONES, new List<string>() { "Google", "Pixel", "Phone"}, "", store.Name).Item1},
+                { ProductInventory.Create("Google Pixel 4", "New google phone", 700.0, 10, Category.ELECTRONICS, new List<string>() { "Google", "Pixel", "Phone"}, "", store.Name).Item1},
+                { ProductInventory.Create("Western Digital 4TB HardDrive", "4TB Harddrive",  100.0, 100, Category.ELECTRONICS, new List<string>() { "WD", "Harddrive"}, "", store.Name).Item1},
+                { ProductInventory.Create("Dyson V11", "Vaccum cleaner",300.0, 5, Category.HOMEGARDEN, new List<string>() { "Dyson", "Vaccum"}, "", store.Name).Item1},
+                { ProductInventory.Create("Logitech MX Master 3", "Computer mice",110.0, 300, Category.ELECTRONICS, new List<string>() { "Logitech", "Mice"}, "", store.Name).Item1},
+                { ProductInventory.Create("Linkin Park - Meteora", "Nu-Metal music album", 20.0, 2, Category.MUSIC, new List<string>() { "Music", "LP", "Nu-Metal"}, "", store.Name).Item1},
+                { ProductInventory.Create("Windows 10 Home", "Microsoft Operatin system", 25.0, 5000, Category.SOFTWARE, new List<string>() { "OS", "Microsoft", "Windows"}, "", store.Name).Item1},
+                { ProductInventory.Create("iPhone 11 XL", "Apple new smartphone",  800.0, 30, Category.CELLPHONES, new List<string>() { "Apple", "Smartphone", "Phone"}, "", store.Name).Item1},
             };
             for (var i = 0; i < _products.Count; ++i)
             {

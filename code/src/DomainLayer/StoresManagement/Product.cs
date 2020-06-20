@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
+
     public class Product
     {
         [BsonId]

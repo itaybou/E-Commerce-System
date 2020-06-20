@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,8 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         }
 
         public abstract string GetString();
+
+        public abstract DiscountPolicy ModelToOrigin();
+
     }
 }

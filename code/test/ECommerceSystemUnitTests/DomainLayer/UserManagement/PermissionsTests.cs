@@ -92,7 +92,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [SetUp]
         public void setUp()
         {
-            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords);
+            _store.Inventory.addProductInv(_productName, _description, _price, _quantity, _category, _keywords, "", _store.Name);
         }
 
         [TearDown]
@@ -110,7 +110,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
                 _description, _price, _quantity,
-                _category, _keywords, 0, 5), "fail to add productinv ");
+                _category, _keywords, 0, 5, ""), "fail to add productinv ");
         }
 
         [Test()]
@@ -118,7 +118,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
                 _description, _price, _quantity,
-                _category, _keywords, 0, 5), "fail to add productinv ");
+                _category, _keywords, 0, 5, ""), "fail to add productinv ");
         }
 
         [Test()]

@@ -655,6 +655,35 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return newID;
         }
 
+        public Guid addConditionalCompositeProcuctDiscount(Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0)
+            {
+                return Guid.Empty;
+            }
+
+            Product prod = Inventory.getProductById(productID);
+            if (prod == null || prod.Discount != null) //product must have only 1 discount
+            {
+                return Guid.Empty;
+            }
+
+            Guid newID = Guid.NewGuid();
+            ConditionalCompositeProductDicountPolicy newDiscount = condCompositeProdDiscModelToReal(conditionalTree);
+
+            prod.Discount = newDiscount; //add the new discount to the product
+            AllDiscountsMap.Add(newID, newDiscount);
+            NotInTreeDiscounts.Add(newID, newDiscount);
+            DataAccess.Instance.Transactions.AddProductDiscountTransaction(prod, this);
+            return newID;
+        }
+
+        private ConditionalCompositeProductDicountPolicy condCompositeProdDiscModelToReal(CompositeDiscountPolicyModel discount)
+        {
+            return (ConditionalCompositeProductDicountPolicy)discount.ModelToOrigin();
+        }
+
+
         public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)
         {
             if (percentage < 0 || expDate.CompareTo(DateTime.Now) <= 0 || minPriceForDiscount < 0)

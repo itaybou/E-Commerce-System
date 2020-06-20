@@ -13,6 +13,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         private Store _store1;
         private Store _store2;
 
+
         [SetUp]
         public void setUp()
         {
@@ -20,7 +21,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _store2 = new Store("owner", "store2");
             _storeShoppingCart1 = new StoreShoppingCart(_store1);
             _storeShoppingCart2 = new StoreShoppingCart(_store2);
-            _userShoppingCart = new UserShoppingCart();
+
+            _userShoppingCart = new UserShoppingCart(Guid.NewGuid());
             _userShoppingCart.StoreCarts.Add(_storeShoppingCart1);
             _userShoppingCart.StoreCarts.Add(_storeShoppingCart2);
         }

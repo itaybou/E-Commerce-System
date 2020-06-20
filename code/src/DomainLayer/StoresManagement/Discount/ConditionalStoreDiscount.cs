@@ -40,6 +40,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
         //check that the total price > required price
         public override bool isSatisfied(Dictionary<Guid, (double basePrice, int quantity, double totalPrice)> products)
         {
+            if (DateTime.Compare(this.ExpirationDate, DateTime.Today) < 0)
+                return false;
             double totalPrice = 0;
             foreach (var prod in products)
             {

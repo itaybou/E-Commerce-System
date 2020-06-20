@@ -21,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [TearDown]
         public void tearDown()
         {
-            _storeShoppingCart.Products.Clear();       //clear the shopping carts after each test
+            //_storeShoppingCart.Products.Clear();       //clear the shopping carts after each test
         }
 
         [Test()]
@@ -30,14 +30,14 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product = new Product(null, null, 20, 20, Guid.NewGuid());
             var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
-            Assert.AreEqual(_storeShoppingCart.Products[product], 5);   //check if the product added to cart with requested quantity
-            Assert.AreEqual(_storeShoppingCart.Products.Count(), 1);    //check if only 1 product added to cart
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities[product.Id].Item2,5);   //check if the product added to cart with requested quantity
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities.Count(), 1);    //check if only 1 product added to cart
             _storeShoppingCart.AddToCart(product, 2);                         //add more quantity to existing product
-            Assert.AreEqual(_storeShoppingCart.Products[product], 7);   //check the quantity is updated
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities[product.Id].Item2, 7);   //check the quantity is updated
             _storeShoppingCart.AddToCart(product2, 3);                        //add a new product to existing cart
-            Assert.AreEqual(_storeShoppingCart.Products[product2], 3);  ////check if the new product added to cart with requested quantity
-            Assert.AreEqual(_storeShoppingCart.Products.ElementAt(1).Key, product2);    //check that the second product in the existing cart is the new product
-            Assert.AreEqual(_storeShoppingCart.Products.Count(), 2);                    //check that now the shopping cart include 2 products
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities[product2.Id].Item2, 3);////check if the new product added to cart with requested quantity
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities.ElementAt(1).Key, product2.Id);    //check that the second product in the existing cart is the new product
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities.Count(), 2);                    //check that now the shopping cart include 2 products
         }
 
         [Test()]
@@ -46,12 +46,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product = new Product(null, null, 20, 20, Guid.NewGuid());
             var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
-            Assert.AreEqual(_storeShoppingCart.Products[product], 5);
+
             _storeShoppingCart.ChangeProductQuantity(product, 2);               //check the quantity of existing product in the cart
-            Assert.AreEqual(_storeShoppingCart.Products[product], 2);     //check that the quantity of the product was updated
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities[product.Id].Item2, 2);   //check that the quantity of the product was updated
             _storeShoppingCart.ChangeProductQuantity(product2, 3);              //changing the quantity of a product that does not exist in the shopping cart
             _storeShoppingCart.AddToCart(product2, 5);
-            Assert.AreEqual(_storeShoppingCart.Products[product2], 5);
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities[product2.Id].Item2, 5);   //check that the quantity of the product was updated
+
         }
 
         [Test()]
@@ -60,7 +61,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.ChangeProductQuantity(product, 0);
-            Assert.IsEmpty(_storeShoppingCart.Products);            //check that the shopping cart remain empty
+            Assert.IsEmpty(_storeShoppingCart.ProductQuantities);            //check that the shopping cart remain empty
         }
 
         [Test()]
@@ -68,7 +69,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             var product = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart.ChangeProductQuantity(product, 5);
-            Assert.IsEmpty(_storeShoppingCart.Products);
+            Assert.IsEmpty(_storeShoppingCart.ProductQuantities);
         }
 
         [Test()]
@@ -78,11 +79,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             var product2 = new Product(null, null, 20, 20, Guid.NewGuid());
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.RemoveFromCart(product);         //remove a product from the shopping cart
-            Assert.IsEmpty(_storeShoppingCart.Products);        //check if the shopping cart is empty after the remove
+            Assert.IsEmpty(_storeShoppingCart.ProductQuantities);        //check if the shopping cart is empty after the remove
             _storeShoppingCart.AddToCart(product, 5);
             _storeShoppingCart.AddToCart(product2, 5);
             _storeShoppingCart.RemoveFromCart(product2);        //try to remove a new product from the shopping cart
-            Assert.AreEqual(_storeShoppingCart.Products.Count(), 1);    //check if the shopping cart include only 1 product after the remove.
+            Assert.AreEqual(_storeShoppingCart.ProductQuantities.Count(), 1);    //check if the shopping cart include only 1 product after the remove.
         }
 
         [Test()]

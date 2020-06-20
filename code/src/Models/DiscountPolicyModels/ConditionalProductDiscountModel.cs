@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 
 namespace ECommerceSystem.Models.DiscountPolicyModels
 {
@@ -26,6 +27,11 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public override string GetString()
         {
             return "Conditional Discount for product: " + ProductName + ", id: " + ProductID + "\n" + "Buy " + RequiredQuantity + " and get "+ Percentage + "% discount, Expires: " + ExpDate.ToString("dd/MM/yyyy");
+        }
+
+        public override DiscountPolicy ModelToOrigin()
+        {
+            return new ConditionalProductDiscount(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, this.RequiredQuantity);
         }
     }
 }

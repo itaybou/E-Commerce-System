@@ -196,6 +196,7 @@
     <Compile Include="DataAccessLayer\Transactions.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\AndDiscountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\CompositeDicountPolicy.cs" />
+    <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalCompositeProductDicountPolicy.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalStoreDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\ConditionalProductDiscount.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\OrDiscountPolicy.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Models\CompositeType.cs" />
     <Compile Include="Models\DiscountPolicyModels\CompositeDiscountPolicyModel.cs" />
+    <Compile Include="Models\DiscountPolicyModels\ConditionalCompositeProductDiscModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\ConditionalProductDiscountModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\ConditionalStoreDiscountModel.cs" />
     <Compile Include="Models\DiscountPolicyModels\DiscountPolicyModel.cs" />

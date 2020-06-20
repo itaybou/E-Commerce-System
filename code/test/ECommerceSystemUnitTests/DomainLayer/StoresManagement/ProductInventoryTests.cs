@@ -28,7 +28,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [SetUp]
         public void setUp()
         {
-            productInv = ProductInventory.Create(productName, description, price, quantity, category, keywords);
+            productInv = ProductInventory.Create(productName, description, price, quantity, category, keywords,"", "store").Item1;
             productID = productInv.ProductList.First().Id;
         }
 
@@ -41,9 +41,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void CreateTest()
         {
-            Assert.NotNull(ProductInventory.Create(productName, description, price, quantity, category, keywords));
-            Assert.Null(ProductInventory.Create(productName, description, -5, quantity, category, keywords)); // price < 0 null
-            Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords)); // quantity > 0 null
+            Assert.NotNull(ProductInventory.Create(productName, description, price, quantity, category, keywords, "", "store"));
+            Assert.Null(ProductInventory.Create(productName, description, -5, quantity, category, keywords,"", "store")); // price < 0 null
+            Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords, "", "store")); // quantity > 0 null
         }
 
         [Test()]
