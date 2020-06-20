@@ -23,5 +23,7 @@ namespace ECommerceSystem.CommunicationLayer
         void SendPrivateNotificationRequest(Guid userID, INotificationRequest request);
 
         void SendGroupNotificationRequest(List<Guid> userIds, INotificationRequest request);
+
+        void NotifyConnection(List<Guid> userIds, UserTypes typeConnected);
     }
 }

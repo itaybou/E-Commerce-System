@@ -1,0 +1,132 @@
+﻿@model PresentationLayer.Models.User.UserStatisticsModel
+@{
+    ViewData["Title"] = "User Statistics";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        (function ($) {
+            var oldHtml = $.fn.html;
+            $.fn.html = function () {
+                var ret = oldHtml.apply(this, arguments);
+
+                //trigger your event.
+                this.trigger("change");
+
+                return ret;
+            };
+        })(jQuery);
+        var init = function () {
+            google.charts.load('current', {
+                callback: loadCharts,
+                packages: ['bar', 'corechart', 'table']
+            });
+
+            function loadCharts() {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: '/Admin/GetStatisticsData',
+                    success:
+                        function (response) {
+                            // Set chart options
+                            if (response.empty === true) {
+                                $("#stats_partial").hide();
+                                $("#no_stats").show();
+                            } else {
+                                $("#stats_partial").show();
+                                $("#no_stats").hide();
+                                var options =
+                                {
+                                    width: 800,
+                                    height: 400,
+                                    sliceVisibilityThreshold: 0,
+                                    legend: { position: "top", alignment: "end" },
+                                    chartArea: { left: 100, top: 50, height: "90%", },
+                                    hAxis:
+                                    {
+                                        slantedText: true,
+                                        slantedTextAngle: 18,
+                                    },
+                                    bar: { groupWidth: "60%" },
+                                };
+
+                                // Draw.
+                                drawGraph(response, options, 'graphId', 'graphId2');
+                            }
+                        }
+                });
+            }
+
+            function drawGraph(dataValues, options, elementId, elementId2) {
+                // Initialization.
+                google.load('visualization', '1.0', { 'packages': ['corechart'] });
+                var data = new google.visualization.DataTable();
+
+                // Setting.
+                data.addColumn('string', 'UserType');
+                data.addColumn('number', 'SiteEntries');
+
+                // Processing.
+                for (var i = 0; i < dataValues.length; i++) {
+                    // Setting.
+                    data.addRow([dataValues[i].type, dataValues[i].count]);
+                }
+                // Setting label.
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0,
+
+                    1,
+                    {
+                        calc: "stringify",
+                        sourceColumn: 1,
+                        type: "string",
+                        role: "annotation"
+                    },
+
+                ]);
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.BarChart(document.getElementById(elementId));
+                var chart2 = new google.visualization.PieChart(document.getElementById(elementId2));
+
+                // Draw chart.
+                chart.draw(view, options);
+                chart2.draw(view, options);
+            }
+        }
+        $(document).ready(init);
+        $('#stats_partial').change(init);
+    </script>
+}
+
+<<div class="container-fluid justify-content-center" style="width: 80%">
+    <h1 style="font-family: Roboto">@ViewData["Title"]</h1>
+    <h5>Presenting user usage statistics for dates: <b>@Model.From.Date.ToString("dd/MM/yyyy")</b> to <b>@Model.To.Date.ToString("dd/MM/yyyy")</b></h5>
+
+    <form asp-controller="Admin" asp-action="UserStatistics" method="post">
+        <div class="justify-content-between row align-bottom">
+            <div class="form-group w-25">
+                <label style="text-align: left" for="password">Display from date:</label>
+                <input type="date" class="form-control" asp-for="From" />
+            </div>
+            <div class="form-group w-25">
+                <label style="text-align: left" for="password">Display to date:</label>
+                <input type="date" class="form-control" asp-for="To" />
+            </div>
+            <div class="w-25">
+                <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>APPLY</b></button>
+            </div>
+        </div>
+    </form>
+
+    <div class="well bs-component">
+        <div id="stats_partial">
+            <partial name="_UserStatisticsPartial" model="Model.Statistics"/>
+        </div>
+        <div id="no_stats" style="display: none;">
+            <h4 class="text-danger">No statistscs to show for date range: <b>@Model.From.Date.ToString("dd/MM/yyyy")</b> to <b>@Model.To.Date.ToString("dd/MM/yyyy")</b></h4>
+        </div>
+    </div>
+</div>

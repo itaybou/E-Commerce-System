@@ -8,6 +8,7 @@ namespace ECommerceSystem.Models
         Guid RequestID { get; set; }
         char RequestCode { get; set; }
         DateTime Sent { get; set; }
+        bool NotifyPast { get; set; }
 
         char GetRequest();
 

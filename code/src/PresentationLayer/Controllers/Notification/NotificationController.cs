@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ECommerceSystem.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +14,9 @@ namespace PresentationLayer.Controllers.Notification
 {
     public class NotificationController : Controller
     {
-        private const char AssignRequest = (char)0x06;
+        private const char AssignRequest = (char)0x07;
+        private const char NewVisitRequest = (char)0x01;
+        private static object _statsLock = new object();
 
         private ConcurrentDictionary<Guid, (string, DateTime)> SessionNotifications
         {
@@ -79,8 +85,64 @@ namespace PresentationLayer.Controllers.Notification
                         } else HttpContext.Session.SetInt32("RequestLogin", 0);
                     } catch(Exception) { }
                     return Json(new { success = false, notification = "New Assign owner request is pending for your response." });
-                default:
+                case (char)((int)NewVisitRequest + UserTypes.Guests):
+                        if ((HttpContext.Session.GetString("statistics") != null && HttpContext.Session.GetString("statistics").Equals("on")))
+                        {
+                            lock(_statsLock)
+                            {
+                                var count = HttpContext.Session.GetInt32("guests");
+                                HttpContext.Session.SetInt32("guests", (int)(count + 1));
+                                return Json(new { success = false, notification = "Guest", stats = true });
+                            }
+                          
+                        }
                     break;
+                case (char)((int)NewVisitRequest + UserTypes.Subscribed):
+                        if ((HttpContext.Session.GetString("statistics") != null && HttpContext.Session.GetString("statistics").Equals("on")))
+                        {
+                            lock (_statsLock)
+                            {
+                                var count = HttpContext.Session.GetInt32("subscribed");
+                                HttpContext.Session.SetInt32("subscribed", (int)(count + 1));
+                                return Json(new { success = false, notification = "Subscribed", stats = true });
+                            }
+                        }
+                    break;
+                case (char)((int)NewVisitRequest + UserTypes.StoreManagers):
+                        if ((HttpContext.Session.GetString("statistics") != null && HttpContext.Session.GetString("statistics").Equals("on")))
+                        {
+                            lock (_statsLock)
+                            {
+                                var count = HttpContext.Session.GetInt32("managers");
+                                HttpContext.Session.SetInt32("managers", (int)(count + 1));
+                                return Json(new { success = false, notification = "Store Manager", stats = true });
+                            }
+                        }
+                    break;
+                case (char)((int)NewVisitRequest + UserTypes.StoreOwners):
+                        if ((HttpContext.Session.GetString("statistics") != null && HttpContext.Session.GetString("statistics").Equals("on")))
+                        {
+                            lock (_statsLock)
+                            {
+                                var count = HttpContext.Session.GetInt32("owners");
+                                HttpContext.Session.SetInt32("owners", (int)(count + 1));
+                                return Json(new { success = false, notification = "Store Owner", stats = true });
+                            }
+                        }
+                    break;
+                case (char)((int)NewVisitRequest + UserTypes.Admins):
+                        if ((HttpContext.Session.GetString("statistics") != null && HttpContext.Session.GetString("statistics").Equals("on")))
+                        {
+                            lock (_statsLock)
+                            {
+                                var count = HttpContext.Session.GetInt32("admins");
+                                HttpContext.Session.SetInt32("admins", (int)(count + 1));
+                                return Json(new { success = false, notification = "Admin", stats = true });
+                            }
+                        }
+                    break;
+                default:
+                    return Ok();
             }
             return new EmptyResult();
         }
@@ -89,13 +151,17 @@ namespace PresentationLayer.Controllers.Notification
         public IActionResult Notification(string notification)
         {
             char requestCode;
-            if (notification.Length == 1 && Char.TryParse(notification, out requestCode))
-                return RedirectToAction("RequestNotification", "Notification", new { request = requestCode });
-            var notifications = SessionNotifications;
-            notifications.TryAdd(Guid.NewGuid(), (notification, DateTime.Now));
-            SessionNotifications = notifications;
-            HttpContext.Session.SetString("NotificationCount", SessionNotifications.Count.ToString());
-            return Json(new { success = true, notification = notification });
+            if (notification != null)
+            {
+                if (notification.Length == 1 && Char.TryParse(notification, out requestCode))
+                    return RedirectToAction("RequestNotification", "Notification", new { request = requestCode });
+                var notifications = SessionNotifications;
+                notifications.TryAdd(Guid.NewGuid(), (notification, DateTime.Now));
+                SessionNotifications = notifications;
+                HttpContext.Session.SetString("NotificationCount", SessionNotifications.Count.ToString());
+                return Json(new { success = true, notification = notification });
+            }
+            return Ok();
         }
 
         [HttpPost]

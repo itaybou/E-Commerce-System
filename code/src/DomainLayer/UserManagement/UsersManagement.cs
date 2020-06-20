@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.DomainLayer.SystemManagement;
+using ECommerceSystem.Models.notifications;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -68,7 +69,49 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             var encrypted_pswd = Encryption.encrypt(pswd);
             var user = _data.Users.GetSubscribedUser(uname, encrypted_pswd);
+            UpdateStatisticsByUserType(user);
             return user != null ? (user != null, user.Guid) : (user != null, Guid.Empty);
+        }
+
+        private void UpdateStatisticsByUserType(User user)
+        {
+            if (user != null)
+            {
+                var type = UserTypes.Subscribed;
+
+                if (user.isSystemAdmin())
+                {
+                    UpdateUserStatistics(UserTypes.Admins);
+                    type = UserTypes.Admins;
+                }
+                else if (((Subscribed)user.State).Permissions.Any(p => p.Value.IsOwner))
+                {
+                    UpdateUserStatistics(UserTypes.StoreOwners);
+                    type = UserTypes.StoreOwners;
+                }
+                else if (((Subscribed)user.State).Permissions.Count > 0)
+                {
+                    UpdateUserStatistics(UserTypes.StoreManagers);
+                    type = UserTypes.StoreManagers;
+                }
+                else UpdateUserStatistics(UserTypes.Subscribed);
+
+                NotifyVisit(type);
+            }
+        }
+
+        public void NotifyVisit(UserTypes type)
+        {
+            var admins = _data.Users.FetchAll().Where(u => u.isSystemAdmin()).Select(u => u.Guid);
+            _communication.NotifyConnection(admins.ToList(), type);
+        }
+
+        public UserStatistics GetUserStatistics(Guid userID, DateTime from, DateTime to)
+        {
+            if (!getUserByGUID(userID, true).isSystemAdmin())
+                throw new AuthenticationException("Admin not authenticated");
+            var stats = _data.Stats.GetStatisticsByRange(from, to);
+            return new UserStatistics(stats);
         }
 
         public bool logout(Guid userID)
@@ -176,6 +219,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var user = getUserByGUID(userID, false);
             user.Cart = new UserShoppingCart(userID);
             _data.Users.Update(user, userID, u => u.Guid);
+        }
+
+        internal void UpdateUserStatistics(UserTypes userType)
+        {
+            _data.Stats.UpdateStatistics(userType);
         }
 
         internal IEnumerable<UserModel> searchUsers(string username)
