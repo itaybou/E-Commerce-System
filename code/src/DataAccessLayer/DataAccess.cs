@@ -10,7 +10,7 @@ namespace ECommerceSystem.DataAccessLayer
 {
     public class DataAccess : IDataAccess
     {
-        public string ConnectionString => "mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority"; //"localhost:27017";
+        public string ConnectionString => "mongodb://localhost:27017";//"mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
         public string TestConnectionString => "mongodb://localhost:27017";
         public string DatabaseName => "ECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";

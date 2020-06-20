@@ -352,5 +352,10 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _storeServices.removePurchasePolicy(sessionID, storeName, policyID);
         }
+
+        public Guid addConditionalCompositeProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            return _storeServices.addConditionalCompositeProcuctDiscount(sessionID, storeName, productID, percentage, expDate, conditionalTree);
+        }
     }
 }

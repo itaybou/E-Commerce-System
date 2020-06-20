@@ -6948,19 +6948,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Shir Markovits\\.nuget\\packages\\": {}
+    "C:\\Users\\Itay Bouganim\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\version4\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
       "projectName": "PresentationLayer",
-      "projectPath": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\version4\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
-      "packagesPath": "C:\\Users\\Shir Markovits\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\version4\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
+      "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+      "packagesPath": "C:\\Users\\Itay Bouganim\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Shir Markovits\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Itay Bouganim\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6973,8 +6977,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\version4\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
-              "projectPath": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\version4\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
+            "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj": {
+              "projectPath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\ECommerceSystem.csproj"
             }
           }
         }

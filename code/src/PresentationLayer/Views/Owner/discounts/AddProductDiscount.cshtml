@@ -11,14 +11,23 @@
         $(document).ready(function () {
             $("#visible").click(function () {
                 $("#cond-form").hide();
+                $("#cond-p-form").hide();
                 $("#vis-form").show();
                 $("#formState2").val("visible");
             });
 
             $("#conditional").click(function () {
                 $("#vis-form").hide();
+                $("#cond-p-form").hide();
                 $("#cond-form").show();
                 $("#formState1").val("conditional");
+            });
+
+            $("#conditional_product").click(function () {
+                $("#vis-form").hide();
+                $("#cond-form").hide();
+                $("#cond-p-form").show();
+                $("#formState1").val("conditional_product");
             });
         });
     </script>
@@ -34,6 +43,7 @@
         <div class="row login-form justify-content-between m-4">
             <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 40%"><b>Visible Discount</b></button>
             <button type="submit" id="conditional" name="conditional" class="btn btn-warning m-1" style="width: 40%"><b>Conditional Discount</b></button>
+            <button type="submit" id="conditional_product" name="conditional_product" class="btn btn-warning m-1" style="width: 40%"><b>Product Purchase Condition Discount</b></button>
             @if (!ViewContext.ModelState.IsValid)
             {
                 <div class="alert alert-danger m-2">
@@ -67,6 +77,24 @@
         </div>
         <div class="form" id="vis-form" name="vis-form" style="display: none;">
             <h3>Add Visible Product Discount</h3>
+            <form asp-controller="Owner" asp-action="AddProductDiscount" class="login-form" method="post">
+                <div class="form-group">
+                    <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>
+                    <input class="form-control" type="number" placeholder="Percentage" asp-for="Percentage" />
+                </div>
+
+                <div class="form-group">
+                    <label style="text-align: left" for="password">Discount Expiration</label>
+                    <input type="date" class="form-control" asp-for="ExpDate" />
+                </div>
+                <input id="formState2" name="formState" type="hidden" value="@null" />
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+                <input id="ProductID" name="ProductID" type="hidden" value="@id" />
+                <button type="submit" class="w-50">Add Product Discount</button>
+            </form>
+        </div>
+        <div class="form" id="cond-p-form" name="cond-p-form" style="display: none;">
+            <h3>Add Conditional With Other Products Discount</h3>
             <form asp-controller="Owner" asp-action="AddProductDiscount" class="login-form" method="post">
                 <div class="form-group">
                     <label class="row-form-label" style="text-align: left" for="password">Discount Percentage %</label>

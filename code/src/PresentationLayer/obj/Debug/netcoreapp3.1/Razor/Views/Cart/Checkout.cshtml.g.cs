@@ -13,21 +13,21 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
+#line 2 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\_ViewImports.cshtml"
 using PresentationLayer.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 1 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 1 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 using ECommerceSystem.Models.DiscountPolicyModels;
 
 #line default
@@ -120,7 +120,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 3 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 3 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
   
     ViewData["Title"] = "Checkout";
 
@@ -166,7 +166,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
             <div id='mainContentWrapper'>
 ");
 #nullable restore
-#line 47 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 47 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                  if (!ViewContext.ModelState.IsValid)
                 {
 
@@ -180,7 +180,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
             __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ValidationSummaryTagHelper>();
             __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper);
 #nullable restore
-#line 51 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 51 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSummary = global::Microsoft.AspNetCore.Mvc.Rendering.ValidationSummary.All;
 
 #line default
@@ -197,7 +197,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                    </div>\r\n");
 #nullable restore
-#line 53 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 53 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                 }
 
 #line default
@@ -211,7 +211,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                     <div class=""alert alert-success"">
                         <h5><span><b>Before Discounts: </b>");
 #nullable restore
-#line 60 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 60 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                       Write(Model.Total.ToString("0.000"));
 
 #line default
@@ -219,7 +219,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
             WriteLiteral("</span></h5>\r\n                    </div>\r\n                    <div class=\"alert alert-warning\">\r\n                        <h2><span><b>Order Final Total: </b>");
 #nullable restore
-#line 63 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 63 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                        Write(Model.Cart.FinalPrice.ToString("0.000"));
 
 #line default
@@ -265,7 +265,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                 <div class=""col-");
                 WriteLiteral("md-12\">\r\n                                                    <table class=\"table table-striped w-100\">\r\n");
 #nullable restore
-#line 85 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 85 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                          foreach (var p in Model.Products)
                                                         {
                                                             var product = p.Item1;
@@ -297,7 +297,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                                     <b>
                                                                         ");
 #nullable restore
-#line 109 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 109 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                    Write(product.Name);
 
 #line default
@@ -309,7 +309,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                                 <td class=""text-left"">
                                                                     ");
 #nullable restore
-#line 113 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 113 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                Write(product.BasePrice);
 
 #line default
@@ -317,7 +317,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("\r\n                                                                </td>\r\n                                                                <td class=\"text-left\">\r\n                                                                    <b>");
 #nullable restore
-#line 116 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 116 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                   Write(quantity);
 
 #line default
@@ -325,7 +325,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("</b>\r\n                                                                </td>\r\n                                                                <td class=\"text-sm-left\">\r\n");
 #nullable restore
-#line 119 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 119 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                      if (product.Discount != null)
                                                                     {
                                                                         var discount = product.Discount;
@@ -337,7 +337,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("                                                                            <small><span class=\"text-sm\">");
 #nullable restore
-#line 124 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 124 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                                                     Write(visible.Percentage);
 
 #line default
@@ -345,7 +345,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("%</span></small>\r\n");
 #nullable restore
-#line 125 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 125 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                         }
                                                                         else if (discount is ConditionalProductDiscountModel cond)
                                                                         {
@@ -356,7 +356,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("                                                                            <small>\r\n                                                                                <span>");
 #nullable restore
-#line 130 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 130 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                                  Write(cond.Percentage);
 
 #line default
@@ -368,7 +368,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                                             <small>
                                                                                 <span>Above ");
 #nullable restore
-#line 134 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 134 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                                        Write(cond.RequiredQuantity);
 
 #line default
@@ -376,7 +376,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral(" Units</span>\r\n                                                                            </small>\r\n");
 #nullable restore
-#line 136 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 136 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                         }
                                                                     }
                                                                     else
@@ -387,7 +387,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("                                                                        <span>None</span>\r\n");
 #nullable restore
-#line 141 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 141 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                     }
 
 #line default
@@ -395,7 +395,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral("                                                                </td>\r\n                                                                <td class=\"text-right\">\r\n                                                                    <b>");
 #nullable restore
-#line 144 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 144 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                    Write(product.BasePrice * quantity);
 
 #line default
@@ -403,7 +403,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
 #nullable disable
                 WriteLiteral(" $</b>\r\n                                                                </td>\r\n                                                            </tr>\r\n");
 #nullable restore
-#line 147 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 147 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                         }
 
 #line default
@@ -416,7 +416,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                         <h5>No Discounts:</h5>
                                                         <h5><span style=""color:green;"">$");
 #nullable restore
-#line 153 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 153 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                                    Write(Model.Total.ToString("0.000"));
 
 #line default
@@ -428,7 +428,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                                                         <h3>Order Total</h3>
                                                         <h3><span style=""color:green;"">$");
 #nullable restore
-#line 157 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 157 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
                                                                                    Write(Model.Cart.FinalPrice.ToString("0.000"));
 
 #line default
@@ -498,7 +498,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_ValidationSummaryTagHelper.ValidationSumma
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.InputTypeName = (string)__tagHelperAttribute_8.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
 #nullable restore
-#line 206 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 206 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.FirstName);
 
 #line default
@@ -533,7 +533,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.InputTypeName = (string)__tagHelperAttribute_8.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
 #nullable restore
-#line 215 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 215 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.LastName);
 
 #line default
@@ -568,7 +568,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.InputTypeName = (string)__tagHelperAttribute_8.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
 #nullable restore
-#line 224 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 224 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.ID);
 
 #line default
@@ -603,7 +603,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.InputTypeName = (string)__tagHelperAttribute_8.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
 #nullable restore
-#line 233 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 233 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Address);
 
 #line default
@@ -638,7 +638,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.InputTypeName = (string)__tagHelperAttribute_8.Value;
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_8);
 #nullable restore
-#line 242 "C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
+#line 242 "C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\Views\Cart\Checkout.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.City);
 
 #line default

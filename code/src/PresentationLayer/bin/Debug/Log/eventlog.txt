@@ -9577,3 +9577,6 @@ One-of-a-kind design: Measuring in at a slim 11-17mm and starting at just 4 poun
 2020-06-17 13:35:12.8291 | ShoppingCartDetails, (0, Guid, sessionID, 89aea526-cea3-60c6-1b21-6cdc69418b31)
 2020-06-17 13:35:14.6626 | ShoppingCartDetails, (0, Guid, sessionID, 89aea526-cea3-60c6-1b21-6cdc69418b31)
 2020-06-17 13:35:27.4852 | MoveNext, (0, Guid, sessionID, 89aea526-cea3-60c6-1b21-6cdc69418b31, 1, String, firstName, asdasd, 2, String, lastName, adasd, 3, Int32, id, 33434, 4, String, creditCardNumber, asdadada, 5, DateTime, expirationCreditCard, 01/10/2031 0:00:00, 6, Int32, CVV, 300, 7, String, address, asdasd, adads, asdad, 343434)
+2020-06-20 13:33:26.0285 | login, (0, Guid, sessionID, 1205e73a-52c1-1ff7-eba7-7adbcf5b7ccf, 1, String, uname, u1, 2, String, pswd, C4318372F98F4C46ED3A32C16EE4D7A76C832886D887631C0294B3314F34EDF1)
+2020-06-20 13:33:26.0771 | isUserAdmin, (0, Guid, sessionID, 0d52d728-949a-49b6-af19-b888d9a1f1dc)
+2020-06-20 13:33:26.0771 | GetAwaitingRequests, (0, Guid, sessionID, 1205e73a-52c1-1ff7-eba7-7adbcf5b7ccf)
