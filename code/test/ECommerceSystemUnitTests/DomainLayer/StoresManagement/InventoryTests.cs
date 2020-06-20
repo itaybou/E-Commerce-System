@@ -38,7 +38,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             inventory.Products.Add(pInv);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void tearDown()
         {
             //inventory.Products.Clear();

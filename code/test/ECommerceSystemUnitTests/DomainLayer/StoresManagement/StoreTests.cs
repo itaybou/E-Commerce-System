@@ -25,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         Guid _productInvID = Guid.NewGuid();
 
         private SystemManager _systemManagement;
-
+        private StoreManagement _storeManagment;
         private UsersManagement _userManagement;
         private User _owner;
         private User _regularUser;
@@ -84,6 +84,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             // nonPermitManager - manager with the default permissions
             // permitManager - manager with the default permissions, add, delete and modify productInv a
             // regularUser - not owner/manager of the store
+
+            ECommerceSystem.DataAccessLayer.DataAccess.Instance.SetTestContext();
+
             _regularUser = new User(new Subscribed("regularUser", "pA55word", "fname", "lname", "owner@gmail.com"));
             _permitManager = new User(new Subscribed("permitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
             _nonPermitManager = new User(new Subscribed("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com"));
@@ -93,6 +96,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
 
             _userManagement = UsersManagement.Instance;
             _systemManagement = SystemManager.Instance;
+            _storeManagment = StoreManagement.Instance;
             _userManagement.register("owner", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("nonPermitManager", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("permitManager", "pA55word", "fname", "lname", "owner@gmail.com");
@@ -176,261 +180,62 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
             _store.AllDiscountsMap.Clear();
         }
 
-        [Test()]
-        public void removeManagerTest()
+        [OneTimeTearDown]
+        public void tearDownFixture()
         {
-            _store.assignManager(_owner, _newManager.Name);
-
-            Assert.False(_store.removeManager(_permitManager, "newManager"), "Remove manager by another manager successed");
-            Assert.False(_store.removeManager(_regularUser, "newManager"), "Remove manager by regular user successed");
-            Assert.False(_store.removeManager(_anotherOwner, "newManager"), "Remove manager by owner who isn`t his asignee successed");
-
-            Assert.True(_store.removeManager(_owner, "newManager"), "Fail to remove manager");
-            Assert.Null(_store.getPermissionByName("newManager"), "Remove manager successed, but the manager still have permissions");
+            ECommerceSystem.DataAccessLayer.DataAccess.Instance.DropTestDatabase();
         }
 
-        [Test()]
-        public void editPermissionsTest()
-        {
-            _store.assignManager(_owner, _newManager.Name);
+        //[Test()]
+        //public void editPermissionsTest()
+        //{
+        //    _owner = _userManagement.getUserByGUID(_owner.Guid, true);
+        //    _storeManagment.assignManager(_owner.Guid, "newManager", "store");
 
-            List<PermissionType> emptyPermissions = new List<PermissionType>();
+        //    List<PermissionType> emptyPermissions = new List<PermissionType>();
 
-            List<PermissionType> fewPermissions = new List<PermissionType>();
-            fewPermissions.Add(PermissionType.AddProductInv);
-            fewPermissions.Add(PermissionType.DeleteProductInv);
-            fewPermissions.Add(PermissionType.WatchAndComment);
+        //    List<PermissionType> fewPermissions = new List<PermissionType>();
+        //    fewPermissions.Add(PermissionType.AddProductInv);
+        //    fewPermissions.Add(PermissionType.DeleteProductInv);
+        //    fewPermissions.Add(PermissionType.WatchAndComment);
 
-            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _regularUser.Name), "Edit permiossions for manager by regular successed");
-            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _permitManager.Name), "Edit permiossions for manager by another manager successed");
-            Assert.Null(_store.editPermissions(_newManager.Name, emptyPermissions, _anotherOwner.Name), "Edit permiossions for manager by owner who isn`t his asignee successed");
+        //    _store = _storeManagment.getStoreByName("store");
+        //    Assert.Null(_store.editPermissions("newManager", emptyPermissions, "regularUser"), "Edit permiossions for manager by regular successed");
+        //    Assert.Null(_store.editPermissions("newManager", emptyPermissions, "regularUser"), "Edit permiossions for manager by another manager successed");
+        //    Assert.Null(_store.editPermissions("newManager", emptyPermissions, "regularUser"), "Edit permiossions for manager by owner who isn`t his asignee successed");
 
-            Assert.NotNull(_store.editPermissions(_newManager.Name, emptyPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
-            //check that newManager dont have permissions:
-            Assert.False(_store.getPermissionByName(_newManager.Name).canAddProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to add product");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canDeleteProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to delete product");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canModifyProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to modify product");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canWatchAndomment(), "Permissions edited to empty permissions list successed but the manager still have permission to watch and comment");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canWatchPurchaseHistory(), "Permissions edited to empty permissions list successed but the manager still have permission to watch history");
+        //    Assert.NotNull(_store.editPermissions("newManager", emptyPermissions, "owner"), "Fail to edit permissions to empty permissions list");
+        //    _store = _storeManagment.getStoreByName("store");
 
-            Assert.NotNull(_store.editPermissions(_newManager.Name, fewPermissions, _owner.Name), "Fail to edit permissions to empty permissions list");
-            //check that newManager dont have permissions:
-            Assert.True(_store.getPermissionByName(_newManager.Name).canAddProduct(), "Permissions edited to esuccessed but the manager dont have permission to add product");
-            Assert.True(_store.getPermissionByName(_newManager.Name).canDeleteProduct(), "Permissions edited to esuccessed but the manager dont have permission to delete product");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canModifyProduct(), "Permissions edited to successed but the manager have permission to modify product");
-            Assert.True(_store.getPermissionByName(_newManager.Name).canWatchAndomment(), "Permissions edited to esuccessed but the manager dont have permission to watch and comment");
-            Assert.False(_store.getPermissionByName(_newManager.Name).canWatchPurchaseHistory(), "Permissions edited to successed but the manager have permission to watch history");
-        }
+        //    //check that newManager dont have permissions:
+        //    Assert.False(_store.getPermissionByName("newManager").canAddProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to add product");
+        //    Assert.False(_store.getPermissionByName("newManager").canDeleteProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to delete product");
+        //    Assert.False(_store.getPermissionByName("newManager").canModifyProduct(), "Permissions edited to empty permissions list successed but the manager still have permission to modify product");
+        //    Assert.False(_store.getPermissionByName("newManager").canWatchAndomment(), "Permissions edited to empty permissions list successed but the manager still have permission to watch and comment");
+        //    Assert.False(_store.getPermissionByName("newManager").canWatchPurchaseHistory(), "Permissions edited to empty permissions list successed but the manager still have permission to watch history");
 
-        [Test()]
-        public void rateStoreTest()
-        {
-            _store.rateStore(6.0);
-            Assert.AreEqual(5.0, _store.Rating);
-            _store.rateStore(2.0);
-            Assert.AreEqual(3.5, _store.Rating);
-        } 
+        //    Assert.NotNull(_store.editPermissions("newManager", fewPermissions, "owner"), "Fail to edit permissions to empty permissions list");
 
-        // *************PURCHASE POLICY TESTS********* //
-        [Test()]
-        public void addCompositePurchasePolicyTest()
-        {
-            //try to add with not exist policy
-
-            Assert.AreEqual(Guid.Empty, _store.addAndPurchasePolicy(_banIranPolicyID, Guid.NewGuid()));
-
-            //add first xor
-            Guid xorPolicy1 = _store.addXorPurchasePolicy(_banIranPolicyID, _banIraqPolicyID);
-
-            //check that the simple policies exist
-            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
-            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
-
-            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iran"));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran iraq"));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice - 1, "iran"));
+        //    _store = _storeManagment.getStoreByName("store");
+        //    //check that newManager dont have permissions:
+        //    Assert.True(_store.getPermissionByName("newManager").canAddProduct(), "Permissions edited to esuccessed but the manager dont have permission to add product");
+        //    Assert.True(_store.getPermissionByName("newManager").canDeleteProduct(), "Permissions edited to esuccessed but the manager dont have permission to delete product");
+        //    Assert.False(_store.getPermissionByName("newManager").canModifyProduct(), "Permissions edited to successed but the manager have permission to modify product");
+        //    Assert.True(_store.getPermissionByName("newManager").canWatchAndomment(), "Permissions edited to esuccessed but the manager dont have permission to watch and comment");
+        //    Assert.False(_store.getPermissionByName("newManager").canWatchPurchaseHistory(), "Permissions edited to successed but the manager have permission to watch history");
+        //}
 
 
 
-            //add second xor
-
-            Guid xorPolicy2 = _store.addXorPurchasePolicy(_banIranPolicyID, _banEgyptPolicyID);
-            //check that the simple policies exist
-            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
-            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banEgyptPolicyID));
-
-            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iran"));
-            Assert.IsTrue(_store.canBuy(null, _requireTotalPrice + 1, "iraq egypt"));
-
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice - 1, "iran"));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, ""));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran egypt"));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iran iraq"));
-            Assert.IsFalse(_store.canBuy(null, _requireTotalPrice + 1, "iraq"));
-        }
-
-
-        [Test()]
-        public void removePolicyTest()
-        {
-
-            //remove first level simple policy
-            Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
-            _store.removePurchasePolicy(_banIranPolicyID);
-            Assert.IsNull(_store.PurchasePolicy.getByID(_banIranPolicyID));
-
-
-            //remove composite from first level
-            Guid andPolicy = _store.addOrPurchasePolicy(_banEgyptPolicyID, _banIraqPolicyID);
-            _store.removePurchasePolicy(_banIraqPolicyID);
-            Assert.IsNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));
-            _store.removePurchasePolicy(andPolicy);
-            Assert.IsNull(_store.PurchasePolicy.getByID(andPolicy));
-            Assert.IsNotNull(_banEgyptPolicyID);
-
-        }
-        // *************DISCOUNT TESTS**************** //
-
-        [Test()]
-        public void addVisibleDiscountTest()
-        {
-            Assert.AreEqual(Guid.Empty, _store.addVisibleDiscount(Guid.NewGuid(), 10, DateTime.Today.AddDays(10))); // not exist product id
-            Assert.AreEqual(Guid.Empty, _store.addVisibleDiscount(_productID1, -1, DateTime.Today.AddDays(10))); // negative percetage
-            Assert.AreEqual(Guid.Empty, _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(-1))); // illegal date
-
-            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP1));
-            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP1));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP1));
-            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP1));
-
-            Assert.AreEqual(Guid.Empty, _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10))); //cant add discount to product with discount
-
-        }
-
-
-        [Test()]
-        public void addCondiotionalProcuctDiscountTest()
-        {
-
-            Assert.AreEqual(Guid.Empty, _store.addCondiotionalProcuctDiscount(Guid.NewGuid(), 10, DateTime.Today.AddDays(10), 10)); //not exist product ID
-            Assert.AreEqual(Guid.Empty, _store.addCondiotionalProcuctDiscount(_productID2, 10, DateTime.Today.AddDays(10), -1)); // negative required quantity
-            Assert.AreEqual(Guid.Empty, _store.addCondiotionalProcuctDiscount(_productID2, -1, DateTime.Today.AddDays(10), 10)); // negative percentage
-            Assert.AreEqual(Guid.Empty, _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(-1), 2)); // illeget date
-
-
-            Guid conditionalProductP2 = _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2);
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalProductP2));
-            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(conditionalProductP2));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(conditionalProductP2));
-            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalProductP2));
-
-            Assert.AreEqual(Guid.Empty, _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2)); //cant add discount to product with discount
-
-        }
-
-        [Test()]
-        public void addConditionalStoreDiscount()
-        {
-
-            Assert.AreEqual(Guid.Empty, _store.addConditionalStoreDiscount(-1, DateTime.Today.AddDays(10), 200)); //negative percentage
-            Assert.AreEqual(Guid.Empty, _store.addConditionalStoreDiscount(10, DateTime.Today.AddDays(-10), 200)); //illegal date
-            Assert.AreEqual(Guid.Empty, _store.addConditionalStoreDiscount(10, DateTime.Today.AddDays(10), -50)); //negative required price
-
-
-            Guid conditionalStore = _store.addConditionalStoreDiscount(10, DateTime.Today.AddDays(10), 200);
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalStore));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalStore));
-            Assert.IsNotNull(_store.StoreLevelDiscounts.getByID(conditionalStore));
-            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalStore));
-        }
-
-        [Test()]
-        public void addCompositeDiscountPolicyTest()
-        {
-            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
-            Guid conditionalProductP2 = _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2);
-            Guid visibleDiscountP3 = _store.addVisibleDiscount(_productID3, 30, DateTime.Today.AddDays(10));
-            Guid conditionalStore = _store.addConditionalStoreDiscount(10, DateTime.Today.AddDays(10), 200);
-
-
-            //try to add with not exist policy
-            Assert.AreEqual(Guid.Empty, _store.addAndDiscountPolicy(new List<Guid>() { Guid.NewGuid() }));
-
-
-            //add store level discount in composite discount is forbidden
-            Assert.AreEqual(Guid.Empty, _store.addAndDiscountPolicy(new List<Guid>() { visibleDiscountP3, conditionalStore }));
-
-            //check the exist of visibleDiscountP3
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP3));
-            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP3));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP3));
-            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP3));
-
-            //check the exist of conditionalStore
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalStore));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalStore));
-            Assert.IsNotNull(_store.StoreLevelDiscounts.getByID(conditionalStore));
-            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalStore));
 
 
 
-            //add XOR discount between P1 and P2 discounts
-            Guid XORDiscountP1P2 = _store.addXorDiscountPolicy(new List<Guid>() { visibleDiscountP1, conditionalProductP2 });
-
-            //check the exist of visibleDiscountP1
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP1));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP1));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP1));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(visibleDiscountP1));
-
-            //check the exist of conditionalProductP2
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalProductP2));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalProductP2));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(conditionalProductP2));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(conditionalProductP2));
-
-            //check the exist of XORDiscountP1P2
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(XORDiscountP1P2));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(XORDiscountP1P2));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(XORDiscountP1P2));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(XORDiscountP1P2));
 
 
-            //add two level composite discount
-            Guid XOrDiscountXORP1P2OrP3 = _store.addXorDiscountPolicy(new List<Guid>() { XORDiscountP1P2, visibleDiscountP3 });
+       
 
-            //check the exist of visibleDiscountP1
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP1));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP1));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP1));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(visibleDiscountP1));
 
-            //check the exist of conditionalProductP2
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalProductP2));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalProductP2));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(conditionalProductP2));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(conditionalProductP2));
 
-            //check the exist of visibleDiscountP3
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP3));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP3));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP3));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(visibleDiscountP3));
-
-            //check the exist of XORDiscountP1P2
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(XORDiscountP1P2));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(XORDiscountP1P2));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(XORDiscountP1P2));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(XORDiscountP1P2));
-            Assert.IsFalse(_store.DiscountPolicyTree.Children.Contains(_store.DiscountPolicyTree.getByID(XORDiscountP1P2))); //check that the xor isn`t exist in the first level of the tree
-
-            //check the exist of OrDiscountXORP1P2OrP3
-            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(XOrDiscountXORP1P2OrP3));
-            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(XOrDiscountXORP1P2OrP3));
-            Assert.IsNull(_store.StoreLevelDiscounts.getByID(XOrDiscountXORP1P2OrP3));
-            Assert.IsNotNull(_store.DiscountPolicyTree.getByID(XOrDiscountXORP1P2OrP3));
-        }
 
         [Test()]
         public void removeProductDiscountTest()

@@ -271,6 +271,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return null;
             }
+            if (!(StorePermissions.ContainsKey(assigner.Name) && StorePermissions[assigner.Name].isOwner())) // The assigner is not owner
+            {
+                return null;
+            }
+
 
             //check that there isn`t open agreement for newOwneruserName
             foreach (var a in AssignerOwnerAgreement)

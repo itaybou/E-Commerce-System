@@ -71,7 +71,18 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void DropTestDatabase()
         {
-            TestContext.Client().DropDatabase(TestDatabaseName);
+            //TestContext.Client().DropDatabase(TestDatabaseName);
+
+            try
+            {
+                TestContext.Client().DropDatabase(TestDatabaseName);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("Drop database failed");
+            }
+
+
         }
 
         private bool CollectionExists(string collectionName)
@@ -84,9 +95,10 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void SetTestContext()
         {
-            InitializeTestDatabase();
             ContextBackup = Context;
             Context = TestContext;
+            InitializeTestDatabase();
+            
         }
 
         public void SetDbContext()

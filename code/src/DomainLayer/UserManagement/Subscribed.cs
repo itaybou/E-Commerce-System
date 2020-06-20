@@ -51,6 +51,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public void removePermissions(string storeName)
         {
             Permissions.Remove(storeName);
+            
+
         }
 
         public Permissions getPermission(string storeName)

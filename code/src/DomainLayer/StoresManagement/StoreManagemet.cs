@@ -542,13 +542,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
             bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
+
             if (output)
             {
+                
                 var result = _userManagement.removeAssignee(activeUser, storeName, toRevmoe.Guid);
                 if(result)
                 {
                     var store = getStoreByName(storeName);
+
                     _data.Transactions.ApplyRolePermissionsTransaction(toRevmoe, store);
+                    _data.Transactions.ApplyRolePermissionsTransaction(activeUser, store);
                 }
             }
             return output;
@@ -587,7 +591,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     }
                     _userManagement.removeAllAssigneeOfStore(toRemove, storeName);
                 }
-                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name)); //remove permissions object from the user  
+                _userManagement.removePermissions(storeName, toRemove); //remove permissions object from the user 
+                _data.Transactions.ApplyRolePermissionsTransaction(toRemove, getStoreByName(storeName));
+
+                //-------------------------------------------------------------------------
                 return output;
             }
             else return false;
