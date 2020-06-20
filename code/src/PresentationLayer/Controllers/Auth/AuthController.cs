@@ -25,7 +25,7 @@ namespace PresentationLayer.Controllers.Auth
         }
 
         [Route("Unauthorized")]
-        public IActionResult Unauthorized()
+        public IActionResult UnauthorizedUser()
         {
             return Redirect("~/Exception/UnauthorizedException");
         }

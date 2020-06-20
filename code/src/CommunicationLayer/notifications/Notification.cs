@@ -9,11 +9,14 @@ namespace ECommerceSystem.CommunicationLayer.notifications
         public (Guid, string) SenderMessage { get; private set; }
         public IDictionary<ICollection<Guid>, ICollection<string>> Messages { get; private set; }
 
+        public bool NotifyPast { get; set; }
+
         public Notification(Guid sender, string senderMessage, IDictionary<ICollection<Guid>, ICollection<string>> messages)
         {
             SenderMessage = (sender, senderMessage);
             this._time = DateTime.Now;
             Messages = messages;
+            NotifyPast = true;
         }
 
         public Notification(Guid sender, string senderMessage)
@@ -21,6 +24,7 @@ namespace ECommerceSystem.CommunicationLayer.notifications
             SenderMessage = (sender, senderMessage);
             this._time = DateTime.Now;
             Messages = new Dictionary<ICollection<Guid>, ICollection<string>>();
+            NotifyPast = true;
         }
 
         public Notification()
@@ -28,6 +32,7 @@ namespace ECommerceSystem.CommunicationLayer.notifications
             SenderMessage = (Guid.Empty, null);
             this._time = DateTime.Now;
             Messages = new Dictionary<ICollection<Guid>, ICollection<string>>();
+            NotifyPast = true;
         }
 
         public void AddGroupMessage(ICollection<Guid> group, string message)

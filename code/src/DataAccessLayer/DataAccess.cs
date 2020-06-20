@@ -1,6 +1,8 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
+using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Exceptions;
+using ECommerceSystem.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -10,15 +12,18 @@ namespace ECommerceSystem.DataAccessLayer
 {
     public class DataAccess : IDataAccess
     {
+        public string LocalConnectionString => "mongodb://localhost:27017";
         public string ConnectionString => "mongodb://localhost:27017";//"mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
-        public string TestConnectionString => "mongodb://localhost:27017";
         public string DatabaseName => "ECommerceSystem";
+        public string LocalDatabaseName => "LocalECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";
 
         private static readonly Lazy<DataAccess> lazy = new Lazy<DataAccess>(() => new DataAccess());
         public static DataAccess Instance => lazy.Value;
 
         private IDbContext ContextBackup { get; set; }
+
+        private IDbContext LocalContext { get; set; }
         private IDbContext Context { get; set; }
         private IDbContext TestContext { get; }
         public ITransactions Transactions { get; }
@@ -27,7 +32,8 @@ namespace ECommerceSystem.DataAccessLayer
         {
             EntityMap.RegisterClassMaps();
             Context = new DbContext(ConnectionString, DatabaseName);
-            TestContext = new DbContext(TestConnectionString, TestDatabaseName);
+            LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
+            TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
             Transactions = new Transactions(Context.Client(), Users, Stores, Products);
         }
 
@@ -35,12 +41,14 @@ namespace ECommerceSystem.DataAccessLayer
         {
             try
             {
-                if (!CollectionExists(nameof(Users)))
+                if (!CollectionExists(nameof(Users), Context))
                     Context.Database().CreateCollection(nameof(Users));
-                if (!CollectionExists(nameof(Stores)))
+                if (!CollectionExists(nameof(Stores), Context))
                     Context.Database().CreateCollection(nameof(Stores));
-                if (!CollectionExists(nameof(Products)))
+                if (!CollectionExists(nameof(Products), Context))
                     Context.Database().CreateCollection(nameof(Products));
+                if (!CollectionExists(nameof(UserStatistics), LocalContext))
+                    LocalContext.Database().CreateCollection(nameof(UserStatistics));
             }
             catch (Exception)
             {
@@ -50,12 +58,14 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void InitializeTestDatabase()
         {
-            if (!CollectionExists(nameof(Users)))
+            if (!CollectionExists(nameof(Users), TestContext))
                 TestContext.Database().CreateCollection(nameof(Users));
-            if (!CollectionExists(nameof(Stores)))
+            if (!CollectionExists(nameof(Stores), TestContext))
                 TestContext.Database().CreateCollection(nameof(Stores));
-            if (!CollectionExists(nameof(Products)))
+            if (!CollectionExists(nameof(Products), TestContext))
                 TestContext.Database().CreateCollection(nameof(Products));
+            if (!CollectionExists(nameof(UserStatistics), TestContext))
+                TestContext.Database().CreateCollection(nameof(UserStatistics));
         }
 
         public void DropDatabase()
@@ -63,6 +73,7 @@ namespace ECommerceSystem.DataAccessLayer
             try
             {
                 Context.Client().DropDatabase(DatabaseName);
+                LocalContext.Client().DropDatabase(LocalDatabaseName);
             } catch(Exception)
             {
                 throw new DatabaseException("Drop database failed");
@@ -74,12 +85,12 @@ namespace ECommerceSystem.DataAccessLayer
             TestContext.Client().DropDatabase(TestDatabaseName);
         }
 
-        private bool CollectionExists(string collectionName)
+        private bool CollectionExists(string collectionName, IDbContext context)
         {
             var filter = new BsonDocument("name", collectionName);
             var options = new ListCollectionNamesOptions { Filter = filter };
 
-            return Context.Database().ListCollectionNames(options).Any();
+            return context.Database().ListCollectionNames(options).Any();
         }
 
         public void SetTestContext()
@@ -127,6 +138,17 @@ namespace ECommerceSystem.DataAccessLayer
                 if (products == null)
                     products = new ProductCacheProxy(Context, nameof(Products));
                 return products;
+            }
+        }
+
+        private IUserStatisticsRepository stats;
+        public IUserStatisticsRepository Stats
+        {
+            get
+            {
+                if (stats == null)
+                    stats = new UserStatisticsCacheProxy(LocalContext, nameof(UserStatistics));
+                return stats;
             }
         }
     }

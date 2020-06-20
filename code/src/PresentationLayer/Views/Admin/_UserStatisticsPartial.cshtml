@@ -1,0 +1,99 @@
+﻿@using ECommerceSystem.Models
+@using Microsoft.AspNetCore.Http;
+@model IEnumerable<ECommerceSystem.Models.UserStatistics>
+
+<div class="row p-3">
+    <!-- CHART -->
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title custom-heading">User Types Site Entries Statistics For Period:</h3>
+        </div>
+        <div class="box-body justify-content-center">
+            <div class="chart">
+                <div class="row justify-content-between">
+                    <div class="col" id="graphId" name="graphId" style="width: 800px; height: 400px; margin:auto;"></div>
+                    <div class="col" id="graphId2" name="graphId2" style="width: 800px; height: 400px; margin:auto;"></div>
+                </div>
+                @if (Model != null)
+                {
+                    <div class="m-5">
+                        <h3>Per Day in Period Statistics:</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Guests</th>
+                                    <th scope="col">Subscribed</th>
+                                    <th scope="col">Store Managers</th>
+                                    <th scope="col">Store Owners</th>
+                                    <th scope="col">Admins</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var stats in Model)
+                                {
+                                    if (stats.Date <= DateTime.Now.Date)
+                                    {
+                                        if (stats.Date.Equals(DateTime.Now.Date))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <b>@stats.Date.ToString("dd/MM/yyyy") - TODAY</b>
+                                                </td>
+                                                <td>
+                                                    @Context.Session.GetInt32("guests")
+                                                </td>
+                                                <td>
+                                                    @Context.Session.GetInt32("subscribed")
+                                                </td>
+                                                <td>
+                                                    @Context.Session.GetInt32("managers")
+                                                </td>
+                                                <td>
+                                                    @Context.Session.GetInt32("owners")
+                                                </td>
+                                                <td>
+                                                    @Context.Session.GetInt32("admins")
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @stats.Date.ToString("dd/MM/yyyy")
+                                                </td>
+                                                <td>
+                                                    @stats.Statistics[UserTypes.Guests]
+                                                </td>
+                                                <td>
+                                                    @stats.Statistics[UserTypes.Subscribed]
+                                                </td>
+                                                <td>
+                                                    @stats.Statistics[UserTypes.StoreManagers]
+                                                </td>
+                                                <td>
+                                                    @stats.Statistics[UserTypes.StoreOwners]
+                                                </td>
+                                                <td>
+                                                    @stats.Statistics[UserTypes.Admins]
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="m-5 justify-content-center">
+                        <button style="width: 400px" type="button" class="btn btn-outline-primary m-1" onclick="location.href='@Url.Action("UserStatistics", "Admin")'"><i class="fas fa-calendar-day"></i> Display Days Distribution</button>
+                        </div>
+                    }
+                    </div>
+                </div><!-- /.box-body -->
+    </div><!-- /.box -->
+</div>

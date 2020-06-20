@@ -47,7 +47,7 @@ namespace ECommerceSystem.CommunicationLayer.notifications
                                 await SendNotificationAsync(socket, notif);
                         }
                     }
-                    else
+                    else if(notification.NotifyPast)
                     {
                         if (!NotificationQueues.ContainsKey(userID))
                             NotificationQueues.Add(userID, new ConcurrentQueue<string>());

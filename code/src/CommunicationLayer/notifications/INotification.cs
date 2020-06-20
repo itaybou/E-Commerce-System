@@ -6,6 +6,9 @@ namespace ECommerceSystem.CommunicationLayer.notifications
     public interface INotification
     {
         (Guid, string) SenderMessage { get; }
+
+        bool NotifyPast { get; set; }
+
         IDictionary<ICollection<Guid>, ICollection<string>> Messages { get; } // { user list => message }
 
         void AddGroupMessage(ICollection<Guid> group, string message);

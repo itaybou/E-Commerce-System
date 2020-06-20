@@ -13,5 +13,7 @@ namespace ECommerceSystem.CommunicationLayer.sessions
         Guid GetLoggesUserIDBySession(Guid sessionID);
 
         Guid SessionIDByUserID(Guid userID);
+
+        bool IsNewGuestSession(Guid sessionID);
     }
 }

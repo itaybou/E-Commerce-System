@@ -168,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommunicationLayer\Protocol.cs" />
+    <Compile Include="DataAccessLayer\repositories\cache\UserStatisticsCacheProxy.cs" />
+    <Compile Include="DataAccessLayer\repositories\IUserStatisticsRepository.cs" />
+    <Compile Include="DataAccessLayer\repositories\UserStatisticsRepository.cs" />
     <Compile Include="DomainLayer\StoresManagement\AssignOwnerAgreement.cs" />
     <Compile Include="DataAccessLayer\ITransactions.cs" />
     <Compile Include="DataAccessLayer\repositories\cache\CacheCleaner.cs" />
@@ -223,6 +226,7 @@
     <Compile Include="DomainLayer\TransactionManagement\external_systems\IExternalSupplyPayment.cs" />
     <Compile Include="DomainLayer\TransactionManagement\ISupplySystem.cs" />
     <Compile Include="DomainLayer\TransactionManagement\IPaymentSystem.cs" />
+    <Compile Include="Models\UserStatistics.cs" />
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\ExternalSystemExceptions.cs" />
     <Compile Include="Exceptions\LogicException.cs" />
@@ -261,6 +265,7 @@
     <Compile Include="Models\StorePurchaseModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserPurchaseModel.cs" />
+    <Compile Include="Models\UserTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainLayer\StoresManagement\Discount\DiscountType.cs" />

@@ -174,5 +174,21 @@ namespace ECommerceSystem.ServiceLayer
         {
             return _management.searchUsers(username);
         }
+
+        internal UserStatistics GetUserStatistics(Guid sessionID, DateTime from, DateTime to)
+        {
+            var userID = _sessions.ResolveSession(sessionID);
+            return _management.GetUserStatistics(userID, from, to);
+        }
+
+        public void GuestStatistics(Guid sessionID)
+        {
+            if(_sessions.IsNewGuestSession(sessionID))
+            {
+                _sessions.ResolveSession(sessionID);
+                _management.UpdateUserStatistics(UserTypes.Guests);
+                _management.NotifyVisit(UserTypes.Guests);
+            }
+        }
     }
 }

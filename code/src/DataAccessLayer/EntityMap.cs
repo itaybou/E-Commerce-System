@@ -151,6 +151,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             BsonClassMap.RegisterClassMap<StorePurchaseModel>();
             BsonClassMap.RegisterClassMap<UserPurchaseModel>();
             BsonClassMap.RegisterClassMap<ProductModel>();
+            BsonClassMap.RegisterClassMap<UserStatistics>();
         }
     }
 }

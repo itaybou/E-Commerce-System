@@ -52,6 +52,10 @@ namespace ECommerceSystem.ServiceLayer
 
         void rateStore(string storeName, int rating);
 
+        void GuestStatistics(Guid sessionID);
+
+        UserStatistics GetUserStatistics(Guid sessionID, DateTime from, DateTime to);
+
         // Store Services
         Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName);
 
