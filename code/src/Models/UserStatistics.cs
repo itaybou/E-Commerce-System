@@ -16,6 +16,7 @@ namespace ECommerceSystem.Models
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<UserTypes, long> Statistics { get; set; }
+        public IEnumerable<UserStatistics> AllStatistics { get; set; }
 
         public UserStatistics(DateTime date)
         {
@@ -33,6 +34,7 @@ namespace ECommerceSystem.Models
         public UserStatistics(IEnumerable<UserStatistics> statistics)
         {
             Date = DateTime.Now;
+            AllStatistics = statistics;
             Statistics = new Dictionary<UserTypes, long>()
             {
                 {UserTypes.Guests, 0 },

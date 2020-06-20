@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,16 +15,19 @@ namespace PresentationLayer.Models.User
         [Required(ErrorMessage = "Missing upper limit date to present statistics for.")]
         public DateTime To { get; set; }
 
+        public IEnumerable<UserStatistics> Statistics { get; set; }
+
         public UserStatisticsModel()
         {
             From = DateTime.Now.Date;
             To = DateTime.Now.Date;
         }
 
-        public UserStatisticsModel(DateTime from, DateTime to)
+        public UserStatisticsModel(DateTime from, DateTime to, IEnumerable<UserStatistics> statistics)
         {
             From = from;
             To = to;
+            Statistics = statistics;
         }
     }
 }

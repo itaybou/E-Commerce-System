@@ -132,7 +132,7 @@ namespace PresentationLayer.Controllers.Admin
                 HttpContext.Session.SetInt32("admins", (int)stats.Statistics[UserTypes.Admins]);
                 HttpContext.Session.SetString("stats_date_from", model.From.ToString());
                 HttpContext.Session.SetString("stats_date_to", model.To.ToString());
-                return RedirectToAction("DisplayUserStatistics");
+                return DisplayUserStatistics(stats.AllStatistics);
             }
             catch (AuthenticationException)
             {
@@ -163,9 +163,9 @@ namespace PresentationLayer.Controllers.Admin
                 HttpContext.Session.SetInt32("managers", (int)stats.Statistics[UserTypes.StoreManagers]);
                 HttpContext.Session.SetInt32("owners", (int)stats.Statistics[UserTypes.StoreOwners]);
                 HttpContext.Session.SetInt32("admins", (int)stats.Statistics[UserTypes.Admins]);
-                HttpContext.Session.SetString("stats_date_from", model.From.ToString());
+                HttpContext.Session.SetString("stats_date_from", model.From.ToString());    
                 HttpContext.Session.SetString("stats_date_to", model.To.ToString());
-                return RedirectToAction("DisplayUserStatistics");
+                return DisplayUserStatistics(stats.AllStatistics);
             }
             catch (AuthenticationException)
             {
@@ -182,7 +182,7 @@ namespace PresentationLayer.Controllers.Admin
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult DisplayUserStatistics()
+        public IActionResult DisplayUserStatistics(IEnumerable<UserStatistics> stats)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace PresentationLayer.Controllers.Admin
                 if (dateFrom <= currentDate && dateTo >= currentDate)
                     HttpContext.Session.SetString("statistics", "on");
                 else HttpContext.Session.SetString("statistics", "off");
-                var model = new UserStatisticsModel(dateFrom, dateTo);
+                var model = new UserStatisticsModel(dateFrom, dateTo, stats);
                 var guests = HttpContext.Session.GetInt32("guests");
                 return View("../Admin/UserStatistics", model);
             }
