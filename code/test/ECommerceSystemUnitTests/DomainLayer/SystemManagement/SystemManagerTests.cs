@@ -18,7 +18,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private double _totalPrice;
         private Dictionary<Product, int> _allProducts;
         private ICollection<(Store, double, IDictionary<Product, int>)> _storeProducts;
-        private string _firstName = "fname", _lastName = "lname", _address = "address 1", _creditCardNumber = "413-547";
+        private string _firstName = "fname", _lastName = "lname", _address = "address,city,country,zip", _creditCardNumber = "413-547";
         private int _id = 54362432, _CVV = 300;
         private DateTime _expirationCreditCard = DateTime.Now.AddDays(2.0);
         private Product product1;

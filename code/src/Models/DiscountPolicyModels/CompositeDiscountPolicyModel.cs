@@ -47,6 +47,7 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             {
                 newChildren.Add(child.ModelToOrigin());
             }
+
             if (this.Type.Equals(CompositeType.Or))
             {
                 return new OrDiscountPolicy(Guid.NewGuid(), newChildren);
@@ -61,7 +62,6 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             }
             else
                 return null;
-
         }
     }
 }

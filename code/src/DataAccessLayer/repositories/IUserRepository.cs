@@ -12,5 +12,6 @@ namespace ECommerceSystem.DataAccessLayer.repositories
         void CacheUser(User user);
 
         void UncacheUser(User user);
+
     }
 }

@@ -43,11 +43,8 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         private Guid _anotherOwner3GUID;
         private Guid _newManagerGUID;
 
-     
-
-
+    
         //**purchase policy**
-
 
         List<string> _bannedLocationsIran;
         List<string> _bannedLocationsIraq;
@@ -86,8 +83,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         double _totalPrice5;
 
 
-
-
         [OneTimeSetUp]
         public void setUpFixture()
         {
@@ -99,9 +94,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             ////_data.DropTestDatabase();
 
             //_data.SetTestContext();
-            ECommerceSystem.DataAccessLayer.DataAccess.Instance.SetTestContext();
-
-
+            DataAccess.Instance.SetTestContext();
 
             _storeManagement = StoreManagement.Instance;
             _userManagement = UsersManagement.Instance;
@@ -184,7 +177,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             _productID4 = _storeManagement.addProduct(_ownerGUID, "store", _productName, _quantity4, -1, -1);
             _productID5 = _storeManagement.addProduct(_ownerGUID, "store", _productName, _quantity5, -1, -1);
 
-
         }
 
         [TearDown]
@@ -201,11 +193,18 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             _storeManagement.removeOwner(_ownerGUID, "anotherOwner", "store");
             _storeManagement.removeOwner(_ownerGUID, "anotherOwner3", "store");
 
+
+            //reset db
+            _store = _storeManagement.getStoreByName("store");
+            _storeManagement.deleteProductInventory(_ownerGUID, "store", _productName);
             _store.Inventory.Products.Clear();
+            _store.PurchasePolicy.Children.Clear();
             _store.DiscountPolicyTree.Children.Clear();
             _store.StoreLevelDiscounts.Children.Clear();
             _store.NotInTreeDiscounts.Clear();
             _store.AllDiscountsMap.Clear();
+
+            DataAccess.Instance.Stores.Update(_store, "store", s => s.Name);
             
         }
 
@@ -215,13 +214,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         [OneTimeTearDown]
         public void tearDownFixture()
         {
-            //_data.SetTestContext();
-
-            ECommerceSystem.DataAccessLayer.DataAccess.Instance.DropTestDatabase();
-
-
-
-
+           DataAccess.Instance.DropTestDatabase();
         }
 
 
@@ -571,5 +564,227 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             Assert.IsNotNull(_store.DiscountPolicyTree.getByID(XOrDiscountXORP1P2OrP3));
         }
 
+
+        [Test()]
+        public void removeProductDiscountTest()
+        {
+            _store = _storeManagement.getStoreByName("store");
+            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
+            Guid conditionalProductP2 = _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2);
+            Guid visibleDiscountP3 = _store.addVisibleDiscount(_productID3, 30, DateTime.Today.AddDays(10));
+
+            
+            Assert.IsFalse(_store.removeProductDiscount(Guid.NewGuid(), _productID1)); //not exist discount
+            Assert.IsFalse(_store.removeProductDiscount(visibleDiscountP1, Guid.NewGuid())); //not exist product id
+            Assert.IsFalse(_store.removeProductDiscount(visibleDiscountP1, _productID2)); //prouct id is not match with the product id of the discount
+
+            //check the exist of visibleDiscountP1
+            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP1));
+            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP1));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP1));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP1));
+
+            //remove visibleDiscountP1
+            Assert.IsTrue(_store.removeProductDiscount(visibleDiscountP1, _productID1));
+            Assert.IsFalse(_store.AllDiscountsMap.ContainsKey(visibleDiscountP1));
+            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP1));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP1));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP1));
+
+
+            Guid XORDiscountP2P3 = _store.addXorDiscountPolicy(new List<Guid>() { visibleDiscountP3, conditionalProductP2 });
+            Assert.IsFalse(_store.removeProductDiscount(XORDiscountP2P3, _productID1));
+
+
+
+            Assert.IsTrue(_store.removeProductDiscount(visibleDiscountP3, _productID3));
+            Assert.IsFalse(_store.AllDiscountsMap.ContainsKey(visibleDiscountP3));
+            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP3));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP3));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP3));
+
+        }
+
+
+        [Test()]
+        public void removeStoreLevelDiscountTest()
+        {
+            _store = _storeManagement.getStoreByName("store");
+            Guid conditionalStore = _store.addConditionalStoreDiscount(10, DateTime.Today.AddDays(10), 200);
+            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
+
+
+            Assert.IsFalse(_store.removeStoreLevelDiscount(Guid.NewGuid())); //not exist discount
+            Assert.IsFalse(_store.removeStoreLevelDiscount(visibleDiscountP1)); //remove not store discount
+
+            //check the exist of conditionalStore
+            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalStore));
+            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalStore));
+            Assert.IsNotNull(_store.StoreLevelDiscounts.getByID(conditionalStore));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalStore));
+
+            //remove visibleDiscountP1
+            Assert.IsTrue(_store.removeStoreLevelDiscount(conditionalStore));
+            Assert.IsFalse(_store.AllDiscountsMap.ContainsKey(conditionalStore));
+            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(conditionalStore));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(conditionalStore));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalStore));
+
+        }
+
+        [Test()]
+        public void removeCompositeDiscountTest()
+        {
+            _store = _storeManagement.getStoreByName("store");
+            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
+            Guid conditionalProductP2 = _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2);
+            Guid visibleDiscountP3 = _store.addVisibleDiscount(_productID3, 30, DateTime.Today.AddDays(10));
+
+            Guid XORDiscountP2P3 = _store.addXorDiscountPolicy(new List<Guid>() { visibleDiscountP3, conditionalProductP2 });
+
+            Assert.IsFalse(_store.removeCompositeDiscount(visibleDiscountP1)); //remove not composite
+            Assert.IsFalse(_store.removeCompositeDiscount(Guid.NewGuid())); //remove not exist discount
+
+
+            Assert.IsTrue(_store.removeCompositeDiscount(XORDiscountP2P3));
+
+            Assert.IsFalse(_store.AllDiscountsMap.ContainsKey(XORDiscountP2P3));
+            Assert.IsFalse(_store.NotInTreeDiscounts.ContainsKey(XORDiscountP2P3));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(XORDiscountP2P3));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(XORDiscountP2P3));
+
+            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(conditionalProductP2));
+            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(conditionalProductP2));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(conditionalProductP2));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(conditionalProductP2));
+
+            Assert.IsTrue(_store.AllDiscountsMap.ContainsKey(visibleDiscountP3));
+            Assert.IsTrue(_store.NotInTreeDiscounts.ContainsKey(visibleDiscountP3));
+            Assert.IsNull(_store.StoreLevelDiscounts.getByID(visibleDiscountP3));
+            Assert.IsNull(_store.DiscountPolicyTree.getByID(visibleDiscountP3));
+
+        }
+
+                [Test()]
+        public void getTotalPriceTest()
+        {
+            _store = _storeManagement.getStoreByName("store");
+            _price = 10;
+            int min200StoreDiscountPercentage = 10;
+            int min500StoreDiscountPercentage = 20;
+
+            //modify price to sync this test that came from storeTest
+            _storeManagement.modifyProductPrice(_ownerGUID, "store", _productName, 10);
+
+            Guid visibleDiscountP1 = _store.addVisibleDiscount(_productID1, 10, DateTime.Today.AddDays(10));
+            Guid conditionalProductP2 = _store.addCondiotionalProcuctDiscount(_productID2, 20, DateTime.Today.AddDays(10), 2);
+            Guid visibleDiscountP3 = _store.addVisibleDiscount(_productID3, 30, DateTime.Today.AddDays(10));
+            Guid conditionalProductP4 = _store.addCondiotionalProcuctDiscount(_productID4, 40, DateTime.Today.AddDays(10), 4);
+            Guid conditionalStore1 = _store.addConditionalStoreDiscount(min200StoreDiscountPercentage, DateTime.Today.AddDays(10), 200);
+            Guid conditionalStore2 = _store.addConditionalStoreDiscount(min500StoreDiscountPercentage, DateTime.Today.AddDays(10), 500);
+
+            Product product1 = _store.Inventory.getProductById(_productID1); 
+            Product product2 = _store.Inventory.getProductById(_productID2); 
+            Product product3 = _store.Inventory.getProductById(_productID3); 
+            Product product4 = _store.Inventory.getProductById(_productID4); 
+            Product product5 = _store.Inventory.getProductById(_productID5);
+
+
+            //test one product with visible discount and one without discount cart, no store discount
+            Dictionary<Guid, Tuple<Product, int>> cart1 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart1.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart1.Add(Guid.NewGuid(), Tuple.Create(product5, 3));
+            Assert.AreEqual((((_price * 5) * 0.9) + (3 * _price)), _store.getTotalPrice(cart1));
+
+
+            //test one visible discount with store discount(total price between 200 to 500)
+            Dictionary<Guid, Tuple<Product, int>> cart2 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart2.Add(Guid.NewGuid(), Tuple.Create(product1, 30));
+            Assert.AreEqual(((_price * 30) * 0.9) * 0.9, _store.getTotalPrice(cart2));
+
+
+            //test one visible discount with store discount(total price > 500)
+            Dictionary<Guid, Tuple<Product, int>> cart3 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart3.Add(Guid.NewGuid(), Tuple.Create(product1, 90));
+            Assert.AreEqual(((_price * 90) * 0.9) * 0.8, _store.getTotalPrice(cart3));
+
+
+            //test satisfy conditional product wihtout store discount
+            Dictionary<Guid, Tuple<Product, int>> cart4 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart4.Add(Guid.NewGuid(), Tuple.Create(product2, 3));
+            Assert.AreEqual(((_price *3) * 0.8), _store.getTotalPrice(cart4));
+
+
+            //test not satisfy conditional product wihtout store discount
+            Dictionary<Guid, Tuple<Product, int>> cart5 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart5.Add(Guid.NewGuid(), Tuple.Create(product2, 1));
+            Assert.AreEqual((_price * 1), _store.getTotalPrice(cart5));
+
+            //******ADD AND*****
+            Guid andP1P2Discount = _store.addAndDiscountPolicy(new List<Guid>() { visibleDiscountP1, conditionalProductP2 });
+
+            //test not satisfy and(conditional product, visible) wihtout store discount
+            Dictionary<Guid, Tuple<Product, int>> cart6 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart6.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart6.Add(Guid.NewGuid(), Tuple.Create(product2, 1));
+            Assert.AreEqual((_price * 5) + ((_price * 1)), _store.getTotalPrice(cart6));
+
+
+            //test satisfy and(conditional product, visible) wihtout store discount
+            Dictionary<Guid, Tuple<Product, int>> cart7 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart7.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart7.Add(Guid.NewGuid(), Tuple.Create(product2, 3));
+            Assert.AreEqual(((_price * 5) * 0.9) + (((_price * 3)) * 0.8), _store.getTotalPrice(cart7));
+
+            //test one side of and not exist => not satisfy
+            Dictionary<Guid, Tuple<Product, int>> cart8 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart8.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            Assert.AreEqual(_price * 5, _store.getTotalPrice(cart8));
+
+
+            //test one side of and not exist => but still satisfy
+            Dictionary<Guid, Tuple<Product, int>> cart9 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart9.Add(Guid.NewGuid(), Tuple.Create(product2, 5));
+            Assert.AreEqual(_price * 5 * 0.8, _store.getTotalPrice(cart9));
+
+
+            //******ADD XOR(andDiscount, conditionalProductP4)*****
+            Guid XORP4AndDiscount = _store.addXorDiscountPolicy(new List<Guid>() { andP1P2Discount, conditionalProductP4 });
+
+            //all true 
+            Dictionary<Guid, Tuple<Product, int>> cart10 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart10.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart10.Add(Guid.NewGuid(), Tuple.Create(product2, 5));
+            cart10.Add(Guid.NewGuid(), Tuple.Create(product4, 5));
+            Assert.AreEqual(((5+5) * _price) + (_price * 5 * 0.6) , _store.getTotalPrice(cart10));
+
+
+            //product4 = false, and = true 
+            Dictionary<Guid, Tuple<Product, int>> cart11 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart11.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart11.Add(Guid.NewGuid(), Tuple.Create(product2, 5));
+            cart11.Add(Guid.NewGuid(), Tuple.Create(product4, 2));
+            Assert.AreEqual((5 * _price * 0.9) + (5 * _price * 0.8) + (_price * 2), _store.getTotalPrice(cart11));
+
+            //product4 = false, and = false 
+            Dictionary<Guid, Tuple<Product, int>> cart12 = new Dictionary<Guid, Tuple<Product, int>>();
+            cart12.Add(Guid.NewGuid(), Tuple.Create(product1, 5));
+            cart12.Add(Guid.NewGuid(), Tuple.Create(product2, 1));
+            cart12.Add(Guid.NewGuid(), Tuple.Create(product3, 5));
+            cart12.Add(Guid.NewGuid(), Tuple.Create(product4, 2));
+            Assert.AreEqual(((5 + 1 + 2) * _price) + (5 * _price * 0.7), _store.getTotalPrice(cart12));
+
+
+            //remove And
+            _store.removeCompositeDiscount(andP1P2Discount);
+            Assert.AreEqual((((_price * 5) * 0.9) + (3 * _price)), _store.getTotalPrice(cart1)); //cart1 should be priced like in the start
+            Assert.AreEqual(((_price * 30) * 0.9) * 0.9, _store.getTotalPrice(cart2)); //cart2 should be priced like in the start
+            Assert.AreEqual(((_price * 90) * 0.9) * 0.8, _store.getTotalPrice(cart3)); //cart3 should be priced like in the start
+            Assert.AreEqual(((_price * 3) * 0.8), _store.getTotalPrice(cart4)); //cart4 should be priced like in the start
+            Assert.AreEqual((_price * 1), _store.getTotalPrice(cart5)); //cart5 should be priced like in the start
+
+            _storeManagement.modifyProductPrice(_ownerGUID, "store", _productName, 100);
+            _price = 100;
+        }
     }
 }

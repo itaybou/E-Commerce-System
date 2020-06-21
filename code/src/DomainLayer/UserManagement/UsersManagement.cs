@@ -125,6 +125,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool changeProductQuantity(Guid userID, Guid productId, int quantity)
         {
+            if (quantity.Equals(0))
+            {
+                this.removeProdcutFromCart(userID, productId);
+                return true;
+            }
             var user = getUserByGUID(userID, false);
             var cart = getUserCart(user);
             var cartProducts = cart.StoreCarts.Select(s => s.ProductQuantities).SelectMany(s => s).Select(p => p.Value.Item1).ToList();
@@ -134,9 +139,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (productToChange.Quantity >= quantity)
             {
                 var storeCart = cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToChange.Id));
-                if (quantity.Equals(0))
-                    storeCart.RemoveFromCart(productToChange);
-                else storeCart.ChangeProductQuantity(productToChange, quantity);
+                storeCart.ChangeProductQuantity(productToChange, quantity);
                 _data.Users.Update(user, userID, u => u.Guid);
                 return true;
             }
@@ -152,7 +155,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var productToRemove = cartProducts.Find(prod => prod.Id.Equals(productId));
             if (productToRemove == null)
                 return false;
-            cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToRemove.Id)).RemoveFromCart(productToRemove);
+            var storeCart = cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToRemove.Id));
+            storeCart.RemoveFromCart(productToRemove);
+            if(storeCart.ProductQuantities.Count == 0)
+            {
+                cart.StoreCarts.Remove(storeCart);
+            }
+
             _data.Users.Update(user, userID, u => u.Guid);
             return true;
         }
@@ -196,6 +205,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 {
                     user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+                    _data.Users.Update(user, userID, u => u.Guid);
+
                 }
                 catch(Exception e)
                 {

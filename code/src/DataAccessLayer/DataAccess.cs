@@ -1,5 +1,7 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
+using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Exceptions;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -71,11 +73,12 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void DropTestDatabase()
         {
-            //TestContext.Client().DropDatabase(TestDatabaseName);
-
             try
             {
                 TestContext.Client().DropDatabase(TestDatabaseName);
+                ((ICacheProxy<User, Guid>)Users).RemoveCacheDate();
+                ((ICacheProxy<Product, Guid>)Products).RemoveCacheDate();
+                ((ICacheProxy<Store, string>)Stores).RemoveCacheDate();
             }
             catch (Exception)
             {
@@ -95,16 +98,21 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void SetTestContext()
         {
+            InitializeTestDatabase();
             ContextBackup = Context;
             Context = TestContext;
-            InitializeTestDatabase();
-            
+            Users.setContext(TestContext);
+            Stores.setContext(TestContext);
+            Products.setContext(TestContext);
         }
 
         public void SetDbContext()
         {
             DropTestDatabase();
             Context = ContextBackup;
+            Users.setContext(Context);
+            Stores.setContext(Context);
+            Products.setContext(Context);
         }
 
         private IUserRepository users;

@@ -7,6 +7,9 @@ namespace ECommerceSystem.DataAccessLayer
 {
     public interface IRepository<T, K> where T : class
     {
+
+        void setContext(IDbContext context);
+
         void Insert(T entity);
 
         void Upsert(T entity, K id, Expression<Func<T, K>> idFunc);
@@ -24,5 +27,7 @@ namespace ECommerceSystem.DataAccessLayer
         IEnumerable<T> FindAllBy(Expression<Func<T, bool>> predicate);
 
         IQueryable<T> QueryAll();
+
+        
     }
 }
