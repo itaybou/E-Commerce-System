@@ -30,5 +30,10 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         {
             return true;
         }
+
+        public void SetExternal(IExternalSupplyPayment External)
+        {
+            this.External = External;
+        }
     }
 }

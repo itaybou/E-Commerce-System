@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Models;
+using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.TransactionManagement;
+using ECommerceSystemUnitTests.DomainLayer.SystemManagement;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
 {
@@ -26,6 +29,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         private Product product3;
         private Product product4;
         private Guid _userID;
+
+        [OneTimeSetUp]
+        public void setUpFixture()
+        {
+            DataAccess.Instance.SetTestContext();
+            TransactionManager.Instance.setTestExternalSystems(new ExternalSystemsStub());
+        }
 
         [SetUp]
         public void setUp()
@@ -66,6 +76,14 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             //StoreManagement.Instance.Stores.Clear();
         }
 
+        [OneTimeTearDown]
+        public void tearDownFixture()
+        {
+            TransactionManager.Instance.setRealExternalSystems();
+            DataAccess.Instance.DropTestDatabase();
+        }
+
+
         [Test()]
         public void makePurchaseSuccessTest()
         {
@@ -78,19 +96,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             Assert.AreEqual(product4.Quantity, 0);
         }
 
-        [Test()]
-        public void makePurchaseFaildBadCreditCardDetailsTest()
-        {
-            var ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address);
-            ans.Wait();
-            Assert.False(ans.Result);
-            ans = _systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address);
-            ans.Wait();
-            Assert.False(ans.Result);
-
-            //Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, _expirationCreditCard, _CVV / 10, _address));
-            //Assert.False(_systemManager.makePurchase(_userID, _totalPrice, _storeProducts, _allProducts, _firstName, _lastName, _id, _creditCardNumber, DateTime.Now.AddDays(-1.0), _CVV, _address));
-        }
 
         [Test()]
         public void makePurchaseCheckStorePurchaseHistoryUpdateAfterPurchaseTest()
