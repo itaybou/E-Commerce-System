@@ -17,6 +17,10 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public Guid ProductID { get; set; }
         public string ProductName { get; set; }
 
+        public string StoreName { get; set; }
+
+        public bool Init { get; set; }
+
         public ConditionalCompositeProductDiscModel(Guid ID, CompositeDiscountPolicyModel productTreeModel, DateTime expDate, float percentage, Guid productID, string productName) : base(ID)
         {
             this.productTreeModel = productTreeModel;
@@ -26,10 +30,24 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             ProductName = productName;
         }
 
+        public ConditionalCompositeProductDiscModel(Guid ID, DateTime expDate, Guid prodID, string prodName, float percentage, string store) : base(ID)
+        {
+            Percentage = percentage;
+            ExpDate = expDate;
+            ProductID = prodID;
+            ProductName = prodName;
+            StoreName = store;
+            productTreeModel = null;
+            Init = true;
+        }
+
+        public ConditionalCompositeProductDiscModel() : base(Guid.Empty)
+        {
+        }
+
         public override string GetString()
         {
-            return "";
-            //return "Composite conditional Discount for product: " + ProductName + ", id: " + ProductID + "\n" + "Buy " + RequiredQuantity + " and get " + Percentage + "% discount, Expires: " + ExpDate.ToString("dd/MM/yyyy");
+            return "<h5>Discount for product: " + ProductName + ", id: " + ProductID + "\n" + Percentage + "% discount, Expires: " + ExpDate.ToString("dd/MM/yyyy") + " <b>Will Available on purchasing the following: </b></h5>" + productTreeModel.GetSelectionString();
         }
 
         public override DiscountPolicy ModelToOrigin()
@@ -37,6 +55,11 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             DiscountPolicy newCond = this.productTreeModel.ModelToOrigin();
 
             return ConditionalCompositeProductDicountPolicy.Create(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, (AndDiscountPolicy)newCond);
+        }
+
+        public override string GetSelectionString()
+        {
+            return GetString();
         }
     }
 }

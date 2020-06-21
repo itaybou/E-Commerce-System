@@ -14,14 +14,16 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public DateTime ExpDate { get; set; }
         public Guid ProductID { get; set; }
         public string ProductName { get; set; }
+        public string Additional { get; set; }
 
-        public ConditionalProductDiscountModel(Guid ID, int requiredQuantity, DateTime expDate, float percentage, Guid productID, string productName) : base(ID)
+        public ConditionalProductDiscountModel(Guid ID, int requiredQuantity, DateTime expDate, float percentage, Guid productID, string productName, string additional = "") : base(ID)
         {
             RequiredQuantity = requiredQuantity;
             Percentage = percentage;
             ExpDate = expDate;
             ProductID = productID;
             ProductName = productName;
+            Additional = additional;
         }
 
         public override string GetString()
@@ -32,6 +34,13 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public override DiscountPolicy ModelToOrigin()
         {
             return new ConditionalProductDiscount(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, this.RequiredQuantity);
+        }
+
+        public override string GetSelectionString()
+        {
+            if (String.IsNullOrEmpty(Additional))
+                return "ID: " + ProductID + " Name: " + ProductName;
+            else return Additional;
         }
     }
 }

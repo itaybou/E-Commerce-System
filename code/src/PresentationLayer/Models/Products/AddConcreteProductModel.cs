@@ -31,6 +31,9 @@ namespace PresentationLayer.Models.Products
         [DisplayName("Percentage")]
         public float PercentageCond { get; set; }
 
+        [DisplayName("Percentage")]
+        public float PercentageCondProd { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayName("Discount Expiration Date"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ExpDateVis { get; set; }
@@ -38,5 +41,9 @@ namespace PresentationLayer.Models.Products
         [DataType(DataType.Date)]
         [DisplayName("Discount Expiration Date"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ExpDateCond { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayName("Discount Expiration Date"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ExpDateCondProd { get; set; }
     }
 }

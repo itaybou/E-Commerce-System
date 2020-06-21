@@ -31,5 +31,10 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         {
             return new VisibleDiscount(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID);
         }
+
+        public override string GetSelectionString()
+        {
+            return "";
+        }
     }
 }

@@ -16,6 +16,9 @@ using ECommerceSystem.Exceptions;
 using Microsoft.AspNetCore.Http;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Models.DiscountPolicyModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 
 namespace PresentationLayer.Controllers.StoreOwner
 {
@@ -383,6 +386,7 @@ namespace PresentationLayer.Controllers.StoreOwner
                 model.Name = productInv.Name;
                 model.ExpDateVis = DateTime.Now;
                 model.ExpDateCond = DateTime.Now;
+                model.ExpDateCondProd = DateTime.Now;
                 ViewData["StoreName"] = storeName;
                 ViewData["ProductName"] = model.Name;
                 return View("../Store/AddConcreteProduct", model);
@@ -417,6 +421,8 @@ namespace PresentationLayer.Controllers.StoreOwner
             var productID = Guid.Empty;
             try
             {
+                if(model.Quantity <= 0)
+                    ModelState.AddModelError("ProductAddErrorQuantity", "Cannot add zero quantity to products");
                 if (ModelState.IsValid)
                 {
                     if (quantityLimit)
@@ -446,12 +452,14 @@ namespace PresentationLayer.Controllers.StoreOwner
                                 return View("../Store/StoreInventory", products);
                             }
                             break;
+                        case "conditional_product":
+                                return RedirectToAction("AddConditionalCompositeProductsDiscount", new { storeName, id = productID, percentage = model.PercentageCondProd.ToString(), expDate = model.ExpDateCondProd.ToString() });
                         default:
-                            {
-                                var products = _service.getStoreInfo(storeName);
-                                return View("../Store/StoreInventory", products);
-                            }
-                    }
+                        {
+                            var products = _service.getStoreInfo(storeName);
+                            return View("../Store/StoreInventory", products);
+                        }
+                }
                 }
             }
             catch (AuthenticationException)
@@ -1291,6 +1299,20 @@ namespace PresentationLayer.Controllers.StoreOwner
                             }
                             ModelState.AddModelError("AddProductDiscountError", "Error occured while trying to add store discount. check that you paramters are valid.");
                             break;
+                        case "conditional_product":
+                            {
+                                if (model.ExpDate < DateTime.Now)
+                                {
+                                    ModelState.AddModelError("ExpirationError", "You chose a date prior to today.");
+                                }
+                                if (model.Percentage < 0 || model.Percentage > 100)
+                                {
+                                    ModelState.AddModelError("PercentageError", "Percentage can only be in range 0-100");
+                                }
+                                if (ModelState.IsValid)
+                                    return RedirectToAction("AddConditionalCompositeProductsDiscount", new { storeName = storeName, id = productID, percentage = model.Percentage.ToString(), expDate = model.ExpDate.ToString() });
+                            }
+                            break;
                     }
                 }
                 catch (AuthenticationException)
@@ -1452,6 +1474,235 @@ namespace PresentationLayer.Controllers.StoreOwner
                 });
             }
             return View("../Owner/discounts/AddCompositeDiscount", selectlist);
+        }
+
+        private ConditionalCompositeProductDiscModel ProductsConditionTree
+        {
+            get
+            {
+                var context = HttpContext;
+                var tree = context.Session.GetString("ProductsConditionTree");
+                if (String.IsNullOrEmpty(tree))
+                {
+                    return new ConditionalCompositeProductDiscModel();
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject<ConditionalCompositeProductDiscModel> (tree, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Objects
+                    });
+                }
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    HttpContext.Session.SetString("ProductsConditionTree", "");
+                }
+                else
+                {
+                    var serialized = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Objects,
+                        TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+                    });
+                    HttpContext.Session.SetString("ProductsConditionTree", serialized);
+                }
+            }
+        }
+
+
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddConditionalCompositeProductsDiscount")]
+        public IActionResult AddConditionalCompositeProductsDiscount(string storeName, string id, string percentage, string expDate, bool submit = false)
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var selectlist = new List<SelectListItem>();
+            var products = new List<ProductModel>();
+            var expiration = DateTime.Now;
+            var perc = 0.0f;
+            var prodID = Guid.Empty;
+             var name = "";
+            var condTree = ProductsConditionTree;
+            try
+            {
+                if (submit)
+                {
+                    var temp = condTree.productTreeModel;
+                    condTree.productTreeModel = new CompositeDiscountPolicyModel(Guid.NewGuid(), new List<DiscountPolicyModel>() { temp }, CompositeType.And);
+                    if (_service.addConditionalCompositeProcuctDiscount(session, condTree.StoreName, condTree.ProductID, condTree.Percentage, condTree.ExpDate, condTree.productTreeModel) == Guid.Empty)
+                        ModelState.AddModelError("AddCompositeDiscountError", "Error occured while trying to add store discount. check that you paramters are valid. maybe discount is already applied.");
+                    else
+                    {
+                        var prods = _service.getStoreInfo(condTree.StoreName);
+                        return View("../Store/StoreInventory", prods);
+                    }
+                }
+                expiration = submit ? condTree.ExpDate : DateTime.Parse(expDate);
+                perc = submit ? condTree.Percentage : float.Parse(percentage);
+                prodID = submit? condTree.ProductID : Guid.Parse(id);
+                var inventory = _service.getStoreInfo(submit? condTree.StoreName : storeName).Item2;
+                foreach(var prodInv in inventory)
+                {
+                    var prods = _service.getStoreProductGroup(session, prodInv.ID, submit ? condTree.StoreName : storeName).Item2;
+                    foreach (var prod in prods)
+                    {
+                        if (prod.Id != prodID)
+                            products.Add(prod);
+                        else name = prod.Name;
+                    }
+                }
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+            foreach (var prod in products)
+            {
+                selectlist.Add(new SelectListItem
+                {
+                    Text = prod.GetString(),
+                    Value = prod.Id.ToString()
+                });
+            }
+            ViewData["StoreName"] = submit ? condTree.StoreName : storeName;
+            ViewData["ProductID"] = submit ? condTree.ProductID.ToString() : id;
+            var tree = new ConditionalCompositeProductDiscModel(Guid.NewGuid(), expiration, prodID, name, perc, storeName);
+            
+            ProductsConditionTree = tree;
+            return View("../Owner/discounts/AddCompositeProductDiscount", (selectlist, tree, false));
+        }
+
+
+        private IEnumerable<CompositeDiscountPolicyModel> GetAllFromTree(CompositeDiscountPolicyModel tree)
+        {
+            return new[] { tree }
+             .Concat(tree.Children.SelectMany(child => {
+                 if (child is CompositeDiscountPolicyModel)
+                     return GetAllFromTree((CompositeDiscountPolicyModel)child);
+                 else return new List<CompositeDiscountPolicyModel>();
+            }));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Subscribed")]
+        [Route("AddConditionalCompositeProductsDiscount")]
+        public IActionResult AddConditionalCompositeProductsDiscount()
+        {
+            var session = new Guid(HttpContext.Session.Id);
+            var selectlist = new List<SelectListItem>();
+            var products = new List<ProductModel>();
+            var tree = ProductsConditionTree;
+            var error = false;
+            bool addedCompose = false;
+            int compose_count = 0;
+            CompositeDiscountPolicyModel current = tree.productTreeModel;
+            IEnumerable<CompositeDiscountPolicyModel> compositeDiscounts;
+            try
+            {
+                var choice = Request.Form["edit"].ToString();
+                Guid.TryParse(choice, out Guid compose);
+                if (!String.IsNullOrEmpty(Request.Form["selectd-1"]))
+                {
+                    int.TryParse(Request.Form["composites"].ToString(), out compose_count);
+                    compose_count = compose_count == 0 ? 1 : compose_count;
+                }
+                var op = Request.Form["operator"].ToString();
+                Enum.TryParse(op, out CompositeType operation);
+                if (tree.productTreeModel == null)
+                    tree.productTreeModel = new CompositeDiscountPolicyModel(Guid.NewGuid(), new List<DiscountPolicyModel>(), operation);
+                var ids = new List<Guid>();
+                compositeDiscounts = GetAllFromTree(tree.productTreeModel).ToList();
+                if (tree.Init)
+                    current = tree.productTreeModel;
+                if (!tree.Init && compose != Guid.Empty)
+                {
+                    current = compositeDiscounts.FirstOrDefault(d => d.ID == compose);
+                    current.Type = operation;
+                }
+                else if (!tree.Init) ModelState.AddModelError("SelectListError", "You did not choose a composite to set or no composites left. Choose composites or create the discount");
+
+                for (int i = 0; i < Request.Form.Count; i++)
+                {
+                    if (Request.Form.ContainsKey("selectd" + i))
+                    {
+                        ids.Add(new Guid(Request.Form["selectd" + i]));
+                    }
+                }
+                if (ids.Count == 0)
+                    error = true;
+                else if (ids.Count == 1 && !tree.Init)
+                    ModelState.AddModelError("SelectListError", "More than one product needed for composition");
+
+
+                var inventory = _service.getStoreInfo(tree.StoreName).Item2;
+                foreach (var prodInv in inventory)
+                {
+                    var prods = _service.getStoreProductGroup(session, prodInv.ID, tree.StoreName).Item2;
+                    foreach (var prod in prods)
+                    {
+                        if (prod.Id != tree.ProductID)
+                            products.Add(prod);
+
+                        if (ModelState.IsValid)
+                        {
+                            if (ids.Any(g => g.Equals(prod.Id)))
+                            {
+                                current.Children.Add(new ConditionalProductDiscountModel(Guid.NewGuid(), 1, tree.ExpDate, tree.Percentage, prod.Id, prod.Name, prod.GetString()));
+                            }
+                        }
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    if (compose_count > 0)
+                        for (int i = 0; i < compose_count; ++i)
+                        {
+                            current.Children.Add(new CompositeDiscountPolicyModel(Guid.NewGuid(), new List<DiscountPolicyModel>(), operation));
+                            addedCompose = true;
+                        }
+                    tree.Init = false;
+                    ProductsConditionTree = tree;
+                }
+                foreach (var prod in products)
+                {
+                    selectlist.Add(new SelectListItem
+                    {
+                        Text = prod.GetString(),
+                        Value = prod.Id.ToString()
+                    });
+                }
+                var model = (selectlist, tree, (compositeDiscounts.Where(d => d.Children.Count == 0).Count() != 0) || addedCompose);
+                if (error)
+                    ModelState.AddModelError("SelectListError", "No Products chosen!");
+                return View("../Owner/discounts/AddCompositeProductDiscount", model);
+            }
+            catch (AuthenticationException)
+            {
+                return Redirect("~/Exception/AuthException");
+            }
+            catch (DatabaseException)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
+            catch (LogicException)
+            {
+                return Redirect("~/Exception/LogicException");
+            }
+            catch(Exception)
+            {
+                return Redirect("~/Exception/DatabaseException");
+            }
         }
     }
     #endregion

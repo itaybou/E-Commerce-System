@@ -464,3 +464,4 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\PresentationLayer.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Admin\_UserStatisticsPartial.cshtml.g.cs
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\PresentationLayer\obj\Debug\netcoreapp3.1\Razor\Views\Owner\discounts\AddCompositeProductDiscount.cshtml.g.cs

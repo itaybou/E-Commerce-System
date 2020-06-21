@@ -29,5 +29,10 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         {
             return new ConditionalStoreDiscount(this.RequiredPrice, this.ExpDate, this.Percentage, Guid.NewGuid());
         }
+
+        public override string GetSelectionString()
+        {
+            return "";
+        }
     }
 }
