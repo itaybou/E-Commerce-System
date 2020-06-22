@@ -92,5 +92,17 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
                 throw new ExternalSystemException("Faild : supply transaction");
             }
         }
+
+        public void setTestExternalSystems(IExternalSupplyPayment External)
+        {
+            _paymentSystem.SetExternal(External);
+            _supplySystem.SetExternal(External);
+        }
+
+        public void setRealExternalSystems()
+        {
+            _paymentSystem.SetExternal(_external);
+            _supplySystem.SetExternal(_external);
+        }
     }
 }

@@ -100,6 +100,7 @@
     <Compile Include="DomainLayer\StoresManagement\PurchasePolicies\XORPurchasePolicyTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreTests.cs" />
     <Compile Include="DomainLayer\StoresManagement\StoreManagmentTests.cs" />
+    <Compile Include="DomainLayer\SystemManagement\ExternalSystemsStub.cs" />
     <Compile Include="DomainLayer\SystemManagement\SearchAndFilterTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SpellCheckerTests.cs" />
     <Compile Include="DomainLayer\SystemManagement\SystemManagerTests.cs" />

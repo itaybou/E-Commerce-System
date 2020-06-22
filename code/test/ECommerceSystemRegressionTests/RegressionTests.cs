@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -11,12 +12,14 @@ namespace ECommerceSystemRegressionTests
     {
         private UsersManagement _usersManagement;
         private StoreManagement _storeManagement;
+        private IDataAccess _data;
 
         [OneTimeSetUp]
         public void setUp()
         {
             _usersManagement = UsersManagement.Instance;
             _storeManagement = StoreManagement.Instance;
+            _data = DataAccess.Instance;
         }
 
         [TestCase()]

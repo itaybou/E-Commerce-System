@@ -193,3 +193,7 @@ C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-C
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CoreCompileInputs.cache
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csprojAssemblyReference.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.csproj.CoreCompileInputs.cache
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.dll
+C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\test\ECommerceSystemRegressionTests\obj\Debug\ECommerceSystemRegressionTests.pdb

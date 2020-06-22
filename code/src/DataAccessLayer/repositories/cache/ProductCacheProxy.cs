@@ -188,5 +188,15 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             if (ProductCache.ContainsKey(id))
                 Recache(entity);
         }
+
+        public void setContext(IDbContext context)
+        {
+            ProductRepository.setContext(context);
+        }
+
+        public void RemoveCacheDate()
+        {
+            ProductCache.Clear();
+        }
     }
 }

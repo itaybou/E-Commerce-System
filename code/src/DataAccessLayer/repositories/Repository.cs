@@ -10,7 +10,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories
     // T is repository entity type, K is the key type for that entity
     public class Repository<T, K> : IRepository<T, K> where T : class where K : notnull
     {
-        private IDbContext Context { get; }
+        private IDbContext Context { get; set; }
         private string RepositoryName { get; }
 
         public Repository(IDbContext context, string repositoryName)
@@ -80,5 +80,12 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             var filter = Builders<T>.Filter.Where(predicate);
             return collection.Find(filter).ToList();
         }
+
+        public void setContext(IDbContext context)
+        {
+            this.Context = context;
+        }
+
+
     }
 }

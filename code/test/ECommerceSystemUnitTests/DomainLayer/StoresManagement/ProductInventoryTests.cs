@@ -41,9 +41,9 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Tests
         [Test()]
         public void CreateTest()
         {
-            Assert.NotNull(ProductInventory.Create(productName, description, price, quantity, category, keywords, "", "store"));
-            Assert.Null(ProductInventory.Create(productName, description, -5, quantity, category, keywords,"", "store")); // price < 0 null
-            Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords, "", "store")); // quantity > 0 null
+            Assert.NotNull(ProductInventory.Create(productName, description, price, quantity, category, keywords, "", "store").Item1);
+            Assert.Null(ProductInventory.Create(productName, description, -5, quantity, category, keywords,"", "store").Item1); // price < 0 null
+            Assert.Null(ProductInventory.Create(productName, description, price, -5, category, keywords, "", "store").Item1); // quantity > 0 null
         }
 
         [Test()]

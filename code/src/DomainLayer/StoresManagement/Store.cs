@@ -135,6 +135,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             //remove all policies of the products of the productInv
             ProductInventory productInv = Inventory.getProductByName(productInvName);
+            if(productInv == null)
+            {
+                return false;
+            }
             foreach (Product p in productInv.ProductList)
             {
                 if (p.PurchasePolicy != null)
@@ -674,7 +678,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
 
             Guid newID = Guid.NewGuid();
-            ConditionalCompositeProductDicountPolicy newDiscount = condCompositeProdDiscModelToReal(conditionalTree);
+            AndDiscountPolicy condTree = (AndDiscountPolicy)conditionalTree.ModelToOrigin();
+            ConditionalCompositeProductDicountPolicy newDiscount = ConditionalCompositeProductDicountPolicy.Create(percentage, expDate, Guid.NewGuid(), productID, condTree);
 
             prod.Discount = newDiscount; //add the new discount to the product
             AllDiscountsMap.Add(newID, newDiscount);
@@ -683,10 +688,6 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             return newID;
         }
 
-        private ConditionalCompositeProductDicountPolicy condCompositeProdDiscModelToReal(CompositeDiscountPolicyModel discount)
-        {
-            return (ConditionalCompositeProductDicountPolicy)discount.ModelToOrigin();
-        }
 
 
         public Guid addConditionalStoreDiscount(float percentage, DateTime expDate, int minPriceForDiscount)

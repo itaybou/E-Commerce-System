@@ -11,5 +11,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         Task<bool> refund(int transactionID);
 
         Task<bool> sendPayment(string storeName, double amount);
+
+        void SetExternal(IExternalSupplyPayment External);
     }
 }

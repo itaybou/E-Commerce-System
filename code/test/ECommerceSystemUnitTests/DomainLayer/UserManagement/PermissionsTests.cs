@@ -1,4 +1,5 @@
-﻿using ECommerceSystem.DomainLayer.StoresManagement;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Models;
 using NUnit.Framework;
@@ -24,9 +25,9 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 
         private UsersManagement _userManagement;
         private User _owner;
-        private User _regularUser;
-        private User _nonPermitManager;
-        private User _permitManager;
+        //private User _regularUser;
+        //private User _nonPermitManager;
+        //private User _permitManager;
         private User _guest;
         private Store _store;
         private Permissions _permissions;
@@ -43,14 +44,17 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [OneTimeSetUp]
         public void setUpFixture()
         {
+            DataAccess.Instance.SetTestContext();
+
             // owner - owner of the store
             // nonPermitManager - manager with the default permissions
             // permitManager - manager with the default permissions, add, delete and modify productInv a
             // regularUser - not owner/manager of the store
-            _regularUser = new User(new Subscribed("regularUser", "pA55word", "fname", "lname", "owner@gmail.com"));
 
-            _anotherOwner = new User(new Subscribed("anotherOwner", "pA55word", "fname", "lname", "email@gmail.com"));
-            _newManager = new User(new Subscribed("newManager", "pA55word", "fname", "lname", "email@gmail.com"));
+            //_regularUser = new User(new Subscribed("regularUser", "pA55word", "fname", "lname", "owner@gmail.com"));
+
+            //_anotherOwner = new User(new Subscribed("anotherOwner", "pA55word", "fname", "lname", "email@gmail.com"));
+            //_newManager = new User(new Subscribed("newManager", "pA55word", "fname", "lname", "email@gmail.com"));
             _guest = new User(new Guest());
 
             _userManagement = UsersManagement.Instance;
@@ -63,7 +67,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
             _userManagement.register("regularUser", "pA55word", "fname", "lname", "owner@gmail.com");
             _userManagement.register("newManager", "pA55word", "fname", "lname", "owner@gmail.com");
 
-            _regularUserGUID = _regularUser.Guid;
+            _regularUserGUID = _userManagement.getUserByName("regularUser").Guid;
             _permitManagerGUID = _userManagement.getUserByName("permitManager").Guid;
             _nonPermitManagerGUID = _userManagement.getUserByName("nonPermitManager").Guid;
             _ownerGUID = _userManagement.getUserByName("owner").Guid;
@@ -98,28 +102,33 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [TearDown]
         public void tearDown()
         {
-            _storeManagement.getStoreByName("store").Inventory.Products.Clear();
+            try
+            {
+                _storeManagement.deleteProductInventory(_ownerGUID, "store", _productName);
+            }
+            catch { };
+
             _storeManagement.removeManager(_ownerGUID, "newManager", "store");
             _storeManagement.removeManager(_ownerGUID, "permitManager", "store");
             _storeManagement.removeManager(_ownerGUID, "nonPermitManager", "store");
             _storeManagement.removeManager(_ownerGUID, "anotherOwner", "store");
         }
 
+        [OneTimeTearDown]
+        public void tearDownFixture()
+        {
+            _userManagement.logout(_ownerGUID);
+            DataAccess.Instance.DropTestDatabase();
+        }
+
         [Test()]
         public void addProductInvByPermitedUserTest()
         {
             Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
-                _description, _price, _quantity,
-                _category, _keywords, 0, 5, ""), "fail to add productinv ");
+                                                        _description, _price, _quantity,
+                                                         _category, _keywords, 0, 5, ""), "fail to add productinv ");
         }
 
-        [Test()]
-        public void addProductInvByPermitedUserWithProductNameExist()
-        {
-            Assert.AreNotEqual(Guid.Empty, _permissions.addProductInv("owner", "galaxy",
-                _description, _price, _quantity,
-                _category, _keywords, 0, 5, ""), "fail to add productinv ");
-        }
 
         [Test()]
         public void addProductByPermitedUserTest()
@@ -158,28 +167,6 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
                     "Fail to modify price of product inventory by permited manager");
         }
 
-        //[Test()]
-        //public void modifyProductDiscountTypeByPermitedUserTest()
-        //{
-        //    Discount newDis = new VisibleDiscount(20, new DiscountPolicy());
-
-        //    Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-        //    Assert.True(_permissions.modifyProductDiscountType("permitManager", _productName, guid1, newDis),
-        //            "Fail to modify discount of group of products ");
-
-        //}
-
-        //[Test()]
-        //public void modifyProductPurchaseTypeByPermitedUserTest()
-        //{
-        //    PurchaseType newPurchaseType = new ImmediatePurchase();
-
-        //    Guid guid1 = _store.Inventory.addProduct(_productName, _discount, _purchaseType, _quantity);
-        //    Assert.True(_permissions.modifyProductPurchaseType("permitManager", _productName, guid1, newPurchaseType),
-        //            "Fail to modify purchase type of group of products ");
-
-        //}
-
         [Test()]
         public void modifyProductQuantityByPermitedUserTest()
         {
@@ -193,7 +180,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             _userManagement.login("owner", "pA55word");
             Assert.NotNull(_storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store"), "Fail to assign regular user as new owner");
-            Assert.AreEqual(_userManagement.getUserByName("anotherOwner").getPermission("store").AssignedBy, _owner, "The user who assign the reg user as manager isn`t the assignee");
+            Assert.AreEqual(_userManagement.getUserByName("anotherOwner").getPermission("store").AssignedBy, _ownerGUID, "The user who assign the reg user as manager isn`t the assignee");
             //check defult permissions:
             _newManager = _userManagement.getUserByName("anotherOwner");
             Assert.True(_newManager.getPermission("store").canWatchAndomment(), "Assign new manager successed, but the manager dont have permission to watch and comment");
@@ -208,7 +195,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             _userManagement.login("owner", "pA55word");
             Assert.NotNull(_storeManagement.assignManager(_ownerGUID, "newManager", "store"), "Fail to assign regular user as new owner");
-            Assert.AreEqual(_userManagement.getUserByName("newManager").getPermission("store").AssignedBy, _owner, "The user who assign the reg user as manager isn`t the assignee");
+            Assert.AreEqual(_userManagement.getUserByName("newManager").getPermission("store").AssignedBy, _ownerGUID, "The user who assign the reg user as manager isn`t the assignee");
             //check defult permissions:
             _newManager = _userManagement.getUserByName("newManager");
             Assert.True(_newManager.getPermission("store").canWatchAndomment(), "Assign new manager successed, but the manager dont have permission to watch and comment");
