@@ -23,13 +23,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
             _storeService = new StoreService();
             _systemService = new SystemServices();
             _loginSessionID = Guid.Empty;
-            _guestSessionID = Guid.Empty;
+            _guestSessionID = Guid.NewGuid();
         }
 
         public void initSessions()
         {
             _loginSessionID = Guid.Empty;
-            _guestSessionID = Guid.Empty;
+            _guestSessionID = Guid.NewGuid();
         }
 
 
@@ -308,11 +308,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public bool AddTocart( Guid productId, string storeName, int quantity) //2.6
         {
-            //var info = _storeService.getAllStoresInfo();
-            //var prod = info.ToList().Select(pair => Tuple.Create(pair.Key, pair.Value.Find(p => p.Id.Equals(prodID)))).ToList();
-            //prod.ForEach(pair => _userServices.addProductToCart(pair.Item2, pair.Item1, quantity));
-            //return getUserCartDetails();
-            //return null;
             Guid sessionID;
             if (_loginSessionID.Equals(Guid.Empty))
                 sessionID = _guestSessionID;
@@ -346,10 +341,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public bool ChangeProductCartQuantity(Guid prodID, int quantity)    // 2.7.2
         {
-            //var info = _storeService.getAllStoresInfo();
-            //var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
-            //return _userServices.ChangeProductQunatity(prod, quantity);
-            return true;
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _userServices.ChangeProductQunatity(sessionID ,prodID, quantity);
         }
 
         public bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address) // 2.8
@@ -385,7 +384,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         public bool logout()    // 3.1
         {
             Guid sessionID;
-            if (_loginSessionID.Equals(Guid.Empty))//guest uset
+            if (_loginSessionID.Equals(Guid.Empty))//guest user
             {
                 sessionID = _guestSessionID;
                 _guestSessionID = Guid.Empty;
@@ -395,7 +394,8 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 sessionID = _loginSessionID;
                 _loginSessionID = Guid.Empty;
             }
-                
+
+            _guestSessionID = Guid.NewGuid();
             
             return _userServices.logout(sessionID);
         }

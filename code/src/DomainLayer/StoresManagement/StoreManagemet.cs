@@ -443,7 +443,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User approver = _userManagement.getUserByGUID(userID, true);
+            User approver = _userManagement.getUserByGUID(userID, false);
+            if(approver == null)
+            {
+                return false;
+            }
             try
             {
                 if (!store.approveAssignOwnerRequest(approver.Name, assignOwnerAgreement))
@@ -809,7 +813,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User activeUser = _userManagement.getUserByGUID(userID, true);
+            User activeUser = _userManagement.getUserByGUID(userID, false);
             if (activeUser == null)
             {
                 return null;

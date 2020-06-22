@@ -63,7 +63,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         {
             string notExistProduct = "not exist";
             _bridge.login(_ownerUserName, _pswd);
-            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _producInvName, _quantity, _minQuantity, _maxQuantity), "add product group of not exist product success");
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, notExistProduct, _quantity, _minQuantity, _maxQuantity), "add product group of not exist product success");
             Assert.False(_bridge.deleteProduct(_storeName, notExistProduct, _iphoneFirstGroupProductsID), "delete product group of not exist product success");
             Assert.False(_bridge.modifyProductName(_storeName, notExistProduct, "new product name"), "modify product name of not exist product success");
             Assert.False(_bridge.modifyProductPrice(_storeName, notExistProduct, 500), "delete product price of not exist product success");
@@ -78,7 +78,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         {
             string notExistStore = "not exist";
             _bridge.login(_ownerUserName, _pswd);
-            Assert.AreEqual(Guid.Empty, _bridge.addProduct(_storeName, _producInvName, _quantity, _minQuantity, _maxQuantity), "add product group with with not exist store success");
+            Assert.AreEqual(Guid.Empty, _bridge.addProduct(notExistStore, _producInvName, _quantity, _minQuantity, _maxQuantity), "add product group with with not exist store success");
             Assert.False(_bridge.deleteProduct(notExistStore, _productName, _iphoneFirstGroupProductsID), "delete product group with with not exist store success");
             Assert.False(_bridge.modifyProductName(notExistStore, _productName, "new product name"), "modify product name with with not exist store success");
             Assert.False(_bridge.modifyProductPrice(notExistStore, _productName, 500), "delete product price with with not exist store success");

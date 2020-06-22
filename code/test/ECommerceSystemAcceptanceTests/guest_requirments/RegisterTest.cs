@@ -26,8 +26,13 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         [TearDown]
         public void tearDown()
         {
-            DataAccess.Instance.DropTestDatabase();
             _bridge.initSessions();
+        }
+
+        [OneTimeTearDown]
+        public void oneTimetearDown()
+        {
+            DataAccess.Instance.DropTestDatabase();
         }
 
         [TestCase()]
@@ -37,12 +42,16 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             Assert.False(_bridge.register(uname, pswd, fname, lname, email));
             pswd = "H3llo"; // Short password fails (6 - 15 characters)
             Assert.False(_bridge.register(uname, pswd, fname, lname, email));
+            Assert.False(_bridge.login(uname, pswd));
             pswd = "aaaaaaaaaaaaaaaaaA34dc"; // Long password fails (6 - 15 characters)
             Assert.False(_bridge.register(uname, pswd, fname, lname, email));
+            Assert.False(_bridge.login(uname, pswd));
             pswd = "helloWorld"; // Missing numeric character
             Assert.False(_bridge.register(uname, pswd, fname, lname, email));
+            Assert.False(_bridge.login(uname, pswd));
             pswd = "hello4orld"; // Missing uppercase character
             Assert.False(_bridge.register(uname, pswd, fname, lname, email));
+            Assert.False(_bridge.login(uname, pswd));
         }
 
         [TestCase()]
@@ -50,7 +59,9 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             var pswd = "H3lloWorld";
             Assert.False(_bridge.register(uname, pswd, fname, lname, wrongemail));
+            Assert.False(_bridge.login(uname, pswd));
             Assert.False(_bridge.register(uname, pswd, fname, lname, "@mail.com"));
+            Assert.False(_bridge.login(uname, pswd));
         }
 
         [TestCase()]
@@ -58,16 +69,18 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             var pswd = "H3lloWorld"; // valid password
             Assert.True(_bridge.register(uname, pswd, fname, lname, email)); // valid username, email and password
+            Assert.True(_bridge.login(uname, pswd));
+            Assert.True(_bridge.logout());
+
         }
 
         [TestCase()]
         public void TestRegistrationUserAlreadyExists()
         {
             var pswd = "H3lloWorld";
-            Assert.True(_bridge.register(uname, pswd, fname, lname, email));
-            //Assert.False(_bridge.IsUserLogged(uname));  // not logged after registration
-            //Assert.True(_bridge.IsUserSubscribed(uname));  // Registration succeded, user is subscribed
-            Assert.False(_bridge.register(uname, "V4lidPass", "user2", "lname2", "mail2@mail.com"));    // try to register again with the same username
+            Assert.True(_bridge.register(uname + "1", pswd, fname, lname, email));
+            Assert.False(_bridge.register(uname + "1", "V4lidPass", "user2", "lname2", "mail2@mail.com"));    // try to register again with the same username
+            Assert.False(_bridge.login(uname + "1", "V4lidPas"));
         }
     }
 }

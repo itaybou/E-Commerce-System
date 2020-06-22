@@ -35,6 +35,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
         protected string _purchasePolicy;
 
+
         [OneTimeSetUp]
         public void oneTimeSetup()
         {
@@ -83,6 +84,12 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.openStore(_storeName);
             _bridge.assignManager(_managerUserName, _storeName);
             _bridge.logout();
+        }
+
+        [SetUp]
+        public void setUp()
+        {
+            _bridge.initSessions();
         }
 
         [OneTimeTearDown]

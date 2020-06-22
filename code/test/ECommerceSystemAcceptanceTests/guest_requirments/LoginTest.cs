@@ -30,9 +30,13 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         [TearDown]
         public void tearDown()
         {
-            DataAccess.Instance.DropTestDatabase();
             _bridge.initSessions();
+        }
 
+        [OneTimeTearDown]
+        public void oneTimetearDown()
+        {
+            DataAccess.Instance.DropTestDatabase();
         }
 
         [TestCase()]
@@ -43,17 +47,16 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         }
 
         [TestCase()]
-        public void TestBadUserDetailsRegistered()
+        public void TestBadUserPassword()
         {
             Assert.False(_bridge.login(uname, pswd + " not")); // registered username, bad password
+            Assert.False(_bridge.login(uname, "")); // registered username, bad password
         }
 
         [TestCase()]
         public void TestLoginSuccess()
         {
-            //Assert.True(_bridge.IsUserSubscribed(uname));
             Assert.True(_bridge.login(uname, pswd));
-            //Assert.True(_bridge.IsUserLogged(uname));
         }
     }
 }
