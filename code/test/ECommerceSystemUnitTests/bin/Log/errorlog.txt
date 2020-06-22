@@ -852,3 +852,897 @@
    ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
    ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
    ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 19:28:08.7370 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:28:32.6223 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:28:44.6706 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:36:31.2250 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:36:50.5389 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:38:03.2733 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 19:40:13.3317 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:04:27.9291 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:07:07.6561 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:07:26.9712 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:29:32.3130 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:29:32.3619 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Self referencing loop detected for property 'Store' with type 'ECommerceSystem.DomainLayer.StoresManagement.Store'. Path 'StorePermissions.anotherOwner'. ---> Newtonsoft.Json.JsonSerializationException: Self referencing loop detected for property 'Store' with type 'ECommerceSystem.DomainLayer.StoresManagement.Store'. Path 'StorePermissions.anotherOwner'.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CheckForCircularReference(JsonWriter writer, Object value, JsonProperty property, JsonContract contract, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.CalculatePropertyValues(JsonWriter writer, Object value, JsonContainerContract contract, JsonProperty member, JsonProperty property, JsonContract& memberContract, Object& memberValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeDictionary(JsonWriter writer, IDictionary values, JsonDictionaryContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeObject(JsonWriter writer, Object value, JsonObjectContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, Object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, Object value, Type objectType)
+   at Newtonsoft.Json.JsonConvert.SerializeObjectInternal(Object value, Type type, JsonSerializer jsonSerializer)
+   at Newtonsoft.Json.JsonConvert.SerializeObject(Object value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:29:32.3619 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.1892 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:31:02.2481 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2481 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2481 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2481 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2481 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2481 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2660 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2660 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2660 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2660 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2660 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2660 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2660 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2790 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2790 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2790 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2790 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2790 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2790 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2790 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:02.2959 | ERROR: System.FormatException: An error occurred while deserializing the State property of class ECommerceSystem.DomainLayer.UserManagement.User: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130. ---> Newtonsoft.Json.JsonSerializationException: Unable to find a constructor to use for type ECommerceSystem.DomainLayer.UserManagement.Permissions. A class should either have a default constructor, one constructor with arguments or a constructor marked with the JsonConstructor attribute. Path 'StorePermissions.anotherOwner.AssignedBy', line 1, position 130.
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty containerProperty, JsonReader reader, Type objectType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty containerProperty, ObjectConstructor`1 creator, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, String id, Boolean& createdFromNonDefaultCreator)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1.Clone[T](T source) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 43
+   at ECommerceSystem.DataAccessLayer.repositories.cache.CachedObject`1..ctor(T element) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\CachedObject.cs:line 14
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 122
+   at ECommerceSystem.DomainLayer.UserManagement.Subscribed.EndInit() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DomainLayer\UserManagement\Subscribed.cs:line 115
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize(IBsonSerializer serializer, BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeMemberValue(BsonDeserializationContext context, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.DeserializeClass(BsonDeserializationContext context)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Deserialize[TValue](IBsonSerializer`1 serializer, BsonDeserializationContext context)
+   at MongoDB.Driver.Core.Operations.CursorBatchDeserializationHelper.DeserializeBatch[TDocument](RawBsonArray batch, IBsonSerializer`1 documentSerializer, MessageEncoderSettings messageEncoderSettings)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateFirstCursorBatch(BsonDocument cursorDocument)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.CreateCursor(IChannelSourceHandle channelSource, BsonDocument commandResult)
+   at MongoDB.Driver.Core.Operations.FindCommandOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(RetryableReadContext context, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.Execute(IReadBinding binding, CancellationToken cancellationToken)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperation[TResult](IReadBinding binding, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperation[TResult](IClientSessionHandle session, IReadOperation`1 operation, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](IClientSessionHandle session, FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass41_0`1.<FindSync>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindSync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.FindFluent`2.ToCursor(CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToList[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.FetchAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 25
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.QueryAll() in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 44
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 18
+2020-06-22 20:31:02.2959 | ERROR: ECommerceSystem.Exceptions.DatabaseException: Faild : get subscribed user
+   at ECommerceSystem.DataAccessLayer.repositories.UserRepository.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\UserRepository.cs:line 23
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetSubscribedUser(String username, String password) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 217
+2020-06-22 20:31:40.4434 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:40:25.7178 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:40:40.6852 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:45:50.1380 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-22 20:45:59.5032 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131

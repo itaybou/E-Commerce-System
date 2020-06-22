@@ -1081,3 +1081,5 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.pdb
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\bin\Debug\Newtonsoft.Json.xml

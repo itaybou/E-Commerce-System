@@ -208,5 +208,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
         {
             StoresCache.Clear();
         }
+
+        public void UncachStore(Store store)
+        {
+            Uncache(store.Name);
+        }
     }
 }

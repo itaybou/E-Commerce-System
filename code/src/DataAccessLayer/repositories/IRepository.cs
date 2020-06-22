@@ -27,7 +27,5 @@ namespace ECommerceSystem.DataAccessLayer
         IEnumerable<T> FindAllBy(Expression<Func<T, bool>> predicate);
 
         IQueryable<T> QueryAll();
-
-        
     }
 }
