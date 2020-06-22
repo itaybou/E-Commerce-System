@@ -61,7 +61,6 @@ namespace ECommerceSystem.ServiceLayer
         public bool disApproveAssignOwnerRequest(Guid sessionID, Guid agreementID, string storeName)
         {
             return _storeServices.disApproveAssignOwnerRequest(sessionID, agreementID, storeName);
-
         }
 
         public bool removeOwner(Guid sessionID, string ownerToRemoveUserName, string storeName)
@@ -351,6 +350,21 @@ namespace ECommerceSystem.ServiceLayer
         public bool removePurchasePolicy(Guid sessionID, string storeName, Guid policyID)
         {
             return _storeServices.removePurchasePolicy(sessionID, storeName, policyID);
+        }
+
+        public void GuestStatistics(Guid sessionID)
+        {
+            _userServices.GuestStatistics(sessionID);
+        }
+
+        public UserStatistics GetUserStatistics(Guid sessionID, DateTime from, DateTime to)
+        {
+            return _userServices.GetUserStatistics(sessionID, from, to);
+        }
+
+        public Guid addConditionalCompositeProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            return _storeServices.addConditionalCompositeProcuctDiscount(sessionID, storeName, productID, percentage, expDate, conditionalTree);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace PresentationLayer.Controllers
 
         public IActionResult ExternalSystemException()
         {
-            var message = new ActionMessageModel("Oops! connection lost with external services. please try again.", Url.Action("Index", "Home"));
+            var message = new ActionMessageModel("Oops! connection lost with our external services. purchase canceled. please try again later.", Url.Action("Index", "Home"));
             return View("_ErrorMessage", message);
         }
 

@@ -15,10 +15,12 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         private string ExternalURL;
         private bool Active;
         private Range<int> TransacionIDRange;
+        private static TimeSpan TimeoutSeconds = TimeSpan.FromSeconds(30);
 
         public ExternalSupplyPayment(HttpClient client)
         {
             Client = client;
+            Client.Timeout = TimeoutSeconds;
             TransacionIDRange = new Range<int>(10000, 100000);
         }
 
@@ -33,18 +35,21 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             try
             {
                 var response = await Client.PostAsync(uri, content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                bool ok = responseString.ToLower().Equals("ok");
-                ExternalURL = url;
-                if (ok)
-                    Active = true;
-                else Active = false;
-                return ok;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    bool ok = responseString.ToLower().Equals("ok");
+                    ExternalURL = url;
+                    if (ok)
+                        Active = true;
+                    else Active = false;
+                    return ok;
+                } return false;
             }
             catch (Exception)
             {
                 Active = false;
-                throw new ExternalSystemException("Failed to create handshake with external systems");
+                throw new ExternalSystemException("Failed to create handshake with external systems " + DateTime.Now.ToString());
             }
         }
 
@@ -71,16 +76,20 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             try
             {
                 var response = await Client.PostAsync(uri, content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var transactionID = Int32.Parse(responseString);
-                if (TransacionIDRange.inRange(transactionID))
-                    return (true, transactionID);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var transactionID = Int32.Parse(responseString);
+                    if (TransacionIDRange.inRange(transactionID))
+                        return (true, transactionID);
+                    else return (false, -1);
+                }
                 else return (false, -1);
             }
             catch (Exception)
             {
                 Active = false;
-                throw new ExternalSystemException("Failed to pay using external system.");
+                throw new ExternalSystemException("Failed to pay using external system. payments details: " + cardNumber + "," + cvv + "," + month + "/" + year);
             }
         }
 
@@ -102,15 +111,19 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             try
             {
                 var response = await Client.PostAsync(uri, content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var result = Int32.Parse(responseString);
-                return result > 0;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var result = Int32.Parse(responseString);
+                    return result > 0;
+                }
+                return false;
 
             }
             catch (Exception)
             {
                 Active = false;
-                throw new ExternalSystemException("Failed to cancel payment by external system.");
+                throw new ExternalSystemException("Failed to cancel payment by external system. transaction id: " + transactionID);
             }
         }
 
@@ -136,16 +149,20 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             try
             {
                 var response = await Client.PostAsync(uri, content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var transactionID = Int32.Parse(responseString);
-                if (TransacionIDRange.inRange(transactionID))
-                    return (true, transactionID);
-                else return (false, -1);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var transactionID = Int32.Parse(responseString);
+                    if (TransacionIDRange.inRange(transactionID))
+                        return (true, transactionID);
+                    else return (false, -1);
+                }
+                return (false, -1);
             }
             catch (Exception)
             {
                 Active = false;
-                throw new ExternalSystemException("Failed to supply using external system.");
+                throw new ExternalSystemException("Failed to supply using external system. " + address + "," + city + "," + country + "," + zip);
             }
         }
 
@@ -167,15 +184,19 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             try
             {
                 var response = await Client.PostAsync(uri, content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var result = Int32.Parse(responseString);
-                return result > 0;
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var result = Int32.Parse(responseString);
+                    return result > 0;
+                }
+                return false;
 
             }
             catch (Exception)
             {
                 Active = false;
-                throw new ExternalSystemException("Failed to cancel supply request by external system.");
+                throw new ExternalSystemException("Failed to cancel supply request by external system. transaction id: " + transactionID);
             }
         }
     }

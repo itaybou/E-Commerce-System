@@ -1,0 +1,5 @@
+###################################################################
+# ERROR LOG
+#  format: <time-stamp> | ERROR: <error details>\n<stack-trace>
+#  stack-trace format: (at <stack-trace-method>\n)*
+###################################################################

@@ -52,6 +52,10 @@ namespace ECommerceSystem.ServiceLayer
 
         void rateStore(string storeName, int rating);
 
+        void GuestStatistics(Guid sessionID);
+
+        UserStatistics GetUserStatistics(Guid sessionID, DateTime from, DateTime to);
+
         // Store Services
         Tuple<StoreModel, List<ProductInventoryModel>> getStoreInfo(string storeName);
 
@@ -85,6 +89,9 @@ namespace ECommerceSystem.ServiceLayer
         Guid addConditionalStoreDiscount(Guid sessionID, string storeName, float percentage, DateTime expDate, int minPriceForDiscount);
 
         Guid addCondiotionalProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+
+        Guid addConditionalCompositeProcuctDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree);
+
         Guid addVisibleDiscount(Guid sessionID, string storeName, Guid productID, float percentage, DateTime expDate);
 
         Guid addProductInv(Guid sessionID, string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl);

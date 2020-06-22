@@ -53,5 +53,10 @@ namespace ECommerceSystem.Models
         public DiscountPolicyModel Discount { get => _discount; set => _discount = value; }
         [BsonIgnore]
         public PurchasePolicyModel PurchasePolicy { get => _purchasePolicy; set => _purchasePolicy = value; }
+
+        public string GetString()
+        {
+            return "ID: " + Id + ", Name: " + Name + ", Quantity: " + Quantity + (Discount != null ? " " + ", DISCOUNT: " + Discount.GetString() : "");
+        }
     }
 }

@@ -101,13 +101,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     user = UserRepository.FindOneBy(predicate);
+                    Cache(user);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : find user by predicate");
                 }
-                Cache(user);
             }
             return user;
         }
@@ -120,14 +120,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     user = UserRepository.GetByIdOrNull(id, idFunc);
-
+                    Cache(user);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : get user by id");
                 }
-                Cache(user);
             }
             return user;
         }
@@ -163,10 +162,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public void Remove(User entity, Guid id, Expression<Func<User, Guid>> idFunc)
         {
-            Uncache(id);
             try
             {
                 UserRepository.Remove(entity, id, idFunc);
+                Uncache(id);
             }
             catch (Exception e)
             {
@@ -181,16 +180,14 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 UserRepository.Update(entity, id, idFunc);
+                if (UsersCache.ContainsKey(id))
+                    Recache(entity);
             }
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : update user");
             }
-
-
-            if (UsersCache.ContainsKey(id))
-                Recache(entity);
         }
 
         public void Upsert(User entity, Guid id, Expression<Func<User, Guid>> idFunc)
@@ -198,16 +195,14 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 UserRepository.Upsert(entity, id, idFunc);
+                if (UsersCache.ContainsKey(id))
+                    Recache(entity);
             }
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : upsert user");
             }
-
-
-            if (UsersCache.ContainsKey(id))
-                Recache(entity);
         }
 
         public User GetSubscribedUser(string username, string password)
@@ -227,10 +222,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public UserShoppingCart GetUserCart(Guid userID)
         {
-            if (UsersCache.ContainsKey(userID))
-                return UsersCache[userID].Element.Cart;
             try
             {
+                if (UsersCache.ContainsKey(userID))
+                    return UsersCache[userID].Element.Cart;
                 return GetByIdOrNull(userID, u => u.Guid).Cart;
             }
             catch (Exception e)

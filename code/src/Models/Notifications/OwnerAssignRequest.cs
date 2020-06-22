@@ -16,6 +16,7 @@ namespace ECommerceSystem.Models.notifications
         public string StoreName { get; set; }
         public char RequestCode { get; set; }
         public DateTime Sent { get; set; }
+        public bool NotifyPast { get; set; }
 
         public OwnerAssignRequest(string assignerUsername, string assigneeUserName, string storeName, Guid agreementID, char requestCode)
         {
@@ -25,6 +26,7 @@ namespace ECommerceSystem.Models.notifications
             RequestID = agreementID;
             RequestCode = requestCode;
             Sent = DateTime.Now;
+            NotifyPast = true;
         }
 
         public string getMessage()

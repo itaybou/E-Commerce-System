@@ -64,5 +64,10 @@ namespace ECommerceSystem.CommunicationLayer.sessions
             Guid userID;
             return dict.TryGetValue(sessionID, out userID) ? userID : Guid.Empty;
         }
+
+        public bool IsNewGuestSession(Guid sessionID)
+        {
+            return !GuestSessions.ContainsKey(sessionID);
+        }
     }
 }

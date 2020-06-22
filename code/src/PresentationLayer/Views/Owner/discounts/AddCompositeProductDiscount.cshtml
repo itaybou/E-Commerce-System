@@ -1,0 +1,137 @@
+﻿@using System.Text.RegularExpressions
+@using ECommerceSystem.Utilities.extensions;
+@using ECommerceSystem.Models;
+@using ECommerceSystem.Utilities;
+@using ECommerceSystem.Models.DiscountPolicyModels
+@model (List<SelectListItem>, ConditionalCompositeProductDiscModel?, bool)
+@{
+    ViewData["Title"] = "Add Discount Conditional on Other Products";
+    var storeName = ViewData["StoreName"];
+    var operators = Enum.GetValues(typeof(CompositeType)).Cast<CompositeType>();
+    var opTypes = operators.ToDictionary(k => k, v => v.GetStringValue());
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $("#selectd-1").change(function () {
+            if (this.checked) {
+                $("#compose_count").show();
+                $("#composites").focus();
+            } else $("#compose_count").hide();
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    <div class="login-page">
+        <a type="button" class="bttn btn-ripple login-btn px-lg-4 m-1" style="width: 15%" href="javascript:void(0);" id="backLink">
+            <i class="fas fa-arrow-circle-left"></i>
+            Go Back
+        </a>
+        <h2 style="font-family: Roboto">@ViewData["Title"] - @storeName</h2>
+        <div class="form" method="post">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div class="alert alert-danger m-2">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </div>
+            }
+            <h4>Adding discount for product @Model.Item2.ProductName ID: @Model.Item2.ProductID </h4>
+            <h5>Discount Percentage: @Model.Item2.Percentage% - Will expire on @Model.Item2.ExpDate</h5>
+            <form asp-controller="Owner" asp-action="AddConditionalCompositeProductsDiscount" method="post">
+                <div class="form-group row justify-content-between">
+                    @if (Model.Item2.productTreeModel != null)
+                    {
+                        if (Model.Item2.productTreeModel.Children.Count > 0)
+                        {
+                            <div>
+                                <div class="alert-warning">
+                                    <p><b>Current Discount Status:</b></p>
+                                </div>
+                                @Html.Raw(Model.Item2.GetString())
+                            </div>
+                        }
+                    }
+                    <div class="col-md-6">
+                        @if (Model.Item3 || Model.Item2.Init)
+                        {
+                            <button type="submit" id="visible" name="visible" class="btn btn-warning m-1" style="width: 83%"><b>CONTINUE COMPOSING PRODUCTS</b></button>
+                        }
+                        <button id="visible" name="visible" class=" btn btn-danger m-1" style="width: 40%"><b>CANCEL</b></button>
+                        @if (!Model.Item3 && !Model.Item2.Init)
+                        {
+                            <button type="button" id="visible" name="visible" class="btn btn-success m-1" style="width: 40%" onclick="location.href='@Url.Action("AddConditionalCompositeProductsDiscount", "Owner", new { submit = true })'"><b>CREATE DISCOUNT</b></button>
+                        }
+                    </div>
+                    @if (Model.Item3 || Model.Item2.Init)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label style="text-align: left" for="password">Composing Operation</label>
+                                <select class="form-control" id="operator" name="operator">
+                                    @foreach (var op in opTypes.Keys)
+                                    {
+                                        <option value="@op" class="dropdown-item">@opTypes[op]</option>
+                                    }
+                                </select>
+                                <small>On selection of one product condition type will be ignored</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.Item3 || Model.Item2.Init)
+                {
+                    <div class="flex" style="display:block">
+                        <table class=" table table-striped">
+                            <thead class="thead-dark">
+                                <tr class="text-left">
+                                    <th>Choose</th>
+                                    <th>Discount Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{var counter = 0;}
+                                <tr class="p-5">
+                                    <td>
+                                        <input class="big-checkbox" type="checkbox" id="selectd-1" name="selectd-1" value="-1">
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="form-group">
+                                            <label style="white-space: pre-line">Composite Condition</label>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group" id="compose_count" name="compose_count" style='display:none;'>
+                                            <small>Amount</small> <b><input type="number" class="form-control alert-info" min="1" max="10" style="width: 30%" id="composites" name="composites" /></b>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @foreach (var policy in Model.Item1)
+                                {
+                                    if (!String.IsNullOrEmpty(policy.Text))
+                                    {
+                                        var checkboxName = "selectd" + counter;
+                                        <tr class="p-5">
+                                            <td>
+                                                <input class="big-checkbox" type="checkbox" id="@checkboxName" name="@checkboxName" value="@policy.Value">
+                                            </td>
+                                            <td class="p-3" colspan="2">
+                                                <label style="white-space: pre-line">@Html.Raw(policy.Text)</label><br>
+                                            </td>
+                                        </tr>
+                                        counter++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                <input id="storeName" name="storeName" type="hidden" value="@storeName" />
+            </form>
+        </div>
+    </div>
+</div>
+

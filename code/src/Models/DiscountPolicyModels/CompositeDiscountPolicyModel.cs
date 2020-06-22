@@ -30,11 +30,33 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             builder.Append(
                 "<ul class='list-group p-1'>" +
                      string.Format("<li class='list-group-item list-group-item-primary p-0'><b>" +
-                     "<h6>Discount type: <span style=\"color: black\">{0}</span></b>", Type.GetStringValue()) + "</span></h5></li>");
+                     "<h6>Discount type: <span style=\"color: black\">{0}</span></b>", Type.GetStringValue()) + "</span></h6></li>");
             for(var i = 0; i < Children.Count; i++)
             {
                 var discount = Children.ElementAt(i);
+                if ((discount is ConditionalProductDiscountModel && ((ConditionalProductDiscountModel)discount).Percentage != 0) ||
+                    (discount is VisibleDiscountModel && ((VisibleDiscountModel)discount).Percentage != 0) ||
+                    (discount is ConditionalCompositeProductDiscModel && ((ConditionalCompositeProductDiscModel)discount).Percentage != 0))
                 builder.Append("<li class='list-group-item'>" + discount.GetString() + "</li>");
+            }
+            builder.Append("</ul>");
+            return builder.ToString();
+        }
+
+        public override string GetSelectionString()
+        {
+            var builder = new StringBuilder();
+            builder.Append(
+                "<ul class='list-group p-1'>" +
+                (Children.Count == 1 ? "" :
+                string.Format("<li class='list-group-item list-group-item-primary p-0'><b>" +
+                "<h6> Condition type: <span style=\"color: black\">{0}</span></b>", Type.GetStringValue()) + "</span></h6></li>"));
+            for (var i = 0; i < Children.Count; i++)
+            {
+                var discount = Children.ElementAt(i);
+                if(discount is CompositeDiscountPolicyModel && ((CompositeDiscountPolicyModel)discount).Children.Count == 0)
+                    builder.Append("<li class='list-group-item' style='background-color: #FFD7D1'>" + "<div class=\"row\"><input class=\"checkbox\" type=\"radio\" id=\"edit\" name=\"edit\" value=\"" + discount.ID+ "\"> Choose to set composite product condition</div></li>");
+                else builder.Append("<li class='list-group-item'>"+ discount.GetSelectionString() + "</li>");
             }
             builder.Append("</ul>");
             return builder.ToString();

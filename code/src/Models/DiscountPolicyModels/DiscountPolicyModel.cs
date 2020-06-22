@@ -18,6 +18,8 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
 
         public abstract string GetString();
 
+        public abstract string GetSelectionString();
+
         public abstract DiscountPolicy ModelToOrigin();
 
     }
