@@ -532,3 +532,323 @@
 שם פרמטר: uriString
 2020-06-21 19:40:19.5624 | ERROR: ערך אינו יכול להיות Null.
 שם פרמטר: uriString
+2020-06-22 15:24:10.3236 | ERROR: System.ArgumentException: המפתח כבר קיים במילון.
+   ב-  System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 34
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Recache(User entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 66
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 193
+   ב-  ECommerceSystem.DomainLayer.UserManagement.UsersManagement.logUserPurchase(Guid userID, Double totalPrice, IDictionary`2 allProducts, String firstName, String lastName, Int32 id, String creditCardNumber, DateTime expirationCreditCard, Int32 CVV, String address) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DomainLayer\UserManagement\UsersManagement.cs:שורה 208
+2020-06-22 15:30:25.0690 | ERROR: System.ArgumentException: המפתח כבר קיים במילון.
+   ב-  System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 34
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Recache(User entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 66
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 193
+   ב-  ECommerceSystem.DomainLayer.UserManagement.UsersManagement.logUserPurchase(Guid userID, Double totalPrice, IDictionary`2 allProducts, String firstName, String lastName, Int32 id, String creditCardNumber, DateTime expirationCreditCard, Int32 CVV, String address) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DomainLayer\UserManagement\UsersManagement.cs:שורה 208
+2020-06-22 16:35:18.8867 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:37:01.0226 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:54:04.3092 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:56:03.8537 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:57:24.0075 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:58:25.8480 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 16:59:49.6209 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:03:25.1653 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:04:05.4153 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:04:22.1915 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:05:39.7472 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:11:11.9356 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:16:43.0134 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:20:31.6580 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:23:25.2548 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 36
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:23:25.2548 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 128
+2020-06-22 17:28:06.9904 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:28:07.0472 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:29:01.9811 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:29:02.0340 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:33:59.6798 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:34:11.9274 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131

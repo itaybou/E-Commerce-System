@@ -180,7 +180,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return _data.Users.FetchAll().Select(u => ModelFactory.CreateUser(u));
         }
 
-        internal void resetUserShoppingCart(Guid userID)
+        public void resetUserShoppingCart(Guid userID)
         {
             var user = getUserByGUID(userID, false);
             user.Cart = new UserShoppingCart(userID);

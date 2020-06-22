@@ -33,7 +33,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             _transactionManager = TransactionManager.Instance;
         }
 
-        public async Task<bool> makePurchase(Guid userID, double totalPrice, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, IDictionary<Product, int> allProducts,
+        private async Task<bool> makePurchase(Guid userID, double totalPrice, ICollection<(Store, double, IDictionary<Product, int>)> storeProducts, IDictionary<Product, int> allProducts,
                 string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address)
         {
             var purchased = false;
@@ -93,8 +93,10 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
             IDictionary<Product, int> productsToPurchase = shoppingCart.getAllCartProductsAndQunatities();
 
+
             //reduce products quantities
             List<Product> unavailableProducts = decreaseQuntityOfAllProducts(storeProducts); // unavailable products by qunatity
+
 
             if (unavailableProducts.Any()) //there are unavailable products 
             {
@@ -104,7 +106,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
             var totalPrice = shoppingCart.getTotalACartPrice();  // total user cart price with discounts
 
-            // make the payment and suplly transaction, in addiotion send purchase notification
+            // make the payment and suplly transaction, in addition send purchase notification
             if (await makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address))
             {
                 _userManagement.resetUserShoppingCart(userID);

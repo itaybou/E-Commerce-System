@@ -103,7 +103,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (getStoreByName(name) != null) //name already exist
                 return false;
 
-            Store newStore = new Store(activeUser.Name, name); //sync - make user.name property
+            Store newStore = new Store(activeUser.Name, name); 
 
             try
             {
@@ -114,10 +114,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
-                throw new LogicException("Logic error: faild to add product inventory");
+                throw new LogicException("Logic error: faild to open store");
             }
-            _data.Transactions.OpenStoreTransaction(activeUser, newStore);
-             return true;
+
+             _data.Transactions.OpenStoreTransaction(activeUser, newStore);
+            return true;
             
 
 

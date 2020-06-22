@@ -43,12 +43,12 @@ namespace ECommerceSystem.DataAccessLayer
             }
         }
 
-        public async void OpenStoreTransaction(User owner, Store opened)
+        public async void OpenStoreTransaction(User owner, Store opened) 
         {
             await BaseTransactionAsync(() =>
             {
-                _users.Update(owner, owner.Guid, u => u.Guid);
                 _stores.Insert(opened);
+                _users.Update(owner, owner.Guid, u => u.Guid);
             });
         }
 

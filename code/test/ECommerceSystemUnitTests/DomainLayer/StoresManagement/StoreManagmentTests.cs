@@ -6,6 +6,7 @@ using ECommerceSystem.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
 {
@@ -217,6 +218,42 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
            DataAccess.Instance.DropTestDatabase();
         }
 
+
+        [Test()]
+        public void OpenStoreParallelTest()
+        {
+
+            Guid[] usersID = { _ownerGUID, _anotherOwnerGUID, _anotherOwner3GUID };
+            Thread[] threads = new Thread[3];
+            for (int i = 0; i < 3; i++)
+            {
+                Thread t = new Thread(() =>
+                {
+                    _storeManagement.openStore(usersID[i], "newStore");
+                });
+                threads[i] = t;
+                t.Start();
+                //Thread.Sleep(100);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                threads[i].Join();
+            }
+
+            Store store = _storeManagement.getStoreByName("newStore");
+            Assert.IsNotNull(store);
+            Assert.AreEqual(1, store.StorePermissions.Count);
+            User owner = _userManagement.getUserByGUID(_ownerGUID, false);
+            User anotherOwner = _userManagement.getUserByGUID(_anotherOwnerGUID, false);
+            User anotherOwner3 = _userManagement.getUserByGUID(_anotherOwner3GUID, false);
+
+            bool isOwnerSuccess = ((Subscribed)owner.State).Permissions.ContainsKey("newStore");
+            bool isAnotherOwnerSuccess = ((Subscribed)anotherOwner.State).Permissions.ContainsKey("newStore");
+            bool isAnotherOwner3Success = ((Subscribed)anotherOwner3.State).Permissions.ContainsKey("newStore");
+            Console.WriteLine(isOwnerSuccess + " " + isAnotherOwnerSuccess + " " + isAnotherOwner3Success);
+            Assert.IsTrue((isOwnerSuccess ^ isAnotherOwnerSuccess ^ isAnotherOwner3Success) && !(isOwnerSuccess && isAnotherOwnerSuccess && isAnotherOwner3Success));
+        }
 
 
         [Test()]

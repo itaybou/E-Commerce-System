@@ -9,14 +9,22 @@ namespace ECommerceSystemUnitTests.DomainLayer.SystemManagement
 {
     class ExternalSystemsStub : IExternalSupplyPayment
     {
+        public int CancelPayCounter = 0;
+        public int PayCounter = 0;
+
         public Task<bool> cancelPay(string transactionID)
         {
-            return new Task<bool>(() => true);
+            CancelPayCounter++;
+            Task<bool> task = new Task<bool>(() => true);
+            task.RunSynchronously();
+            return task; 
         }
 
         public Task<bool> cancelSupply(string transactionID)
         {
-            return new Task<bool>(() => true);
+            Task<bool> task = new Task<bool>(() => true);
+            task.RunSynchronously();
+            return task;
         }
 
         public Task<bool> ConnectExternal(string url)
@@ -26,25 +34,34 @@ namespace ECommerceSystemUnitTests.DomainLayer.SystemManagement
 
         public Task<(bool, int)> pay(string cardNumber, string month, string year, string cardHolder, string cvv, string id)
         {
-            if(cardNumber == null)
+            if(cardNumber != null)
             {
-                return new Task<(bool, int)>(() => (false, -1));
+                PayCounter++;
+                Task<(bool, int)> task = new Task<(bool, int)>(() => (true, 1));
+                task.RunSynchronously();
+                return task;
             }
             else
             {
-                return new Task<(bool, int)>(() => (true, 1));
+                Task<(bool, int)> task = new Task<(bool, int)>(() => (false, -1));
+                task.RunSynchronously();
+                return task;
             }
         }
 
         public Task<(bool, int)> supply(string name, string address, string city, string country, string zip)
         {
-            if (address == null)
+            if (!name.Equals(""))
             {
-                return new Task<(bool, int)>(() => (false, -1));
+                Task<(bool, int)> task = new Task<(bool, int)>(() => (true, 1));
+                task.RunSynchronously();
+                return task;
             }
             else
             {
-                return new Task<(bool, int)>(() => (true, 1));
+                Task<(bool, int)> task = new Task<(bool, int)>(() => (false, -1));
+                task.RunSynchronously();
+                return task;
             }
         }
     }
