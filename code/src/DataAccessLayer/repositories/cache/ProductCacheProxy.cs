@@ -84,13 +84,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     product = ProductRepository.FindOneBy(predicate);
+                    Cache(product);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : find product");
                 }
-                Cache(product);
             }
             return product;
         }
@@ -103,14 +103,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     product = ProductRepository.GetByIdOrNull(id, idFunc);
+                    Cache(product);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : get product by id");
                 }
-                
-                Cache(product);
             }
             return product;
         }
@@ -163,15 +162,14 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 ProductRepository.Update(entity, id, idFunc);
+                if (ProductCache.ContainsKey(id))
+                    Recache(entity);
             }
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : update product in DB");
             }
-            
-            if (ProductCache.ContainsKey(id))
-                Recache(entity);
         }
 
         public void Upsert(Product entity, Guid id, Expression<Func<Product, Guid>> idFunc)
@@ -179,14 +177,14 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 ProductRepository.Upsert(entity, id, idFunc);
+                if (ProductCache.ContainsKey(id))
+                    Recache(entity);
             }
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : upsert product in DB");
             }
-            if (ProductCache.ContainsKey(id))
-                Recache(entity);
         }
     }
 }

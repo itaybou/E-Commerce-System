@@ -41,8 +41,11 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             if (initFilePath != null)
             {
                 Console.WriteLine("Lodaing initial file data from file located at: " + initFilePath);
-                initWithInput(initFilePath);
-                Console.WriteLine("Initial data loaded, initialization process is done!");
+                if(!initWithInput(initFilePath))
+                {
+                    Console.WriteLine("Data initilization from init file failed, view error log for more details.");
+                }
+                else Console.WriteLine("Initial data loaded, initialization process is done!");
             }
             else Console.WriteLine("Missing init file. init from file aborted.");
         }
@@ -67,12 +70,17 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 Console.WriteLine("Initialized System Manager, Spell Checker and Search And Filter system.");
             } catch(DatabaseException)
             {
+                SystemLogger.LogError("Database init error.");
                 Console.WriteLine("Initialization failed. connection timeout to database. try to initialize again.");
                 throw new DatabaseException("init failed");
             } catch(ExternalSystemException)
             {
                 Console.WriteLine("Initialization failed. external system handshake failed.");
                 throw new ExternalSystemException("init failed");
+            } catch(Exception e)
+            {
+                SystemLogger.LogError("Initilization error: " + e);
+                Console.WriteLine("Initialization failed due to undetermined reason. please check error log file for more information.");
             }
         }
 
@@ -100,8 +108,9 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             {
                 await _transactionManager.ConnectExternal(externalURL);
             }
-            catch (ExternalSystemException)
+            catch (ExternalSystemException e)
             {
+                SystemLogger.LogError("External systems initilization failed: " + e);
                 Console.WriteLine("Initialization failed. external system handshake failed.");
                 throw new ExternalSystemException("init failed");
             }
@@ -141,69 +150,88 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
         }
 
-        private void initWithInput(string path)
+        private bool initWithInput(string path)
         {
-            string[] lines = File.ReadAllLines(path);
-
-            foreach (string line in lines)
+            try
             {
-                string[] args = line.Split(' ');
-                if (args.Length < 1)
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
                 {
-                    Console.WriteLine("empty line in the input file");
-                    return;
+                    string[] args = line.Split(' ');
+                    if (args.Length < 1)
+                    {
+                        Console.WriteLine("empty line in the input file");
+                        return false;
+                    }
+                    if (args[0].StartsWith("<external_url>"))
+                        continue;
+                    switch (args[0])
+                    {
+                        case "register":
+                            if (!register(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "create-admin":
+                            if (!createAdmin(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "login":
+                            if (!login(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "open-store":
+                            if (!openStore(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "add-product-inventory":
+                            if (!addProductInv(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "assign-manager":
+                            if (!assignManager(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        case "edit-permissions":
+                            if (!editPermissions(args))
+                            {
+                                SystemLogger.LogError("Failed to perform init file command: " + args[0]);
+                                return false;
+                            }
+                            break;
+                        default:
+                            Console.WriteLine("incorrect input command");
+                            throw new ArgumentException(args[0]);
+                    }
                 }
-                if (args[0].StartsWith("<external_url>"))
-                    continue;
-                switch (args[0])
-                {
-                    case "register":
-                        if (!register(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "create-admin":
-                        if (!createAdmin(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "login":
-                        if (!login(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "open-store":
-                        if (!openStore(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "add-product-inventory":
-                        if (!addProductInv(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "assign-manager":
-                        if (!assignManager(args))
-                        {
-                            return;
-                        }
-                        break;
-                    case "edit-permissions":
-                        if (!editPermissions(args))
-                        {
-                            return;
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("incorrect input command");
-                        return;
-                }
+            } catch(ArgumentException e)
+            {
+                SystemLogger.LogError("Incorrect initalization file command: " + e);
+                return false;
+            } catch(Exception e)
+            {
+                SystemLogger.LogError("Unexpected error occured durring initialization from init file: " + e);
+                return false;
             }
+
+            return true;
         }
 
         //edit-permissions <editor username> <store name> <manager username> <permissions>*

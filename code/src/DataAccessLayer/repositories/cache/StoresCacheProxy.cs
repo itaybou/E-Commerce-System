@@ -92,14 +92,13 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     store = StoreRepository.FindOneBy(predicate);
+                    Cache(store);
                 }
                 catch (Exception e)
                 {
                     SystemLogger.logger.Error(e.ToString());
                     throw new DatabaseException("Faild : faild find one store");
                 }
-
-                Cache(store);
             }
             return store;
         }
@@ -112,6 +111,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 try
                 {
                     store = StoreRepository.GetByIdOrNull(id, idFunc);
+                    Cache(store);
                 }
                 catch (Exception e)
                 {
@@ -119,7 +119,6 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                     throw new DatabaseException("Faild : get store by id");
                 }
 
-                Cache(store);
             }
             return store;
         }
@@ -155,10 +154,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public void Remove(Store entity, string id, Expression<Func<Store, string>> idFunc)
         {
-            Uncache(id);
             try
             {
                 StoreRepository.Remove(entity, id, idFunc);
+                Uncache(id);
             }
             catch (Exception e)
             {
@@ -173,6 +172,8 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 StoreRepository.Update(entity, id, idFunc);
+                if (StoresCache.ContainsKey(id))
+                    Recache(entity);
             }
             
             catch (Exception e)
@@ -180,8 +181,6 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : update store");
             }
-            if (StoresCache.ContainsKey(id))
-                Recache(entity);
         }
 
         public void Upsert(Store entity, string id, Expression<Func<Store, string>> idFunc)
@@ -189,14 +188,14 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             try
             {
                 StoreRepository.Upsert(entity, id, idFunc);
+                if (StoresCache.ContainsKey(id))
+                    Recache(entity);
             }
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
                 throw new DatabaseException("Faild : upsert store");
             }  
-            if (StoresCache.ContainsKey(id))
-                Recache(entity);
         }
     }
 }

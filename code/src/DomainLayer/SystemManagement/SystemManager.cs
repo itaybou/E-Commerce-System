@@ -2,6 +2,7 @@
 using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.TransactionManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
+using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
 using System;
 using System.Collections.Generic;
@@ -104,18 +105,27 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
             var totalPrice = shoppingCart.getTotalACartPrice();  // total user cart price with discounts
 
+
             // make the payment and suplly transaction, in addiotion send purchase notification
-            if (await makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address))
+            try
             {
-                _userManagement.resetUserShoppingCart(userID);
-                _userManagement.logUserPurchase(userID, totalPrice, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
-                _data.Transactions.PurchaseTransaction(user, storeProducts);
-                return null;
-            }
-            else // purchase failed
+                if (await makePurchase(userID, totalPrice, storeProducts, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address))
+                {
+                    _userManagement.resetUserShoppingCart(userID);
+                    _userManagement.logUserPurchase(userID, totalPrice, productsToPurchase, firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
+                    _data.Transactions.PurchaseTransaction(user, storeProducts);
+                    return null;
+                }
+                else // purchase failed
+                {
+                    restoreProductsQuantities(unavailableProducts, storeProducts);
+                    return new List<ProductModel>();
+                }
+            } catch(ExternalSystemException e)
             {
                 restoreProductsQuantities(unavailableProducts, storeProducts);
-                return new List<ProductModel>(); 
+                SystemLogger.LogError("External systems error: " + e);
+                throw new ExternalSystemException("Failed due to external systems error, more information in log file.");
             }
         }
 
