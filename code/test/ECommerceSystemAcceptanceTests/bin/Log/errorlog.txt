@@ -15,3 +15,32 @@
 2020-05-05 12:00:39.8192 | ERROR: Missing spell checker dictionary file!
 2020-05-09 19:39:09.0667 | ERROR: Missing spell checker dictionary file!
 2020-05-10 21:50:53.6273 | ERROR: Missing spell checker dictionary file!
+2020-06-22 16:57:31.1733 | ERROR: Missing spell checker dictionary file!
+2020-06-22 16:59:36.9817 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:00:59.6437 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:03:47.8702 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:04:37.0622 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:08:37.7966 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:08:58.2229 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:12:06.9745 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:12:20.3970 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:12:58.1902 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:13:25.4839 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:13:47.6993 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:14:20.6668 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:17:40.2027 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:18:19.5991 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:20:32.2618 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:20:55.1660 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:21:05.4881 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:21:24.1619 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:21:32.1641 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:22:28.4538 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:26:07.2139 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:29:26.8694 | ERROR: Missing spell checker dictionary file!
+2020-06-22 17:29:27.7430 | ERROR: System.NullReferenceException: ההפניה לאובייקט לא הוגדרה למופע של אובייקט.
+   ב-  ECommerceSystem.DomainLayer.StoresManagement.Inventory.addProductInv(String productName, String description, Double price, Int32 quantity, Category category, List`1 keywords, String imageUrl, String storeName) ב- C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\v4\E-Commerce-System\code\src\DomainLayer\StoresManagement\Inventory.cs:שורה 56
+   ב-  ECommerceSystem.DomainLayer.StoresManagement.Store.addProductInv(String activeUserName, String productName, String description, Double price, Int32 quantity, Category category, List`1 keywords, Int32 minQuantity, Int32 maxQuantity, String imageUrl) ב- C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\v4\E-Commerce-System\code\src\DomainLayer\StoresManagement\Store.cs:שורה 103
+   ב-  ECommerceSystem.DomainLayer.UserManagement.Permissions.addProductInv(String activeUserName, String productName, String description, Double price, Int32 quantity, Category category, List`1 keywords, Int32 minQuantity, Int32 maxQuantity, String imageUrl) ב- C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\v4\E-Commerce-System\code\src\DomainLayer\UserManagement\Permissions.cs:שורה 145
+   ב-  ECommerceSystem.DomainLayer.StoresManagement.StoreManagement.addProductInv(Guid userID, String storeName, String description, String productInvName, Double price, Int32 quantity, Category categoryName, List`1 keywords, Int32 minQuantity, Int32 maxQuantity, String imageUrl) ב- C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\v4\E-Commerce-System\code\src\DomainLayer\StoresManagement\StoreManagemet.cs:שורה 145
+2020-06-22 17:30:13.9617 | ERROR: Missing spell checker dictionary file!

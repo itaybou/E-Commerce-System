@@ -25,7 +25,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         }
 
         [TestCase()]
-        public void assignOwnerFail()
+        public void assignManagerFail()
         {
             string otherOwner = "other owner";
             _bridge.register(otherOwner, _pswd, _fname, _lname, _email);
@@ -45,7 +45,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             Assert.False(_bridge.assignManager(_newManager, "not exist"), "assign manager to not exist store successed");
             Assert.False(_bridge.assignManager(_managerUserName, _storeName), "assign already manager to manager successed");
 
-            _bridge.assignOwner(otherOwner, _storeName);
+            _bridge.createOwnerAssignAgreement(otherOwner, _storeName);
             Assert.False(_bridge.assignManager(otherOwner, _storeName), "assign owner to manager successed");
             _bridge.logout();
         }
