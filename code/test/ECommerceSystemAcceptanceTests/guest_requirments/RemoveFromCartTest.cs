@@ -1,4 +1,5 @@
-﻿using ECommerceSystemAcceptanceTests.adapters;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -15,6 +16,8 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void oneTimeSetup()
         {
             _bridge = Driver.getAcceptanceBridge();
+            DataAccess.Instance.SetTestContext();
+
             uname = "test_user1";
             pswd = "Hell0World";
         }
@@ -24,16 +27,16 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
-            _bridge.openStoreWithProducts("store1", uname,
-                new List<string>() { { "product1" }, { "product2" }, { "product3" } });
+            //_bridge.openStoreWithProducts("store1", uname,
+            //    new List<string>() { { "product1" }, { "product2" }, { "product3" } });
             _bridge.logout();
         }
 
         [TearDown]
         public void tearDown()
         {
-            _bridge.usersCleanUp();
-            _bridge.storesCleanUp();
+            DataAccess.Instance.DropTestDatabase();
+            _bridge.initSessions();
         }
 
         /*

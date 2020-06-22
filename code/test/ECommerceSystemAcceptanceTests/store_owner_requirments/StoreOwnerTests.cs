@@ -1,4 +1,6 @@
-﻿using ECommerceSystemAcceptanceTests.adapters;
+﻿using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.Models;
+using ECommerceSystemAcceptanceTests.adapters;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -9,14 +11,16 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
     [TestFixture()]
     internal abstract class StoreOwnerTests
     {
+        
+        
         protected IBridgeAdapter _bridge;
 
         //product details:
-        protected string _productName, _description, _discontType, _purchaseType, _storeName;
+        protected string _productName, _producInvName, _producInvName2, _description, _discontType, _purchaseType, _storeName, _imageURL;
 
         protected double _price;
-        protected int _quantity, _discountPercentage;
-        protected string _category;
+        protected int _quantity, _discountPercentage, _minQuantity, _maxQuantity;
+        protected Category _category;
         protected List<string> _keywords;
 
         //users details:
@@ -34,18 +38,25 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         [OneTimeSetUp]
         public void oneTimeSetup()
         {
+            DataAccess.Instance.SetTestContext();
             _bridge = Driver.getAcceptanceBridge();
+            
 
             //init product details:
             _productName = "Iphone";
+            _producInvName = "Iphone6";
+            _producInvName = "Iphone5";
             _description = "descroption";
             _discontType = "visible";
             _purchaseType = "immediate";
             _storeName = "storeName";
+            _imageURL = "";
             _price = 100;
             _discountPercentage = 20;
             _quantity = 5;
-            _category = "CELLPHONES";
+            _minQuantity = -1;
+            _maxQuantity = -1;
+            _category = Category.CELLPHONES;
             _keywords = new List<string>();
             _keywords.Add("phone");
 
@@ -69,7 +80,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 
             //init store:
             _bridge.login(_ownerUserName, _pswd);
-            _bridge.openStore(_storeName, _discountPolicy, _purchasePolicy);
+            _bridge.openStore(_storeName);
             _bridge.assignManager(_managerUserName, _storeName);
             _bridge.logout();
         }
@@ -77,8 +88,9 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         [OneTimeTearDown]
         public void tearDown()
         {
-            _bridge.storesCleanUp();
-            _bridge.usersCleanUp();
+            DataAccess.Instance.DropTestDatabase();
+            _bridge.initSessions();
+
         }
     }
 }

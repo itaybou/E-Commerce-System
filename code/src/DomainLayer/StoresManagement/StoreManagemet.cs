@@ -126,7 +126,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Add, Delete, Modify Products*********
 
         //@pre - userID exist and subscribed
-        //return product(not product inventory!) id, return -1 in case of fail
+        //return product(not product inventory!) id, return Guid.Empty in case of fail
         public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             Guid result;

@@ -23,16 +23,16 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void openStoreSuccess()
         {
             _bridge.login(_ownerUserName, _pswd);
-            Assert.True(_bridge.openStore(_newStoreName, _discountPolicy, _purchasePolicy), "fail to open store");
+            Assert.True(_bridge.openStore(_newStoreName), "fail to open store");
             _bridge.logout();
         }
 
         [TestCase()]
         public void openStoreFail()
         {
-            Assert.False(_bridge.openStore(_newStoreName, _discountPolicy, _purchasePolicy), "open store as a guest successed");
+            Assert.False(_bridge.openStore(_newStoreName), "open store as a guest successed");
             _bridge.login(_ownerUserName, _pswd);
-            Assert.False(_bridge.openStore(_storeName, _discountPolicy, _purchasePolicy), "open store with exist store name successed");
+            Assert.False(_bridge.openStore(_storeName), "open store with exist store name successed");
             _bridge.logout();
         }
     }
