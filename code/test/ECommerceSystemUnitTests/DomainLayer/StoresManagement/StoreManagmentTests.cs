@@ -222,12 +222,11 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
 
             Guid[] usersID = { _ownerGUID, _anotherOwnerGUID, _anotherOwner3GUID };
             Thread[] threads = new Thread[3];
-            bool[] ret = new bool[3];
             for (int i = 0; i < 3; i++)
             {
                 Thread t = new Thread(() =>
                 {
-                    ret[i] = _storeManagement.openStore(usersID[i], "newStore");
+                    _storeManagement.openStore(usersID[i], "newStore");
                 });
                 threads[i] = t;
                 threads[i].Start();
