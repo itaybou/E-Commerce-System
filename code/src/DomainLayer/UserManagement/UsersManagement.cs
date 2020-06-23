@@ -52,14 +52,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public string register(string uname, string pswd, string fname, string lname, string email)
         {
-            string error = null;
-            var exists = _data.Users.QueryAll().Any(user => user.isSubscribed() && user.Name.Equals(uname));
-            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
+            string error = "";
+            bool exists = true;
+            lock (String.Intern(uname))
             {
-                var encrypted_pswd = Encryption.encrypt(pswd);
-                var user = new User(new Subscribed(uname, encrypted_pswd, fname, lname, email));
-                _data.Users.Insert(user);
-                return null;
+                exists = _data.Users.QueryAll().Any(user => user.isSubscribed() && user.Name.Equals(uname));
+                if (!exists)
+                {
+                    if (Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
+                    {
+                        var encrypted_pswd = Encryption.encrypt(pswd);
+                        var user = new User(new Subscribed(uname, encrypted_pswd, fname, lname, email));
+                        _data.Users.Insert(user);
+                        return null;
+                    }
+                }
             }
             return exists ? "User already exists" : error;
         }

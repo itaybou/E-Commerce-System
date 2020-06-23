@@ -209,9 +209,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             
         }
 
-
-    
-
         [OneTimeTearDown]
         public void tearDownFixture()
         {
@@ -232,7 +229,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
                     _storeManagement.openStore(usersID[i], "newStore");
                 });
                 threads[i] = t;
-                t.Start();
+                threads[i].Start();
                 //Thread.Sleep(100);
             }
 

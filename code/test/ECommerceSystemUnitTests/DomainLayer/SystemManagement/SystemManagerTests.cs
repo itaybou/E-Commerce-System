@@ -138,13 +138,13 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             purchaseUserShoppingCartTestSuccess();
             double totalPriceStore1 = (product1.BasePrice * 18) + (product2.BasePrice * 15);
             double totalPriceStore2 = (product3.BasePrice * 12) + (product4.BasePrice * 9);
-            Assert.AreEqual(totalPriceStore1, _store1.PurchaseHistory.First().TotalPrice);
-            Assert.AreEqual("user1", _store1.PurchaseHistory.First().Username);
-            Assert.AreEqual("user1", _store2.PurchaseHistory.First().Username);
-            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
-            Assert.True(_store1.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
-            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
-            Assert.True(_store2.PurchaseHistory.First().ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
+            Assert.AreEqual(totalPriceStore1, _store1.PurchaseHistory.ElementAt(_store1.PurchaseHistory.Count() - 1).TotalPrice);
+            Assert.AreEqual("user1", _store1.PurchaseHistory.ElementAt(_store1.PurchaseHistory.Count() - 1).Username);
+            Assert.AreEqual("user1", _store2.PurchaseHistory.ElementAt(_store2.PurchaseHistory.Count() - 1).Username);
+            Assert.True(_store1.PurchaseHistory.ElementAt(_store1.PurchaseHistory.Count() - 1).ProductsPurchased.ToList().Exists(p => p.Id.Equals(product1.Id)));
+            Assert.True(_store1.PurchaseHistory.ElementAt(_store1.PurchaseHistory.Count() - 1).ProductsPurchased.ToList().Exists(p => p.Id.Equals(product2.Id)));
+            Assert.True(_store2.PurchaseHistory.ElementAt(_store2.PurchaseHistory.Count() - 1).ProductsPurchased.ToList().Exists(p => p.Id.Equals(product3.Id)));
+            Assert.True(_store2.PurchaseHistory.ElementAt(_store2.PurchaseHistory.Count() - 1).ProductsPurchased.ToList().Exists(p => p.Id.Equals(product4.Id)));
         }
 
         [Test()]

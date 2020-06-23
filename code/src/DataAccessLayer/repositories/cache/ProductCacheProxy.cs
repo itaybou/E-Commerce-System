@@ -198,5 +198,10 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
         {
             ProductCache.Clear();
         }
+
+        public void UncacheProduct(Product prod)
+        {
+            Uncache(prod.Id);
+        }
     }
 }

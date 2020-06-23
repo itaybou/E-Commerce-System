@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement.Discount;
 using ECommerceSystem.DomainLayer.StoresManagement.PurchasePolicies;
+using ECommerceSystem.Utilities.interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             this.PurchaseType = null;
             this.BasePrice = price;
             this.Id = guid;
+        }
+
+        public Product(string name, string description, int quantity, double price, Guid guid, PurchaseType purchase, DiscountType discount, ProductQuantityPolicy policy)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.Quantity = quantity;
+            this.Discount = discount;
+            this.PurchaseType = purchase;
+            this.BasePrice = price;
+            this.Id = guid;
+            this.PurchasePolicy = policy;
         }
 
         /// <summary>
