@@ -80,21 +80,15 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
             Assert.IsTrue(_bridge.AddTocart(productID3, "store2", 10));
             cart = _bridge.ViewUserCart();
             Assert.AreEqual(2, cart.Cart.Count);
-            Assert.AreEqual(10, cart.Cart.Where(s => s.Key.Name.Equals("store2")).Where(p => p.Key.Equals(productID3)).First().Value);
+            Assert.AreEqual(20, cart.Cart.ElementAt(0).Value.ElementAt(0).Item2);
+            Assert.AreEqual(10, cart.Cart.ElementAt(1).Value.ElementAt(0).Item2);
 
-            //prod = _bridge.AddTocart(1, 20);
-            //Assert.AreEqual(prod["store1"][1], 20);
-            //Assert.AreEqual(prod["store2"][1], 20);
-            //prod = _bridge.AddTocart(1, 20);
-            //Assert.AreEqual(prod["store1"][1], 40);
-            //Assert.AreEqual(prod["store2"][1], 40);
-            //prod = _bridge.AddTocart(2, 20);
-            //Assert.AreEqual(prod["store1"][2], 20);
-            //Assert.AreEqual(prod["store2"][2], 20);
-            //prod = _bridge.AddTocart(3, 20);
-            //Assert.AreEqual(prod["store1"][3], 20);
-            //Assert.AreEqual(prod["store2"][3], 20);
+            Assert.IsFalse(_bridge.AddTocart(productID3, "store2", 20));
+            Assert.IsTrue(_bridge.AddTocart(productID3, "store2", 3));
+            cart = _bridge.ViewUserCart();
+            Assert.AreEqual(20, cart.Cart.ElementAt(0).Value.ElementAt(0).Item2);
+            Assert.AreEqual(13, cart.Cart.ElementAt(1).Value.ElementAt(0).Item2);
         }
-        
+
     }
 }

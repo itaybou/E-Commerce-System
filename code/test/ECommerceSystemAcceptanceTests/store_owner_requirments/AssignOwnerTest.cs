@@ -46,6 +46,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             //_bridge.assignOwner(_newOwner2, _storeName);
             //Assert.False(_bridge.assignOwner(_newOwner2, _storeName), "assign already store owner for owner successed");
             //_bridge.logout();
+            Assert.IsTrue(false);
         }
     }
 }

@@ -48,7 +48,6 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             //add same product twice
            
             Assert.AreNotEqual(Guid.Empty, _bridge.addProductInv(_storeName, _description, _producInvName, _price, _quantity, _category, _keywords, _minQuantity, _maxQuantity, _imageURL));
-            //_bridge.deleteProductInv(_storeName, _productName); //delete the added product
             _bridge.logout();
         }
     }

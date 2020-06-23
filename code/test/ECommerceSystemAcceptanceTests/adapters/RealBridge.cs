@@ -1,6 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -203,30 +204,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.purchaseHistory(sessionID, storeName);
         }
 
-        //public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()
-        //{
-        //    var dict = new Dictionary<string, Dictionary<Guid, int>>();
-        //    //var cart = _userServices.ShoppingCartDetails();
-        //    //cart.StoreCarts.ForEach(storeCart =>
-        //    //{
-        //    //    var storeDict = new Dictionary<Guid, int>();
-        //    //    storeCart.Products.ToList().ForEach(p =>
-        //    //    {
-        //    //        if (storeDict.ContainsKey(p.Key.Id))
-        //    //        {
-        //    //            storeDict[p.Key.Id] += p.Value;
-        //    //        }
-        //    //        else storeDict.Add(p.Key.Id, p.Value);
-        //    //    });
-        //    //    if (dict.ContainsKey(storeCart.store.Name))
-        //    //    {
-        //    //        dict[storeCart.store.Name] = dict[storeCart.store.Name].Concat(storeDict).ToDictionary(pair => pair.Key, pair => pair.Value);
-        //    //    }
-        //    //    else dict.Add(storeCart.store.Name, storeDict);
-        //    //});
-
-        //    return dict;
-        //}
+        
 
         // Requirments
         public bool register(string uname, string pswd, string fname, string lname, string email) // 2.2
@@ -264,6 +242,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to) // 2.5
         {
+            Assert.IsTrue(false);
             //catName = catName != null? catName.ToUpper() : catName;
             //var categories = EnumMethods.GetValues(typeof(Category)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper());
             //if (catName != null && !categories.Contains(catName))
@@ -333,10 +312,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         public bool RemoveFromCart(Guid prodID) // 2.7.1
         {
-            //var info = _storeService.getAllStoresInfo();
-            //var prod = info.ToList().Select(pair => pair.Value.Find(p => p.Id.Equals(prodID))).First();
-            //return _userServices.RemoveFromCart(prodId);
-            return true;
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _userServices.RemoveFromCart(sessionID, prodID);
         }
 
         public bool ChangeProductCartQuantity(Guid prodID, int quantity)    // 2.7.2

@@ -41,8 +41,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
 
             _bridge.openStore("store3");
             _bridge.addProductInv("store3", "d", "product7", 100, 100, Category.ART, new List<string>(), -1, -1, "");
-
-            //_bridge.openStoreWithProducts("store1", uname, new List<string>() { { "product1" }, { "product2" }, { "product3" } });
             _bridge.logout();
         }
 

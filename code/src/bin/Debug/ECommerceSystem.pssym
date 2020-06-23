@@ -2,317 +2,317 @@
 <Symbols LinesOfCode="5786" PostSharpLinesOfCode="0" EnhancedTypesCount="3" SchemaVersion="1" PostSharpVersion="6.5.6.0" xmlns="http://schemas.postsharp.org/2.0/symbols">
   <Evolution Source="#1=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::purchaseUserShoppingCart(System.Guid, System.String, System.String, System.Int32, System.String, System.DateTime, System.Int32, System.String)" Target="#2=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices+&lt;purchaseUserShoppingCart&gt;d__7::MoveNext()" />
   <Class Class="#3=T:[ECommerceSystem]ECommerceSystem.DomainLayer.SystemManagement.logger.TraceAttribute">
-    <Instance Declaration="#4=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::getAllProducts(System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7ada9f39245">
+    <Instance Declaration="#4=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::getAllProducts(System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7ad3e4a8c8e">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5=Wrapped by advice(s) OnEntry" Ordinal="0" />
       </Target>
     </Instance>
-    <Instance Declaration="#6=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByCategory(System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7ad4febf80c">
+    <Instance Declaration="#6=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByCategory(System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7ad385a156f">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" />
       </Target>
     </Instance>
-    <Instance Declaration="#7=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByName(System.String, System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7adb5f0b911">
+    <Instance Declaration="#7=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByName(System.String, System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7adde3f7713">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="2" />
       </Target>
     </Instance>
-    <Instance Declaration="#8=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByKeyword(System.Collections.Generic.List{System.String}, System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7adabbf7dc8">
+    <Instance Declaration="#8=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.SystemServices::searchProductsByKeyword(System.Collections.Generic.List{System.String}, System.String, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double}, [ECommerceSystem]ECommerceSystem.Utilities.Range{System.Double})" Id="7fcd7ad450c982b">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="3" />
       </Target>
     </Instance>
-    <Instance Declaration="#1" Id="7fcd7ad5e90cd49">
+    <Instance Declaration="#1" Id="7fcd7ad9b1da263">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="4" />
       </Target>
     </Instance>
-    <Instance Declaration="#9=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::register(System.String, System.String, System.String, System.String, System.String)" Id="7fcd7ad52556947">
+    <Instance Declaration="#9=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::register(System.String, System.String, System.String, System.String, System.String)" Id="7fcd7ad01dbe39f">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="5" />
       </Target>
     </Instance>
-    <Instance Declaration="#10=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::login(System.Guid, System.String, System.String)" Id="7fcd7ad6cd51f3f">
+    <Instance Declaration="#10=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::login(System.Guid, System.String, System.String)" Id="7fcd7adec4becc7">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="6" />
       </Target>
     </Instance>
-    <Instance Declaration="#11=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::logout(System.Guid)" Id="7fcd7ad29d859b7">
+    <Instance Declaration="#11=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::logout(System.Guid)" Id="7fcd7ad8f8d52ac">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="7" />
       </Target>
     </Instance>
-    <Instance Declaration="#12=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::addProductToCart(System.Guid, System.Guid, System.String, System.Int32)" Id="7fcd7ad2a50adb0">
+    <Instance Declaration="#12=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::addProductToCart(System.Guid, System.Guid, System.String, System.Int32)" Id="7fcd7ad0a3a213f">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="8" />
       </Target>
     </Instance>
-    <Instance Declaration="#13=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::ShoppingCartDetails(System.Guid)" Id="7fcd7ada4ce55e8">
+    <Instance Declaration="#13=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::ShoppingCartDetails(System.Guid)" Id="7fcd7ad24263369">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="9" />
       </Target>
     </Instance>
-    <Instance Declaration="#14=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::RemoveFromCart(System.Guid, System.Guid)" Id="7fcd7ad9f37624c">
+    <Instance Declaration="#14=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::RemoveFromCart(System.Guid, System.Guid)" Id="7fcd7adb22e2342">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="10" />
       </Target>
     </Instance>
-    <Instance Declaration="#15=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::ChangeProductQunatity(System.Guid, System.Guid, System.Int32)" Id="7fcd7adf04d6fd2">
+    <Instance Declaration="#15=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::ChangeProductQunatity(System.Guid, System.Guid, System.Int32)" Id="7fcd7ad6392e8e6">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="11" />
       </Target>
     </Instance>
-    <Instance Declaration="#16=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::userPurchaseHistory(System.Guid, System.String)" Id="7fcd7ad9a00d289">
+    <Instance Declaration="#16=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::userPurchaseHistory(System.Guid, System.String)" Id="7fcd7adc5d5c73c">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="12" />
       </Target>
     </Instance>
-    <Instance Declaration="#17=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::userDetails(System.Guid)" Id="7fcd7adb3c7f7a9">
+    <Instance Declaration="#17=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::userDetails(System.Guid)" Id="7fcd7ada5d0e9cd">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="13" />
       </Target>
     </Instance>
-    <Instance Declaration="#18=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::GetAwaitingRequests(System.Guid)" Id="7fcd7ad06ebe648">
+    <Instance Declaration="#18=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::GetAwaitingRequests(System.Guid)" Id="7fcd7ad54787cd4">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="14" />
       </Target>
     </Instance>
-    <Instance Declaration="#19=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::isUserAdmin(System.Guid)" Id="7fcd7adb9440326">
+    <Instance Declaration="#19=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::isUserAdmin(System.Guid)" Id="7fcd7ad2d433cda">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="15" />
       </Target>
     </Instance>
-    <Instance Declaration="#20=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::allUsers(System.Guid)" Id="7fcd7ad846ca474">
+    <Instance Declaration="#20=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.UserServices::allUsers(System.Guid)" Id="7fcd7ad72258626">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="16" />
       </Target>
     </Instance>
-    <Instance Declaration="#21=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreInfo(System.String)" Id="7fcd7add041a360">
+    <Instance Declaration="#21=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreInfo(System.String)" Id="7fcd7addcd7b29e">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="17" />
       </Target>
     </Instance>
-    <Instance Declaration="#22=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreProductGroup(System.Guid, System.Guid, System.String)" Id="7fcd7ad7422eb5b">
+    <Instance Declaration="#22=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreProductGroup(System.Guid, System.Guid, System.String)" Id="7fcd7ada8113a2f">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="18" />
       </Target>
     </Instance>
-    <Instance Declaration="#23=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllStoresInfo()" Id="7fcd7ad60c83b21">
+    <Instance Declaration="#23=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllStoresInfo()" Id="7fcd7adb5e7aa82">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="19" />
       </Target>
     </Instance>
-    <Instance Declaration="#24=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::openStore(System.Guid, System.String)" Id="7fcd7adbd126c17">
+    <Instance Declaration="#24=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::openStore(System.Guid, System.String)" Id="7fcd7ad81d46f17">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="20" />
       </Target>
     </Instance>
-    <Instance Declaration="#25=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addProductInv(System.Guid, System.String, System.String, System.String, System.Double, System.Int32, [ECommerceSystem]ECommerceSystem.Models.Category, System.Collections.Generic.List{System.String}, System.Int32, System.Int32, System.String)" Id="7fcd7ade16c991c">
+    <Instance Declaration="#25=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addProductInv(System.Guid, System.String, System.String, System.String, System.Double, System.Int32, [ECommerceSystem]ECommerceSystem.Models.Category, System.Collections.Generic.List{System.String}, System.Int32, System.Int32, System.String)" Id="7fcd7ad1282dbe5">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="21" />
       </Target>
     </Instance>
-    <Instance Declaration="#26=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::deleteProductInv(System.Guid, System.String, System.String)" Id="7fcd7adac0c1435">
+    <Instance Declaration="#26=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::deleteProductInv(System.Guid, System.String, System.String)" Id="7fcd7ad10a61ead">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="22" />
       </Target>
     </Instance>
-    <Instance Declaration="#27=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addProduct(System.Guid, System.String, System.String, System.Int32, System.Int32, System.Int32)" Id="7fcd7ad6ffa6dc7">
+    <Instance Declaration="#27=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addProduct(System.Guid, System.String, System.String, System.Int32, System.Int32, System.Int32)" Id="7fcd7ad9caeff03">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="23" />
       </Target>
     </Instance>
-    <Instance Declaration="#28=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::deleteProduct(System.Guid, System.String, System.String, System.Guid)" Id="7fcd7ada4131e91">
+    <Instance Declaration="#28=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::deleteProduct(System.Guid, System.String, System.String, System.Guid)" Id="7fcd7ad3a462509">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="24" />
       </Target>
     </Instance>
-    <Instance Declaration="#29=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductName(System.Guid, System.String, System.String, System.String)" Id="7fcd7ad324febe0">
+    <Instance Declaration="#29=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductName(System.Guid, System.String, System.String, System.String)" Id="7fcd7ad672b0244">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="25" />
       </Target>
     </Instance>
-    <Instance Declaration="#30=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductPrice(System.Guid, System.String, System.String, System.Int32)" Id="7fcd7ad6bd50b45">
+    <Instance Declaration="#30=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductPrice(System.Guid, System.String, System.String, System.Int32)" Id="7fcd7ad81e93233">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="26" />
       </Target>
     </Instance>
-    <Instance Declaration="#31=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductQuantity(System.Guid, System.String, System.String, System.Guid, System.Int32)" Id="7fcd7ad602b0e4d">
+    <Instance Declaration="#31=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::modifyProductQuantity(System.Guid, System.String, System.String, System.Guid, System.Int32)" Id="7fcd7ad4090d287">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="27" />
       </Target>
     </Instance>
-    <Instance Declaration="#32=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::createOwnerAssignAgreement(System.Guid, System.String, System.String)" Id="7fcd7adee947d42">
+    <Instance Declaration="#32=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::createOwnerAssignAgreement(System.Guid, System.String, System.String)" Id="7fcd7adb960b54d">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="28" />
       </Target>
     </Instance>
-    <Instance Declaration="#33=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::approveAssignOwnerRequest(System.Guid, System.Guid, System.String)" Id="7fcd7ad40fa8e32">
+    <Instance Declaration="#33=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::approveAssignOwnerRequest(System.Guid, System.Guid, System.String)" Id="7fcd7adafb4e9d2">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="29" />
       </Target>
     </Instance>
-    <Instance Declaration="#34=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::disApproveAssignOwnerRequest(System.Guid, System.Guid, System.String)" Id="7fcd7adefc28161">
+    <Instance Declaration="#34=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::disApproveAssignOwnerRequest(System.Guid, System.Guid, System.String)" Id="7fcd7ad9286b53a">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="30" />
       </Target>
     </Instance>
-    <Instance Declaration="#35=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeOwner(System.Guid, System.String, System.String)" Id="7fcd7adcc82b9f1">
+    <Instance Declaration="#35=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeOwner(System.Guid, System.String, System.String)" Id="7fcd7ade84bac84">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="31" />
       </Target>
     </Instance>
-    <Instance Declaration="#36=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::assignManager(System.Guid, System.String, System.String)" Id="7fcd7add1e53ff3">
+    <Instance Declaration="#36=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::assignManager(System.Guid, System.String, System.String)" Id="7fcd7adf40a1a5b">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="32" />
       </Target>
     </Instance>
-    <Instance Declaration="#37=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::editPermissions(System.Guid, System.String, System.String, System.Collections.Generic.List{[ECommerceSystem]ECommerceSystem.Models.PermissionType})" Id="7fcd7ad8fdfed06">
+    <Instance Declaration="#37=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::editPermissions(System.Guid, System.String, System.String, System.Collections.Generic.List{[ECommerceSystem]ECommerceSystem.Models.PermissionType})" Id="7fcd7add9ebc9ed">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="33" />
       </Target>
     </Instance>
-    <Instance Declaration="#38=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeManager(System.Guid, System.String, System.String)" Id="7fcd7ade00127b1">
+    <Instance Declaration="#38=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeManager(System.Guid, System.String, System.String)" Id="7fcd7adb7ae6c78">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="34" />
       </Target>
     </Instance>
-    <Instance Declaration="#39=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::purchaseHistory(System.Guid, System.String)" Id="7fcd7ad40eae73f">
+    <Instance Declaration="#39=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::purchaseHistory(System.Guid, System.String)" Id="7fcd7ad432488a1">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="35" />
       </Target>
     </Instance>
-    <Instance Declaration="#40=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addDayOffPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.DayOfWeek})" Id="7fcd7ad14d49556">
+    <Instance Declaration="#40=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addDayOffPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.DayOfWeek})" Id="7fcd7ad12418954">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="36" />
       </Target>
     </Instance>
-    <Instance Declaration="#41=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addLocationPolicy(System.Guid, System.String, System.Collections.Generic.List{System.String})" Id="7fcd7ada0cad56a">
+    <Instance Declaration="#41=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addLocationPolicy(System.Guid, System.String, System.Collections.Generic.List{System.String})" Id="7fcd7ad0601a3e0">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="37" />
       </Target>
     </Instance>
-    <Instance Declaration="#42=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addMinPriceStorePolicy(System.Guid, System.String, System.Double)" Id="7fcd7ad7f495e70">
+    <Instance Declaration="#42=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addMinPriceStorePolicy(System.Guid, System.String, System.Double)" Id="7fcd7adf44078c0">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="38" />
       </Target>
     </Instance>
-    <Instance Declaration="#43=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addAndPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7ad27416fd4">
+    <Instance Declaration="#43=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addAndPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7ad29c11ef0">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="39" />
       </Target>
     </Instance>
-    <Instance Declaration="#44=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addOrPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7add730ad65">
+    <Instance Declaration="#44=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addOrPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7ad91cde76e">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="40" />
       </Target>
     </Instance>
-    <Instance Declaration="#45=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addXorPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7adbf24fdac">
+    <Instance Declaration="#45=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addXorPurchasePolicy(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7ad6da564ec">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="41" />
       </Target>
     </Instance>
-    <Instance Declaration="#46=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removePurchasePolicy(System.Guid, System.String, System.Guid)" Id="7fcd7ad36c981fb">
+    <Instance Declaration="#46=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removePurchasePolicy(System.Guid, System.String, System.Guid)" Id="7fcd7ad304cb3be">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="42" />
       </Target>
     </Instance>
-    <Instance Declaration="#47=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getUsernamePermissionTypes(System.String, System.String)" Id="7fcd7ad4d3f5bb0">
+    <Instance Declaration="#47=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getUsernamePermissionTypes(System.String, System.String)" Id="7fcd7ad6626aed4">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="43" />
       </Target>
     </Instance>
-    <Instance Declaration="#48=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllPurchasePolicyByStoreName(System.Guid, System.String)" Id="7fcd7adcf880bc1">
+    <Instance Declaration="#48=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllPurchasePolicyByStoreName(System.Guid, System.String)" Id="7fcd7ad4da4a04d">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="44" />
       </Target>
     </Instance>
-    <Instance Declaration="#49=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addVisibleDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime)" Id="7fcd7ad8551bacf">
+    <Instance Declaration="#49=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addVisibleDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime)" Id="7fcd7ad866ed014">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="45" />
       </Target>
     </Instance>
-    <Instance Declaration="#50=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addCondiotionalProcuctDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime, System.Int32)" Id="7fcd7ad0609fff3">
+    <Instance Declaration="#50=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addCondiotionalProcuctDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime, System.Int32)" Id="7fcd7ad0166d2a9">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="46" />
       </Target>
     </Instance>
-    <Instance Declaration="#51=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addConditionalCompositeProcuctDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime, [ECommerceSystem]ECommerceSystem.Models.DiscountPolicyModels.CompositeDiscountPolicyModel)" Id="7fcd7ad2097ad37">
+    <Instance Declaration="#51=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addConditionalCompositeProcuctDiscount(System.Guid, System.String, System.Guid, System.Single, System.DateTime, [ECommerceSystem]ECommerceSystem.Models.DiscountPolicyModels.CompositeDiscountPolicyModel)" Id="7fcd7ad39c5eb78">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="47" />
       </Target>
     </Instance>
-    <Instance Declaration="#52=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addConditionalStoreDiscount(System.Guid, System.String, System.Single, System.DateTime, System.Int32)" Id="7fcd7ad1fd117bc">
+    <Instance Declaration="#52=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addConditionalStoreDiscount(System.Guid, System.String, System.Single, System.DateTime, System.Int32)" Id="7fcd7ad5f5a2b79">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="48" />
       </Target>
     </Instance>
-    <Instance Declaration="#53=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addAndDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7ad4c003456">
+    <Instance Declaration="#53=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addAndDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7ad094d29e7">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="49" />
       </Target>
     </Instance>
-    <Instance Declaration="#54=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addOrDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7ada69c1815">
+    <Instance Declaration="#54=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addOrDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7ad7a8d7464">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="50" />
       </Target>
     </Instance>
-    <Instance Declaration="#55=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addXorDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7ad6e963868">
+    <Instance Declaration="#55=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::addXorDiscountPolicy(System.Guid, System.String, System.Collections.Generic.List{[mscorlib]System.Guid})" Id="7fcd7adea49513e">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="51" />
       </Target>
     </Instance>
-    <Instance Declaration="#56=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeProductDiscount(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7ad567e75a4">
+    <Instance Declaration="#56=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeProductDiscount(System.Guid, System.String, System.Guid, System.Guid)" Id="7fcd7addc3d79c9">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="52" />
       </Target>
     </Instance>
-    <Instance Declaration="#57=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeCompositeDiscount(System.Guid, System.String, System.Guid)" Id="7fcd7ad6fa3b824">
+    <Instance Declaration="#57=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeCompositeDiscount(System.Guid, System.String, System.Guid)" Id="7fcd7adb45993b0">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="53" />
       </Target>
     </Instance>
-    <Instance Declaration="#58=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeStoreLevelDiscount(System.Guid, System.String, System.Guid)" Id="7fcd7ada8549f5c">
+    <Instance Declaration="#58=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::removeStoreLevelDiscount(System.Guid, System.String, System.Guid)" Id="7fcd7adf30b593d">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="54" />
       </Target>
     </Instance>
-    <Instance Declaration="#59=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllStoreLevelDiscounts(System.Guid, System.String)" Id="7fcd7adc719b60b">
+    <Instance Declaration="#59=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllStoreLevelDiscounts(System.Guid, System.String)" Id="7fcd7adebb75dd1">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="55" />
       </Target>
     </Instance>
-    <Instance Declaration="#60=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllDiscountsForCompose(System.Guid, System.String)" Id="7fcd7add28ad365">
+    <Instance Declaration="#60=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getAllDiscountsForCompose(System.Guid, System.String)" Id="7fcd7ad5431b8de">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="56" />
       </Target>
     </Instance>
-    <Instance Declaration="#61=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getUserPermissions(System.Guid)" Id="7fcd7adf789cc0c">
+    <Instance Declaration="#61=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getUserPermissions(System.Guid)" Id="7fcd7ad620b56cc">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="57" />
       </Target>
     </Instance>
-    <Instance Declaration="#62=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreOwners(System.Guid, System.String)" Id="7fcd7ad896263db">
+    <Instance Declaration="#62=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreOwners(System.Guid, System.String)" Id="7fcd7add08456b8">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="58" />
       </Target>
     </Instance>
-    <Instance Declaration="#63=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreManagers(System.Guid, System.String)" Id="7fcd7ad3eaddd6f">
+    <Instance Declaration="#63=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getStoreManagers(System.Guid, System.String)" Id="7fcd7ad1d1df3d6">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="59" />
       </Target>
     </Instance>
-    <Instance Declaration="#64=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getProductInventory(System.Guid)" Id="7fcd7ad4c01a69d">
+    <Instance Declaration="#64=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::getProductInventory(System.Guid)" Id="7fcd7ad3777b827">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="60" />
       </Target>
     </Instance>
-    <Instance Declaration="#65=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::rateProduct(System.Guid, System.Int32)" Id="7fcd7add445d787">
+    <Instance Declaration="#65=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::rateProduct(System.Guid, System.Int32)" Id="7fcd7ad37da0010">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="61" />
       </Target>
     </Instance>
-    <Instance Declaration="#66=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::rateStore(System.String, System.Int32)" Id="7fcd7addcefb362">
+    <Instance Declaration="#66=M:[ECommerceSystem]ECommerceSystem.ServiceLayer.StoreService::rateStore(System.String, System.Int32)" Id="7fcd7ad36b102ca">
       <Target LinesAvoided="2">
         <JoinPoint Description="#5" Ordinal="62" />
       </Target>
