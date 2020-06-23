@@ -39,13 +39,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             foreach (ProductInventory p in Products)
             {
-                foreach (Product prod in p.ProductList)
-                {
-                    if (prod.Id.Equals(id))
-                    {
-                        return prod;
-                    }
-                }
+                return p.getProducByID(id);
             }
             return null;
         }

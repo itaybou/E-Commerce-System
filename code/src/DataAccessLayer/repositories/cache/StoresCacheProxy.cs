@@ -197,5 +197,20 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 throw new DatabaseException("Faild : upsert store");
             }  
         }
+
+        public void setContext(IDbContext context)
+        {
+            StoreRepository.setContext(context);
+        }
+
+        public void RemoveCacheData()
+        {
+            StoresCache.Clear();
+        }
+
+        public void UncachStore(Store store)
+        {
+            Uncache(store.Name);
+        }
     }
 }

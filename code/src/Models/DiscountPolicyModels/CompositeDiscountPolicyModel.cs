@@ -13,8 +13,8 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
 
     public class CompositeDiscountPolicyModel : DiscountPolicyModel
     {
-        public List<DiscountPolicyModel> Children;
-        public CompositeType Type;
+        public List<DiscountPolicyModel> Children { get; set; }
+        public CompositeType Type { get; set; }
 
         public CompositeDiscountPolicyModel(Guid ID, List<DiscountPolicyModel> children, CompositeType type) : base(ID)
         {
@@ -69,6 +69,7 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             {
                 newChildren.Add(child.ModelToOrigin());
             }
+
             if (this.Type.Equals(CompositeType.Or))
             {
                 return new OrDiscountPolicy(Guid.NewGuid(), newChildren);
@@ -83,7 +84,6 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
             }
             else
                 return null;
-
         }
     }
 }

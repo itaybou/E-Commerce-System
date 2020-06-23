@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.Exceptions;
 using ECommerceSystem.Utilities;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
             Client = client;
             Client.Timeout = TimeoutSeconds;
             TransacionIDRange = new Range<int>(10000, 100000);
+            ExternalURL = "https://cs-bgu-wsep.herokuapp.com";
         }
 
         public async Task<bool> ConnectExternal(string url)

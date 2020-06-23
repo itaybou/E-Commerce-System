@@ -23,5 +23,10 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         {
             return External.cancelSupply(transactionID.ToString());
         }
+
+        public void SetExternal(IExternalSupplyPayment External)
+        {
+            this.External = External;
+        }
     }
 }

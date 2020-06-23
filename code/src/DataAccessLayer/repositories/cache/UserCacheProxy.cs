@@ -249,5 +249,15 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 throw new DatabaseException("Faild : get subscribed by username");
             }
         }
+
+        public void setContext(IDbContext context)
+        {
+            UserRepository.setContext(context);
+        }
+
+        public void RemoveCacheData()
+        {
+            UsersCache.Clear();
+        }
     }
 }

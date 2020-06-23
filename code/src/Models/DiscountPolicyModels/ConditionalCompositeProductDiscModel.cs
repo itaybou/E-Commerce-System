@@ -53,7 +53,6 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
         public override DiscountPolicy ModelToOrigin()
         {
             DiscountPolicy newCond = this.productTreeModel.ModelToOrigin();
-
             return ConditionalCompositeProductDicountPolicy.Create(this.Percentage, this.ExpDate, Guid.NewGuid(), this.ProductID, (AndDiscountPolicy)newCond);
         }
 

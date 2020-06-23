@@ -16,6 +16,7 @@ namespace ECommerceSystem.DataAccessLayer
         private IUserRepository _users;
         private IStoreRepository _stores;
         private IProductRepository _products;
+        public static object _transactionLock = new object();
 
         public Transactions(MongoClient client, IUserRepository users, IStoreRepository stores, IProductRepository products)
         {
@@ -43,10 +44,11 @@ namespace ECommerceSystem.DataAccessLayer
             }
         }
 
-        public async void OpenStoreTransaction(User owner, Store opened)
+        public async void OpenStoreTransaction(User owner, Store opened) 
         {
             await BaseTransactionAsync(() =>
             {
+                _users.UncacheUser(owner);
                 _stores.Insert(opened);
                 _users.Update(owner, owner.Guid, u => u.Guid);
             });

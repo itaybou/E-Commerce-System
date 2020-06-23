@@ -21,7 +21,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         {
             //_prodIDCounter = 0;
             //_prodInvID = 0;
-            DataAccess.Instance.InitializeTestDatabase();
+            store = new Store("owner", "store1");
+            DataAccess.Instance.SetTestContext();
             var purchasePolicy = new ImmediatePurchase();
             _products = new List<ProductInventory>()
             {
@@ -42,7 +43,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             }
             _mock = new Mock<SearchAndFilter>();
             _mock.Setup(s => s.getProductInventories(null)).Returns(_products);
-            store = new Store("owner", "store1");
+            
             store.Inventory.Products = _products;
             DataAccess.Instance.Stores.Insert(store);
         }

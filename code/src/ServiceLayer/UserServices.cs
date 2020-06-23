@@ -18,21 +18,6 @@ namespace ECommerceSystem.ServiceLayer
             _sessions = SessionController.Instance;
         }
 
-        //public bool isUserSubscribed(string username)
-        //{
-        //    return _management.Users.Keys.ToList().Any(u => u.Name().Equals(username));
-        //}
-
-        //public bool isUserLogged(string username)
-        //{
-        //    return _management.getLoggedInUser().isSubscribed() && _management.getLoggedInUser().Name().Equals(username);
-        //}
-
-        //public void removeAllUsers()
-        //{
-        //    _management.Users = _management.Users.Where(u => u.Key.Name().Equals("admin")).ToDictionary(pair => pair.Key, pair => pair.Value);
-        //    _management._activeUser = new User(new Guest());
-        //}
 
         [Trace("Info")]
         /// <summary>

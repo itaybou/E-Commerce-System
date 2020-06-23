@@ -1,4 +1,7 @@
 ﻿using MongoDB.Driver;
+using ECommerceSystem.Exceptions;
+using System;
+using ECommerceSystem.DomainLayer.SystemManagement;
 
 namespace ECommerceSystem.DataAccessLayer
 {
@@ -9,8 +12,15 @@ namespace ECommerceSystem.DataAccessLayer
 
         public DbContext(string connectionString, string databaseName)
         {
-            Configuration = new DatabaseConfiguration(connectionString, databaseName);
-            MongoClient = new MongoClient(Configuration.ConnectionString);
+            try
+            {
+                Configuration = new DatabaseConfiguration(connectionString, databaseName);
+                MongoClient = new MongoClient(Configuration.ConnectionString);
+            } catch(Exception e)
+            {
+                SystemLogger.LogError("Failed to create mongo client, failed to establish db connection to " + Configuration.ConnectionString + "," + Configuration.DatabaseName + ": " + e);
+                throw new DatabaseException("Failed to connect to databade.");
+            }
         }
 
         public MongoClient Client() => MongoClient;

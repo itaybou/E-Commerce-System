@@ -1,37 +1,33 @@
-﻿using System;
+﻿using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
     internal interface IBridgeAdapter
     {
-        // Utility methods
-        bool IsUserSubscribed(string username);
+        void initSessions();
 
-        bool IsUserLogged(string username);
-
-        void usersCleanUp();
-
-        void storesCleanUp();
-
-        void openStoreWithProducts(Guid userID, string storeName, string ownerName, List<string> products);
-
-        void cancelSearchFilters();
-
-        Dictionary<string, Dictionary<Guid, int>> getUserCartDetails();
+        //Dictionary<string, Dictionary<Guid, int>> getUserCartDetails();
 
         // Requirments
-        bool register(string uname, string pswd, string fname, string lname, string email); // Requirment 2.2
+        bool  register( string uname, string pswd, string fname, string lname, string email); // Requirment 2.2
 
         bool login(string uname, string pswd); // Requirment 2.3
 
-        Dictionary<string, List<string>> ViewProdcutStoreInfo(); // Requirment 2.4
+        Dictionary<StoreModel, List<ProductInventoryModel>> ViewProdcutStoreInfo(); // Requirment 2.4
 
-        List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to); // Requirment 2.5
+        //List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to); // Requirment 2.5
+        // Requirment 2.5
+        SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        
+        bool AddTocart( Guid productId, string storeName, int quantity); // Requirment 2.6
 
-        Dictionary<string, Dictionary<Guid, int>> AddTocart(Guid prodID, int quantity); // Requirment 2.6
-
-        Dictionary<string, Dictionary<Guid, int>> ViewUserCart(); //Requirment 2.7
+        ShoppingCartModel ViewUserCart(); //Requirment 2.7
 
         bool RemoveFromCart(Guid prodID); //Requirment 2.7.1
 
@@ -43,34 +39,37 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         List<Guid> UserPurchaseHistory(string uname); // Requirment 3.7
 
-        bool openStore(Guid userID, string name, string discountPolicy, string purchasePolicy); // Requirment 3.2
+        bool openStore(string name); // Requirment 3.2
 
-        Guid addProductInv(Guid userID, string storeName, string productName, string description, string discountType, int discountPercentage, string purchaseType, double price, int quantity, string category, List<string> keys); // Requirment 4.1.1
+        Guid addProductInv(string storeName, string description, string productInvName, double price, int quantity, Category category, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl); // Requirment 4.1.1
 
-        bool deleteProductInv(Guid userID, string storeName, string productName); // Requirment 4.1.2
+        bool deleteProductInv(string storeName, string productInvName); // Requirment 4.1.2
+
 
         //Requirment 4.1.3 modify product:
-        Guid addProduct(Guid userID, string storeName, string productInvName, string discountType, int discountPercentage, string purchaseType, int quantity);
+        Guid addProduct(string storeName, string productInvName, int quantity, int minQuantity, int maxQuantity);
 
-        bool deleteProduct(Guid userID, string storeName, string productInvName, Guid productID);
+        bool deleteProduct( string storeName, string productInvName, Guid productID);
 
-        bool modifyProductName(Guid userID, string storeName, string newProductName, string oldProductName);
+        bool modifyProductName( string storeName, string newProductName, string oldProductName);
 
-        bool modifyProductPrice(Guid userID, string storeName, string productInvName, int newPrice);
+        bool modifyProductPrice(string storeName, string productInvName, int newPrice);
 
-        bool modifyProductQuantity(Guid userID, string storeName, string productInvName, Guid productID, int newQuantity);
+        bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
 
-        //bool modifyProductDiscountType(Guid userID, string storeName, string productInvName, Guid productID, string newDiscount, int discountPercentage);
-        //bool modifyProductPurchaseType(Guid userID, string storeName, string productInvName, Guid productID, string purchaseType);
+        Guid createOwnerAssignAgreement( string newOwneruserName, string storeName); // Requirment 4.3
 
-        bool assignOwner(Guid userID, string newOwneruserName, string storeName); // Requirment 4.3
+        bool approveAssignOwnerRequest( Guid agreementID, string storeName); // Requirment 4.3
 
-        bool assignManager(Guid userID, string newManageruserName, string storeName); // Requirment 4.5
+        bool disApproveAssignOwnerRequest( Guid agreementID, string storeName); // Requirment 4.3
 
-        bool editPermissions(Guid userID, string storeName, string managerUserName, List<PermissionType> permissions); //Requirement 4.6
 
-        bool removeManager(Guid userID, string managerUserName, string storeName); //Requirement 4.7
+        bool assignManager(string newManageruserName, string storeName); // Requirment 4.5
 
-        List<Tuple<string, List<Tuple<Guid, int>>, double>> StorePurchaseHistory(Guid userID, string storeName); // Requirements 4.10 and 6.4.2
+        bool editPermissions(string storeName, string managerUserName, List<PermissionType> permissions); //Requirement 4.6
+
+        bool removeManager( string managerUserName, string storeName); //Requirement 4.7
+
+        IEnumerable<StorePurchaseModel> storePurchaseHistory( string storeName); // Requirements 4.10 and 6.4.2
     }
 }

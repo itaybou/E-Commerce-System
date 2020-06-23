@@ -12,6 +12,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models.notifications;
+using ECommerceSystem.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -103,7 +104,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             if (getStoreByName(name) != null) //name already exist
                 return false;
 
-            Store newStore = new Store(activeUser.Name, name); //sync - make user.name property
+            Store newStore = new Store(activeUser.Name, name); 
 
             try
             {
@@ -114,10 +115,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             catch (Exception e)
             {
                 SystemLogger.logger.Error(e.ToString());
-                throw new LogicException("Logic error: faild to add product inventory");
+                throw new LogicException("Logic error: faild to open store");
             }
-            _data.Transactions.OpenStoreTransaction(activeUser, newStore);
-             return true;
+
+             _data.Transactions.OpenStoreTransaction(activeUser, newStore);
+            return true;
             
 
 
@@ -126,7 +128,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Add, Delete, Modify Products*********
 
         //@pre - userID exist and subscribed
-        //return product(not product inventory!) id, return -1 in case of fail
+        //return product(not product inventory!) id, return Guid.Empty in case of fail
         public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             Guid result;
@@ -442,7 +444,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User approver = _userManagement.getUserByGUID(userID, true);
+            User approver = _userManagement.getUserByGUID(userID, false);
+            if(approver == null)
+            {
+                return false;
+            }
             try
             {
                 if (!store.approveAssignOwnerRequest(approver.Name, assignOwnerAgreement))
@@ -542,13 +548,17 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             }
             User toRevmoe = _userManagement.getUserByName(ownerToRemoveUserName);
             bool output = removeOwnerRec(activeUser, toRevmoe, storeName);
+
             if (output)
             {
+                
                 var result = _userManagement.removeAssignee(activeUser, storeName, toRevmoe.Guid);
                 if(result)
                 {
                     var store = getStoreByName(storeName);
+
                     _data.Transactions.ApplyRolePermissionsTransaction(toRevmoe, store);
+                    _data.Transactions.ApplyRolePermissionsTransaction(activeUser, store);
                 }
             }
             return output;
@@ -587,7 +597,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                     }
                     _userManagement.removeAllAssigneeOfStore(toRemove, storeName);
                 }
-                _userManagement.removePermissions(storeName, _userManagement.getUserByName(toRemove.Name)); //remove permissions object from the user  
+                _userManagement.removePermissions(storeName, toRemove); //remove permissions object from the user 
+                _data.Transactions.ApplyRolePermissionsTransaction(toRemove, getStoreByName(storeName));
+
+                //-------------------------------------------------------------------------
                 return output;
             }
             else return false;
@@ -801,7 +814,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User activeUser = _userManagement.getUserByGUID(userID, true);
+            User activeUser = _userManagement.getUserByGUID(userID, false);
             if (activeUser == null)
             {
                 return null;

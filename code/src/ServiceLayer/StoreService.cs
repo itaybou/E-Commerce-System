@@ -20,10 +20,6 @@ namespace ECommerceSystem.ServiceLayer
             _sessions = SessionController.Instance;
         }
 
-        //public void removeAllStores()
-        //{
-        //    _storeManagement.Stores.Clear();
-        //}
 
         [Trace("Info")]
         //Usecase - 2.4
@@ -113,7 +109,7 @@ namespace ECommerceSystem.ServiceLayer
         //}
 
         //[Trace("Info")]
-        //public bool modifyProductPurchaseType(Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
+        //public bool (Guid sessionID, string storeName, string productInvName, Guid productID, PurchaseType purchaseType) // TODO: fix service types version 1
         //{
         //    var userID = _sessions.ResolveSession(sessionID);
         //    return _storeManagement.modifyProductPurchaseType(userID, storeName, productInvName, productID, purchaseType);

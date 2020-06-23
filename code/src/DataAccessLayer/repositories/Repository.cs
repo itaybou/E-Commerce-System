@@ -80,5 +80,12 @@ namespace ECommerceSystem.DataAccessLayer.repositories
             var filter = Builders<T>.Filter.Where(predicate);
             return collection.Find(filter).ToList();
         }
+
+        public void setContext(IDbContext context)
+        {
+            this.Context = context;
+        }
+
+
     }
 }

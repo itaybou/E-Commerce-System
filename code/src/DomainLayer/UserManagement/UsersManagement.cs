@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.DomainLayer.SystemManagement;
-using ECommerceSystem.Models.notifications;
+using PostSharp.Aspects;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -53,14 +53,21 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public string register(string uname, string pswd, string fname, string lname, string email)
         {
-            string error = null;
-            var exists = _data.Users.QueryAll().Any(user => user.isSubscribed() && user.Name.Equals(uname));
-            if (!exists && Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
+            string error = "";
+            bool exists = true;
+            lock (String.Intern(uname))
             {
-                var encrypted_pswd = Encryption.encrypt(pswd);
-                var user = new User(new Subscribed(uname, encrypted_pswd, fname, lname, email));
-                _data.Users.Insert(user);
-                return null;
+                exists = _data.Users.QueryAll().Any(user => user.isSubscribed() && user.Name.Equals(uname));
+                if (!exists)
+                {
+                    if (Validation.isValidPassword(pswd, out error) && Validation.IsValidEmail(email, out error))
+                    {
+                        var encrypted_pswd = Encryption.encrypt(pswd);
+                        var user = new User(new Subscribed(uname, encrypted_pswd, fname, lname, email));
+                        _data.Users.Insert(user);
+                        return null;
+                    }
+                }
             }
             return exists ? "User already exists" : error;
         }
@@ -129,6 +136,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             var shop = StoreManagement.Instance.getStoreByName(storeName);
             var product = shop.Inventory.getProductById(productId);
+            if(product == null)
+            {
+                return false;
+            }
+
             if (quantity <= 0)
                 return false;
             User user = getUserByGUID(userID, false);
@@ -168,6 +180,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
 
         public bool changeProductQuantity(Guid userID, Guid productId, int quantity)
         {
+            if (quantity.Equals(0))
+            {
+                this.removeProdcutFromCart(userID, productId);
+                return true;
+            }
             var user = getUserByGUID(userID, false);
             var cart = getUserCart(user);
             var cartProducts = cart.StoreCarts.Select(s => s.ProductQuantities).SelectMany(s => s).Select(p => p.Value.Item1).ToList();
@@ -177,9 +194,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             if (productToChange.Quantity >= quantity)
             {
                 var storeCart = cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToChange.Id));
-                if (quantity.Equals(0))
-                    storeCart.RemoveFromCart(productToChange);
-                else storeCart.ChangeProductQuantity(productToChange, quantity);
+                storeCart.ChangeProductQuantity(productToChange, quantity);
                 _data.Users.Update(user, userID, u => u.Guid);
                 return true;
             }
@@ -195,7 +210,13 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             var productToRemove = cartProducts.Find(prod => prod.Id.Equals(productId));
             if (productToRemove == null)
                 return false;
-            cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToRemove.Id)).RemoveFromCart(productToRemove);
+            var storeCart = cart.StoreCarts.Find(c => c.ProductQuantities.ContainsKey(productToRemove.Id));
+            storeCart.RemoveFromCart(productToRemove);
+            if(storeCart.ProductQuantities.Count == 0)
+            {
+                cart.StoreCarts.Remove(storeCart);
+            }
+
             _data.Users.Update(user, userID, u => u.Guid);
             return true;
         }
@@ -214,7 +235,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement
             else return _data.Users.FetchAll().Select(u => ModelFactory.CreateUser(u));
         }
 
-        internal void resetUserShoppingCart(Guid userID)
+        public void resetUserShoppingCart(Guid userID)
         {
             var user = getUserByGUID(userID, false);
             user.Cart = new UserShoppingCart(userID);
@@ -244,6 +265,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
                 {
                     user.State.logPurchase(new UserPurchase(totalPrice, productsPurchased,
                     firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address));
+                    _data.Users.Update(user, userID, u => u.Guid);
+
                 }
                 catch(Exception e)
                 {

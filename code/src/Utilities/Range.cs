@@ -7,7 +7,7 @@ namespace ECommerceSystem.Utilities
         /// <summary>Minimum value of the range.</summary>
         public T min { get; set; }
 
-        /// <summary>Maximum value of the range.</summary>
+        /// <summary>Maximum value of the range.</s ummary>
         public T max { get; set; }
 
         public Range(T min, T max)

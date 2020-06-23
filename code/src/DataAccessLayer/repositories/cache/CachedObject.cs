@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceSystem.Utilities.interfaces;
+using System;
 
 namespace ECommerceSystem.DataAccessLayer.repositories.cache
 {

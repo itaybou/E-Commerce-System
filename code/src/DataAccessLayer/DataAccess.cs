@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
+using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
@@ -31,10 +32,17 @@ namespace ECommerceSystem.DataAccessLayer
         private DataAccess()
         {
             EntityMap.RegisterClassMaps();
-            Context = new DbContext(ConnectionString, DatabaseName);
+            try
+            {
+                Context = new DbContext(ConnectionString, DatabaseName);
+                TestContext = new DbContext(TestConnectionString, TestDatabaseName);
+                Transactions = new Transactions(Context.Client(), Users, Stores, Products);
+            } catch(DatabaseException)
+            {
+                throw new DatabaseException("Failed to establish db connection.");
+            }
             LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
             TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
-            Transactions = new Transactions(Context.Client(), Users, Stores, Products);
         }
 
         public void InitializeDatabase()
@@ -82,7 +90,19 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void DropTestDatabase()
         {
-            TestContext.Client().DropDatabase(TestDatabaseName);
+            try
+            {
+                TestContext.Client().DropDatabase(TestDatabaseName);
+                ((ICacheProxy<User, Guid>)Users).RemoveCacheData();
+                ((ICacheProxy<Product, Guid>)Products).RemoveCacheData();
+                ((ICacheProxy<Store, string>)Stores).RemoveCacheData();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("Drop database failed");
+            }
+
+
         }
 
         private bool CollectionExists(string collectionName, IDbContext context)
@@ -98,12 +118,18 @@ namespace ECommerceSystem.DataAccessLayer
             InitializeTestDatabase();
             ContextBackup = Context;
             Context = TestContext;
+            Users.setContext(TestContext);
+            Stores.setContext(TestContext);
+            Products.setContext(TestContext);
         }
 
         public void SetDbContext()
         {
             DropTestDatabase();
             Context = ContextBackup;
+            Users.setContext(Context);
+            Stores.setContext(Context);
+            Products.setContext(Context);
         }
 
         private IUserRepository users;

@@ -12,5 +12,7 @@
         void Recache(T entity);
 
         void CleanCache();
+
+        void RemoveCacheData();
     }
 }

@@ -21,7 +21,7 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         [TearDown]
         public void tearDown()
         {
-            //_storeShoppingCart.Products.Clear();       //clear the shopping carts after each test
+            _storeShoppingCart.ProductQuantities.Clear();       //clear the shopping carts after each test
         }
 
         [Test()]

@@ -25,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private ICommunication _communication;
         private IDataAccess _data;
 
-        public void Initialize()
+        public bool Initialize()
         {
             var initFilePath = GetInitFilePath();
             Console.WriteLine("Starting System Initialization.");
@@ -35,7 +35,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 InitSystem(externalURL);
             } catch(Exception)
             {
-                return;
+                return false;
             }
             Console.WriteLine("Finished initializing system.");
             if (initFilePath != null)
@@ -47,7 +47,12 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 }
                 else Console.WriteLine("Initial data loaded, initialization process is done!");
             }
-            else Console.WriteLine("Missing init file. init from file aborted.");
+            else
+            {
+                Console.WriteLine("Missing init file. init from file aborted.");
+                return false;
+            }
+            return true;
         }
 
         private void InitSystem(string externalURL)
@@ -86,16 +91,22 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         private void InitDatabase()
         {
-            Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
-            _data = DataAccess.Instance;
-            Console.WriteLine("Intialized DataAccess, Database communication established.");
-            Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
-            Console.WriteLine("Resetting database.");
-            _data.DropDatabase();
-            Console.WriteLine("Database reset.");
-            Console.WriteLine("Creating database.");
-            _data.InitializeDatabase();
-            Console.WriteLine("Database created.");
+            try
+            {
+                Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
+                _data = DataAccess.Instance;
+                Console.WriteLine("Intialized DataAccess, Database communication established.");
+                Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
+                Console.WriteLine("Resetting database.");
+                _data.DropDatabase();
+                Console.WriteLine("Database reset.");
+                Console.WriteLine("Creating database.");
+                _data.InitializeDatabase();
+                Console.WriteLine("Database created.");
+            } catch(DatabaseException)
+            {
+                throw;
+            }
         }
 
         private async void InitExternalSystems(string externalURL)

@@ -14,6 +14,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.Models.notifications;
 using ECommerceSystem.DataAccessLayer;
+using ECommerceSystem.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -135,6 +136,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         {
             //remove all policies of the products of the productInv
             ProductInventory productInv = Inventory.getProductByName(productInvName);
+            if(productInv == null)
+            {
+                return false;
+            }
             foreach (Product p in productInv.ProductList)
             {
                 if (p.PurchasePolicy != null)
@@ -271,6 +276,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             {
                 return null;
             }
+            if (!(StorePermissions.ContainsKey(assigner.Name) && StorePermissions[assigner.Name].isOwner())) // The assigner is not owner
+            {
+                return null;
+            }
+
 
             //check that there isn`t open agreement for newOwneruserName
             foreach (var a in AssignerOwnerAgreement)

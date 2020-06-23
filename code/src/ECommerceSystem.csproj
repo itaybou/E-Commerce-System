@@ -309,6 +309,7 @@
     <Compile Include="Utilities\binders\TypeNameSerializationBinder.cs" />
     <Compile Include="Utilities\EnumMethods.cs" />
     <Compile Include="Utilities\extensions\EnumExtensions.cs" />
+    <Compile Include="Utilities\interfaces\IClonable.cs" />
     <Compile Include="Utilities\Range.cs" />
     <Compile Include="ServiceLayer\SystemServices.cs" />
     <Compile Include="ServiceLayer\UserServices.cs" />
