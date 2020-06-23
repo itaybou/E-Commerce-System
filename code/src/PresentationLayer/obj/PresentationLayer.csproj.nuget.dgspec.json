@@ -23,8 +23,11 @@
         "packagesPath": "C:\\Users\\Shir Markovits\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\v4\\E-Commerce-System\\code\\src\\PresentationLayer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Shir Markovits\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Itay Bouganim\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
