@@ -260,7 +260,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             UserRepository.setContext(context);
         }
 
-        public void RemoveCacheDate()
+        public void RemoveCacheData()
         {
             UsersCache.Clear();
         }

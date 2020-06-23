@@ -204,7 +204,7 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
             StoreRepository.setContext(context);
         }
 
-        public void RemoveCacheDate()
+        public void RemoveCacheData()
         {
             StoresCache.Clear();
         }
