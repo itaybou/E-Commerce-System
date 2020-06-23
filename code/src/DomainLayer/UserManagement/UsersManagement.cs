@@ -135,6 +135,8 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         public bool addProductToCart(Guid userID, Guid productId, string storeName, int quantity)
         {
             var shop = StoreManagement.Instance.getStoreByName(storeName);
+            if (shop == null)
+                return false;
             var product = shop.Inventory.getProductById(productId);
             if(product == null)
             {

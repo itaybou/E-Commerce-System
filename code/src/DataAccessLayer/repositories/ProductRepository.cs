@@ -11,6 +11,11 @@ namespace ECommerceSystem.DataAccessLayer.repositories
     {
         public ProductRepository(IDbContext context, string repositoryName) : base(context, repositoryName) { }
 
+        public IEnumerable<Product> GetProduct(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void UncacheProduct(Product prod)
         {
             return;

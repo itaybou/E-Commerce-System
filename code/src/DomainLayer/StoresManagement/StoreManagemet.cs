@@ -34,27 +34,16 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         private IEnumerable<(UserModel, PermissionModel)> getRoleHolders(string storeName, bool owner)
         {
             var roleHolders = new List<(User, Permissions)>();
-            var permissions = _data.Stores.FetchAll().Select(store =>
+            _data.Stores.UncachStore(_data.Stores.FindOneBy(s => s.Name.Equals(storeName)));
+            var permissions = _data.Stores.FetchAll().ToList().Find(store => store.Name.Equals(storeName)).StorePermissions;
+            foreach (var user in permissions.Keys)
             {
-                if (store.Name.Equals(storeName))
+                var userPermissions = permissions[user];
+                var condition = owner ? permissions[user].isOwner() : !permissions[user].isOwner();
+                if (condition)
                 {
-                    return store.StorePermissions;
+                    roleHolders.Add((_userManagement.getUserByName(user), userPermissions));
                 }
-                return null;
-            });
-            foreach (var permission in permissions)
-            {
-                if (permission != null)
-                {
-                    foreach (var user in permission.Keys)
-                    {
-                        var userPermissions = permission[user];
-                        var condition = owner ? permission[user].isOwner() : !permission[user].isOwner();
-                        if (condition)
-                            roleHolders.Add((_userManagement.getUserByName(user), userPermissions));
-                    }
-                }
-                else return new List<(UserModel, PermissionModel)>();
             }
             return roleHolders.Select(holder => (ModelFactory.CreateUser(holder.Item1), ModelFactory.CreatePermissions(holder.Item2)));
         }
@@ -728,6 +717,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         public Tuple<StoreModel, List<ProductModel>> getStoreProductGroup(Guid productInvID, string storeName)
         {
             var result = new List<ProductModel>();
+            _data.Stores.UncachStore(_data.Stores.FindOneBy(s => s.Name.Equals(storeName)));
             var storeInfo = _data.Stores.FindOneBy(s => s.Name.Equals(storeName)).getStoreInfo();
             storeInfo.Item2.ForEach(prod => {
                 if (prod.ID == productInvID)
@@ -813,6 +803,8 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
+            _data.Stores.UncachStore(_data.Stores.FindOneBy(s => s.Name.Equals(storeName)));
+            _data.Users.UncacheUser(_userManagement.getUserByGUID(userID, false));
             User activeUser = _userManagement.getUserByGUID(userID, false);
             if (activeUser == null)
             {
@@ -846,7 +838,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             StorePurchaseModel storePurchaseModel = new StorePurchaseModel(user.Name, totalPrice, products, DateTime.Now);
 
             store.logPurchase(storePurchaseModel);
-
+            _data.Stores.Update(store, store.Name, s => s.Name);
         }
 
         public void sendPurchaseNotification(Store store, string username)

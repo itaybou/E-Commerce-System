@@ -39,9 +39,12 @@ namespace ECommerceSystem.DataAccessLayer
         {
             try
             {
-                Context = new DbContext(ConnectionString, DatabaseName);
-                LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
-                TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
+                if(Context == null)
+                    Context = new DbContext(ConnectionString, DatabaseName);
+                if (LocalContext == null)
+                    LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
+                if (TestContext == null)
+                    TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
                 Transactions = new Transactions(Context.Client(), Users, Stores, Products);
             }
             catch (DatabaseException)

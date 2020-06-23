@@ -23,15 +23,12 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void oneTimeSetup()
         {
             _bridge = Driver.getAcceptanceBridge();
+            _bridge.initSessions();
             DataAccess.Instance.SetTestContext();
 
             uname = "test_user1";
             pswd = "Hell0World";
-        }
 
-        [SetUp]
-        public void setUp()
-        {
             _bridge.register(uname, pswd, "user", "userlname", "mymail@mail.com");
             _bridge.login(uname, pswd);
             _bridge.openStore("store1");
@@ -56,12 +53,6 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         public void oneTimetearDown()
         {
             DataAccess.Instance.DropTestDatabase();
-        }
-
-        [TestCase()]
-        public void TestAddToCartNotMatchProductAndStore()
-        {
-            Assert.IsFalse(_bridge.AddTocart(productID1, "store2" , 20));
         }
 
         [TestCase()]

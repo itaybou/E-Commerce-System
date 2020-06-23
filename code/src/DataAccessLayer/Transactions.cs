@@ -91,7 +91,6 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
-                //_stores.UncachStore(store);
                 _products.Update(product, product.Id, p => p.Id);
                 _stores.Update(store, store.Name, s => s.Name);
             });

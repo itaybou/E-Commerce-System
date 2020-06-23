@@ -76,6 +76,8 @@
             for (var i = 0; i < permissions.length; i++) {
                 if (permissions[i]) {
                     $('#permission_select').hide();
+                    $('#assign_btn1').hide();
+                    $('#assign_btn2').hide();
                     $('#is_manager').show();
                     is_manager = true;
                     break;
@@ -84,6 +86,8 @@
             if (!is_manager) {
                 $('#is_manager').hide();
                 $('#permission_select').show();
+                $('#assign_btn1').show();
+                $('#assign_btn2').show();
             }
             if (username !== undefined) {
                 $('#permissions').show(300);
@@ -257,18 +261,22 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Assign Selected</button>
+                    <div id="assign_btn1" name="assign_btn1">
+                        <button type="submit" class="btn btn-primary">Assign Selected</button>
+                    </div>
                 </div>
             </form>
             <div class="flex">
-                <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" asp-route-novice="@true" class="text-center" method="post">
-                    <input id="assignUsername2" name="assignUsername2" type="hidden" value="@null" />
-                    <button type="submit" class="btn btn-success m-3" style="width: 85%">Assign As Novice</button>
-                </form>
+                <div id="assign_btn2" name="assign_btn2">
+                    <form asp-controller="Owner" asp-action="AssignManager" asp-route-storeName="@storeName" asp-route-novice="@true" class="text-center" method="post">
+                        <input id="assignUsername2" name="assignUsername2" type="hidden" value="@null" />
+                        <button type="submit" class="btn btn-success m-3" style="width: 85%">Assign As Novice</button>
+                    </form>
+                </div>
             </div>
-        </div>
     </div>
 </div>
 

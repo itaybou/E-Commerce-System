@@ -14,7 +14,6 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.Models.notifications;
 using ECommerceSystem.DataAccessLayer;
-using ECommerceSystem.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {
@@ -712,6 +711,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
             ConditionalStoreDiscount newDiscount = new ConditionalStoreDiscount(minPriceForDiscount, expDate, percentage, newID);
             StoreLevelDiscounts.Children.Add(newDiscount);
             AllDiscountsMap.Add(newID, newDiscount);
+            DataAccess.Instance.Stores.UncachStore(this);
             DataAccess.Instance.Stores.Update(this, Name, s => s.Name);
             return newID;
         }
