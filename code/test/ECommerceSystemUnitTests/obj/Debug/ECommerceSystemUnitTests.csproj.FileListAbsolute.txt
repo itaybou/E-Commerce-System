@@ -505,10 +505,6 @@ C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר 
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V3\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V3\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.dll
 C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V3\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.pdb
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csprojAssemblyReference.cache
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.dll
-C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.pdb
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csprojAssemblyReference.cache
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
 C:\Users\Shir Markovits\Desktop\shir\University\semester f\סדנא\version4\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.dll
@@ -751,4 +747,8 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemU
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\DnsClient.xml
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Memory.xml
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csprojAssemblyReference.cache
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CoreCompileInputs.cache
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.csproj.CopyComplete
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.dll
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\test\ECommerceSystemUnitTests\obj\Debug\ECommerceSystemUnitTests.pdb

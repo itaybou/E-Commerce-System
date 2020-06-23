@@ -14,7 +14,7 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.CommunicationLayer;
 using ECommerceSystem.Models.notifications;
 using ECommerceSystem.DataAccessLayer;
-using ECommerceSystemץ.Utilities;
+using ECommerceSystem.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {

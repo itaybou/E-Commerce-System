@@ -1,5 +1,5 @@
 ﻿using ECommerceSystem.Models;
-using ECommerceSystemץ.Utilities;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -205,7 +205,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         }
         public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
-            return searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
+            return _real.searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public bool AddTocart(Guid prodID, string storeName, int quantity) //2.6

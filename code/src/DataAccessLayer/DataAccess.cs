@@ -37,11 +37,11 @@ namespace ECommerceSystem.DataAccessLayer
         {
             try
             {
-                if (!CollectionExists(nameof(Users)))
+                if (!CollectionExists(nameof(Users), Context))
                     Context.Database().CreateCollection(nameof(Users));
-                if (!CollectionExists(nameof(Stores)))
+                if (!CollectionExists(nameof(Stores), Context))
                     Context.Database().CreateCollection(nameof(Stores));
-                if (!CollectionExists(nameof(Products)))
+                if (!CollectionExists(nameof(Products), Context))
                     Context.Database().CreateCollection(nameof(Products));
             }
             catch (Exception)
@@ -52,11 +52,11 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void InitializeTestDatabase()
         {
-            if (!CollectionExists(nameof(Users)))
+            if (!CollectionExists(nameof(Users), TestContext))
                 TestContext.Database().CreateCollection(nameof(Users));
-            if (!CollectionExists(nameof(Stores)))
+            if (!CollectionExists(nameof(Stores), TestContext))
                 TestContext.Database().CreateCollection(nameof(Stores));
-            if (!CollectionExists(nameof(Products)))
+            if (!CollectionExists(nameof(Products), TestContext))
                 TestContext.Database().CreateCollection(nameof(Products));
         }
 
@@ -88,12 +88,12 @@ namespace ECommerceSystem.DataAccessLayer
 
         }
 
-        private bool CollectionExists(string collectionName)
+        private bool CollectionExists(string collectionName, IDbContext context)
         {
             var filter = new BsonDocument("name", collectionName);
             var options = new ListCollectionNamesOptions { Filter = filter };
 
-            return Context.Database().ListCollectionNames(options).Any();
+            return context.Database().ListCollectionNames(options).Any();
         }
 
         public void SetTestContext()

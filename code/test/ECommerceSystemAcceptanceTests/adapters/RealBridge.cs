@@ -1,7 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
-using ECommerceSystemץ.Utilities;
+using ECommerceSystem.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

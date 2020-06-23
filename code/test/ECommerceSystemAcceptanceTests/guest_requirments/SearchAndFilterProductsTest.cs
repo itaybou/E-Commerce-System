@@ -1,7 +1,7 @@
 ﻿using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.Models;
+using ECommerceSystem.Utilities;
 using ECommerceSystemAcceptanceTests.adapters;
-using ECommerceSystemץ.Utilities;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -84,7 +84,7 @@ namespace ECommerceSystemAcceptanceTests.guest_requirments
         {
             SearchResultModel prods = _bridge.searchProductsByKeyword(new List<string>() {"baby"}, Category.BABIES.ToString(), new Range<double>(0, 500), new Range<double>(0, 500), new Range<double>(0, 500));
             Assert.AreEqual(2, prods.ProductResults.Count);
-            prods = _bridge.searchProductsByKeyword(new List<string>() { "prod2" }, Category.BABIES.ToString(), new Range<double>(0, 500), new Range<double>(0, 500), new Range<double>(0, 500));
+            prods = _bridge.searchProductsByKeyword(new List<string>() { "prod3" }, Category.BABIES.ToString(), new Range<double>(0, 500), new Range<double>(0, 500), new Range<double>(0, 500));
             Assert.AreEqual(1, prods.ProductResults.Count);
             prods = _bridge.searchProductsByKeyword(new List<string>() { "prod2" }, "", new Range<double>(0, 500), new Range<double>(0, 500), new Range<double>(0, 500));
             Assert.AreEqual(2, prods.ProductResults.Count);

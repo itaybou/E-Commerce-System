@@ -2,7 +2,7 @@
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.SystemManagement.logger;
 using ECommerceSystem.Models;
-using ECommerceSystemץ.Utilities;
+using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

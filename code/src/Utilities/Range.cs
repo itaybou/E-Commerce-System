@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ECommerceSystemץ.Utilities
+namespace ECommerceSystem.Utilities
 {
     public class Range<T> where T : IComparable<T>
     {

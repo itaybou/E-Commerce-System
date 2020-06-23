@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rIL3UAGyLKDAYHSh99W9zaWsDneYtcqKjYP1Ls8qyvSPrjedAo3FIC9N7EyRTQwbD+AipVD5/jedjlvYNaHtDQ==",
+  "dgSpecHash": "Wyi/UL7AHWJZ4Njq7tytHq6rQZPcMAljm3TS41CRLNbWjJUOPQLWCMkNwIjaWsxXzHWsDKP42jHNpznHZ0Legg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Shir Markovits\\Desktop\\shir\\University\\semester f\\סדנא\\v4\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
+  "projectFilePath": "C:\\Users\\Itay Bouganim\\source\\repos\\E-Commerce-System\\code\\src\\PresentationLayer\\PresentationLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Itay Bouganim\\.nuget\\packages\\jquery\\1.6.3\\jquery.1.6.3.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
