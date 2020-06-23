@@ -93,7 +93,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         }
 
         [OneTimeTearDown]
-        public void tearDown()
+        public void oneTimeTearDown()
         {
             DataAccess.Instance.DropTestDatabase();
             _bridge.initSessions();
