@@ -127,7 +127,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //*********Add, Delete, Modify Products*********
 
         //@pre - userID exist and subscribed
-        //return product(not product inventory!) id, return -1 in case of fail
+        //return product(not product inventory!) id, return Guid.Empty in case of fail
         public Guid addProductInv(Guid userID, string storeName, string description, string productInvName, double price, int quantity, Category categoryName, List<string> keywords, int minQuantity, int maxQuantity, string imageUrl)
         {
             Guid result;
@@ -443,7 +443,11 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
                 return false;
             }
 
-            User approver = _userManagement.getUserByGUID(userID, true);
+            User approver = _userManagement.getUserByGUID(userID, false);
+            if(approver == null)
+            {
+                return false;
+            }
             try
             {
                 if (!store.approveAssignOwnerRequest(approver.Name, assignOwnerAgreement))
@@ -809,7 +813,7 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public IEnumerable<StorePurchaseModel> purchaseHistory(Guid userID, string storeName)
         {
-            User activeUser = _userManagement.getUserByGUID(userID, true);
+            User activeUser = _userManagement.getUserByGUID(userID, false);
             if (activeUser == null)
             {
                 return null;

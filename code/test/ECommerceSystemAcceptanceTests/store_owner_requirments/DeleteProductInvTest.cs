@@ -12,7 +12,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         {
             base.oneTimeSetup();
             _bridge.login(_ownerUserName, _pswd);
-            Guid success = _bridge.addProductInv(_storeName, _productName, _description, _discontType, _discountPercentage, _purchaseType, _price, _quantity, _category, _keywords);
+            Guid success = _bridge.addProductInv(_storeName, _description, _producInvName, _price, _quantity, _category, _keywords, _minQuantity, _maxQuantity, _imageURL);
             _bridge.logout();
         }
 
@@ -20,7 +20,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void deleteProductSuccess()
         {
             _bridge.login(_ownerUserName, _pswd);
-            Assert.True(_bridge.deleteProductInv(_storeName, _productName), "Fail to delete product");
+            Assert.True(_bridge.deleteProductInv(_storeName, _producInvName), "Fail to delete product");
             _bridge.logout();
         }
 
@@ -28,12 +28,12 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void deleteProductFail()
         {
             //not permited try do delete:
-            Assert.False(_bridge.deleteProductInv(_storeName, _productName), "delete product by guest success");
+            Assert.False(_bridge.deleteProductInv(_storeName, _producInvName), "delete product by guest success");
             _bridge.login(_userName, _pswd);
-            Assert.False(_bridge.deleteProductInv(_storeName, _productName), "delete product by regular user success");
+            Assert.False(_bridge.deleteProductInv(_storeName, _producInvName), "delete product by regular user success");
             _bridge.logout();
             _bridge.login(_managerUserName, _pswd);
-            Assert.False(_bridge.deleteProductInv(_storeName, _productName), "delete product by not permited manager success");
+            Assert.False(_bridge.deleteProductInv(_storeName, _producInvName), "delete product by not permited manager success");
             _bridge.logout();
 
             //not exist product and store:

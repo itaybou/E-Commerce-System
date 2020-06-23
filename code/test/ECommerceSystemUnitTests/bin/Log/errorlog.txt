@@ -852,6 +852,7 @@
    ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
    ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
    ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+<<<<<<< HEAD
 2020-06-22 19:28:08.7370 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
   E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
   E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
@@ -2046,3 +2047,109 @@ Parameter name: uriString
    at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
    at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
    at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+=======
+2020-06-22 17:52:26.5860 | ERROR: System.InvalidOperationException: האיסוף השתנה; פעולת הספירה עשויה שלא להתבצע.
+   ב-  System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   ב-  System.Collections.Generic.List`1.Enumerator.MoveNextRare()
+   ב-  System.Collections.Generic.List`1.Enumerator.MoveNext()
+   ב-  MongoDB.Bson.Serialization.Serializers.EnumerableSerializerBase`2.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TValue value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize(IBsonSerializer serializer, BsonSerializationContext context, Object value)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeNormalMember(BsonSerializationContext context, Object obj, BsonMemberMap memberMap)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeClass(BsonSerializationContext context, BsonSerializationArgs args, TClass document)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TClass value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.Serializers.ObjectSerializer.SerializeDiscriminatedValue(BsonSerializationContext context, BsonSerializationArgs args, Object value, Type actualType)
+   ב-  MongoDB.Bson.Serialization.Serializers.ObjectSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.Serializers.DiscriminatedInterfaceSerializer`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TInterface value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize(IBsonSerializer serializer, BsonSerializationContext context, Object value)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeNormalMember(BsonSerializationContext context, Object obj, BsonMemberMap memberMap)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeClass(BsonSerializationContext context, BsonSerializationArgs args, TClass document)
+   ב-  MongoDB.Bson.Serialization.BsonClassMapSerializer`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TClass value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize(IBsonSerializer serializer, BsonSerializationContext context, Object value)
+   ב-  MongoDB.Bson.Serialization.Serializers.BsonDocumentWrapperSerializer.SerializeValue(BsonSerializationContext context, BsonSerializationArgs args, BsonDocumentWrapper value)
+   ב-  MongoDB.Bson.Serialization.Serializers.BsonValueSerializerBase`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TBsonValue value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize(IBsonSerializer serializer, BsonSerializationContext context, Object value)
+   ב-  MongoDB.Bson.Serialization.Serializers.BsonValueSerializerBase`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TBsonValue value)
+   ב-  MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize[TValue](IBsonSerializer`1 serializer, BsonSerializationContext context, TValue value)
+   ב-  MongoDB.Driver.Core.Operations.RetryableUpdateCommandOperation.UpdateRequestSerializer.SerializeUpdate(BsonSerializationContext context, BsonSerializationArgs args, UpdateRequest request)
+   ב-  MongoDB.Driver.Core.Operations.RetryableUpdateCommandOperation.UpdateRequestSerializer.SerializeValue(BsonSerializationContext context, BsonSerializationArgs args, UpdateRequest value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SealedClassSerializerBase`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TValue value)
+   ב-  MongoDB.Bson.Serialization.Serializers.SerializerBase`1.MongoDB.Bson.Serialization.IBsonSerializer.Serialize(BsonSerializationContext context, BsonSerializationArgs args, Object value)
+   ב-  MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders.CommandMessageBinaryEncoder.WriteType1Section(BsonBinaryWriter writer, Type1CommandMessageSection section, Int64 messageStartPosition)
+   ב-  MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders.CommandMessageBinaryEncoder.WriteSection(BsonBinaryWriter writer, CommandMessageSection section, Int64 messageStartPosition)
+   ב-  MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders.CommandMessageBinaryEncoder.WriteSections(BsonBinaryWriter writer, IEnumerable`1 sections, Int64 messageStartPosition)
+   ב-  MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders.CommandMessageBinaryEncoder.WriteMessage(CommandMessage message)
+   ב-  MongoDB.Driver.Core.WireProtocol.Messages.Encoders.BinaryEncoders.CommandRequestMessageBinaryEncoder.MongoDB.Driver.Core.WireProtocol.Messages.Encoders.IMessageEncoder.WriteMessage(MongoDBMessage message)
+   ב-  MongoDB.Driver.Core.Connections.BinaryConnection.SendMessagesHelper.EncodeMessages(CancellationToken cancellationToken, List`1& sentMessages)
+   ב-  MongoDB.Driver.Core.Connections.BinaryConnection.SendMessages(IEnumerable`1 messages, MessageEncoderSettings messageEncoderSettings, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.ConnectionPools.ExclusiveConnectionPool.AcquiredConnection.SendMessages(IEnumerable`1 messages, MessageEncoderSettings messageEncoderSettings, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Connections.ConnectionExtensions.SendMessage(IConnection connection, RequestMessage message, MessageEncoderSettings messageEncoderSettings, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.WireProtocol.CommandUsingCommandMessageWireProtocol`1.Execute(IConnection connection, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.WireProtocol.CommandWireProtocol`1.Execute(IConnection connection, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Servers.Server.ServerChannel.ExecuteProtocol[TResult](IWireProtocol`1 protocol, ICoreSession session, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Servers.Server.ServerChannel.Command[TResult](ICoreSession session, ReadPreference readPreference, DatabaseNamespace databaseNamespace, BsonDocument command, IEnumerable`1 commandPayloads, IElementNameValidator commandValidator, BsonDocument additionalOptions, Action`1 postWriteAction, CommandResponseHandling responseHandling, IBsonSerializer`1 resultSerializer, MessageEncoderSettings messageEncoderSettings, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.RetryableWriteCommandOperationBase.ExecuteAttempt(RetryableWriteContext context, Int32 attempt, Nullable`1 transactionNumber, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.RetryableWriteOperationExecutor.Execute[TResult](IRetryableWriteOperation`1 operation, RetryableWriteContext context, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.BulkUnmixedWriteOperationBase`1.ExecuteBatch(RetryableWriteContext context, Batch batch, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.BulkUnmixedWriteOperationBase`1.ExecuteBatches(RetryableWriteContext context, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.BulkUnmixedWriteOperationBase`1.Execute(RetryableWriteContext context, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.BulkMixedWriteOperation.ExecuteBatch(RetryableWriteContext context, Batch batch, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.Core.Operations.BulkMixedWriteOperation.Execute(IWriteBinding binding, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.OperationExecutor.ExecuteWriteOperation[TResult](IWriteBinding binding, IWriteOperation`1 operation, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.ExecuteWriteOperation[TResult](IClientSessionHandle session, IWriteOperation`1 operation, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass83_0.<ReplaceOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.ReplaceOne(FilterDefinition`1 filter, TDocument replacement, ReplaceOptions options, Func`3 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.ReplaceOne(FilterDefinition`1 filter, TDocument replacement, UpdateOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Update(T entity, K id, Expression`1 idFunc) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 59
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:שורה 183
+2020-06-22 17:52:43.9714 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 17:53:05.8841 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+2020-06-22 18:28:07.4556 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- סוף רכיב מעקב אחר מחסנית של מצב חריג פנימי ---
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   ב-  MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   ב-  ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:שורה 38
+   ב-  ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) ב- C:\Users\tomerbit\Desktop\University\הנדסת תוכנה\שנה ג\סמסטר ב\סדנא\V4\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:שורה 131
+>>>>>>> fix_unitTests

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using ECommerceSystem.Models;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments

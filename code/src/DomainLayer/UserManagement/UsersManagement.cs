@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.DomainLayer.SystemManagement;
+using PostSharp.Aspects;
 
 namespace ECommerceSystem.DomainLayer.UserManagement
 {
@@ -93,6 +94,11 @@ namespace ECommerceSystem.DomainLayer.UserManagement
         {
             var shop = StoreManagement.Instance.getStoreByName(storeName);
             var product = shop.Inventory.getProductById(productId);
+            if(product == null)
+            {
+                return false;
+            }
+
             if (quantity <= 0)
                 return false;
             User user = getUserByGUID(userID, false);
