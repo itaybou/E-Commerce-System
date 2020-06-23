@@ -1,5 +1,6 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.ServiceLayer;
 using ECommerceSystem.Utilities;
@@ -421,7 +422,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
             return _storeService.addDayOffPolicy(sessionID, storeName, daysOff);
         }
 
-        public Guid addLocationPolicy(Guid sessionID, string storeName, List<string> banLocations)
+        public Guid addLocationPolicy( string storeName, List<string> banLocations)
         {
             Guid sessionID;
             if (_loginSessionID.Equals(Guid.Empty))
@@ -503,6 +504,162 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 sessionID = _loginSessionID;
 
             return _storeService.getAllPurchasePolicyByStoreName(sessionID, storeName);
+        }
+
+        public Guid addVisibleDiscount(string storeName, Guid productID, float percentage, DateTime expDate)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addVisibleDiscount(sessionID, storeName, productID, percentage, expDate);
+        }
+
+        public Guid addCondiotionalProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addCondiotionalProcuctDiscount(sessionID,  storeName, productID, percentage, expDate, minQuantityForDiscount);
+        }
+
+        public Guid addConditionalCompositeProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addConditionalCompositeProcuctDiscount(sessionID, storeName, productID, percentage, expDate, conditionalTree);
+        }
+
+        public Guid addConditionalStoreDiscount(string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addConditionalStoreDiscount(sessionID, storeName, percentage, expDate, minPriceForDiscount);
+        }
+
+        public Guid addAndDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addAndDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public Guid addOrDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addOrDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public Guid addXorDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.addXorDiscountPolicy(sessionID, storeName, IDs);
+        }
+
+        public bool removeProductDiscount(string storeName, Guid discountID, Guid productID)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.removeProductDiscount(sessionID, storeName, discountID, productID);
+        }
+
+        public bool removeCompositeDiscount(string storeName, Guid discountID)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.removeCompositeDiscount(sessionID, storeName, discountID);
+        }
+
+        public bool removeStoreLevelDiscount(string storeName, Guid discountID)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.removeStoreLevelDiscount(sessionID, storeName, discountID);
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(string storeName)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.getAllStoreLevelDiscounts(sessionID, storeName);
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(string storeName)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.getAllDiscountsForCompose(sessionID, storeName);
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners( string storeName)
+        {
+            Guid sessionID;
+            if (_loginSessionID.Equals(Guid.Empty))
+                sessionID = _guestSessionID;
+
+            else
+                sessionID = _loginSessionID;
+
+            return _storeService.getStoreOwners(sessionID,  storeName);
         }
     }
 }

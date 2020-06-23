@@ -69,6 +69,7 @@
     <Compile Include="guest_requirments\ChangeProductCartQuantityTest.cs" />
     <Compile Include="guest_requirments\RemoveFromCartTest.cs" />
     <Compile Include="guest_requirments\ViewUserCartTest.cs" />
+    <Compile Include="store_owner_requirments\discountPolicyTests.cs" />
     <Compile Include="store_owner_requirments\purchasePolicyTests.cs" />
     <Compile Include="store_owner_requirments\removeOwnerTests.cs" />
     <Compile Include="subscribed_requirments\LogouTest.cs" />

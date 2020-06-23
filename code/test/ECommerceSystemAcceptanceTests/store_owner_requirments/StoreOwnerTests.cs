@@ -90,6 +90,7 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
         public void setUp()
         {
             _bridge.initSessions();
+            
         }
 
         [OneTimeTearDown]

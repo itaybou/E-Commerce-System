@@ -1,6 +1,7 @@
 ﻿using ECommerceSystem.DataAccessLayer;
 using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace ECommerceSystemAcceptanceTests.store_owner_requirments
 {
@@ -55,6 +56,8 @@ namespace ECommerceSystemAcceptanceTests.store_owner_requirments
             _bridge.login(_ownerUserName, _pswd);
             Assert.IsTrue(_bridge.removeOwner(_newOwner1, _storeName));
             _bridge.logout();
+
+            
 
         }
 

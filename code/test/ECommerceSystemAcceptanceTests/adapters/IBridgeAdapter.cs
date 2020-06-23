@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
@@ -70,7 +71,20 @@ namespace ECommerceSystemAcceptanceTests.adapters
         List<PurchasePolicyModel> getAllPurchasePolicyByStoreName( string storeName);
 
         //4.2 Dicsount Policy 
+        Guid addVisibleDiscount( string storeName, Guid productID, float percentage, DateTime expDate);
+        Guid addCondiotionalProcuctDiscount( string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+        Guid addConditionalCompositeProcuctDiscount( string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree);
+        Guid addConditionalStoreDiscount( string storeName, float percentage, DateTime expDate, int minPriceForDiscount);
+        Guid addAndDiscountPolicy(string storeName, List<Guid> IDs);
+        Guid addOrDiscountPolicy( string storeName, List<Guid> IDs);
+        Guid addXorDiscountPolicy( string storeName, List<Guid> IDs);
+        bool removeProductDiscount( string storeName, Guid discountID, Guid productID);
+        bool removeCompositeDiscount( string storeName, Guid discountID);
+        bool removeStoreLevelDiscount( string storeName, Guid discountID);
+        List<DiscountPolicyModel> getAllStoreLevelDiscounts( string storeName);
+        List<DiscountPolicyModel> getAllDiscountsForCompose( string storeName);
 
+        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners( string storeName);
 
 
 

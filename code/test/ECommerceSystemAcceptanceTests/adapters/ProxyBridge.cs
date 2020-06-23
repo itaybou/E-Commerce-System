@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
@@ -363,6 +364,124 @@ namespace ECommerceSystemAcceptanceTests.adapters
                 return _real.getAllPurchasePolicyByStoreName( storeName);
             }
             return new List<PurchasePolicyModel>();
+        }
+
+        public Guid addVisibleDiscount(string storeName, Guid productID, float percentage, DateTime expDate)
+        {
+            if (_real != null)
+            {
+                return _real.addVisibleDiscount(storeName, productID, percentage, expDate);
+            }
+            return  Guid.Empty;
+        }
+
+        public Guid addCondiotionalProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            if (_real != null)
+            {
+                return _real.addCondiotionalProcuctDiscount( storeName,  productID,  percentage,  expDate,  minQuantityForDiscount);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addConditionalCompositeProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            if (_real != null)
+            {
+                return _real.addConditionalCompositeProcuctDiscount( storeName,  productID,  percentage,  expDate,  conditionalTree);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addConditionalStoreDiscount(string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            if (_real != null)
+            {
+                return _real.addConditionalStoreDiscount( storeName,  percentage,  expDate,  minPriceForDiscount);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addAndDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addAndDiscountPolicy( storeName,  IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addOrDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addOrDiscountPolicy( storeName,  IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addXorDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addXorDiscountPolicy( storeName, IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public bool removeProductDiscount(string storeName, Guid discountID, Guid productID)
+        {
+            if (_real != null)
+            {
+                return _real.removeProductDiscount(storeName, discountID, productID);
+            }
+            return false;
+        }
+
+        public bool removeCompositeDiscount(string storeName, Guid discountID)
+        {
+            if (_real != null)
+            {
+                return _real.removeCompositeDiscount( storeName,  discountID);
+            }
+            return false;
+        }
+
+        public bool removeStoreLevelDiscount(string storeName, Guid discountID)
+        {
+            if (_real != null)
+            {
+                return _real.removeStoreLevelDiscount( storeName,  discountID);
+            }
+            return false;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getAllStoreLevelDiscounts(storeName);
+            }
+            return new List<DiscountPolicyModel>();
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getAllDiscountsForCompose( storeName);
+            }
+            return new List<DiscountPolicyModel>();
+
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getStoreOwners( storeName);
+            }
+            return (null, "");
         }
     }
 }
