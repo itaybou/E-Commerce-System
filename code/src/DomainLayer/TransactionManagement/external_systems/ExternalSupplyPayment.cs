@@ -21,6 +21,7 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         {
             Client = client;
             TransacionIDRange = new Range<int>(10000, 100000);
+            ExternalURL = "https://cs-bgu-wsep.herokuapp.com";
         }
 
         public async Task<bool> ConnectExternal(string url)

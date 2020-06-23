@@ -13,6 +13,6 @@
 
         void CleanCache();
 
-        void RemoveCacheDate();
+        void RemoveCacheData();
     }
 }

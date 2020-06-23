@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace ECommerceSystem.DomainLayer.UserManagement.Tests
 {
@@ -72,15 +73,46 @@ namespace ECommerceSystem.DomainLayer.UserManagement.Tests
         {
             DataAccess.Instance.DropTestDatabase();
         }
-        //[Test()]
-        //public void registerTest()
-        //{
-        //    Assert.NotNull(_userManagement.register(uname + "1", bad_pswd, fname, lname, email)); // Test register method not passed due to bad password
-        //    Assert.NotNull(_userManagement.register(uname + "1", bad_pswd, fname, lname, bad_email)); // Test register method not passed due to bad email
-        //    Assert.Null(_userManagement.register(uname + "1", good_pswd, fname, lname, email)); // Test register method passes with good password
-        //    Assert.True(_userManagement.UserCarts.Any() && _userManagement.UserCarts.Count.Equals(2));   // Test users list has
-        //    Assert.IsEmpty(_userManagement.UserCarts.First().Value);   // Test user initialized with empty shopping cart
-        //}
+
+        [Test()]
+        public void registerTest()
+        {
+            Assert.NotNull(_userManagement.register(uname + "1", bad_pswd, fname, lname, email)); // Test register method not passed due to bad password
+            Assert.NotNull(_userManagement.register(uname + "1", bad_pswd, fname, lname, bad_email)); // Test register method not passed due to bad email
+            Assert.Null(_userManagement.register(uname + "1", good_pswd, fname, lname, email)); // Test register method passes with good password
+
+            var user = _userManagement.getUserByName(uname + "1");
+            Assert.NotNull(user);
+            var cart = user.Cart;
+            Assert.NotNull(cart);   // Test register user has cart
+            Assert.IsEmpty(cart.StoreCarts);   // Test user initialized with empty shopping cart
+        }
+
+        [Test()]
+        public void registerTestParallel()
+        {
+            Thread[] threads = new Thread[5];
+            bool[] registerResults = new bool[5];
+            for (int i = 0; i < 5; i++)
+            {
+                Thread t = new Thread(() => // Try register 5 users in parallel with same username
+                {
+                    registerResults[i] = _userManagement.register(uname + "100", good_pswd, fname, lname, email) == null;
+                });
+                threads[i] = t;
+                threads[i].Start();
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                threads[i].Join();
+            }
+
+            var successCounter = 0;
+            foreach (var result in registerResults)
+                successCounter += result ? 1 : 0;
+            Assert.True(successCounter == 0 || successCounter == 1);
+        }
 
         [Test()]
         public void loginTest()

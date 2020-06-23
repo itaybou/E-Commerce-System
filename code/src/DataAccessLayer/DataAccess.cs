@@ -76,9 +76,9 @@ namespace ECommerceSystem.DataAccessLayer
             try
             {
                 TestContext.Client().DropDatabase(TestDatabaseName);
-                ((ICacheProxy<User, Guid>)Users).RemoveCacheDate();
-                ((ICacheProxy<Product, Guid>)Products).RemoveCacheDate();
-                ((ICacheProxy<Store, string>)Stores).RemoveCacheDate();
+                ((ICacheProxy<User, Guid>)Users).RemoveCacheData();
+                ((ICacheProxy<Product, Guid>)Products).RemoveCacheData();
+                ((ICacheProxy<Store, string>)Stores).RemoveCacheData();
             }
             catch (Exception)
             {
