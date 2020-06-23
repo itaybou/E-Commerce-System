@@ -28,9 +28,15 @@ namespace ECommerceSystem.DataAccessLayer
         private DataAccess()
         {
             EntityMap.RegisterClassMaps();
-            Context = new DbContext(ConnectionString, DatabaseName);
-            TestContext = new DbContext(TestConnectionString, TestDatabaseName);
-            Transactions = new Transactions(Context.Client(), Users, Stores, Products);
+            try
+            {
+                Context = new DbContext(ConnectionString, DatabaseName);
+                TestContext = new DbContext(TestConnectionString, TestDatabaseName);
+                Transactions = new Transactions(Context.Client(), Users, Stores, Products);
+            } catch(DatabaseException)
+            {
+                throw new DatabaseException("Failed to establish db connection.");
+            }
         }
 
         public void InitializeDatabase()

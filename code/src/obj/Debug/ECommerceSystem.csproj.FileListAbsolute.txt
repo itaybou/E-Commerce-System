@@ -1080,3 +1080,4 @@ C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Debug\ECommer
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.exe
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.pdb
 C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Debug\PostSharp\postsharp.app.config
+C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\obj\Debug\ECommerceSystem.csprojAssemblyReference.cache

@@ -25,7 +25,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
         private ICommunication _communication;
         private IDataAccess _data;
 
-        public void Initialize()
+        public bool Initialize()
         {
             var initFilePath = GetInitFilePath();
             Console.WriteLine("Starting System Initialization.");
@@ -35,16 +35,24 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 InitSystem(externalURL);
             } catch(Exception)
             {
-                return;
+                return false;
             }
             Console.WriteLine("Finished initializing system.");
             if (initFilePath != null)
             {
                 Console.WriteLine("Lodaing initial file data from file located at: " + initFilePath);
-                initWithInput(initFilePath);
+                if(!initWithInput(initFilePath))
+                {
+                    Console.WriteLine("Initial data loaded, initialization process is done!");
+                }
                 Console.WriteLine("Initial data loaded, initialization process is done!");
             }
-            else Console.WriteLine("Missing init file. init from file aborted.");
+            else
+            {
+                Console.WriteLine("Missing init file. init from file aborted.");
+                return false;
+            }
+            return true;
         }
 
         private void InitSystem(string externalURL)
@@ -78,16 +86,22 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
 
         private void InitDatabase()
         {
-            Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
-            _data = DataAccess.Instance;
-            Console.WriteLine("Intialized DataAccess, Database communication established.");
-            Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
-            Console.WriteLine("Resetting database.");
-            _data.DropDatabase();
-            Console.WriteLine("Database reset.");
-            Console.WriteLine("Creating database.");
-            _data.InitializeDatabase();
-            Console.WriteLine("Database created.");
+            try
+            {
+                Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
+                _data = DataAccess.Instance;
+                Console.WriteLine("Intialized DataAccess, Database communication established.");
+                Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
+                Console.WriteLine("Resetting database.");
+                _data.DropDatabase();
+                Console.WriteLine("Database reset.");
+                Console.WriteLine("Creating database.");
+                _data.InitializeDatabase();
+                Console.WriteLine("Database created.");
+            } catch(DatabaseException)
+            {
+                throw;
+            }
         }
 
         private async void InitExternalSystems(string externalURL)
@@ -141,7 +155,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             }
         }
 
-        private void initWithInput(string path)
+        private bool initWithInput(string path)
         {
             string[] lines = File.ReadAllLines(path);
 
@@ -151,7 +165,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                 if (args.Length < 1)
                 {
                     Console.WriteLine("empty line in the input file");
-                    return;
+                    return false;
                 }
                 if (args[0].StartsWith("<external_url>"))
                     continue;
@@ -160,50 +174,51 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
                     case "register":
                         if (!register(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "create-admin":
                         if (!createAdmin(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "login":
                         if (!login(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "open-store":
                         if (!openStore(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "add-product-inventory":
                         if (!addProductInv(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "assign-manager":
                         if (!assignManager(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     case "edit-permissions":
                         if (!editPermissions(args))
                         {
-                            return;
+                            return false;
                         }
                         break;
                     default:
                         Console.WriteLine("incorrect input command");
-                        return;
+                        return false;
                 }
             }
+            return true;
         }
 
         //edit-permissions <editor username> <store name> <manager username> <permissions>*
