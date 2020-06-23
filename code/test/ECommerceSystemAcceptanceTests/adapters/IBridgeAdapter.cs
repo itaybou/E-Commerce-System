@@ -1,7 +1,10 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
@@ -33,7 +36,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         bool ChangeProductCartQuantity(Guid prodID, int quantity); //Requirment 2.7.2
 
-        bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address); // Requirment 2.8
+        Task<ICollection<ProductModel>> purchaseUserShoppingCart( string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address); // Requirment 2.8
 
         bool logout(); // Requirment 3.1
 
@@ -57,6 +60,34 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         bool modifyProductQuantity(string storeName, string productInvName, Guid productID, int newQuantity);
 
+        //4.2 Purchase Policy 
+        Guid addDayOffPolicy( string storeName, List<DayOfWeek> daysOff);
+        Guid addLocationPolicy( string storeName, List<string> banLocations);
+        Guid addMinPriceStorePolicy( string storeName, double minPrice);
+        Guid addAndPurchasePolicy( string storeName, Guid ID1, Guid ID2);
+        Guid addOrPurchasePolicy( string storeName, Guid ID1, Guid ID2);
+        Guid addXorPurchasePolicy( string storeName, Guid ID1, Guid ID2);
+        bool removePurchasePolicy( string storeName, Guid policyID);
+        List<PurchasePolicyModel> getAllPurchasePolicyByStoreName( string storeName);
+
+        //4.2 Dicsount Policy 
+        Guid addVisibleDiscount( string storeName, Guid productID, float percentage, DateTime expDate);
+        Guid addCondiotionalProcuctDiscount( string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount);
+        Guid addConditionalCompositeProcuctDiscount( string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree);
+        Guid addConditionalStoreDiscount( string storeName, float percentage, DateTime expDate, int minPriceForDiscount);
+        Guid addAndDiscountPolicy(string storeName, List<Guid> IDs);
+        Guid addOrDiscountPolicy( string storeName, List<Guid> IDs);
+        Guid addXorDiscountPolicy( string storeName, List<Guid> IDs);
+        bool removeProductDiscount( string storeName, Guid discountID, Guid productID);
+        bool removeCompositeDiscount( string storeName, Guid discountID);
+        bool removeStoreLevelDiscount( string storeName, Guid discountID);
+        List<DiscountPolicyModel> getAllStoreLevelDiscounts( string storeName);
+        List<DiscountPolicyModel> getAllDiscountsForCompose( string storeName);
+
+        (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners( string storeName);
+
+
+
         Guid createOwnerAssignAgreement( string newOwneruserName, string storeName); // Requirment 4.3
 
         bool approveAssignOwnerRequest( Guid agreementID, string storeName); // Requirment 4.3
@@ -71,5 +102,7 @@ namespace ECommerceSystemAcceptanceTests.adapters
         bool removeManager( string managerUserName, string storeName); //Requirement 4.7
 
         IEnumerable<StorePurchaseModel> storePurchaseHistory( string storeName); // Requirements 4.10 and 6.4.2
+
+        bool removeOwner( string ownerToRemoveUserName, string storeName); 
     }
 }

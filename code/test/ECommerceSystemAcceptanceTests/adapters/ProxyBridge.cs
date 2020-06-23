@@ -1,7 +1,10 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystem.Models.DiscountPolicyModels;
+using ECommerceSystem.Models.PurchasePolicyModels;
 using ECommerceSystem.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerceSystemAcceptanceTests.adapters
 {
@@ -253,13 +256,14 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return true;
         }
 
-        public bool PurchaseProducts(Dictionary<Guid, int> products, string firstName, string lastName, string id, string creditCardNumber, string creditExpiration, string CVV, string address)
+        public Task<ICollection<ProductModel>> purchaseUserShoppingCart(string firstName, string lastName, int id, string creditCardNumber, DateTime expirationCreditCard, int CVV, string address) // 2.8
         {
+            
             if (_real != null)
             {
-                return _real.PurchaseProducts(products, firstName, lastName, id, creditCardNumber, creditExpiration, CVV, address);
+                    return _real.purchaseUserShoppingCart(firstName, lastName, id, creditCardNumber, expirationCreditCard, CVV, address);
             }
-            else return false;
+            else return null;
         }
 
         public List<Guid> UserPurchaseHistory(string uname)
@@ -281,6 +285,203 @@ namespace ECommerceSystemAcceptanceTests.adapters
             
         }
 
-       
+        public bool removeOwner(string ownerToRemoveUserName, string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.removeOwner( ownerToRemoveUserName, storeName);
+            }
+            return false;
+        }
+
+        public Guid addDayOffPolicy(string storeName, List<DayOfWeek> daysOff)
+        {
+            if (_real != null)
+            {
+                return _real.addDayOffPolicy( storeName, daysOff);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addLocationPolicy(string storeName, List<string> banLocations)
+        {
+            if (_real != null)
+            {
+                return _real.addLocationPolicy( storeName, banLocations);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addMinPriceStorePolicy(string storeName, double minPrice)
+        {
+            if (_real != null)
+            {
+                return _real.addMinPriceStorePolicy( storeName,  minPrice);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addAndPurchasePolicy(string storeName, Guid ID1, Guid ID2)
+        {
+            if (_real != null)
+            {
+                return _real.addAndPurchasePolicy( storeName,  ID1,  ID2);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addOrPurchasePolicy(string storeName, Guid ID1, Guid ID2)
+        {
+            if (_real != null)
+            {
+                return _real.addOrPurchasePolicy( storeName,  ID1,  ID2);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addXorPurchasePolicy(string storeName, Guid ID1, Guid ID2)
+        {
+            if (_real != null)
+            {
+                return _real.addXorPurchasePolicy( storeName,  ID1,  ID2);
+            }
+            return Guid.Empty;
+        }
+
+        public bool removePurchasePolicy(string storeName, Guid policyID)
+        {
+            if (_real != null)
+            {
+                return _real.removePurchasePolicy( storeName,  policyID);
+            }
+            return false;
+        }
+
+        public List<PurchasePolicyModel> getAllPurchasePolicyByStoreName(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getAllPurchasePolicyByStoreName( storeName);
+            }
+            return new List<PurchasePolicyModel>();
+        }
+
+        public Guid addVisibleDiscount(string storeName, Guid productID, float percentage, DateTime expDate)
+        {
+            if (_real != null)
+            {
+                return _real.addVisibleDiscount(storeName, productID, percentage, expDate);
+            }
+            return  Guid.Empty;
+        }
+
+        public Guid addCondiotionalProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, int minQuantityForDiscount)
+        {
+            if (_real != null)
+            {
+                return _real.addCondiotionalProcuctDiscount( storeName,  productID,  percentage,  expDate,  minQuantityForDiscount);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addConditionalCompositeProcuctDiscount(string storeName, Guid productID, float percentage, DateTime expDate, CompositeDiscountPolicyModel conditionalTree)
+        {
+            if (_real != null)
+            {
+                return _real.addConditionalCompositeProcuctDiscount( storeName,  productID,  percentage,  expDate,  conditionalTree);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addConditionalStoreDiscount(string storeName, float percentage, DateTime expDate, int minPriceForDiscount)
+        {
+            if (_real != null)
+            {
+                return _real.addConditionalStoreDiscount( storeName,  percentage,  expDate,  minPriceForDiscount);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addAndDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addAndDiscountPolicy( storeName,  IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addOrDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addOrDiscountPolicy( storeName,  IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public Guid addXorDiscountPolicy(string storeName, List<Guid> IDs)
+        {
+            if (_real != null)
+            {
+                return _real.addXorDiscountPolicy( storeName, IDs);
+            }
+            return Guid.Empty;
+        }
+
+        public bool removeProductDiscount(string storeName, Guid discountID, Guid productID)
+        {
+            if (_real != null)
+            {
+                return _real.removeProductDiscount(storeName, discountID, productID);
+            }
+            return false;
+        }
+
+        public bool removeCompositeDiscount(string storeName, Guid discountID)
+        {
+            if (_real != null)
+            {
+                return _real.removeCompositeDiscount( storeName,  discountID);
+            }
+            return false;
+        }
+
+        public bool removeStoreLevelDiscount(string storeName, Guid discountID)
+        {
+            if (_real != null)
+            {
+                return _real.removeStoreLevelDiscount( storeName,  discountID);
+            }
+            return false;
+        }
+
+        public List<DiscountPolicyModel> getAllStoreLevelDiscounts(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getAllStoreLevelDiscounts(storeName);
+            }
+            return new List<DiscountPolicyModel>();
+        }
+
+        public List<DiscountPolicyModel> getAllDiscountsForCompose(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getAllDiscountsForCompose( storeName);
+            }
+            return new List<DiscountPolicyModel>();
+
+        }
+
+        public (IEnumerable<(UserModel, PermissionModel)>, string) getStoreOwners(string storeName)
+        {
+            if (_real != null)
+            {
+                return _real.getStoreOwners( storeName);
+            }
+            return (null, "");
+        }
     }
 }
