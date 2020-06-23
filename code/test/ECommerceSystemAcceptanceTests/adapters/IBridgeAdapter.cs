@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystemץ.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -17,8 +18,13 @@ namespace ECommerceSystemAcceptanceTests.adapters
 
         Dictionary<StoreModel, List<ProductInventoryModel>> ViewProdcutStoreInfo(); // Requirment 2.4
 
-        List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to); // Requirment 2.5
-
+        //List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to); // Requirment 2.5
+        // Requirment 2.5
+        SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter);
+        
         bool AddTocart( Guid productId, string storeName, int quantity); // Requirment 2.6
 
         ShoppingCartModel ViewUserCart(); //Requirment 2.7

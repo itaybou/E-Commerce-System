@@ -1,4 +1,5 @@
 ﻿using ECommerceSystem.Models;
+using ECommerceSystemץ.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -140,17 +141,6 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return null;
         }
 
-
-        //public Dictionary<string, Dictionary<Guid, int>> getUserCartDetails()
-        //{
-        //    if (_real != null)
-        //    {
-        //        return _real.getUserCartDetails();
-        //    }
-        //    else return new Dictionary<string, Dictionary<Guid, int>>();
-        //}
-
-        // Requirments
         public bool register(string uname, string pswd, string fname, string lname, string email) // 2.2
         {
             if (_real != null)
@@ -187,14 +177,35 @@ namespace ECommerceSystemAcceptanceTests.adapters
             else return new Dictionary<StoreModel, List<ProductInventoryModel>>();
         }
 
-        //*************************************************************************TODO *****************************************************************//
-        public List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to)
+        public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            if( _real !=null )
+            {
+                return _real.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
+            }
+            return new SearchResultModel(new List <ProductInventoryModel>(), new List<string>());
+        }
+        public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
         {
             if (_real != null)
             {
-                return _real.SearchAndFilterProducts(prodName, catName, keywords, filters, from, to);
+                return _real.searchProductsByCategory(category, priceFilter, storeRatingFilter, productRatingFilter);
             }
-            else return new List<string>();
+            return new SearchResultModel(new List<ProductInventoryModel>(), new List<string>());
+            
+        }
+        public SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            if (_real != null)
+            {
+                return _real.searchProductsByName(prodName, category, priceFilter, storeRatingFilter, productRatingFilter);
+            }
+            return new SearchResultModel(new List<ProductInventoryModel>(), new List<string>());
+            
+        }
+        public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            return searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
         }
 
         public bool AddTocart(Guid prodID, string storeName, int quantity) //2.6

@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace ECommerceSystem.Utilities
+namespace ECommerceSystemץ.Utilities
 {
     public class Range<T> where T : IComparable<T>
     {
         /// <summary>Minimum value of the range.</summary>
         public T min { get; set; }
 
-        /// <summary>Maximum value of the range.</summary>
+        /// <summary>Maximum value of the range.</s ummary>
         public T max { get; set; }
 
         public Range(T min, T max)

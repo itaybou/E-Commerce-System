@@ -1,6 +1,7 @@
 ﻿using ECommerceSystem.DomainLayer.StoresManagement;
 using ECommerceSystem.Models;
 using ECommerceSystem.ServiceLayer;
+using ECommerceSystemץ.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -240,50 +241,71 @@ namespace ECommerceSystemAcceptanceTests.adapters
             
         }
 
-        public List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to) // 2.5
-        {
-            Assert.IsTrue(false);
-            //catName = catName != null? catName.ToUpper() : catName;
-            //var categories = EnumMethods.GetValues(typeof(Category)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper());
-            //if (catName != null && !categories.Contains(catName))
-            //{
-            //    return new List<string>();
-            //}
-            //Category cat = catName != null? (Category)Enum.Parse(typeof(Category), catName) : Category.HEALTH;
-            //filters.ForEach(filter =>
-            //{
-            //    switch (filter)
-            //    {
-            //        case "price":
-            //            _systemService.applyPriceRangeFilter(from, to);
-            //            break;
-            //        case "product_rating":
-            //            _systemService.applyProductRatingFilter(from, to);
-            //            break;
-            //        case "store_rating":
-            //            _systemService.applyStoreRatingFilter(from, to);
-            //            break;
-            //        case "category":
-            //            _systemService.applyCategoryFilter(cat);
-            //            break;
-            //    }
-            //});
+        //public List<string> SearchAndFilterProducts(string prodName, string catName, List<string> keywords, List<string> filters, double from, double to) // 2.5
+        //{
 
-            //if (prodName != null)
-            //{
-            //    return _systemService.searchProductsByName(prodName).Select(p => p.Name).ToList();
-            //}
-            //else if (catName != null)
-            //{
-            //    return _systemService.searchProductsByCategory(cat).Select(p => p.Name).ToList();
-            //}
-            //else if (keywords != null)
-            //{
-            //    return _systemService.searchProductsByKeyword(keywords).Select(p => p.Name).ToList();
-            //}
-            //else return _systemService.getAllProducts().Select(p => p.Name).ToList();
-            return null;
+        //    catName = catName != null ? catName.ToUpper() : catName;
+        //    var categories = EnumMethods.GetValues(typeof(Category)).Select(name => name.ToLower()).ToList().Select(c => c.ToUpper());
+        //    if (catName != null && !categories.Contains(catName))
+        //    {
+        //        return new List<string>();
+        //    }
+        //    Category cat = catName != null ? (Category)Enum.Parse(typeof(Category), catName) : Category.HEALTH;
+        //    filters.ForEach(filter =>
+        //    {
+        //        switch (filter)
+        //        {
+        //            //case "price":
+        //            //    _systemService.applyPriceRangeFilter(from, to);
+        //            //    break;
+        //            //case "product_rating":
+        //            //    _systemService.applyProductRatingFilter(from, to);
+        //            //    break;
+        //            //case "store_rating":
+        //            //    _systemService.applyStoreRatingFilter(from, to);
+        //            //    break;
+        //            case "category":
+        //                _systemService.searchProductsByCategory()
+        //                break;
+        //            case "keywords":
+        //                _systemService.applyCategoryFilter(cat);
+        //                break;
+        //        }
+        //    });
+
+        //    if (prodName != null)
+        //    {
+        //        return _systemService.searchProductsByName(prodName).Select(p => p.Name).ToList();
+        //    }
+        //    else if (catName != null)
+        //    {
+        //        return _systemService.searchProductsByCategory(cat).Select(p => p.Name).ToList();
+        //    }
+        //    else if (keywords != null)
+        //    {
+        //        return _systemService.searchProductsByKeyword(keywords).Select(p => p.Name).ToList();
+        //    }
+        //    else return _systemService.getAllProducts().Select(p => p.Name).ToList();
+        //    return null;
+        //}
+
+        public SearchResultModel getAllProducts(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            return _systemService.getAllProducts(category, priceFilter, storeRatingFilter, productRatingFilter);
         }
+        public SearchResultModel searchProductsByCategory(string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            return _systemService.searchProductsByCategory(category, priceFilter, storeRatingFilter, productRatingFilter);
+        }
+        public SearchResultModel searchProductsByName(string prodName, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            return _systemService.searchProductsByName(prodName, category, priceFilter, storeRatingFilter, productRatingFilter);
+        }
+        public SearchResultModel searchProductsByKeyword(List<string> keywords, string category, Range<double> priceFilter, Range<double> storeRatingFilter, Range<double> productRatingFilter)
+        {
+            return _systemService.searchProductsByKeyword(keywords, category, priceFilter, storeRatingFilter, productRatingFilter);
+        }
+
 
         public bool AddTocart( Guid productId, string storeName, int quantity) //2.6
         {
