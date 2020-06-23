@@ -58,6 +58,7 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
+                _stores.UncachStore(store);
                 _products.Update(product, product.Id, p => p.Id);
                 _stores.Update(store, store.Name, s => s.Name);
             });
@@ -67,7 +68,8 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
-                foreach(var product in products)
+                //_stores.UncachStore(store);
+                foreach (var product in products)
                 {
                     _products.Remove(product, product.Id, p => p.Id);
                 }
@@ -79,6 +81,7 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
+                //_stores.UncachStore(store);
                 _products.Remove(product, product.Id, p => p.Id);
                 _stores.Update(store, store.Name, s => s.Name);
             });
@@ -88,6 +91,7 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
+                //_stores.UncachStore(store);
                 _products.Update(product, product.Id, p => p.Id);
                 _stores.Update(store, store.Name, s => s.Name);
             });
@@ -97,6 +101,8 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
+                //_stores.UncachStore(store);
+                //_users.UncacheUser(manager);
                 _users.Update(manager, manager.Guid, u => u.Guid);
                 _stores.Update(store, store.Name, s => s.Name);
             });
@@ -106,6 +112,9 @@ namespace ECommerceSystem.DataAccessLayer
         {
             await BaseTransactionAsync(() =>
             {
+                //_stores.UncachStore(store);
+                //_users.UncacheUser(assignee);
+                //_users.UncacheUser(assigner);
                 _stores.Update(store, store.Name, s => s.Name);
                 _users.Update(assigner, assigner.Guid, u => u.Guid);
                 _users.Update(assignee, assignee.Guid, u => u.Guid);
@@ -121,9 +130,11 @@ namespace ECommerceSystem.DataAccessLayer
                 {
                     var store = storeProducts.Item1;
                     var products = storeProducts.Item3;
+                    _stores.UncachStore(store);
                     _stores.Update(store, store.Name, s => s.Name);
                     products.ToList().ForEach(product =>
                     {
+                        _products.UncacheProduct(product.Key);
                         _products.Update(product.Key, product.Key.Id, p => p.Id);
                     });
                 });

@@ -166,7 +166,7 @@
                             <td>@d.ExpDate</td>
                             <td style="white-space: pre-line">@Html.Raw(d.GetString())</td>
                             <td class="text-right align-content-end justify-content-end p-1" style="width: 300px">
-                                <form type="hidden" asp-action="RemoveDiscount" asp-controller="Owner" asp-route-type="simple" asp-route-discountID="@d.ID" asp-route-storeName="@storeName" asp-route-productID="@d.ProductID"method="post">
+                                <form type="hidden" asp-action="RemoveDiscount" asp-controller="Owner" asp-route-type="simple" asp-route-discountID="@d.ID" asp-route-storeName="@storeName" asp-route-productID="@d.ProductID" method="post">
                                     <button type="submit" style="width: 150px; margin: 0" class="btn btn-outline-danger">
                                         Remove <i class="fas fa-archive"></i>
                                     </button>
@@ -176,6 +176,10 @@
 
                     </tbody>
                 </table>
+            }
+            else
+            {
+                <span></span>
             }
 
         }

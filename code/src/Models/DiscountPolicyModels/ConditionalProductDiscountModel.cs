@@ -38,6 +38,8 @@ namespace ECommerceSystem.Models.DiscountPolicyModels
 
         public override string GetSelectionString()
         {
+            if (ProductID == Guid.Empty)
+                return "Disabled";
             if (String.IsNullOrEmpty(Additional))
                 return "ID: " + ProductID + " Name: " + ProductName;
             else return Additional;

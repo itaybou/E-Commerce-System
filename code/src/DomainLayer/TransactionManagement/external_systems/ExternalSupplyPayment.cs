@@ -16,14 +16,13 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
         private string ExternalURL;
         private bool Active;
         private Range<int> TransacionIDRange;
-        private static TimeSpan TimeoutSeconds = TimeSpan.FromSeconds(30);
+        private static TimeSpan TimeoutSeconds = TimeSpan.FromSeconds(20);
 
         public ExternalSupplyPayment(HttpClient client)
         {
             Client = client;
             Client.Timeout = TimeoutSeconds;
             TransacionIDRange = new Range<int>(10000, 100000);
-            ExternalURL = "https://cs-bgu-wsep.herokuapp.com";
         }
 
         public async Task<bool> ConnectExternal(string url)

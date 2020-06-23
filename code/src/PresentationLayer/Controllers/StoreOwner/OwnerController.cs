@@ -356,7 +356,17 @@ namespace PresentationLayer.Controllers.StoreOwner
             ViewData["ProductName"] = productName;
             try
             {
-                _service.modifyProductQuantity(session, storeName, productName, id, model.Quantity);
+                if(!_service.modifyProductQuantity(session, storeName, productName, id, model.Quantity))
+                {
+                    model.Name = productName;
+                    model.Category = productName;
+                    foreach (var modelValue in ModelState.Values)
+                    {
+                        modelValue.Errors.Clear();
+                    }
+                    ModelState.AddModelError("QuantityError", "Canot change product quantity to " + model.Quantity);
+                    return View("../Store/ModifyProduct", model);
+                }
                 var products = _service.getStoreInfo(storeName);
                 return View("../Store/StoreInventory", products);
             }

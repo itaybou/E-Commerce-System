@@ -41,14 +41,17 @@
                                 <div asp-validation-summary="All" class="text-danger"></div>
                             </div>
                         }
-                        <div class="row alert-warning justify-content-between p-3">
-                            <div>
-                                <b>PRODUCT NAME: </b>@details.Name
+                        @if (details != null)
+                        {
+                            <div class="row alert-warning justify-content-between p-3">
+                                <div>
+                                    <b>PRODUCT NAME: </b>@details.Name
+                                </div>
+                                <div>
+                                    <b>PRODUCT BASE PRICE: </b>@details.BasePrice $
+                                </div>
                             </div>
-                            <div>
-                                <b>PRODUCT BASE PRICE: </b>@details.BasePrice $
-                            </div>
-                        </div>
+                        }
                         @{ var prodDisplayCounter = 0;}
                         <ul class="list-group secondNav" id="products" style="overflow: scroll; max-height: 400px; height: 400px; margin-bottom: 10px; overflow-x: hidden;">
                             @foreach (var product in products.Where(p => p.Quantity > 0))
@@ -63,7 +66,7 @@
                                             <b>Discount: </b>
                                             @if (product.Discount != null)
                                             {
-                                                @product.Discount.GetString()
+                                                @Html.Raw(product.Discount.GetString())
                                             }
                                             else
                                             {

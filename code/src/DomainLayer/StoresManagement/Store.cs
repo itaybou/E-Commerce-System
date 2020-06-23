@@ -231,7 +231,10 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
         //@pre - logged in user have permission to modify product
         public bool modifyProductQuantity(string loggedInUserName, string productName, Guid productID, int newQuantity)
         {
-            return Inventory.modifyProductQuantity(productName, productID, newQuantity);
+            var result = Inventory.modifyProductQuantity(productName, productID, newQuantity);
+            if (result)
+                DataAccess.Instance.Stores.UncachStore(this);
+            return result;
         }
 
         //@pre - logged in user have permission to modify product
@@ -272,31 +275,35 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public AssignOwnerAgreement createOwnerAssignAgreement(User assigner, string newOwneruserName)
         {
-            if (StorePermissions.ContainsKey(newOwneruserName) && StorePermissions[newOwneruserName].isOwner()) // The user of newOwneruserName is already owner of this store
+            AssignOwnerAgreement agreement = null;
+            lock (this)
             {
-                return null;
-            }
-            if (!(StorePermissions.ContainsKey(assigner.Name) && StorePermissions[assigner.Name].isOwner())) // The assigner is not owner
-            {
-                return null;
-            }
-
-
-            //check that there isn`t open agreement for newOwneruserName
-            foreach (var a in AssignerOwnerAgreement)
-            {
-                if (a.Value.AsigneeUserName.Equals(newOwneruserName))
+                if (StorePermissions.ContainsKey(newOwneruserName) && StorePermissions[newOwneruserName].isOwner()) // The user of newOwneruserName is already owner of this store
                 {
                     return null;
                 }
-            }
+                if (!(StorePermissions.ContainsKey(assigner.Name) && StorePermissions[assigner.Name].isOwner())) // The assigner is not owner
+                {
+                    return null;
+                }
 
-            HashSet<string> owners = getOWners();
-            owners.Remove(assigner.Name); //the assigner allready approve with this request
-            AssignOwnerAgreement agreement = new AssignOwnerAgreement(Guid.NewGuid(), assigner.Guid, newOwneruserName, owners);
-            if(owners.Count != 0)
-            {
-                AssignerOwnerAgreement.Add(agreement.ID, agreement);
+
+                //check that there isn`t open agreement for newOwneruserName
+                foreach (var a in AssignerOwnerAgreement)
+                {
+                    if (a.Value.AsigneeUserName.Equals(newOwneruserName))
+                    {
+                        return null;
+                    }
+                }
+
+                HashSet<string> owners = getOWners();
+                owners.Remove(assigner.Name); //the assigner allready approve with this request
+                agreement = new AssignOwnerAgreement(Guid.NewGuid(), assigner.Guid, newOwneruserName, owners);
+                if (owners.Count != 0)
+                {
+                    AssignerOwnerAgreement.Add(agreement.ID, agreement);
+                }
             }
             return agreement;
         }
@@ -379,14 +386,18 @@ namespace ECommerceSystem.DomainLayer.StoresManagement
 
         public Permissions assignManager(User loggedInUser, string newManageruserName)
         {
-            if (StorePermissions.ContainsKey(newManageruserName)) // The user of userName is already owner/manager of this store
+            Permissions per = null;
+            lock (this)
             {
-                return null;
-            }
+                if (StorePermissions.ContainsKey(newManageruserName)) // The user of userName is already owner/manager of this store
+                {
+                    return null;
+                }
 
-            Permissions per = Permissions.CreateManager(loggedInUser, this);
-            if (per == null) return null;
-            StorePermissions.Add(newManageruserName, per);
+                per = Permissions.CreateManager(loggedInUser, this);
+                if (per == null) return null;
+                StorePermissions.Add(newManageruserName, per);
+            }
 
             return per;
         }

@@ -9,6 +9,7 @@ using ECommerceSystem.DataAccessLayer;
 using ECommerceSystem.DomainLayer.TransactionManagement;
 using ECommerceSystemUnitTests.DomainLayer.SystemManagement;
 using System.Threading;
+using NUnit.Framework.Constraints;
 
 namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
 {
@@ -240,6 +241,28 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
         }
 
         [Test()]
+        public void purchaseUserShoppingCartFailPurchasePolicyTest()
+        {
+            int oldPayCount = ((ExternalSystemsStub)externalStub).PayCounter;
+            //To make supply fail you should use the supply method with empty fname and lname
+            var store = _storeManagement.getStoreByName("store2");
+            _storeManagement.addLocationPolicy(_owner2ID, "store2", new List<string>() { "lebanon" });
+            _userManagement.addProductToCart(_userID, _prod1ID, "store1", 18);
+            _userManagement.addProductToCart(_userID, _prod2ID, "store1", 15);
+            _userManagement.addProductToCart(_userID, _prod3ID, "store2", 12);
+            _userManagement.addProductToCart(_userID, _prod4ID, "store2", 9);
+            var ans = _systemManager.purchaseUserShoppingCart(_userID, _firstName, _lastName, _id, _address, _expirationCreditCard, _CVV, "address,city,lebanon,zip");
+            ans.Wait();
+            Assert.IsNotNull(ans.Result);
+            Assert.AreEqual(0, ans.Result.Count);
+            Assert.AreEqual(oldPayCount, ((ExternalSystemsStub)externalStub).PayCounter);
+            Assert.AreEqual(product1.Quantity, 20);
+            Assert.AreEqual(product2.Quantity, 20);
+            Assert.AreEqual(product3.Quantity, 20);
+            Assert.AreEqual(product4.Quantity, 20);
+        }
+
+        [Test()]
         public void FewUsersPurchaseUserShoppingCartWithOneProductParallelTest()
         {
             int oldPayCount = ((ExternalSystemsStub)externalStub).PayCounter;
@@ -250,8 +273,6 @@ namespace ECommerceSystem.DomainLayer.SystemManagement.Tests
             _userManagement.addProductToCart(_userID3, _prod1ID, "store1", 8);
             _userManagement.addProductToCart(_userID4, _prod1ID, "store1", 8);
             _userManagement.addProductToCart(_userID5, _prod1ID, "store1", 8);
-
-            
 
             Guid[] usersID = {_userID, _userID2, _userID3, _userID4, _userID5};
             Thread[] threads = new Thread[5];

@@ -2181,3 +2181,291 @@ Parameter name: uriString
    at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
    at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
    at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 131
+2020-06-23 14:43:15.4155 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:43:15.4394 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:43:15.4394 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:43:15.4394 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:43:15.4514 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:43:15.4514 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5271 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5480 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5480 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5480 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5480 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:44:28.5480 | ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Insert(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 121
+2020-06-23 14:45:22.1901 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 17:25:17.7681 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 17:26:18.0701 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 18:59:14.0611 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Recache(User entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 66
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 184
+2020-06-23 18:59:16.3393 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 19:11:20.1446 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Cache(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 34
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Recache(Product entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 48
+   at ECommerceSystem.DataAccessLayer.repositories.cache.ProductCacheProxy.Update(Product entity, Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\ProductCacheProxy.cs:line 166
+2020-06-23 19:11:22.4756 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 19:42:34.7272 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 33
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.GetByIdOrNull(Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 123
+2020-06-23 19:42:35.3196 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 37
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 20:41:43.0811 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 20:58:58.5771 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Cache(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 34
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.GetByIdOrNull(String id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 114
+2020-06-23 21:37:37.0310 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:37:37.0270 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 127
+2020-06-23 21:53:10.1445 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 34
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Recache(User entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 66
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 184
+2020-06-23 21:53:12.3008 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:53:43.3368 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:57:32.1986 | ERROR: System.ArgumentException: The key already existed in the dictionary.
+   at System.Collections.Concurrent.ConcurrentDictionary`2.System.Collections.Generic.IDictionary<TKey,TValue>.Add(TKey key, TValue value)
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Cache(User user) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 34
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Recache(User entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 66
+   at ECommerceSystem.DataAccessLayer.repositories.cache.UserCacheProxy.Update(User entity, Guid id, Expression`1 idFunc) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\UserCacheProxy.cs:line 184
+2020-06-23 21:57:34.4669 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:59:39.1550 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:59:48.8346 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 21:59:58.0871 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130
+2020-06-23 22:00:09.1348 | ERROR: MongoDB.Driver.MongoWriteException: A write operation resulted in an error.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" } ---> MongoDB.Driver.MongoBulkWriteException`1[ECommerceSystem.DomainLayer.StoresManagement.Store]: A bulk write operation resulted in one or more errors.
+  E11000 duplicate key error collection: ECommerceSystemTests.Stores index: _id_ dup key: { _id: "newStore" }
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.<>c__DisplayClass23_0.<BulkWrite>b__0(IClientSessionHandle session)
+   at MongoDB.Driver.MongoCollectionImpl`1.UsingImplicitSession[TResult](Func`2 func, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWrite(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.<>c__DisplayClass64_0.<InsertOne>b__0(IEnumerable`1 requests, BulkWriteOptions bulkWriteOptions)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, Action`2 bulkWrite)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOne(TDocument document, InsertOneOptions options, CancellationToken cancellationToken)
+   at ECommerceSystem.DataAccessLayer.repositories.Repository`2.Insert(T entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\Repository.cs:line 38
+   at ECommerceSystem.DataAccessLayer.repositories.cache.StoresCacheProxy.Insert(Store entity) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\repositories\cache\StoresCacheProxy.cs:line 130

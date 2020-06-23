@@ -32,8 +32,14 @@ namespace ECommerceSystem.DomainLayer.StoresManagement.Discount
 
         public override DiscountPolicyModel CreateModel()
         {
-            var product = DataAccess.Instance.Products.GetByIdOrNull(ProductID, p => p.Id);
-            return new ConditionalProductDiscountModel(this.ID, this.RequiredQuantity, this.ExpirationDate, this.Percentage, product.Id, product.Name);
+            try
+            {
+                var product = DataAccess.Instance.Products.GetByIdOrNull(ProductID, p => p.Id);
+                return new ConditionalProductDiscountModel(this.ID, this.RequiredQuantity, this.ExpirationDate, this.Percentage, product == null? Guid.Empty : product.Id, product == null ? null : product.Name);
+            } catch(Exception)
+            {
+                return null;
+            }
         }
 
         //check that the quantity of product id > required quantity

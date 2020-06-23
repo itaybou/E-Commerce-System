@@ -53,7 +53,9 @@ namespace PresentationLayer
                 options.Cookie.IsEssential = true;
             });
             services.AddHttpContextAccessor();
-            (new SystemInitializer()).Initialize();
+            if (!(new SystemInitializer()).Initialize())
+                services.Clear();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

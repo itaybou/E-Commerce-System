@@ -12,7 +12,6 @@ using ECommerceSystem.Models.DiscountPolicyModels;
 using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models.notifications;
-using ECommerceSystem.Utilities;
 
 namespace ECommerceSystem.DomainLayer.StoresManagement
 {

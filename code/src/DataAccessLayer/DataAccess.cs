@@ -1,6 +1,7 @@
 ﻿using ECommerceSystem.DataAccessLayer.repositories;
 using ECommerceSystem.DataAccessLayer.repositories.cache;
 using ECommerceSystem.DomainLayer.StoresManagement;
+using ECommerceSystem.DomainLayer.SystemManagement;
 using ECommerceSystem.DomainLayer.UserManagement;
 using ECommerceSystem.Exceptions;
 using ECommerceSystem.Models;
@@ -13,8 +14,8 @@ namespace ECommerceSystem.DataAccessLayer
 {
     public class DataAccess : IDataAccess
     {
-        public string LocalConnectionString => "mongodb://localhost:27017";
         public string ConnectionString => "mongodb://localhost:27017";//"mongodb+srv://itaybou:linkin9p@ecommercesystem-lczqf.azure.mongodb.net/test?retryWrites=true&w=majority";
+        public string LocalConnectionString => "mongodb://localhost:27017";
         public string DatabaseName => "ECommerceSystem";
         public string LocalDatabaseName => "LocalECommerceSystem";
         public string TestDatabaseName => "ECommerceSystemTests";
@@ -26,23 +27,27 @@ namespace ECommerceSystem.DataAccessLayer
 
         private IDbContext LocalContext { get; set; }
         private IDbContext Context { get; set; }
-        private IDbContext TestContext { get; }
-        public ITransactions Transactions { get; }
+        private IDbContext TestContext { get; set; }
+        public ITransactions Transactions { get; set; }
 
         private DataAccess()
         {
             EntityMap.RegisterClassMaps();
+        }
+
+        public void InitializeDBContext()
+        {
             try
             {
                 Context = new DbContext(ConnectionString, DatabaseName);
-                TestContext = new DbContext(TestConnectionString, TestDatabaseName);
+                LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
+                TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
                 Transactions = new Transactions(Context.Client(), Users, Stores, Products);
-            } catch(DatabaseException)
+            }
+            catch (DatabaseException)
             {
                 throw new DatabaseException("Failed to establish db connection.");
             }
-            LocalContext = new DbContext(LocalConnectionString, LocalDatabaseName);
-            TestContext = new DbContext(LocalConnectionString, TestDatabaseName);
         }
 
         public void InitializeDatabase()
@@ -115,6 +120,7 @@ namespace ECommerceSystem.DataAccessLayer
 
         public void SetTestContext()
         {
+            InitializeDBContext();
             InitializeTestDatabase();
             ContextBackup = Context;
             Context = TestContext;

@@ -6,6 +6,7 @@ using ECommerceSystem.Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
@@ -204,6 +205,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             _store.StoreLevelDiscounts.Children.Clear();
             _store.NotInTreeDiscounts.Clear();
             _store.AllDiscountsMap.Clear();
+            _store.AssignerOwnerAgreement.Clear();
 
             DataAccess.Instance.Stores.Update(_store, "store", s => s.Name);
             
@@ -250,6 +252,81 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
             bool isAnotherOwner3Success = ((Subscribed)anotherOwner3.State).Permissions.ContainsKey("newStore");
             Console.WriteLine(isOwnerSuccess + " " + isAnotherOwnerSuccess + " " + isAnotherOwner3Success);
             Assert.IsTrue((isOwnerSuccess ^ isAnotherOwnerSuccess ^ isAnotherOwner3Success) && !(isOwnerSuccess && isAnotherOwnerSuccess && isAnotherOwner3Success));
+        }
+
+        [Test()]
+        public void AssignManagerParallel()
+        {
+            var id1 = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store");
+            var id2 = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner3", "store");
+            _storeManagement.approveAssignOwnerRequest(_anotherOwnerGUID, id2, "store");
+            Guid[] usersID = { _ownerGUID, _anotherOwnerGUID, _anotherOwner3GUID };
+            Thread[] threads = new Thread[3];
+            for (int i = 0; i < 3; i++)
+            {
+                Thread t = new Thread(() =>
+                {
+                    _storeManagement.assignManager(usersID[i], "newManager", "store");
+                });
+                threads[i] = t;
+                threads[i].Start();
+                //Thread.Sleep(100);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                threads[i].Join();
+            }
+
+            Store store = _storeManagement.getStoreByName("store");
+            Assert.AreEqual(6, store.StorePermissions.Count);
+            User owner = _userManagement.getUserByGUID(_ownerGUID, false);
+            User anotherOwner = _userManagement.getUserByGUID(_anotherOwnerGUID, false);
+            User anotherOwner3 = _userManagement.getUserByGUID(_anotherOwner3GUID, false);
+            User newManager = _userManagement.getUserByGUID(_newManagerGUID, false);
+
+            Assert.IsTrue(((Subscribed)newManager.State).Permissions.ContainsKey("store") && !((Subscribed)newManager.State).Permissions["store"].isOwner());
+            Assert.IsTrue(store.StorePermissions.ContainsKey("newManager"));
+            bool isOwnerSuccess = ((Subscribed)owner.State).Assignees.ContainsKey("store") && ((Subscribed)owner.State).Assignees["store"].Contains(_newManagerGUID);
+            bool isAnotherOwnerSuccess = ((Subscribed)anotherOwner.State).Assignees.ContainsKey("store") && ((Subscribed)anotherOwner.State).Assignees["store"].Contains(_newManagerGUID);
+            bool isAnotherOwner3Success = ((Subscribed)anotherOwner3.State).Assignees.ContainsKey("store") && ((Subscribed)anotherOwner3.State).Assignees["store"].Contains(_newManagerGUID);
+            Console.WriteLine(isOwnerSuccess + " " + isAnotherOwnerSuccess + " " + isAnotherOwner3Success);
+            Assert.IsTrue((isOwnerSuccess ^ isAnotherOwnerSuccess ^ isAnotherOwner3Success) && !(isOwnerSuccess && isAnotherOwnerSuccess && isAnotherOwner3Success));
+        }
+
+        [Test()]
+        public void OwnerAgreementParallel()
+        {
+            var id1 = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner", "store");
+            var id2 = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner3", "store");
+            _storeManagement.approveAssignOwnerRequest(_anotherOwnerGUID, id2, "store");
+            Guid[] usersID = { _ownerGUID, _anotherOwnerGUID, _anotherOwner3GUID };
+            Guid[] agreements = new Guid[3];
+            Thread[] threads = new Thread[3];
+            for (int i = 0; i < 3; i++)
+            {
+                Thread t = new Thread(() =>
+                {
+                    agreements[i] = _storeManagement.createOwnerAssignAgreement(usersID[i], "newManager", "store");
+                });
+                threads[i] = t;
+                threads[i].Start();
+                //Thread.Sleep(100);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                threads[i].Join();
+            }
+
+            Store store = _storeManagement.getStoreByName("store");
+            Assert.AreEqual(5, store.StorePermissions.Count);
+            Assert.AreEqual(1, store.AssignerOwnerAgreement.Where(a => a.Value.AsigneeUserName.Equals("newManager")).Count());
+
+            var success = 0;
+            foreach (var a in agreements)
+                success += a == Guid.Empty ? 0 : 1;
+            Assert.AreEqual(1, success);
         }
 
 
@@ -339,8 +416,6 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
         [Test()]
         public void assignOwnerWithAgreemntByPermitedUserTest()
         {
-
-
             Assert.AreNotEqual(Guid.Empty, _storeManagement.createOwnerAssignAgreement(_ownerGUID, "anotherOwner3", "store"));
 
             _userManagement.register("ownerAssignedByAnotherOwner", "pA55word", "fname", "lname", "owner@gmail.com");
@@ -359,7 +434,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
 
             Assert.IsNull(ownerAssignedByAnotherOwner.getPermission("store"));
 
-
+            _store = _storeManagement.getStoreByName("store");
             //approve
             Guid approveAgreemntID = _storeManagement.createOwnerAssignAgreement(_ownerGUID, "ownerAssignedByAnotherOwner", "store");
             Assert.IsTrue(_storeManagement.approveAssignOwnerRequest(_anotherOwner3GUID, approveAgreemntID, "store"));
@@ -400,7 +475,7 @@ namespace ECommerceSystemUnitTests.DomainLayer.StoresManagement
 
 
             //add second xor
-
+            _store = _storeManagement.getStoreByName("store");
             Guid xorPolicy2 = _storeManagement.addXorPurchasePolicy(_ownerGUID, "store",_banIranPolicyID, _banEgyptPolicyID);
             //check that the simple policies exist
             Assert.IsNotNull(_store.PurchasePolicy.getByID(_banIraqPolicyID));

@@ -5,8 +5,8 @@ namespace PresentationLayer.Models
 {
     public class AddProductModel
     {
-        [DisplayName("Username")]
-        [Required(ErrorMessage = "Please Provide Username", AllowEmptyStrings = false)]
+        [DisplayName("Name")]
+        [Required(ErrorMessage = "Please Provide Name", AllowEmptyStrings = false)]
         public string Name { get; set; }
 
         [DisplayName("Category")]

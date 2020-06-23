@@ -37,3 +37,165 @@
 2020-05-31 01:56:54.0359 | ERROR: Missing spell checker dictionary file!
 2020-06-01 13:04:48.2419 | ERROR: Missing spell checker dictionary file!
 2020-06-01 13:07:46.5072 | ERROR: Missing spell checker dictionary file!
+2020-06-23 14:28:48.2411 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:28:53.7070 | ERROR: Database init error.
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:29:08.6125 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:31:29.7463 | ERROR: Database init error.
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:32:02.5624 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:32:43.8246 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:33:21.5821 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:34:13.2339 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess..ctor()
+   at ECommerceSystem.DataAccessLayer.DataAccess.<>c.<.cctor>b__51_0()
+   at System.Lazy`1.CreateValue()
+   at System.Lazy`1.LazyInitValue()
+   at System.Lazy`1.get_Value()
+   at ECommerceSystem.DataAccessLayer.DataAccess.get_Instance()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:40:16.2488 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess.InitializeDBContext()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:40:16.2937 | ERROR: Database init error.
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:42:14.7866 | ERROR: Failed to create mongo client, failed to establish db connection to mongodb://localhost:27017fdsfsdf,ECommerceSystem: MongoDB.Driver.MongoConfigurationException: The connection string 'mongodb://localhost:27017fdsfsdf' is not valid.
+   at MongoDB.Driver.Core.Configuration.ConnectionString.Parse()
+   at MongoDB.Driver.Core.Configuration.ConnectionString..ctor(String connectionString)
+   at MongoDB.Driver.MongoUrlBuilder.Parse(String url)
+   at MongoDB.Driver.MongoUrl..ctor(String url)
+   at MongoDB.Driver.MongoClient..ctor(String connectionString)
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName) in C:\Users\Itay Bouganim\source\repos\E-Commerce-System\code\src\DataAccessLayer\context\DbContext.cs:line 18
+   at ECommerceSystem.DataAccessLayer.DbContext..ctor(String connectionString, String databaseName)
+   at ECommerceSystem.DataAccessLayer.DataAccess.InitializeDBContext()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitDatabase()
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+
+2020-06-23 14:42:14.8684 | ERROR: Database init error.
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.InitSystem(String externalURL)
+   at ECommerceSystem.DomainLayer.SystemManagement.SystemInitializer.Initialize()
+   at ECommerceSystem.Program.Main(String[] args)
+

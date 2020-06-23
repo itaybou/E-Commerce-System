@@ -55,9 +55,9 @@ namespace PresentationLayer.Controllers.Users
                 if(error && !formError)
                 {
                     if(unavailable.Count == 0)
-                        ModelState.AddModelError("PaymentError", "A Problem occured while trying to process your order payment. Please try again later.");
+                        ModelState.AddModelError("PaymentError", "A Problem occured while trying to process your order payment. Please try again later or check that your payment information and credit details are valid.");
                     else foreach (var product in unavailable)
-                            ModelState.AddModelError("Product" + product.Id + "PaymentError", product.Name + " Currently not avaiable. Check later for renewed stock.");
+                        ModelState.AddModelError("Product" + product.Id + "PaymentError", product.Name + " Currently not avaiable. Check later for renewed stock.");
                 } else if(error && formError)
                     ModelState.AddModelError("PaymentError", "Invalid payment information fields provided. Please refill purchase form.");
                 if (cart.Cart.Count == 0)

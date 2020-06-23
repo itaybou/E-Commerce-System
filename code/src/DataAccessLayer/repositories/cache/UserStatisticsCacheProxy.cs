@@ -225,5 +225,15 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
                 throw new DatabaseException("Faild : update user statistics");
             }
         }
+
+        public void RemoveCacheData()
+        {
+            UserStatsCache.Clear();
+        }
+
+        public void setContext(IDbContext context)
+        {
+            StatsRepository.setContext(context);
+        }
     }
 }

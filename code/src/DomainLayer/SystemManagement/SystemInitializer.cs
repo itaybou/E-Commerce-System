@@ -76,7 +76,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             } catch(DatabaseException)
             {
                 SystemLogger.LogError("Database init error.");
-                Console.WriteLine("Initialization failed. connection timeout to database. try to initialize again.");
+                Console.WriteLine("Database Initialization failed. check error log for more details.");
                 throw new DatabaseException("init failed");
             } catch(ExternalSystemException)
             {
@@ -95,6 +95,7 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             {
                 Console.WriteLine("Initializing DataAcces, establishing remote database communication.");
                 _data = DataAccess.Instance;
+                _data.InitializeDBContext();
                 Console.WriteLine("Intialized DataAccess, Database communication established.");
                 Console.WriteLine($"Established connection to remote host: {_data.ConnectionString}");
                 Console.WriteLine("Resetting database.");
@@ -138,8 +139,8 @@ namespace ECommerceSystem.DomainLayer.SystemManagement
             {
                 projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.FullName;
                 if (File.Exists(projectDirectory + RELATIVE_INIT_FILE_PATH))
-                    return null;
-                return projectDirectory + RELATIVE_INIT_FILE_PATH;
+                    return projectDirectory + RELATIVE_INIT_FILE_PATH;
+                return null;
             }
         }
 

@@ -11,6 +11,6 @@ namespace ECommerceSystem.DomainLayer.TransactionManagement
 
         Task<bool> cancelSupply(int transactionID);
 
-        public void SetExternal(IExternalSupplyPayment External);
+        void SetExternal(IExternalSupplyPayment External);
     }
 }

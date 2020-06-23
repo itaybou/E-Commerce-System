@@ -144,9 +144,9 @@ namespace ECommerceSystem.DataAccessLayer.repositories.cache
 
         public void Remove(Product entity, Guid id, Expression<Func<Product, Guid>> idFunc)
         {
-            Uncache(id);
             try
             {
+                Uncache(id);
                 ProductRepository.Remove(entity, id, idFunc);
             }
             catch(Exception e)
